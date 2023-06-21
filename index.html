@@ -61,7 +61,7 @@ canvas.portrait {
   </head>
   <body>
     <canvas id="canvas"></canvas>
-    <textarea readonly id="output"></textarea>
+    <!-- <textarea readonly id="output"></textarea> -->
     <div id="status"></div>
 <script>
 // example game
@@ -72,8 +72,10 @@ function InitGame() {
 
 function UpdateGame(ts) {
   raylib.BeginDrawing()
-  raylib.ClearBackground(raylib.RAYWHITE);
-  raylib.DrawRectangle(0, 0, raylib.GetScreenWidth() / 2, raylib.GetScreenHeight() / 2, raylib.Fade(raylib.RED, 0.3))
+  raylib.ClearBackground(raylib.RAYWHITE)
+  const x = Math.floor(ts) % raylib.GetScreenWidth()
+  raylib.DrawRectangle(x, raylib.GetScreenHeight() / 4, raylib.GetScreenWidth() / 2, raylib.GetScreenHeight() / 2, raylib.GREEN)
+  raylib.DrawFPS(0, 0)
   raylib.EndDrawing()
 }
 
