@@ -1,0 +1,13 @@
+{
+  "name": "raylib-wasm",
+  "version": "0.0.0",
+  "description": "Make raylib games in JS for the web",
+  "main": "raylib.js",
+  "scripts": {
+    "start": "npx -y live-server",
+    "build": "docker run --rm -v $(pwd):/src -u $(id -u):$(id -g) emscripten/emsdk emcc raylib.c lib/libraylib.a -o raylib.js -I include -DPLATFORM_WEB -sASYNCIFY -sUSE_GLFW=3 -sEXPORT_ALL=1 -sLINKABLE=1"
+  },
+  "keywords": [],
+  "author": "David Konsumer <konsumer@jetboystudio.com>",
+  "license": "MIT"
+}
