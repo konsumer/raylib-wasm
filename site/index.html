@@ -67,15 +67,15 @@ canvas.portrait {
 // example game
 
 function InitGame() {
-  raylib.InitWindow(1024, 768, "Raylib Demo")
+  raylib.InitWindow(640, 480)
 }
 
 function UpdateGame(ts) {
   raylib.BeginDrawing()
   raylib.ClearBackground(raylib.RAYWHITE)
   const x = Math.floor(ts) % raylib.GetScreenWidth()
-  raylib.DrawRectangle(x, raylib.GetScreenHeight() / 4, raylib.GetScreenWidth() / 2, raylib.GetScreenHeight() / 2, raylib.GREEN)
-  raylib.DrawFPS(0, 0)
+  raylib.DrawRectangle(x, raylib.GetScreenHeight() / 4, raylib.GetScreenWidth() / 2, raylib.GetScreenHeight() / 2, raylib.BLUE)
+  raylib.DrawFPS(10, 10)
   raylib.EndDrawing()
 }
 

@@ -56,6 +56,9 @@ window.raylib = {
   },
   DrawRectangle(x, y, h, w, color) {
     Module._DrawRectangle(x, y, h, w, color.address)
+  },
+  InitWindow(w, h) {
+    Module._InitWindow(w,h,"")
   }
 }
 

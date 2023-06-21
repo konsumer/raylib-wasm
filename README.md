@@ -1,6 +1,6 @@
 This is the start of some ideas about making raylib games in JS for the web.
 
-It's not really functional yet, but see [index.html](index.html) for an example. It includes raylib 4.5.0.
+It's not really functional yet, but see [index.html](site/index.html) for an example. It includes raylib 4.5.0.
 
 ### usage
 
