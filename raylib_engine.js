@@ -10,10 +10,11 @@ const onResize = () => {
 }
 onResize()
 
+const int8SignedToUnsigned = (int8) => Uint8Array.from(Int8Array.of(int8))[0]
+
 // TODO:  this could be auto-generated or libraryized
 class Color {
   constructor(r, g, b, a) {
-    this.bytes = new Uint8Array(4)
     this.address = Module._malloc(4)
     this.r = r
     this.g = g
@@ -22,32 +23,28 @@ class Color {
   }
 
   get r () {
-    return this.bytes[0]
+    return int8SignedToUnsigned(Module.getValue(this.address))
   }
   get g () {
-    return this.bytes[1]
+    return int8SignedToUnsigned(Module.getValue(this.address + 1))
   }
   get b () {
-    return this.bytes[2]
+    return int8SignedToUnsigned(Module.getValue(this.address + 2))
   }
   get a () {
-    return this.bytes[3]
+    return int8SignedToUnsigned(Module.getValue(this.address + 3))
   }
   
   set r (v) {
-    this.bytes[0] = v
     Module.setValue(this.address, v)
   }
   set g (v) {
-    this.bytes[1] = v
     Module.setValue(this.address + 1, v)
   }
   set b (v) {
-    this.bytes[2] = v
     Module.setValue(this.address + 2, v)
   }
   set a (v) {
-    this.bytes[3] = v
     Module.setValue(this.address + 3, v)
   }
 }
