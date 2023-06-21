@@ -1,63 +1,7 @@
 <html>
   <head>
     <title>Raylib Web</title>
-<style>
- html, body {
-  width:  100vw;
-  height: 100vh;
-  margin: 0;
-  overflow: hidden;
-}
-body {
-  background: rgb(20, 20, 20);
-  color: #fff;
-  font-family: sans-serif;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  text-align: center;
-}
-canvas {
-  image-rendering: -moz-crisp-edges;
-  image-rendering: -webkit-crisp-edges;
-  image-rendering: pixelated;
-  image-rendering: crisp-edges;
-  object-fit: contain;
-}
-canvas.landscape {
-  height: 100vh;
-  max-width: 100vw;
-}
-canvas.portrait {
-  width: 100vw;
-  max-height: 100vh;
-}
-
-#output {
-  width: 100vw;
-  height: 4.2em;
-  background: transparent;
-  color: #fff;
-  border: none;
-  resize: none;
-  outline: none;
-  padding: 10px;
-  opacity: 0.5;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
-#status {
-  position: absolute;
-  top: 50vh;
-  left: 0;
-  text-align: center;
-  width: 100vw;
-}
-
-</style>
+    <link rel="stylesheet" href="rayweb.css" />
   </head>
   <body>
     <canvas id="canvas"></canvas>
