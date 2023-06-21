@@ -63,18 +63,63 @@ canvas.portrait {
     <canvas id="canvas"></canvas>
     <!-- <textarea readonly id="output"></textarea> -->
     <div id="status"></div>
-<script>
+<script type=module>
 // example game
 
-function InitGame() {
+// add files to filesystem
+let texBunny
+const bunnies = []
+
+const MAX_BUNNIES = 50000
+const MAX_BATCH_ELEMENTS = 8192
+
+window.InitGame = () => {
+  texBunny = raylib.LoadTexture('wabbit_alpha.png')
   raylib.InitWindow(640, 480)
 }
 
-function UpdateGame(ts) {
+window.UpdateGame = ts => {
+  // Create more bunnies
+  if (raylib.IsMouseButtonDown(raylib.MOUSE_BUTTON_LEFT)) {
+    for (let i = 0; i < 100; i++){
+      if (bunnies.length < MAX_BUNNIES){
+        bunnies.push({
+          position: raylib.GetMousePosition(),
+          speed: {
+            x: raylib.GetRandomValue(-250, 250) / 60,
+            y: raylib.GetRandomValue(-250, 250) / 60
+          },
+          color: new Color(
+            raylib.GetRandomValue(50, 240),
+            raylib.GetRandomValue(80, 240),
+            raylib.GetRandomValue(100, 240),
+            255
+          )
+        })
+      }
+    }
+  }
+
+  // Update bunnies
+  for (let bunny of bunnies) {
+    bunny.position.x += bunny.speed.x
+    bunny.position.y += bunny.speed.y
+    if (((bunny.position.x + texBunny.width/2) > raylib.GetScreenWidth()) || ((bunny.position.x + texBunny.width/2) < 0)) {
+      bunny.speed.x *= -1
+    }
+    if (((bunny.position.y + texBunny.height/2) > raylib.GetScreenHeight()) || ((bunny.position.y + texBunny.height/2 - 40) < 0)) {
+      bunny.speed.y *= -1
+    }
+  }
+
   raylib.BeginDrawing()
   raylib.ClearBackground(raylib.RAYWHITE)
-  const x = Math.floor(ts) % raylib.GetScreenWidth()
-  raylib.DrawRectangle(x, raylib.GetScreenHeight() / 4, raylib.GetScreenWidth() / 2, raylib.GetScreenHeight() / 2, raylib.BLUE)
+  for (let bunny of bunnies) {
+    raylib.DrawTexture(texBunny, bunny.position.x, bunny.position.y, bunny.color)
+  }
+  raylib.DrawRectangle(0, 0, 640, 40, raylib.BLACK)
+  raylib.DrawText(`bunnies: ${bunnies.length}`, 120, 10, 20, raylib.GREEN)
+  raylib.DrawText(`batched draw calls: ${1 + Math.floor(bunnies.length/MAX_BATCH_ELEMENTS)}`, 320, 10, 20, raylib.MAROON)
   raylib.DrawFPS(10, 10)
   raylib.EndDrawing()
 }
