@@ -5,11 +5,6 @@ import { readFile, writeFile } from 'fs/promises'
 
 const { defines, structs, aliases, enums, callbacks, functions } = await fetch('https://raw.githubusercontent.com/raysan5/raylib/master/parser/output/raylib_api.json').then(r => r.json())
 
-const fileInputs = {
-  LoadTexture: []
-}
-
-
 // add type-aliases
 for (const { type, name, description } of aliases) {
   structs.push({
