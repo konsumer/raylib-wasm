@@ -160,10 +160,12 @@ code += `
     mod._free(ptr_test)
   }
 
-  // these ones actually modify how it works (not just convert/raise/lower types)
+  // NOTE: these ones actually modify how it works (not just convert/raise/lower types)
 
+  // title doesn't really do anyhting, so make it optional
   iface.InitWindow = (height, width) => mod._InitWindow(height, width, "")
 
+  // LoadTexture, but (async) insert the file into fake FS first
   iface.LoadTexture = async filename => {
     await iface.addFile(filename)
     let ptr_filename = mod.allocateUTF8(filename)
