@@ -8,6 +8,8 @@
     <!-- <textarea readonly id="output"></textarea> -->
     <div id="status"></div>
 <script type=module>
+import runGame from './raylib.js'
+
 // example game
 
 // add files to filesystem
@@ -17,12 +19,12 @@ const bunnies = []
 const MAX_BUNNIES = 50000
 const MAX_BATCH_ELEMENTS = 8192
 
-window.InitGame = () => {
-  texBunny = raylib.LoadTexture('wabbit_alpha.png')
+const InitGame = async (raylib) => {
   raylib.InitWindow(640, 480)
+  texBunny = await raylib.LoadTexture('wabbit_alpha.png')
 }
 
-window.UpdateGame = ts => {
+const UpdateGame = (raylib, ts) => {
   // Create more bunnies
   if (raylib.IsMouseButtonDown(raylib.MOUSE_BUTTON_LEFT)) {
     for (let i = 0; i < 100; i++){
@@ -33,7 +35,7 @@ window.UpdateGame = ts => {
             x: raylib.GetRandomValue(-250, 250) / 60,
             y: raylib.GetRandomValue(-250, 250) / 60
           },
-          color: new Color(
+          color: new raylib.Color(
             raylib.GetRandomValue(50, 240),
             raylib.GetRandomValue(80, 240),
             raylib.GetRandomValue(100, 240),
@@ -68,9 +70,20 @@ window.UpdateGame = ts => {
   raylib.EndDrawing()
 }
 
+runGame(document.getElementById('canvas'), InitGame, UpdateGame)
+
+// this keeps a nice aspect for the canvas
+const onResize = () => {
+  window.removeEventListener('resize', onResize)
+  setTimeout(() => {
+    window.addEventListener('resize', onResize)
+  }, 1000)
+  const { clientWidth, clientHeight } = document.body
+  document.getElementById('canvas').className = clientWidth > clientHeight ? 'landscape' : 'portrait'
+}
+onResize()
+
 </script>
-<script src="raylib_engine.js"></script>
-<script src="raylib.js"></script>
 </body>
 </html>
 

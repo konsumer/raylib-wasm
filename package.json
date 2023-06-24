@@ -6,9 +6,10 @@
   "description": "Make raylib games in JS for the web",
   "scripts": {
     "start": "npx -y live-server site",
-    "build": "docker run --rm -v $(pwd):/src -u $(id -u):$(id -g) emscripten/emsdk emcc raylib.c lib/libraylib.a -o site/raylib.js -I include -DPLATFORM_WEB -sALLOW_MEMORY_GROWTH=1 -sASYNCIFY -sUSE_GLFW=3 -sEXPORT_ALL=1 -sLINKABLE=1 -sEXPORTED_FUNCTIONS=_malloc,_free -sEXPORTED_RUNTIME_METHODS=cwrap,allocateUTF8,UTF8ToString",
+    "build:wasm": "docker run --rm -v $(pwd):/src -v /tmp/emscripten-cache:/emsdk/upstream/emscripten/cache/ -u $(id -u):$(id -g) emscripten/emsdk ./build.sh",
+    "build:interface": "node gen_host.js",
     "publish": "npx -y surge site raylib.surge.sh",
-    "gen": "node gen_host.js > raylib.js"
+    "build": "npm run build:wasm && npm run build:interface"
   },
   "keywords": [],
   "author": "David Konsumer <konsumer@jetboystudio.com>",
