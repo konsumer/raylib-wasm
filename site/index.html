@@ -35,12 +35,12 @@ const UpdateGame = (raylib, ts) => {
             x: raylib.GetRandomValue(-250, 250) / 60,
             y: raylib.GetRandomValue(-250, 250) / 60
           },
-          color: new raylib.Color(
-            raylib.GetRandomValue(50, 240),
-            raylib.GetRandomValue(80, 240),
-            raylib.GetRandomValue(100, 240),
-            255
-          )
+          color: new raylib.Color({
+            r: raylib.GetRandomValue(50, 240),
+            g: raylib.GetRandomValue(80, 240),
+            b: raylib.GetRandomValue(100, 240),
+            a: 255
+          })
         })
       }
     }

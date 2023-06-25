@@ -5,72 +5,88 @@ import Module from './raylib_wasm.js'
 // run this function before calling anything
 export async function setup(canvas, userInit, userUpdate) {
   const raylib = {}
+
   // Vector2, 2 components
   raylib.Vector2 = class Vector2 {
-    constructor(x = 0, y = 0) {
+    constructor(init = {}, _address) {
+      const {x = 0, y = 0} = init
       this._size = 8
-      this._address = mod._malloc(this._size)
+      if (_address) {
+        this._address = _address
+      } else {
+        this._address = mod._malloc(this._size)
+      }
       this.x = x
       this.y = y
     }
     
     get x () {
-      return valGetter(this._address + 0, 'float')
+      return mod.getValue(this._address + 0, 'float')
     }
     set x (x) {
-      valSetter(this._address + 0, 'float', x)
+      mod.setValue(this._address + 0, x, 'float')
     }
 
   
     get y () {
-      return valGetter(this._address + 4, 'float')
+      return mod.getValue(this._address + 4, 'float')
     }
     set y (y) {
-      valSetter(this._address + 4, 'float', y)
+      mod.setValue(this._address + 4, y, 'float')
     }
 
   }
 
   // Vector3, 3 components
   raylib.Vector3 = class Vector3 {
-    constructor(x = 0, y = 0, z = 0) {
+    constructor(init = {}, _address) {
+      const {x = 0, y = 0, z = 0} = init
       this._size = 12
-      this._address = mod._malloc(this._size)
+      if (_address) {
+        this._address = _address
+      } else {
+        this._address = mod._malloc(this._size)
+      }
       this.x = x
       this.y = y
       this.z = z
     }
     
     get x () {
-      return valGetter(this._address + 0, 'float')
+      return mod.getValue(this._address + 0, 'float')
     }
     set x (x) {
-      valSetter(this._address + 0, 'float', x)
+      mod.setValue(this._address + 0, x, 'float')
     }
 
   
     get y () {
-      return valGetter(this._address + 4, 'float')
+      return mod.getValue(this._address + 4, 'float')
     }
     set y (y) {
-      valSetter(this._address + 4, 'float', y)
+      mod.setValue(this._address + 4, y, 'float')
     }
 
   
     get z () {
-      return valGetter(this._address + 8, 'float')
+      return mod.getValue(this._address + 8, 'float')
     }
     set z (z) {
-      valSetter(this._address + 8, 'float', z)
+      mod.setValue(this._address + 8, z, 'float')
     }
 
   }
 
   // Vector4, 4 components
   raylib.Vector4 = class Vector4 {
-    constructor(x = 0, y = 0, z = 0, w = 0) {
+    constructor(init = {}, _address) {
+      const {x = 0, y = 0, z = 0, w = 0} = init
       this._size = 16
-      this._address = mod._malloc(this._size)
+      if (_address) {
+        this._address = _address
+      } else {
+        this._address = mod._malloc(this._size)
+      }
       this.x = x
       this.y = y
       this.z = z
@@ -78,43 +94,48 @@ export async function setup(canvas, userInit, userUpdate) {
     }
     
     get x () {
-      return valGetter(this._address + 0, 'float')
+      return mod.getValue(this._address + 0, 'float')
     }
     set x (x) {
-      valSetter(this._address + 0, 'float', x)
+      mod.setValue(this._address + 0, x, 'float')
     }
 
   
     get y () {
-      return valGetter(this._address + 4, 'float')
+      return mod.getValue(this._address + 4, 'float')
     }
     set y (y) {
-      valSetter(this._address + 4, 'float', y)
+      mod.setValue(this._address + 4, y, 'float')
     }
 
   
     get z () {
-      return valGetter(this._address + 8, 'float')
+      return mod.getValue(this._address + 8, 'float')
     }
     set z (z) {
-      valSetter(this._address + 8, 'float', z)
+      mod.setValue(this._address + 8, z, 'float')
     }
 
   
     get w () {
-      return valGetter(this._address + 12, 'float')
+      return mod.getValue(this._address + 12, 'float')
     }
     set w (w) {
-      valSetter(this._address + 12, 'float', w)
+      mod.setValue(this._address + 12, w, 'float')
     }
 
   }
 
   // Matrix, 4x4 components, column major, OpenGL style, right-handed
   raylib.Matrix = class Matrix {
-    constructor(m0 = 0, m4 = 0, m8 = 0, m12 = 0, m1 = 0, m5 = 0, m9 = 0, m13 = 0, m2 = 0, m6 = 0, m10 = 0, m14 = 0, m3 = 0, m7 = 0, m11 = 0, m15 = 0) {
+    constructor(init = {}, _address) {
+      const {m0 = 0, m4 = 0, m8 = 0, m12 = 0, m1 = 0, m5 = 0, m9 = 0, m13 = 0, m2 = 0, m6 = 0, m10 = 0, m14 = 0, m3 = 0, m7 = 0, m11 = 0, m15 = 0} = init
       this._size = 64
-      this._address = mod._malloc(this._size)
+      if (_address) {
+        this._address = _address
+      } else {
+        this._address = mod._malloc(this._size)
+      }
       this.m0 = m0
       this.m4 = m4
       this.m8 = m8
@@ -134,139 +155,144 @@ export async function setup(canvas, userInit, userUpdate) {
     }
     
     get m0 () {
-      return valGetter(this._address + 0, 'float')
+      return mod.getValue(this._address + 0, 'float')
     }
     set m0 (m0) {
-      valSetter(this._address + 0, 'float', m0)
+      mod.setValue(this._address + 0, m0, 'float')
     }
 
   
     get m4 () {
-      return valGetter(this._address + 4, 'float')
+      return mod.getValue(this._address + 4, 'float')
     }
     set m4 (m4) {
-      valSetter(this._address + 4, 'float', m4)
+      mod.setValue(this._address + 4, m4, 'float')
     }
 
   
     get m8 () {
-      return valGetter(this._address + 8, 'float')
+      return mod.getValue(this._address + 8, 'float')
     }
     set m8 (m8) {
-      valSetter(this._address + 8, 'float', m8)
+      mod.setValue(this._address + 8, m8, 'float')
     }
 
   
     get m12 () {
-      return valGetter(this._address + 12, 'float')
+      return mod.getValue(this._address + 12, 'float')
     }
     set m12 (m12) {
-      valSetter(this._address + 12, 'float', m12)
+      mod.setValue(this._address + 12, m12, 'float')
     }
 
   
     get m1 () {
-      return valGetter(this._address + 16, 'float')
+      return mod.getValue(this._address + 16, 'float')
     }
     set m1 (m1) {
-      valSetter(this._address + 16, 'float', m1)
+      mod.setValue(this._address + 16, m1, 'float')
     }
 
   
     get m5 () {
-      return valGetter(this._address + 20, 'float')
+      return mod.getValue(this._address + 20, 'float')
     }
     set m5 (m5) {
-      valSetter(this._address + 20, 'float', m5)
+      mod.setValue(this._address + 20, m5, 'float')
     }
 
   
     get m9 () {
-      return valGetter(this._address + 24, 'float')
+      return mod.getValue(this._address + 24, 'float')
     }
     set m9 (m9) {
-      valSetter(this._address + 24, 'float', m9)
+      mod.setValue(this._address + 24, m9, 'float')
     }
 
   
     get m13 () {
-      return valGetter(this._address + 28, 'float')
+      return mod.getValue(this._address + 28, 'float')
     }
     set m13 (m13) {
-      valSetter(this._address + 28, 'float', m13)
+      mod.setValue(this._address + 28, m13, 'float')
     }
 
   
     get m2 () {
-      return valGetter(this._address + 32, 'float')
+      return mod.getValue(this._address + 32, 'float')
     }
     set m2 (m2) {
-      valSetter(this._address + 32, 'float', m2)
+      mod.setValue(this._address + 32, m2, 'float')
     }
 
   
     get m6 () {
-      return valGetter(this._address + 36, 'float')
+      return mod.getValue(this._address + 36, 'float')
     }
     set m6 (m6) {
-      valSetter(this._address + 36, 'float', m6)
+      mod.setValue(this._address + 36, m6, 'float')
     }
 
   
     get m10 () {
-      return valGetter(this._address + 40, 'float')
+      return mod.getValue(this._address + 40, 'float')
     }
     set m10 (m10) {
-      valSetter(this._address + 40, 'float', m10)
+      mod.setValue(this._address + 40, m10, 'float')
     }
 
   
     get m14 () {
-      return valGetter(this._address + 44, 'float')
+      return mod.getValue(this._address + 44, 'float')
     }
     set m14 (m14) {
-      valSetter(this._address + 44, 'float', m14)
+      mod.setValue(this._address + 44, m14, 'float')
     }
 
   
     get m3 () {
-      return valGetter(this._address + 48, 'float')
+      return mod.getValue(this._address + 48, 'float')
     }
     set m3 (m3) {
-      valSetter(this._address + 48, 'float', m3)
+      mod.setValue(this._address + 48, m3, 'float')
     }
 
   
     get m7 () {
-      return valGetter(this._address + 52, 'float')
+      return mod.getValue(this._address + 52, 'float')
     }
     set m7 (m7) {
-      valSetter(this._address + 52, 'float', m7)
+      mod.setValue(this._address + 52, m7, 'float')
     }
 
   
     get m11 () {
-      return valGetter(this._address + 56, 'float')
+      return mod.getValue(this._address + 56, 'float')
     }
     set m11 (m11) {
-      valSetter(this._address + 56, 'float', m11)
+      mod.setValue(this._address + 56, m11, 'float')
     }
 
   
     get m15 () {
-      return valGetter(this._address + 60, 'float')
+      return mod.getValue(this._address + 60, 'float')
     }
     set m15 (m15) {
-      valSetter(this._address + 60, 'float', m15)
+      mod.setValue(this._address + 60, m15, 'float')
     }
 
   }
 
   // Color, 4 components, R8G8B8A8 (32bit)
   raylib.Color = class Color {
-    constructor(r = 0, g = 0, b = 0, a = 0) {
+    constructor(init = {}, _address) {
+      const {r = 0, g = 0, b = 0, a = 0} = init
       this._size = 4
-      this._address = mod._malloc(this._size)
+      if (_address) {
+        this._address = _address
+      } else {
+        this._address = mod._malloc(this._size)
+      }
       this.r = r
       this.g = g
       this.b = b
@@ -274,43 +300,48 @@ export async function setup(canvas, userInit, userUpdate) {
     }
     
     get r () {
-      return valGetter(this._address + 0, 'unsigned char')
+      return mod.HEAPU8[this._address + 0]
     }
     set r (r) {
-      valSetter(this._address + 0, 'unsigned char', r)
+      mod.HEAPU8[this._address + 0] = r
     }
 
   
     get g () {
-      return valGetter(this._address + 1, 'unsigned char')
+      return mod.HEAPU8[this._address + 1]
     }
     set g (g) {
-      valSetter(this._address + 1, 'unsigned char', g)
+      mod.HEAPU8[this._address + 1] = g
     }
 
   
     get b () {
-      return valGetter(this._address + 2, 'unsigned char')
+      return mod.HEAPU8[this._address + 2]
     }
     set b (b) {
-      valSetter(this._address + 2, 'unsigned char', b)
+      mod.HEAPU8[this._address + 2] = b
     }
 
   
     get a () {
-      return valGetter(this._address + 3, 'unsigned char')
+      return mod.HEAPU8[this._address + 3]
     }
     set a (a) {
-      valSetter(this._address + 3, 'unsigned char', a)
+      mod.HEAPU8[this._address + 3] = a
     }
 
   }
 
   // Rectangle, 4 components
   raylib.Rectangle = class Rectangle {
-    constructor(x = 0, y = 0, width = 0, height = 0) {
+    constructor(init = {}, _address) {
+      const {x = 0, y = 0, width = 0, height = 0} = init
       this._size = 16
-      this._address = mod._malloc(this._size)
+      if (_address) {
+        this._address = _address
+      } else {
+        this._address = mod._malloc(this._size)
+      }
       this.x = x
       this.y = y
       this.width = width
@@ -318,43 +349,48 @@ export async function setup(canvas, userInit, userUpdate) {
     }
     
     get x () {
-      return valGetter(this._address + 0, 'float')
+      return mod.getValue(this._address + 0, 'float')
     }
     set x (x) {
-      valSetter(this._address + 0, 'float', x)
+      mod.setValue(this._address + 0, x, 'float')
     }
 
   
     get y () {
-      return valGetter(this._address + 4, 'float')
+      return mod.getValue(this._address + 4, 'float')
     }
     set y (y) {
-      valSetter(this._address + 4, 'float', y)
+      mod.setValue(this._address + 4, y, 'float')
     }
 
   
     get width () {
-      return valGetter(this._address + 8, 'float')
+      return mod.getValue(this._address + 8, 'float')
     }
     set width (width) {
-      valSetter(this._address + 8, 'float', width)
+      mod.setValue(this._address + 8, width, 'float')
     }
 
   
     get height () {
-      return valGetter(this._address + 12, 'float')
+      return mod.getValue(this._address + 12, 'float')
     }
     set height (height) {
-      valSetter(this._address + 12, 'float', height)
+      mod.setValue(this._address + 12, height, 'float')
     }
 
   }
 
   // Image, pixel data stored in CPU memory (RAM)
   raylib.Image = class Image {
-    constructor(data = 0, width = 0, height = 0, mipmaps = 0, format = 0) {
+    constructor(init = {}, _address) {
+      const {data = 0, width = 0, height = 0, mipmaps = 0, format = 0} = init
       this._size = 20
-      this._address = mod._malloc(this._size)
+      if (_address) {
+        this._address = _address
+      } else {
+        this._address = mod._malloc(this._size)
+      }
       this.data = data
       this.width = width
       this.height = height
@@ -363,51 +399,56 @@ export async function setup(canvas, userInit, userUpdate) {
     }
     
     get data () {
-      return valGetter(this._address + 0, 'void *')
+      return mod.getValue(this._address + 0, '*')
     }
     set data (data) {
-      valSetter(this._address + 0, 'void *', data)
+      mod.setValue(this._address + 0, data, '*')
     }
 
   
     get width () {
-      return valGetter(this._address + 4, 'int')
+      return mod.getValue(this._address + 4, 'i32')
     }
     set width (width) {
-      valSetter(this._address + 4, 'int', width)
+      mod.setValue(this._address + 4, width, 'i32')
     }
 
   
     get height () {
-      return valGetter(this._address + 8, 'int')
+      return mod.getValue(this._address + 8, 'i32')
     }
     set height (height) {
-      valSetter(this._address + 8, 'int', height)
+      mod.setValue(this._address + 8, height, 'i32')
     }
 
   
     get mipmaps () {
-      return valGetter(this._address + 12, 'int')
+      return mod.getValue(this._address + 12, 'i32')
     }
     set mipmaps (mipmaps) {
-      valSetter(this._address + 12, 'int', mipmaps)
+      mod.setValue(this._address + 12, mipmaps, 'i32')
     }
 
   
     get format () {
-      return valGetter(this._address + 16, 'int')
+      return mod.getValue(this._address + 16, 'i32')
     }
     set format (format) {
-      valSetter(this._address + 16, 'int', format)
+      mod.setValue(this._address + 16, format, 'i32')
     }
 
   }
 
   // Texture, tex data stored in GPU memory (VRAM)
   raylib.Texture = class Texture {
-    constructor(id = 0, width = 0, height = 0, mipmaps = 0, format = 0) {
+    constructor(init = {}, _address) {
+      const {id = 0, width = 0, height = 0, mipmaps = 0, format = 0} = init
       this._size = 20
-      this._address = mod._malloc(this._size)
+      if (_address) {
+        this._address = _address
+      } else {
+        this._address = mod._malloc(this._size)
+      }
       this.id = id
       this.width = width
       this.height = height
@@ -416,86 +457,96 @@ export async function setup(canvas, userInit, userUpdate) {
     }
     
     get id () {
-      return valGetter(this._address + 0, 'unsigned int')
+      return mod.HEAPU32[this._address + 0]
     }
     set id (id) {
-      valSetter(this._address + 0, 'unsigned int', id)
+      mod.HEAPU32[this._address + 0] = id
     }
 
   
     get width () {
-      return valGetter(this._address + 4, 'int')
+      return mod.getValue(this._address + 4, 'i32')
     }
     set width (width) {
-      valSetter(this._address + 4, 'int', width)
+      mod.setValue(this._address + 4, width, 'i32')
     }
 
   
     get height () {
-      return valGetter(this._address + 8, 'int')
+      return mod.getValue(this._address + 8, 'i32')
     }
     set height (height) {
-      valSetter(this._address + 8, 'int', height)
+      mod.setValue(this._address + 8, height, 'i32')
     }
 
   
     get mipmaps () {
-      return valGetter(this._address + 12, 'int')
+      return mod.getValue(this._address + 12, 'i32')
     }
     set mipmaps (mipmaps) {
-      valSetter(this._address + 12, 'int', mipmaps)
+      mod.setValue(this._address + 12, mipmaps, 'i32')
     }
 
   
     get format () {
-      return valGetter(this._address + 16, 'int')
+      return mod.getValue(this._address + 16, 'i32')
     }
     set format (format) {
-      valSetter(this._address + 16, 'int', format)
+      mod.setValue(this._address + 16, format, 'i32')
     }
 
   }
 
   // RenderTexture, fbo for texture rendering
   raylib.RenderTexture = class RenderTexture {
-    constructor(id = 0, texture = new Texture(), depth = new Texture()) {
+    constructor(init = {}, _address) {
+      const {id = 0, texture = new Texture(), depth = new Texture()} = init
       this._size = 44
-      this._address = mod._malloc(this._size)
+      if (_address) {
+        this._address = _address
+      } else {
+        this._address = mod._malloc(this._size)
+      }
       this.id = id
       this.texture = texture
       this.depth = depth
     }
     
     get id () {
-      return valGetter(this._address + 0, 'unsigned int')
+      return mod.HEAPU32[this._address + 0]
     }
     set id (id) {
-      valSetter(this._address + 0, 'unsigned int', id)
+      mod.HEAPU32[this._address + 0] = id
     }
 
   
     get texture () {
-      return valGetter(this._address + 4, 'Texture')
+      return mod.getValue(this._address + 4, '*')
     }
     set texture (texture) {
-      valSetter(this._address + 4, 'Texture', texture)
+      mod.setValue(this._address + 4, texture, '*')
     }
 
   
     get depth () {
-      return valGetter(this._address + 24, 'Texture')
+      return mod.getValue(this._address + 24, '*')
     }
     set depth (depth) {
-      valSetter(this._address + 24, 'Texture', depth)
+      mod.setValue(this._address + 24, depth, '*')
     }
 
   }
 
   // NPatchInfo, n-patch layout info
   raylib.NPatchInfo = class NPatchInfo {
-    constructor(source = new Rectangle(), left = 0, top = 0, right = 0, bottom = 0, layout = 0) {
+    constructor(init = {}, _address) {
+      const {source = new Rectangle(), left = 0, top = 0, right = 0, bottom = 0, layout = 0} = init
       this._size = 36
-      this._address = mod._malloc(this._size)
+      if (_address) {
+        this._address = _address
+      } else {
+        this._address = mod._malloc(this._size)
+      }
       this.source = source
       this.left = left
       this.top = top
@@ -505,59 +556,64 @@ export async function setup(canvas, userInit, userUpdate) {
     }
     
     get source () {
-      return valGetter(this._address + 0, 'Rectangle')
+      return mod.getValue(this._address + 0, '*')
     }
     set source (source) {
-      valSetter(this._address + 0, 'Rectangle', source)
+      mod.setValue(this._address + 0, source, '*')
     }
 
   
     get left () {
-      return valGetter(this._address + 16, 'int')
+      return mod.getValue(this._address + 16, 'i32')
     }
     set left (left) {
-      valSetter(this._address + 16, 'int', left)
+      mod.setValue(this._address + 16, left, 'i32')
     }
 
   
     get top () {
-      return valGetter(this._address + 20, 'int')
+      return mod.getValue(this._address + 20, 'i32')
     }
     set top (top) {
-      valSetter(this._address + 20, 'int', top)
+      mod.setValue(this._address + 20, top, 'i32')
     }
 
   
     get right () {
-      return valGetter(this._address + 24, 'int')
+      return mod.getValue(this._address + 24, 'i32')
     }
     set right (right) {
-      valSetter(this._address + 24, 'int', right)
+      mod.setValue(this._address + 24, right, 'i32')
     }
 
   
     get bottom () {
-      return valGetter(this._address + 28, 'int')
+      return mod.getValue(this._address + 28, 'i32')
     }
     set bottom (bottom) {
-      valSetter(this._address + 28, 'int', bottom)
+      mod.setValue(this._address + 28, bottom, 'i32')
     }
 
   
     get layout () {
-      return valGetter(this._address + 32, 'int')
+      return mod.getValue(this._address + 32, 'i32')
     }
     set layout (layout) {
-      valSetter(this._address + 32, 'int', layout)
+      mod.setValue(this._address + 32, layout, 'i32')
     }
 
   }
 
   // GlyphInfo, font characters glyphs info
   raylib.GlyphInfo = class GlyphInfo {
-    constructor(value = 0, offsetX = 0, offsetY = 0, advanceX = 0, image = new Image()) {
+    constructor(init = {}, _address) {
+      const {value = 0, offsetX = 0, offsetY = 0, advanceX = 0, image = new Image()} = init
       this._size = 36
-      this._address = mod._malloc(this._size)
+      if (_address) {
+        this._address = _address
+      } else {
+        this._address = mod._malloc(this._size)
+      }
       this.value = value
       this.offsetX = offsetX
       this.offsetY = offsetY
@@ -566,51 +622,56 @@ export async function setup(canvas, userInit, userUpdate) {
     }
     
     get value () {
-      return valGetter(this._address + 0, 'int')
+      return mod.getValue(this._address + 0, 'i32')
     }
     set value (value) {
-      valSetter(this._address + 0, 'int', value)
+      mod.setValue(this._address + 0, value, 'i32')
     }
 
   
     get offsetX () {
-      return valGetter(this._address + 4, 'int')
+      return mod.getValue(this._address + 4, 'i32')
     }
     set offsetX (offsetX) {
-      valSetter(this._address + 4, 'int', offsetX)
+      mod.setValue(this._address + 4, offsetX, 'i32')
     }
 
   
     get offsetY () {
-      return valGetter(this._address + 8, 'int')
+      return mod.getValue(this._address + 8, 'i32')
     }
     set offsetY (offsetY) {
-      valSetter(this._address + 8, 'int', offsetY)
+      mod.setValue(this._address + 8, offsetY, 'i32')
     }
 
   
     get advanceX () {
-      return valGetter(this._address + 12, 'int')
+      return mod.getValue(this._address + 12, 'i32')
     }
     set advanceX (advanceX) {
-      valSetter(this._address + 12, 'int', advanceX)
+      mod.setValue(this._address + 12, advanceX, 'i32')
     }
 
   
     get image () {
-      return valGetter(this._address + 16, 'Image')
+      return mod.getValue(this._address + 16, '*')
     }
     set image (image) {
-      valSetter(this._address + 16, 'Image', image)
+      mod.setValue(this._address + 16, image, '*')
     }
 
   }
 
   // Font, font texture and GlyphInfo array data
   raylib.Font = class Font {
-    constructor(baseSize = 0, glyphCount = 0, glyphPadding = 0, texture = new Texture2D(), recs = new Rectangle(), glyphs = new GlyphInfo()) {
+    constructor(init = {}, _address) {
+      const {baseSize = 0, glyphCount = 0, glyphPadding = 0, texture = new Texture2D(), recs = new Rectangle(), glyphs = new GlyphInfo()} = init
       this._size = 40
-      this._address = mod._malloc(this._size)
+      if (_address) {
+        this._address = _address
+      } else {
+        this._address = mod._malloc(this._size)
+      }
       this.baseSize = baseSize
       this.glyphCount = glyphCount
       this.glyphPadding = glyphPadding
@@ -620,59 +681,64 @@ export async function setup(canvas, userInit, userUpdate) {
     }
     
     get baseSize () {
-      return valGetter(this._address + 0, 'int')
+      return mod.getValue(this._address + 0, 'i32')
     }
     set baseSize (baseSize) {
-      valSetter(this._address + 0, 'int', baseSize)
+      mod.setValue(this._address + 0, baseSize, 'i32')
     }
 
   
     get glyphCount () {
-      return valGetter(this._address + 4, 'int')
+      return mod.getValue(this._address + 4, 'i32')
     }
     set glyphCount (glyphCount) {
-      valSetter(this._address + 4, 'int', glyphCount)
+      mod.setValue(this._address + 4, glyphCount, 'i32')
     }
 
   
     get glyphPadding () {
-      return valGetter(this._address + 8, 'int')
+      return mod.getValue(this._address + 8, 'i32')
     }
     set glyphPadding (glyphPadding) {
-      valSetter(this._address + 8, 'int', glyphPadding)
+      mod.setValue(this._address + 8, glyphPadding, 'i32')
     }
 
   
     get texture () {
-      return valGetter(this._address + 12, 'Texture2D')
+      return mod.getValue(this._address + 12, '*')
     }
     set texture (texture) {
-      valSetter(this._address + 12, 'Texture2D', texture)
+      mod.setValue(this._address + 12, texture, '*')
     }
 
   
     get recs () {
-      return valGetter(this._address + 32, 'Rectangle *')
+      return mod.getValue(this._address + 32, '*')
     }
     set recs (recs) {
-      valSetter(this._address + 32, 'Rectangle *', recs)
+      mod.setValue(this._address + 32, recs, '*')
     }
 
   
     get glyphs () {
-      return valGetter(this._address + 36, 'GlyphInfo *')
+      return mod.getValue(this._address + 36, '*')
     }
     set glyphs (glyphs) {
-      valSetter(this._address + 36, 'GlyphInfo *', glyphs)
+      mod.setValue(this._address + 36, glyphs, '*')
     }
 
   }
 
   // Camera, defines position/orientation in 3d space
   raylib.Camera3D = class Camera3D {
-    constructor(position = new Vector3(), target = new Vector3(), up = new Vector3(), fovy = 0, projection = 0) {
+    constructor(init = {}, _address) {
+      const {position = new Vector3(), target = new Vector3(), up = new Vector3(), fovy = 0, projection = 0} = init
       this._size = 44
-      this._address = mod._malloc(this._size)
+      if (_address) {
+        this._address = _address
+      } else {
+        this._address = mod._malloc(this._size)
+      }
       this.position = position
       this.target = target
       this.up = up
@@ -681,51 +747,56 @@ export async function setup(canvas, userInit, userUpdate) {
     }
     
     get position () {
-      return valGetter(this._address + 0, 'Vector3')
+      return mod.getValue(this._address + 0, '*')
     }
     set position (position) {
-      valSetter(this._address + 0, 'Vector3', position)
+      mod.setValue(this._address + 0, position, '*')
     }
 
   
     get target () {
-      return valGetter(this._address + 12, 'Vector3')
+      return mod.getValue(this._address + 12, '*')
     }
     set target (target) {
-      valSetter(this._address + 12, 'Vector3', target)
+      mod.setValue(this._address + 12, target, '*')
     }
 
   
     get up () {
-      return valGetter(this._address + 24, 'Vector3')
+      return mod.getValue(this._address + 24, '*')
     }
     set up (up) {
-      valSetter(this._address + 24, 'Vector3', up)
+      mod.setValue(this._address + 24, up, '*')
     }
 
   
     get fovy () {
-      return valGetter(this._address + 36, 'float')
+      return mod.getValue(this._address + 36, 'float')
     }
     set fovy (fovy) {
-      valSetter(this._address + 36, 'float', fovy)
+      mod.setValue(this._address + 36, fovy, 'float')
     }
 
   
     get projection () {
-      return valGetter(this._address + 40, 'int')
+      return mod.getValue(this._address + 40, 'i32')
     }
     set projection (projection) {
-      valSetter(this._address + 40, 'int', projection)
+      mod.setValue(this._address + 40, projection, 'i32')
     }
 
   }
 
   // Camera2D, defines position/orientation in 2d space
   raylib.Camera2D = class Camera2D {
-    constructor(offset = new Vector2(), target = new Vector2(), rotation = 0, zoom = 0) {
+    constructor(init = {}, _address) {
+      const {offset = new Vector2(), target = new Vector2(), rotation = 0, zoom = 0} = init
       this._size = 24
-      this._address = mod._malloc(this._size)
+      if (_address) {
+        this._address = _address
+      } else {
+        this._address = mod._malloc(this._size)
+      }
       this.offset = offset
       this.target = target
       this.rotation = rotation
@@ -733,43 +804,48 @@ export async function setup(canvas, userInit, userUpdate) {
     }
     
     get offset () {
-      return valGetter(this._address + 0, 'Vector2')
+      return mod.getValue(this._address + 0, '*')
     }
     set offset (offset) {
-      valSetter(this._address + 0, 'Vector2', offset)
+      mod.setValue(this._address + 0, offset, '*')
     }
 
   
     get target () {
-      return valGetter(this._address + 8, 'Vector2')
+      return mod.getValue(this._address + 8, '*')
     }
     set target (target) {
-      valSetter(this._address + 8, 'Vector2', target)
+      mod.setValue(this._address + 8, target, '*')
     }
 
   
     get rotation () {
-      return valGetter(this._address + 16, 'float')
+      return mod.getValue(this._address + 16, 'float')
     }
     set rotation (rotation) {
-      valSetter(this._address + 16, 'float', rotation)
+      mod.setValue(this._address + 16, rotation, 'float')
     }
 
   
     get zoom () {
-      return valGetter(this._address + 20, 'float')
+      return mod.getValue(this._address + 20, 'float')
     }
     set zoom (zoom) {
-      valSetter(this._address + 20, 'float', zoom)
+      mod.setValue(this._address + 20, zoom, 'float')
     }
 
   }
 
   // Mesh, vertex data and vao/vbo
   raylib.Mesh = class Mesh {
-    constructor(vertexCount = 0, triangleCount = 0, vertices = 0, texcoords = 0, texcoords2 = 0, normals = 0, tangents = 0, colors = 0, indices = 0, animVertices = 0, animNormals = 0, boneIds = 0, boneWeights = 0, vaoId = 0, vboId = 0) {
+    constructor(init = {}, _address) {
+      const {vertexCount = 0, triangleCount = 0, vertices = 0, texcoords = 0, texcoords2 = 0, normals = 0, tangents = 0, colors = 0, indices = 0, animVertices = 0, animNormals = 0, boneIds = 0, boneWeights = 0, vaoId = 0, vboId = 0} = init
       this._size = 60
-      this._address = mod._malloc(this._size)
+      if (_address) {
+        this._address = _address
+      } else {
+        this._address = mod._malloc(this._size)
+      }
       this.vertexCount = vertexCount
       this.triangleCount = triangleCount
       this.vertices = vertices
@@ -788,288 +864,318 @@ export async function setup(canvas, userInit, userUpdate) {
     }
     
     get vertexCount () {
-      return valGetter(this._address + 0, 'int')
+      return mod.getValue(this._address + 0, 'i32')
     }
     set vertexCount (vertexCount) {
-      valSetter(this._address + 0, 'int', vertexCount)
+      mod.setValue(this._address + 0, vertexCount, 'i32')
     }
 
   
     get triangleCount () {
-      return valGetter(this._address + 4, 'int')
+      return mod.getValue(this._address + 4, 'i32')
     }
     set triangleCount (triangleCount) {
-      valSetter(this._address + 4, 'int', triangleCount)
+      mod.setValue(this._address + 4, triangleCount, 'i32')
     }
 
   
     get vertices () {
-      return valGetter(this._address + 8, 'float *')
+      return mod.getValue(this._address + 8, '*')
     }
     set vertices (vertices) {
-      valSetter(this._address + 8, 'float *', vertices)
+      mod.setValue(this._address + 8, vertices, '*')
     }
 
   
     get texcoords () {
-      return valGetter(this._address + 12, 'float *')
+      return mod.getValue(this._address + 12, '*')
     }
     set texcoords (texcoords) {
-      valSetter(this._address + 12, 'float *', texcoords)
+      mod.setValue(this._address + 12, texcoords, '*')
     }
 
   
     get texcoords2 () {
-      return valGetter(this._address + 16, 'float *')
+      return mod.getValue(this._address + 16, '*')
     }
     set texcoords2 (texcoords2) {
-      valSetter(this._address + 16, 'float *', texcoords2)
+      mod.setValue(this._address + 16, texcoords2, '*')
     }
 
   
     get normals () {
-      return valGetter(this._address + 20, 'float *')
+      return mod.getValue(this._address + 20, '*')
     }
     set normals (normals) {
-      valSetter(this._address + 20, 'float *', normals)
+      mod.setValue(this._address + 20, normals, '*')
     }
 
   
     get tangents () {
-      return valGetter(this._address + 24, 'float *')
+      return mod.getValue(this._address + 24, '*')
     }
     set tangents (tangents) {
-      valSetter(this._address + 24, 'float *', tangents)
+      mod.setValue(this._address + 24, tangents, '*')
     }
 
   
     get colors () {
-      return valGetter(this._address + 28, 'unsigned char *')
+      return mod.getValue(this._address + 28, '*')
     }
     set colors (colors) {
-      valSetter(this._address + 28, 'unsigned char *', colors)
+      mod.setValue(this._address + 28, colors, '*')
     }
 
   
     get indices () {
-      return valGetter(this._address + 32, 'unsigned short *')
+      return mod.getValue(this._address + 32, '*')
     }
     set indices (indices) {
-      valSetter(this._address + 32, 'unsigned short *', indices)
+      mod.setValue(this._address + 32, indices, '*')
     }
 
   
     get animVertices () {
-      return valGetter(this._address + 36, 'float *')
+      return mod.getValue(this._address + 36, '*')
     }
     set animVertices (animVertices) {
-      valSetter(this._address + 36, 'float *', animVertices)
+      mod.setValue(this._address + 36, animVertices, '*')
     }
 
   
     get animNormals () {
-      return valGetter(this._address + 40, 'float *')
+      return mod.getValue(this._address + 40, '*')
     }
     set animNormals (animNormals) {
-      valSetter(this._address + 40, 'float *', animNormals)
+      mod.setValue(this._address + 40, animNormals, '*')
     }
 
   
     get boneIds () {
-      return valGetter(this._address + 44, 'unsigned char *')
+      return mod.getValue(this._address + 44, '*')
     }
     set boneIds (boneIds) {
-      valSetter(this._address + 44, 'unsigned char *', boneIds)
+      mod.setValue(this._address + 44, boneIds, '*')
     }
 
   
     get boneWeights () {
-      return valGetter(this._address + 48, 'float *')
+      return mod.getValue(this._address + 48, '*')
     }
     set boneWeights (boneWeights) {
-      valSetter(this._address + 48, 'float *', boneWeights)
+      mod.setValue(this._address + 48, boneWeights, '*')
     }
 
   
     get vaoId () {
-      return valGetter(this._address + 52, 'unsigned int')
+      return mod.HEAPU32[this._address + 52]
     }
     set vaoId (vaoId) {
-      valSetter(this._address + 52, 'unsigned int', vaoId)
+      mod.HEAPU32[this._address + 52] = vaoId
     }
 
   
     get vboId () {
-      return valGetter(this._address + 56, 'unsigned int *')
+      return mod.getValue(this._address + 56, '*')
     }
     set vboId (vboId) {
-      valSetter(this._address + 56, 'unsigned int *', vboId)
+      mod.setValue(this._address + 56, vboId, '*')
     }
 
   }
 
   // Shader
   raylib.Shader = class Shader {
-    constructor(id = 0, locs = 0) {
+    constructor(init = {}, _address) {
+      const {id = 0, locs = 0} = init
       this._size = 8
-      this._address = mod._malloc(this._size)
+      if (_address) {
+        this._address = _address
+      } else {
+        this._address = mod._malloc(this._size)
+      }
       this.id = id
       this.locs = locs
     }
     
     get id () {
-      return valGetter(this._address + 0, 'unsigned int')
+      return mod.HEAPU32[this._address + 0]
     }
     set id (id) {
-      valSetter(this._address + 0, 'unsigned int', id)
+      mod.HEAPU32[this._address + 0] = id
     }
 
   
     get locs () {
-      return valGetter(this._address + 4, 'int *')
+      return mod.getValue(this._address + 4, '*')
     }
     set locs (locs) {
-      valSetter(this._address + 4, 'int *', locs)
+      mod.setValue(this._address + 4, locs, '*')
     }
 
   }
 
   // MaterialMap
   raylib.MaterialMap = class MaterialMap {
-    constructor(texture = new Texture2D(), color = new Color(), value = 0) {
+    constructor(init = {}, _address) {
+      const {texture = new Texture2D(), color = new Color(), value = 0} = init
       this._size = 28
-      this._address = mod._malloc(this._size)
+      if (_address) {
+        this._address = _address
+      } else {
+        this._address = mod._malloc(this._size)
+      }
       this.texture = texture
       this.color = color
       this.value = value
     }
     
     get texture () {
-      return valGetter(this._address + 0, 'Texture2D')
+      return mod.getValue(this._address + 0, '*')
     }
     set texture (texture) {
-      valSetter(this._address + 0, 'Texture2D', texture)
+      mod.setValue(this._address + 0, texture, '*')
     }
 
   
     get color () {
-      return valGetter(this._address + 20, 'Color')
+      return mod.getValue(this._address + 20, '*')
     }
     set color (color) {
-      valSetter(this._address + 20, 'Color', color)
+      mod.setValue(this._address + 20, color, '*')
     }
 
   
     get value () {
-      return valGetter(this._address + 24, 'float')
+      return mod.getValue(this._address + 24, 'float')
     }
     set value (value) {
-      valSetter(this._address + 24, 'float', value)
+      mod.setValue(this._address + 24, value, 'float')
     }
 
   }
 
   // Material, includes shader and maps
   raylib.Material = class Material {
-    constructor(shader = new Shader(), maps = new MaterialMap(), params = [0, 0, 0, 0]) {
+    constructor(init = {}, _address) {
+      const {shader = new Shader(), maps = new MaterialMap(), params = [0, 0, 0, 0]} = init
       this._size = 28
-      this._address = mod._malloc(this._size)
+      if (_address) {
+        this._address = _address
+      } else {
+        this._address = mod._malloc(this._size)
+      }
       this.shader = shader
       this.maps = maps
       this.params = params
     }
     
     get shader () {
-      return valGetter(this._address + 0, 'Shader')
+      return mod.getValue(this._address + 0, '*')
     }
     set shader (shader) {
-      valSetter(this._address + 0, 'Shader', shader)
+      mod.setValue(this._address + 0, shader, '*')
     }
 
   
     get maps () {
-      return valGetter(this._address + 8, 'MaterialMap *')
+      return mod.getValue(this._address + 8, '*')
     }
     set maps (maps) {
-      valSetter(this._address + 8, 'MaterialMap *', maps)
+      mod.setValue(this._address + 8, maps, '*')
     }
 
   
     get params () {
-      return valGetter(this._address + 12, 'float[4]')
+      return mod.getValue(this._address + 12, '*')
     }
     set params (params) {
-      valSetter(this._address + 12, 'float[4]', params)
+      mod.setValue(this._address + 12, params, '*')
     }
 
   }
 
   // Transform, vertex transformation data
   raylib.Transform = class Transform {
-    constructor(translation = new Vector3(), rotation = new Quaternion(), scale = new Vector3()) {
+    constructor(init = {}, _address) {
+      const {translation = new Vector3(), rotation = new Quaternion(), scale = new Vector3()} = init
       this._size = 40
-      this._address = mod._malloc(this._size)
+      if (_address) {
+        this._address = _address
+      } else {
+        this._address = mod._malloc(this._size)
+      }
       this.translation = translation
       this.rotation = rotation
       this.scale = scale
     }
     
     get translation () {
-      return valGetter(this._address + 0, 'Vector3')
+      return mod.getValue(this._address + 0, '*')
     }
     set translation (translation) {
-      valSetter(this._address + 0, 'Vector3', translation)
+      mod.setValue(this._address + 0, translation, '*')
     }
 
   
     get rotation () {
-      return valGetter(this._address + 12, 'Quaternion')
+      return mod.getValue(this._address + 12, '*')
     }
     set rotation (rotation) {
-      valSetter(this._address + 12, 'Quaternion', rotation)
+      mod.setValue(this._address + 12, rotation, '*')
     }
 
   
     get scale () {
-      return valGetter(this._address + 28, 'Vector3')
+      return mod.getValue(this._address + 28, '*')
     }
     set scale (scale) {
-      valSetter(this._address + 28, 'Vector3', scale)
+      mod.setValue(this._address + 28, scale, '*')
     }
 
   }
 
   // Bone, skeletal animation bone
   raylib.BoneInfo = class BoneInfo {
-    constructor(name = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], parent = 0) {
+    constructor(init = {}, _address) {
+      const {name = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], parent = 0} = init
       this._size = 36
-      this._address = mod._malloc(this._size)
+      if (_address) {
+        this._address = _address
+      } else {
+        this._address = mod._malloc(this._size)
+      }
       this.name = name
       this.parent = parent
     }
     
     get name () {
-      return valGetter(this._address + 0, 'char[32]')
+      return mod.getValue(this._address + 0, '*')
     }
     set name (name) {
-      valSetter(this._address + 0, 'char[32]', name)
+      mod.setValue(this._address + 0, name, '*')
     }
 
   
     get parent () {
-      return valGetter(this._address + 32, 'int')
+      return mod.getValue(this._address + 32, 'i32')
     }
     set parent (parent) {
-      valSetter(this._address + 32, 'int', parent)
+      mod.setValue(this._address + 32, parent, 'i32')
     }
 
   }
 
   // Model, meshes, materials and animation data
   raylib.Model = class Model {
-    constructor(transform = new Matrix(), meshCount = 0, materialCount = 0, meshes = new Mesh(), materials = new Material(), meshMaterial = 0, boneCount = 0, bones = new BoneInfo(), bindPose = new Transform()) {
+    constructor(init = {}, _address) {
+      const {transform = new Matrix(), meshCount = 0, materialCount = 0, meshes = new Mesh(), materials = new Material(), meshMaterial = 0, boneCount = 0, bones = new BoneInfo(), bindPose = new Transform()} = init
       this._size = 96
-      this._address = mod._malloc(this._size)
+      if (_address) {
+        this._address = _address
+      } else {
+        this._address = mod._malloc(this._size)
+      }
       this.transform = transform
       this.meshCount = meshCount
       this.materialCount = materialCount
@@ -1082,83 +1188,88 @@ export async function setup(canvas, userInit, userUpdate) {
     }
     
     get transform () {
-      return valGetter(this._address + 0, 'Matrix')
+      return mod.getValue(this._address + 0, '*')
     }
     set transform (transform) {
-      valSetter(this._address + 0, 'Matrix', transform)
+      mod.setValue(this._address + 0, transform, '*')
     }
 
   
     get meshCount () {
-      return valGetter(this._address + 64, 'int')
+      return mod.getValue(this._address + 64, 'i32')
     }
     set meshCount (meshCount) {
-      valSetter(this._address + 64, 'int', meshCount)
+      mod.setValue(this._address + 64, meshCount, 'i32')
     }
 
   
     get materialCount () {
-      return valGetter(this._address + 68, 'int')
+      return mod.getValue(this._address + 68, 'i32')
     }
     set materialCount (materialCount) {
-      valSetter(this._address + 68, 'int', materialCount)
+      mod.setValue(this._address + 68, materialCount, 'i32')
     }
 
   
     get meshes () {
-      return valGetter(this._address + 72, 'Mesh *')
+      return mod.getValue(this._address + 72, '*')
     }
     set meshes (meshes) {
-      valSetter(this._address + 72, 'Mesh *', meshes)
+      mod.setValue(this._address + 72, meshes, '*')
     }
 
   
     get materials () {
-      return valGetter(this._address + 76, 'Material *')
+      return mod.getValue(this._address + 76, '*')
     }
     set materials (materials) {
-      valSetter(this._address + 76, 'Material *', materials)
+      mod.setValue(this._address + 76, materials, '*')
     }
 
   
     get meshMaterial () {
-      return valGetter(this._address + 80, 'int *')
+      return mod.getValue(this._address + 80, '*')
     }
     set meshMaterial (meshMaterial) {
-      valSetter(this._address + 80, 'int *', meshMaterial)
+      mod.setValue(this._address + 80, meshMaterial, '*')
     }
 
   
     get boneCount () {
-      return valGetter(this._address + 84, 'int')
+      return mod.getValue(this._address + 84, 'i32')
     }
     set boneCount (boneCount) {
-      valSetter(this._address + 84, 'int', boneCount)
+      mod.setValue(this._address + 84, boneCount, 'i32')
     }
 
   
     get bones () {
-      return valGetter(this._address + 88, 'BoneInfo *')
+      return mod.getValue(this._address + 88, '*')
     }
     set bones (bones) {
-      valSetter(this._address + 88, 'BoneInfo *', bones)
+      mod.setValue(this._address + 88, bones, '*')
     }
 
   
     get bindPose () {
-      return valGetter(this._address + 92, 'Transform *')
+      return mod.getValue(this._address + 92, '*')
     }
     set bindPose (bindPose) {
-      valSetter(this._address + 92, 'Transform *', bindPose)
+      mod.setValue(this._address + 92, bindPose, '*')
     }
 
   }
 
   // ModelAnimation
   raylib.ModelAnimation = class ModelAnimation {
-    constructor(boneCount = 0, frameCount = 0, bones = new BoneInfo(), framePoses = new Transform(), name = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]) {
+    constructor(init = {}, _address) {
+      const {boneCount = 0, frameCount = 0, bones = new BoneInfo(), framePoses = new Transform(), name = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]} = init
       this._size = 48
-      this._address = mod._malloc(this._size)
+      if (_address) {
+        this._address = _address
+      } else {
+        this._address = mod._malloc(this._size)
+      }
       this.boneCount = boneCount
       this.frameCount = frameCount
       this.bones = bones
@@ -1167,77 +1278,87 @@ export async function setup(canvas, userInit, userUpdate) {
     }
     
     get boneCount () {
-      return valGetter(this._address + 0, 'int')
+      return mod.getValue(this._address + 0, 'i32')
     }
     set boneCount (boneCount) {
-      valSetter(this._address + 0, 'int', boneCount)
+      mod.setValue(this._address + 0, boneCount, 'i32')
     }
 
   
     get frameCount () {
-      return valGetter(this._address + 4, 'int')
+      return mod.getValue(this._address + 4, 'i32')
     }
     set frameCount (frameCount) {
-      valSetter(this._address + 4, 'int', frameCount)
+      mod.setValue(this._address + 4, frameCount, 'i32')
     }
 
   
     get bones () {
-      return valGetter(this._address + 8, 'BoneInfo *')
+      return mod.getValue(this._address + 8, '*')
     }
     set bones (bones) {
-      valSetter(this._address + 8, 'BoneInfo *', bones)
+      mod.setValue(this._address + 8, bones, '*')
     }
 
   
     get framePoses () {
-      return valGetter(this._address + 12, 'Transform **')
+      return mod.getValue(this._address + 12, '*')
     }
     set framePoses (framePoses) {
-      valSetter(this._address + 12, 'Transform **', framePoses)
+      mod.setValue(this._address + 12, framePoses, '*')
     }
 
   
     get name () {
-      return valGetter(this._address + 16, 'char[32]')
+      return mod.getValue(this._address + 16, '*')
     }
     set name (name) {
-      valSetter(this._address + 16, 'char[32]', name)
+      mod.setValue(this._address + 16, name, '*')
     }
 
   }
 
   // Ray, ray for raycasting
   raylib.Ray = class Ray {
-    constructor(position = new Vector3(), direction = new Vector3()) {
+    constructor(init = {}, _address) {
+      const {position = new Vector3(), direction = new Vector3()} = init
       this._size = 24
-      this._address = mod._malloc(this._size)
+      if (_address) {
+        this._address = _address
+      } else {
+        this._address = mod._malloc(this._size)
+      }
       this.position = position
       this.direction = direction
     }
     
     get position () {
-      return valGetter(this._address + 0, 'Vector3')
+      return mod.getValue(this._address + 0, '*')
     }
     set position (position) {
-      valSetter(this._address + 0, 'Vector3', position)
+      mod.setValue(this._address + 0, position, '*')
     }
 
   
     get direction () {
-      return valGetter(this._address + 12, 'Vector3')
+      return mod.getValue(this._address + 12, '*')
     }
     set direction (direction) {
-      valSetter(this._address + 12, 'Vector3', direction)
+      mod.setValue(this._address + 12, direction, '*')
     }
 
   }
 
   // RayCollision, ray hit information
   raylib.RayCollision = class RayCollision {
-    constructor(hit = 0, distance = 0, point = new Vector3(), normal = new Vector3()) {
+    constructor(init = {}, _address) {
+      const {hit = 0, distance = 0, point = new Vector3(), normal = new Vector3()} = init
       this._size = 29
-      this._address = mod._malloc(this._size)
+      if (_address) {
+        this._address = _address
+      } else {
+        this._address = mod._malloc(this._size)
+      }
       this.hit = hit
       this.distance = distance
       this.point = point
@@ -1245,69 +1366,79 @@ export async function setup(canvas, userInit, userUpdate) {
     }
     
     get hit () {
-      return valGetter(this._address + 0, 'bool')
+      return mod.getValue(this._address + 0, '*')
     }
     set hit (hit) {
-      valSetter(this._address + 0, 'bool', hit)
+      mod.setValue(this._address + 0, hit, '*')
     }
 
   
     get distance () {
-      return valGetter(this._address + 1, 'float')
+      return mod.getValue(this._address + 1, 'float')
     }
     set distance (distance) {
-      valSetter(this._address + 1, 'float', distance)
+      mod.setValue(this._address + 1, distance, 'float')
     }
 
   
     get point () {
-      return valGetter(this._address + 5, 'Vector3')
+      return mod.getValue(this._address + 5, '*')
     }
     set point (point) {
-      valSetter(this._address + 5, 'Vector3', point)
+      mod.setValue(this._address + 5, point, '*')
     }
 
   
     get normal () {
-      return valGetter(this._address + 17, 'Vector3')
+      return mod.getValue(this._address + 17, '*')
     }
     set normal (normal) {
-      valSetter(this._address + 17, 'Vector3', normal)
+      mod.setValue(this._address + 17, normal, '*')
     }
 
   }
 
   // BoundingBox
   raylib.BoundingBox = class BoundingBox {
-    constructor(min = new Vector3(), max = new Vector3()) {
+    constructor(init = {}, _address) {
+      const {min = new Vector3(), max = new Vector3()} = init
       this._size = 24
-      this._address = mod._malloc(this._size)
+      if (_address) {
+        this._address = _address
+      } else {
+        this._address = mod._malloc(this._size)
+      }
       this.min = min
       this.max = max
     }
     
     get min () {
-      return valGetter(this._address + 0, 'Vector3')
+      return mod.getValue(this._address + 0, '*')
     }
     set min (min) {
-      valSetter(this._address + 0, 'Vector3', min)
+      mod.setValue(this._address + 0, min, '*')
     }
 
   
     get max () {
-      return valGetter(this._address + 12, 'Vector3')
+      return mod.getValue(this._address + 12, '*')
     }
     set max (max) {
-      valSetter(this._address + 12, 'Vector3', max)
+      mod.setValue(this._address + 12, max, '*')
     }
 
   }
 
   // Wave, audio wave data
   raylib.Wave = class Wave {
-    constructor(frameCount = 0, sampleRate = 0, sampleSize = 0, channels = 0, data = 0) {
+    constructor(init = {}, _address) {
+      const {frameCount = 0, sampleRate = 0, sampleSize = 0, channels = 0, data = 0} = init
       this._size = 20
-      this._address = mod._malloc(this._size)
+      if (_address) {
+        this._address = _address
+      } else {
+        this._address = mod._malloc(this._size)
+      }
       this.frameCount = frameCount
       this.sampleRate = sampleRate
       this.sampleSize = sampleSize
@@ -1316,51 +1447,56 @@ export async function setup(canvas, userInit, userUpdate) {
     }
     
     get frameCount () {
-      return valGetter(this._address + 0, 'unsigned int')
+      return mod.HEAPU32[this._address + 0]
     }
     set frameCount (frameCount) {
-      valSetter(this._address + 0, 'unsigned int', frameCount)
+      mod.HEAPU32[this._address + 0] = frameCount
     }
 
   
     get sampleRate () {
-      return valGetter(this._address + 4, 'unsigned int')
+      return mod.HEAPU32[this._address + 4]
     }
     set sampleRate (sampleRate) {
-      valSetter(this._address + 4, 'unsigned int', sampleRate)
+      mod.HEAPU32[this._address + 4] = sampleRate
     }
 
   
     get sampleSize () {
-      return valGetter(this._address + 8, 'unsigned int')
+      return mod.HEAPU32[this._address + 8]
     }
     set sampleSize (sampleSize) {
-      valSetter(this._address + 8, 'unsigned int', sampleSize)
+      mod.HEAPU32[this._address + 8] = sampleSize
     }
 
   
     get channels () {
-      return valGetter(this._address + 12, 'unsigned int')
+      return mod.HEAPU32[this._address + 12]
     }
     set channels (channels) {
-      valSetter(this._address + 12, 'unsigned int', channels)
+      mod.HEAPU32[this._address + 12] = channels
     }
 
   
     get data () {
-      return valGetter(this._address + 16, 'void *')
+      return mod.getValue(this._address + 16, '*')
     }
     set data (data) {
-      valSetter(this._address + 16, 'void *', data)
+      mod.setValue(this._address + 16, data, '*')
     }
 
   }
 
   // AudioStream, custom audio stream
   raylib.AudioStream = class AudioStream {
-    constructor(buffer = 0, processor = 0, sampleRate = 0, sampleSize = 0, channels = 0) {
+    constructor(init = {}, _address) {
+      const {buffer = 0, processor = 0, sampleRate = 0, sampleSize = 0, channels = 0} = init
       this._size = 20
-      this._address = mod._malloc(this._size)
+      if (_address) {
+        this._address = _address
+      } else {
+        this._address = mod._malloc(this._size)
+      }
       this.buffer = buffer
       this.processor = processor
       this.sampleRate = sampleRate
@@ -1369,77 +1505,87 @@ export async function setup(canvas, userInit, userUpdate) {
     }
     
     get buffer () {
-      return valGetter(this._address + 0, 'rAudioBuffer *')
+      return mod.getValue(this._address + 0, '*')
     }
     set buffer (buffer) {
-      valSetter(this._address + 0, 'rAudioBuffer *', buffer)
+      mod.setValue(this._address + 0, buffer, '*')
     }
 
   
     get processor () {
-      return valGetter(this._address + 4, 'rAudioProcessor *')
+      return mod.getValue(this._address + 4, '*')
     }
     set processor (processor) {
-      valSetter(this._address + 4, 'rAudioProcessor *', processor)
+      mod.setValue(this._address + 4, processor, '*')
     }
 
   
     get sampleRate () {
-      return valGetter(this._address + 8, 'unsigned int')
+      return mod.HEAPU32[this._address + 8]
     }
     set sampleRate (sampleRate) {
-      valSetter(this._address + 8, 'unsigned int', sampleRate)
+      mod.HEAPU32[this._address + 8] = sampleRate
     }
 
   
     get sampleSize () {
-      return valGetter(this._address + 12, 'unsigned int')
+      return mod.HEAPU32[this._address + 12]
     }
     set sampleSize (sampleSize) {
-      valSetter(this._address + 12, 'unsigned int', sampleSize)
+      mod.HEAPU32[this._address + 12] = sampleSize
     }
 
   
     get channels () {
-      return valGetter(this._address + 16, 'unsigned int')
+      return mod.HEAPU32[this._address + 16]
     }
     set channels (channels) {
-      valSetter(this._address + 16, 'unsigned int', channels)
+      mod.HEAPU32[this._address + 16] = channels
     }
 
   }
 
   // Sound
   raylib.Sound = class Sound {
-    constructor(stream = new AudioStream(), frameCount = 0) {
+    constructor(init = {}, _address) {
+      const {stream = new AudioStream(), frameCount = 0} = init
       this._size = 24
-      this._address = mod._malloc(this._size)
+      if (_address) {
+        this._address = _address
+      } else {
+        this._address = mod._malloc(this._size)
+      }
       this.stream = stream
       this.frameCount = frameCount
     }
     
     get stream () {
-      return valGetter(this._address + 0, 'AudioStream')
+      return mod.getValue(this._address + 0, '*')
     }
     set stream (stream) {
-      valSetter(this._address + 0, 'AudioStream', stream)
+      mod.setValue(this._address + 0, stream, '*')
     }
 
   
     get frameCount () {
-      return valGetter(this._address + 20, 'unsigned int')
+      return mod.HEAPU32[this._address + 20]
     }
     set frameCount (frameCount) {
-      valSetter(this._address + 20, 'unsigned int', frameCount)
+      mod.HEAPU32[this._address + 20] = frameCount
     }
 
   }
 
   // Music, audio stream, anything longer than ~10 seconds should be streamed
   raylib.Music = class Music {
-    constructor(stream = new AudioStream(), frameCount = 0, looping = 0, ctxType = 0, ctxData = 0) {
+    constructor(init = {}, _address) {
+      const {stream = new AudioStream(), frameCount = 0, looping = 0, ctxType = 0, ctxData = 0} = init
       this._size = 33
-      this._address = mod._malloc(this._size)
+      if (_address) {
+        this._address = _address
+      } else {
+        this._address = mod._malloc(this._size)
+      }
       this.stream = stream
       this.frameCount = frameCount
       this.looping = looping
@@ -1448,51 +1594,56 @@ export async function setup(canvas, userInit, userUpdate) {
     }
     
     get stream () {
-      return valGetter(this._address + 0, 'AudioStream')
+      return mod.getValue(this._address + 0, '*')
     }
     set stream (stream) {
-      valSetter(this._address + 0, 'AudioStream', stream)
+      mod.setValue(this._address + 0, stream, '*')
     }
 
   
     get frameCount () {
-      return valGetter(this._address + 20, 'unsigned int')
+      return mod.HEAPU32[this._address + 20]
     }
     set frameCount (frameCount) {
-      valSetter(this._address + 20, 'unsigned int', frameCount)
+      mod.HEAPU32[this._address + 20] = frameCount
     }
 
   
     get looping () {
-      return valGetter(this._address + 24, 'bool')
+      return mod.getValue(this._address + 24, '*')
     }
     set looping (looping) {
-      valSetter(this._address + 24, 'bool', looping)
+      mod.setValue(this._address + 24, looping, '*')
     }
 
   
     get ctxType () {
-      return valGetter(this._address + 25, 'int')
+      return mod.getValue(this._address + 25, 'i32')
     }
     set ctxType (ctxType) {
-      valSetter(this._address + 25, 'int', ctxType)
+      mod.setValue(this._address + 25, ctxType, 'i32')
     }
 
   
     get ctxData () {
-      return valGetter(this._address + 29, 'void *')
+      return mod.getValue(this._address + 29, '*')
     }
     set ctxData (ctxData) {
-      valSetter(this._address + 29, 'void *', ctxData)
+      mod.setValue(this._address + 29, ctxData, '*')
     }
 
   }
 
   // VrDeviceInfo, Head-Mounted-Display device parameters
   raylib.VrDeviceInfo = class VrDeviceInfo {
-    constructor(hResolution = 0, vResolution = 0, hScreenSize = 0, vScreenSize = 0, vScreenCenter = 0, eyeToScreenDistance = 0, lensSeparationDistance = 0, interpupillaryDistance = 0, lensDistortionValues = [0, 0, 0, 0], chromaAbCorrection = [0, 0, 0, 0]) {
+    constructor(init = {}, _address) {
+      const {hResolution = 0, vResolution = 0, hScreenSize = 0, vScreenSize = 0, vScreenCenter = 0, eyeToScreenDistance = 0, lensSeparationDistance = 0, interpupillaryDistance = 0, lensDistortionValues = [0, 0, 0, 0], chromaAbCorrection = [0, 0, 0, 0]} = init
       this._size = 64
-      this._address = mod._malloc(this._size)
+      if (_address) {
+        this._address = _address
+      } else {
+        this._address = mod._malloc(this._size)
+      }
       this.hResolution = hResolution
       this.vResolution = vResolution
       this.hScreenSize = hScreenSize
@@ -1506,91 +1657,96 @@ export async function setup(canvas, userInit, userUpdate) {
     }
     
     get hResolution () {
-      return valGetter(this._address + 0, 'int')
+      return mod.getValue(this._address + 0, 'i32')
     }
     set hResolution (hResolution) {
-      valSetter(this._address + 0, 'int', hResolution)
+      mod.setValue(this._address + 0, hResolution, 'i32')
     }
 
   
     get vResolution () {
-      return valGetter(this._address + 4, 'int')
+      return mod.getValue(this._address + 4, 'i32')
     }
     set vResolution (vResolution) {
-      valSetter(this._address + 4, 'int', vResolution)
+      mod.setValue(this._address + 4, vResolution, 'i32')
     }
 
   
     get hScreenSize () {
-      return valGetter(this._address + 8, 'float')
+      return mod.getValue(this._address + 8, 'float')
     }
     set hScreenSize (hScreenSize) {
-      valSetter(this._address + 8, 'float', hScreenSize)
+      mod.setValue(this._address + 8, hScreenSize, 'float')
     }
 
   
     get vScreenSize () {
-      return valGetter(this._address + 12, 'float')
+      return mod.getValue(this._address + 12, 'float')
     }
     set vScreenSize (vScreenSize) {
-      valSetter(this._address + 12, 'float', vScreenSize)
+      mod.setValue(this._address + 12, vScreenSize, 'float')
     }
 
   
     get vScreenCenter () {
-      return valGetter(this._address + 16, 'float')
+      return mod.getValue(this._address + 16, 'float')
     }
     set vScreenCenter (vScreenCenter) {
-      valSetter(this._address + 16, 'float', vScreenCenter)
+      mod.setValue(this._address + 16, vScreenCenter, 'float')
     }
 
   
     get eyeToScreenDistance () {
-      return valGetter(this._address + 20, 'float')
+      return mod.getValue(this._address + 20, 'float')
     }
     set eyeToScreenDistance (eyeToScreenDistance) {
-      valSetter(this._address + 20, 'float', eyeToScreenDistance)
+      mod.setValue(this._address + 20, eyeToScreenDistance, 'float')
     }
 
   
     get lensSeparationDistance () {
-      return valGetter(this._address + 24, 'float')
+      return mod.getValue(this._address + 24, 'float')
     }
     set lensSeparationDistance (lensSeparationDistance) {
-      valSetter(this._address + 24, 'float', lensSeparationDistance)
+      mod.setValue(this._address + 24, lensSeparationDistance, 'float')
     }
 
   
     get interpupillaryDistance () {
-      return valGetter(this._address + 28, 'float')
+      return mod.getValue(this._address + 28, 'float')
     }
     set interpupillaryDistance (interpupillaryDistance) {
-      valSetter(this._address + 28, 'float', interpupillaryDistance)
+      mod.setValue(this._address + 28, interpupillaryDistance, 'float')
     }
 
   
     get lensDistortionValues () {
-      return valGetter(this._address + 32, 'float[4]')
+      return mod.getValue(this._address + 32, '*')
     }
     set lensDistortionValues (lensDistortionValues) {
-      valSetter(this._address + 32, 'float[4]', lensDistortionValues)
+      mod.setValue(this._address + 32, lensDistortionValues, '*')
     }
 
   
     get chromaAbCorrection () {
-      return valGetter(this._address + 48, 'float[4]')
+      return mod.getValue(this._address + 48, '*')
     }
     set chromaAbCorrection (chromaAbCorrection) {
-      valSetter(this._address + 48, 'float[4]', chromaAbCorrection)
+      mod.setValue(this._address + 48, chromaAbCorrection, '*')
     }
 
   }
 
   // VrStereoConfig, VR stereo rendering configuration for simulator
   raylib.VrStereoConfig = class VrStereoConfig {
-    constructor(projection = [new Matrix(), new Matrix()], viewOffset = [new Matrix(), new Matrix()], leftLensCenter = [0, 0], rightLensCenter = [0, 0], leftScreenCenter = [0, 0], rightScreenCenter = [0, 0], scale = [0, 0], scaleIn = [0, 0]) {
+    constructor(init = {}, _address) {
+      const {projection = [new Matrix(), new Matrix()], viewOffset = [new Matrix(), new Matrix()], leftLensCenter = [0, 0], rightLensCenter = [0, 0], leftScreenCenter = [0, 0], rightScreenCenter = [0, 0], scale = [0, 0], scaleIn = [0, 0]} = init
       this._size = 304
-      this._address = mod._malloc(this._size)
+      if (_address) {
+        this._address = _address
+      } else {
+        this._address = mod._malloc(this._size)
+      }
       this.projection = projection
       this.viewOffset = viewOffset
       this.leftLensCenter = leftLensCenter
@@ -1602,110 +1758,120 @@ export async function setup(canvas, userInit, userUpdate) {
     }
     
     get projection () {
-      return valGetter(this._address + 0, 'Matrix[2]')
+      return mod.getValue(this._address + 0, '*')
     }
     set projection (projection) {
-      valSetter(this._address + 0, 'Matrix[2]', projection)
+      mod.setValue(this._address + 0, projection, '*')
     }
 
   
     get viewOffset () {
-      return valGetter(this._address + 128, 'Matrix[2]')
+      return mod.getValue(this._address + 128, '*')
     }
     set viewOffset (viewOffset) {
-      valSetter(this._address + 128, 'Matrix[2]', viewOffset)
+      mod.setValue(this._address + 128, viewOffset, '*')
     }
 
   
     get leftLensCenter () {
-      return valGetter(this._address + 256, 'float[2]')
+      return mod.getValue(this._address + 256, '*')
     }
     set leftLensCenter (leftLensCenter) {
-      valSetter(this._address + 256, 'float[2]', leftLensCenter)
+      mod.setValue(this._address + 256, leftLensCenter, '*')
     }
 
   
     get rightLensCenter () {
-      return valGetter(this._address + 264, 'float[2]')
+      return mod.getValue(this._address + 264, '*')
     }
     set rightLensCenter (rightLensCenter) {
-      valSetter(this._address + 264, 'float[2]', rightLensCenter)
+      mod.setValue(this._address + 264, rightLensCenter, '*')
     }
 
   
     get leftScreenCenter () {
-      return valGetter(this._address + 272, 'float[2]')
+      return mod.getValue(this._address + 272, '*')
     }
     set leftScreenCenter (leftScreenCenter) {
-      valSetter(this._address + 272, 'float[2]', leftScreenCenter)
+      mod.setValue(this._address + 272, leftScreenCenter, '*')
     }
 
   
     get rightScreenCenter () {
-      return valGetter(this._address + 280, 'float[2]')
+      return mod.getValue(this._address + 280, '*')
     }
     set rightScreenCenter (rightScreenCenter) {
-      valSetter(this._address + 280, 'float[2]', rightScreenCenter)
+      mod.setValue(this._address + 280, rightScreenCenter, '*')
     }
 
   
     get scale () {
-      return valGetter(this._address + 288, 'float[2]')
+      return mod.getValue(this._address + 288, '*')
     }
     set scale (scale) {
-      valSetter(this._address + 288, 'float[2]', scale)
+      mod.setValue(this._address + 288, scale, '*')
     }
 
   
     get scaleIn () {
-      return valGetter(this._address + 296, 'float[2]')
+      return mod.getValue(this._address + 296, '*')
     }
     set scaleIn (scaleIn) {
-      valSetter(this._address + 296, 'float[2]', scaleIn)
+      mod.setValue(this._address + 296, scaleIn, '*')
     }
 
   }
 
   // File path list
   raylib.FilePathList = class FilePathList {
-    constructor(capacity = 0, count = 0, paths = 0) {
+    constructor(init = {}, _address) {
+      const {capacity = 0, count = 0, paths = 0} = init
       this._size = 12
-      this._address = mod._malloc(this._size)
+      if (_address) {
+        this._address = _address
+      } else {
+        this._address = mod._malloc(this._size)
+      }
       this.capacity = capacity
       this.count = count
       this.paths = paths
     }
     
     get capacity () {
-      return valGetter(this._address + 0, 'unsigned int')
+      return mod.HEAPU32[this._address + 0]
     }
     set capacity (capacity) {
-      valSetter(this._address + 0, 'unsigned int', capacity)
+      mod.HEAPU32[this._address + 0] = capacity
     }
 
   
     get count () {
-      return valGetter(this._address + 4, 'unsigned int')
+      return mod.HEAPU32[this._address + 4]
     }
     set count (count) {
-      valSetter(this._address + 4, 'unsigned int', count)
+      mod.HEAPU32[this._address + 4] = count
     }
 
   
     get paths () {
-      return valGetter(this._address + 8, 'char **')
+      return mod.getValue(this._address + 8, '*')
     }
     set paths (paths) {
-      valSetter(this._address + 8, 'char **', paths)
+      mod.setValue(this._address + 8, paths, '*')
     }
 
   }
 
   // Quaternion, 4 components (Vector4 alias)
   raylib.Quaternion = class Quaternion {
-    constructor(x = 0, y = 0, z = 0, w = 0) {
+    constructor(init = {}, _address) {
+      const {x = 0, y = 0, z = 0, w = 0} = init
       this._size = 16
-      this._address = mod._malloc(this._size)
+      if (_address) {
+        this._address = _address
+      } else {
+        this._address = mod._malloc(this._size)
+      }
       this.x = x
       this.y = y
       this.z = z
@@ -1713,43 +1879,48 @@ export async function setup(canvas, userInit, userUpdate) {
     }
     
     get x () {
-      return valGetter(this._address + 0, 'float')
+      return mod.getValue(this._address + 0, 'float')
     }
     set x (x) {
-      valSetter(this._address + 0, 'float', x)
+      mod.setValue(this._address + 0, x, 'float')
     }
 
   
     get y () {
-      return valGetter(this._address + 4, 'float')
+      return mod.getValue(this._address + 4, 'float')
     }
     set y (y) {
-      valSetter(this._address + 4, 'float', y)
+      mod.setValue(this._address + 4, y, 'float')
     }
 
   
     get z () {
-      return valGetter(this._address + 8, 'float')
+      return mod.getValue(this._address + 8, 'float')
     }
     set z (z) {
-      valSetter(this._address + 8, 'float', z)
+      mod.setValue(this._address + 8, z, 'float')
     }
 
   
     get w () {
-      return valGetter(this._address + 12, 'float')
+      return mod.getValue(this._address + 12, 'float')
     }
     set w (w) {
-      valSetter(this._address + 12, 'float', w)
+      mod.setValue(this._address + 12, w, 'float')
     }
 
   }
 
   // Texture2D, same as Texture
   raylib.Texture2D = class Texture2D {
-    constructor(id = 0, width = 0, height = 0, mipmaps = 0, format = 0) {
+    constructor(init = {}, _address) {
+      const {id = 0, width = 0, height = 0, mipmaps = 0, format = 0} = init
       this._size = 20
-      this._address = mod._malloc(this._size)
+      if (_address) {
+        this._address = _address
+      } else {
+        this._address = mod._malloc(this._size)
+      }
       this.id = id
       this.width = width
       this.height = height
@@ -1758,51 +1929,56 @@ export async function setup(canvas, userInit, userUpdate) {
     }
     
     get id () {
-      return valGetter(this._address + 0, 'unsigned int')
+      return mod.HEAPU32[this._address + 0]
     }
     set id (id) {
-      valSetter(this._address + 0, 'unsigned int', id)
+      mod.HEAPU32[this._address + 0] = id
     }
 
   
     get width () {
-      return valGetter(this._address + 4, 'int')
+      return mod.getValue(this._address + 4, 'i32')
     }
     set width (width) {
-      valSetter(this._address + 4, 'int', width)
+      mod.setValue(this._address + 4, width, 'i32')
     }
 
   
     get height () {
-      return valGetter(this._address + 8, 'int')
+      return mod.getValue(this._address + 8, 'i32')
     }
     set height (height) {
-      valSetter(this._address + 8, 'int', height)
+      mod.setValue(this._address + 8, height, 'i32')
     }
 
   
     get mipmaps () {
-      return valGetter(this._address + 12, 'int')
+      return mod.getValue(this._address + 12, 'i32')
     }
     set mipmaps (mipmaps) {
-      valSetter(this._address + 12, 'int', mipmaps)
+      mod.setValue(this._address + 12, mipmaps, 'i32')
     }
 
   
     get format () {
-      return valGetter(this._address + 16, 'int')
+      return mod.getValue(this._address + 16, 'i32')
     }
     set format (format) {
-      valSetter(this._address + 16, 'int', format)
+      mod.setValue(this._address + 16, format, 'i32')
     }
 
   }
 
   // TextureCubemap, same as Texture
   raylib.TextureCubemap = class TextureCubemap {
-    constructor(id = 0, width = 0, height = 0, mipmaps = 0, format = 0) {
+    constructor(init = {}, _address) {
+      const {id = 0, width = 0, height = 0, mipmaps = 0, format = 0} = init
       this._size = 20
-      this._address = mod._malloc(this._size)
+      if (_address) {
+        this._address = _address
+      } else {
+        this._address = mod._malloc(this._size)
+      }
       this.id = id
       this.width = width
       this.height = height
@@ -1811,86 +1987,96 @@ export async function setup(canvas, userInit, userUpdate) {
     }
     
     get id () {
-      return valGetter(this._address + 0, 'unsigned int')
+      return mod.HEAPU32[this._address + 0]
     }
     set id (id) {
-      valSetter(this._address + 0, 'unsigned int', id)
+      mod.HEAPU32[this._address + 0] = id
     }
 
   
     get width () {
-      return valGetter(this._address + 4, 'int')
+      return mod.getValue(this._address + 4, 'i32')
     }
     set width (width) {
-      valSetter(this._address + 4, 'int', width)
+      mod.setValue(this._address + 4, width, 'i32')
     }
 
   
     get height () {
-      return valGetter(this._address + 8, 'int')
+      return mod.getValue(this._address + 8, 'i32')
     }
     set height (height) {
-      valSetter(this._address + 8, 'int', height)
+      mod.setValue(this._address + 8, height, 'i32')
     }
 
   
     get mipmaps () {
-      return valGetter(this._address + 12, 'int')
+      return mod.getValue(this._address + 12, 'i32')
     }
     set mipmaps (mipmaps) {
-      valSetter(this._address + 12, 'int', mipmaps)
+      mod.setValue(this._address + 12, mipmaps, 'i32')
     }
 
   
     get format () {
-      return valGetter(this._address + 16, 'int')
+      return mod.getValue(this._address + 16, 'i32')
     }
     set format (format) {
-      valSetter(this._address + 16, 'int', format)
+      mod.setValue(this._address + 16, format, 'i32')
     }
 
   }
 
   // RenderTexture2D, same as RenderTexture
   raylib.RenderTexture2D = class RenderTexture2D {
-    constructor(id = 0, texture = new Texture(), depth = new Texture()) {
+    constructor(init = {}, _address) {
+      const {id = 0, texture = new Texture(), depth = new Texture()} = init
       this._size = 44
-      this._address = mod._malloc(this._size)
+      if (_address) {
+        this._address = _address
+      } else {
+        this._address = mod._malloc(this._size)
+      }
       this.id = id
       this.texture = texture
       this.depth = depth
     }
     
     get id () {
-      return valGetter(this._address + 0, 'unsigned int')
+      return mod.HEAPU32[this._address + 0]
     }
     set id (id) {
-      valSetter(this._address + 0, 'unsigned int', id)
+      mod.HEAPU32[this._address + 0] = id
     }
 
   
     get texture () {
-      return valGetter(this._address + 4, 'Texture')
+      return mod.getValue(this._address + 4, '*')
     }
     set texture (texture) {
-      valSetter(this._address + 4, 'Texture', texture)
+      mod.setValue(this._address + 4, texture, '*')
     }
 
   
     get depth () {
-      return valGetter(this._address + 24, 'Texture')
+      return mod.getValue(this._address + 24, '*')
     }
     set depth (depth) {
-      valSetter(this._address + 24, 'Texture', depth)
+      mod.setValue(this._address + 24, depth, '*')
     }
 
   }
 
   // Camera type fallback, defaults to Camera3D
   raylib.Camera = class Camera {
-    constructor(position = new Vector3(), target = new Vector3(), up = new Vector3(), fovy = 0, projection = 0) {
+    constructor(init = {}, _address) {
+      const {position = new Vector3(), target = new Vector3(), up = new Vector3(), fovy = 0, projection = 0} = init
       this._size = 44
-      this._address = mod._malloc(this._size)
+      if (_address) {
+        this._address = _address
+      } else {
+        this._address = mod._malloc(this._size)
+      }
       this.position = position
       this.target = target
       this.up = up
@@ -1899,42 +2085,42 @@ export async function setup(canvas, userInit, userUpdate) {
     }
     
     get position () {
-      return valGetter(this._address + 0, 'Vector3')
+      return mod.getValue(this._address + 0, '*')
     }
     set position (position) {
-      valSetter(this._address + 0, 'Vector3', position)
+      mod.setValue(this._address + 0, position, '*')
     }
 
   
     get target () {
-      return valGetter(this._address + 12, 'Vector3')
+      return mod.getValue(this._address + 12, '*')
     }
     set target (target) {
-      valSetter(this._address + 12, 'Vector3', target)
+      mod.setValue(this._address + 12, target, '*')
     }
 
   
     get up () {
-      return valGetter(this._address + 24, 'Vector3')
+      return mod.getValue(this._address + 24, '*')
     }
     set up (up) {
-      valSetter(this._address + 24, 'Vector3', up)
+      mod.setValue(this._address + 24, up, '*')
     }
 
   
     get fovy () {
-      return valGetter(this._address + 36, 'float')
+      return mod.getValue(this._address + 36, 'float')
     }
     set fovy (fovy) {
-      valSetter(this._address + 36, 'float', fovy)
+      mod.setValue(this._address + 36, fovy, 'float')
     }
 
   
     get projection () {
-      return valGetter(this._address + 40, 'int')
+      return mod.getValue(this._address + 40, 'i32')
     }
     set projection (projection) {
-      valSetter(this._address + 40, 'int', projection)
+      mod.setValue(this._address + 40, projection, 'i32')
     }
 
   }
@@ -2301,92 +2487,32 @@ export async function setup(canvas, userInit, userUpdate) {
   const mod = await Module({canvas})
   raylib.module = mod
 
-  raylib.LIGHTGRAY = new raylib.Color(200, 200, 200, 255) // Light Gray
-  raylib.GRAY = new raylib.Color(130, 130, 130, 255) // Gray
-  raylib.DARKGRAY = new raylib.Color(80, 80, 80, 255) // Dark Gray
-  raylib.YELLOW = new raylib.Color(253, 249, 0, 255) // Yellow
-  raylib.GOLD = new raylib.Color(255, 203, 0, 255) // Gold
-  raylib.ORANGE = new raylib.Color(255, 161, 0, 255) // Orange
-  raylib.PINK = new raylib.Color(255, 109, 194, 255) // Pink
-  raylib.RED = new raylib.Color(230, 41, 55, 255) // Red
-  raylib.MAROON = new raylib.Color(190, 33, 55, 255) // Maroon
-  raylib.GREEN = new raylib.Color(0, 228, 48, 255) // Green
-  raylib.LIME = new raylib.Color(0, 158, 47, 255) // Lime
-  raylib.DARKGREEN = new raylib.Color(0, 117, 44, 255) // Dark Green
-  raylib.SKYBLUE = new raylib.Color(102, 191, 255, 255) // Sky Blue
-  raylib.BLUE = new raylib.Color(0, 121, 241, 255) // Blue
-  raylib.DARKBLUE = new raylib.Color(0, 82, 172, 255) // Dark Blue
-  raylib.PURPLE = new raylib.Color(200, 122, 255, 255) // Purple
-  raylib.VIOLET = new raylib.Color(135, 60, 190, 255) // Violet
-  raylib.DARKPURPLE = new raylib.Color(112, 31, 126, 255) // Dark Purple
-  raylib.BEIGE = new raylib.Color(211, 176, 131, 255) // Beige
-  raylib.BROWN = new raylib.Color(127, 106, 79, 255) // Brown
-  raylib.DARKBROWN = new raylib.Color(76, 63, 47, 255) // Dark Brown
-  raylib.WHITE = new raylib.Color(255, 255, 255, 255) // White
-  raylib.BLACK = new raylib.Color(0, 0, 0, 255) // Black
-  raylib.BLANK = new raylib.Color(0, 0, 0, 0) // Blank (Transparent)
-  raylib.MAGENTA = new raylib.Color(255, 0, 255, 255) // Magenta
-  raylib.RAYWHITE = new raylib.Color(245, 245, 245, 255) // My own White (raylib logo)  /* global raylib */
-  
-  raylib.WasmArray = class WasmArray {
-    constructor(size, typeSize, typeSetter, typeGetter, vals = []) {
-      this._typeSize = typeSize
-      this._arraySize = size
-      this._typeSetter = typeSetter
-      this._typeGetter = typeGetter
-      this._size = size * typeSize
-      this._address = mod._malloc(this._size)
-      for (const i in vals) {
-        this[i] = vals[i]
-      }
-    }
-  
-    get (i) {
-      if (i < 0 || i > (this._arraySize - 1)) {
-        throw new Error(`${i} is out of bounds for [${this._arraySize}]`)
-      }
-      return this._typeGetter(this._address + (i * this._typeSize))
-    }
-  
-    set (i, v) {
-      if (i < 0 || i > (this._arraySize - 1)) {
-        throw new Error(`${i} is out of bounds for [${this._arraySize}]`)
-      }
-      return this._typeSetter(this._address + (i * this._typeSize), v)
-    }
-  }
-  
-  raylib.ArrayFloat = class ArrayFloat extends raylib.WasmArray {
-    constructor(vals) {
-      if (!vals || vals.length === 0) {
-        throw new Error('Initial value is required.')
-      }
-      super(vals.length, 32, f32Setter, f32Getter, vals)
-    }
-  }
-  
-  // emscripten type-converters are a bit incomplete. This makes values easier to use
-  // TODO: these were added by hand, 1 at atime, should be replaced with 1-off converter utils like f32Setter/f32Getter
-  function valGetter(address, type) {
-    switch(type) {
-      case 'unsigned char': return mod.HEAPU8[address]
-      case 'int': return mod.HEAP32[address]
-      case 'float': return mod.getValue(address, 'float')
-      default:
-        console.log('get: Unkown type', type)
-        return address
-    }
-  }
-  
-  function valSetter(address, type, value) {
-    switch(type) {
-      case 'unsigned char': return mod.setValue(address, value, 'i8')
-      case 'float': return mod.setValue(address, value, 'float')
-      default:
-        console.log('set: Unkown type', type)
-        return address
-    }
-  }
+  raylib.LIGHTGRAY = new raylib.Color({r: 200, g: 200, b: 200, a: 255}) // Light Gray
+  raylib.GRAY = new raylib.Color({r: 130, g: 130, b: 130, a: 255}) // Gray
+  raylib.DARKGRAY = new raylib.Color({r: 80, g: 80, b: 80, a: 255}) // Dark Gray
+  raylib.YELLOW = new raylib.Color({r: 253, g: 249, b: 0, a: 255}) // Yellow
+  raylib.GOLD = new raylib.Color({r: 255, g: 203, b: 0, a: 255}) // Gold
+  raylib.ORANGE = new raylib.Color({r: 255, g: 161, b: 0, a: 255}) // Orange
+  raylib.PINK = new raylib.Color({r: 255, g: 109, b: 194, a: 255}) // Pink
+  raylib.RED = new raylib.Color({r: 230, g: 41, b: 55, a: 255}) // Red
+  raylib.MAROON = new raylib.Color({r: 190, g: 33, b: 55, a: 255}) // Maroon
+  raylib.GREEN = new raylib.Color({r: 0, g: 228, b: 48, a: 255}) // Green
+  raylib.LIME = new raylib.Color({r: 0, g: 158, b: 47, a: 255}) // Lime
+  raylib.DARKGREEN = new raylib.Color({r: 0, g: 117, b: 44, a: 255}) // Dark Green
+  raylib.SKYBLUE = new raylib.Color({r: 102, g: 191, b: 255, a: 255}) // Sky Blue
+  raylib.BLUE = new raylib.Color({r: 0, g: 121, b: 241, a: 255}) // Blue
+  raylib.DARKBLUE = new raylib.Color({r: 0, g: 82, b: 172, a: 255}) // Dark Blue
+  raylib.PURPLE = new raylib.Color({r: 200, g: 122, b: 255, a: 255}) // Purple
+  raylib.VIOLET = new raylib.Color({r: 135, g: 60, b: 190, a: 255}) // Violet
+  raylib.DARKPURPLE = new raylib.Color({r: 112, g: 31, b: 126, a: 255}) // Dark Purple
+  raylib.BEIGE = new raylib.Color({r: 211, g: 176, b: 131, a: 255}) // Beige
+  raylib.BROWN = new raylib.Color({r: 127, g: 106, b: 79, a: 255}) // Brown
+  raylib.DARKBROWN = new raylib.Color({r: 76, g: 63, b: 47, a: 255}) // Dark Brown
+  raylib.WHITE = new raylib.Color({r: 255, g: 255, b: 255, a: 255}) // White
+  raylib.BLACK = new raylib.Color({r: 0, g: 0, b: 0, a: 255}) // Black
+  raylib.BLANK = new raylib.Color({r: 0, g: 0, b: 0, a: 0}) // Blank (Transparent)
+  raylib.MAGENTA = new raylib.Color({r: 255, g: 0, b: 255, a: 255}) // Magenta
+  raylib.RAYWHITE = new raylib.Color({r: 245, g: 245, b: 245, a: 255}) // My own White (raylib logo)  /* global raylib, mod */
   
   // insert remote file in WASM filesystem
   raylib.addFile = async filename => {
@@ -2394,39 +2520,32 @@ export async function setup(canvas, userInit, userUpdate) {
   }
   
   // TODO: just manually building a few functions here, until I get better codegen setup
-  raylib.BeginDrawing = mod._BeginDrawing
-  raylib.EndDrawing = mod._EndDrawing
-  raylib.DrawFPS = mod._DrawFPS
-  raylib.GetRandomValue = mod._GetRandomValue
-  raylib.GetScreenWidth = mod._GetScreenWidth
-  raylib.GetScreenHeight = mod._GetScreenHeight
-  raylib.IsMouseButtonDown = () => !!mod._IsMouseButtonDown()
-  raylib.ClearBackground = color => mod._ClearBackground(color._address)
-    raylib.GetMousePosition = () => {
-    const _ret = new raylib.Vector2(0, 0)
-    mod._GetMousePosition(_ret._address)
-    return _ret
-  }
-  raylib.DrawTexture = (texture, x, y, color) => mod._DrawTexture(texture._address, x, y, color._address)
-  raylib.DrawRectangle = (x, y, width, height, color) => mod._DrawRectangle(x, y, width, height, color._address)
-  raylib.DrawText = (text, x, y, fontSize, color) => {
-    let ptr_test = mod.allocateUTF8(text)
-    mod._DrawText(ptr_test, x, y, fontSize, color._address)
-    mod._free(ptr_test)
-  }
+  // think of this as the target we are trying to generate
+  raylib.InitWindow = mod.cwrap('InitWindow', 'void', ['number', 'number', 'string'])
+  raylib.BeginDrawing = mod.cwrap('BeginDrawing', 'void', [])
+  raylib.EndDrawing = mod.cwrap('EndDrawing', 'void', [])
+  raylib.DrawFPS = mod.cwrap('DrawFPS', 'void', [])
+  raylib.GetRandomValue = mod.cwrap('GetRandomValue', 'number', ['number', 'number'])
+  raylib.GetScreenWidth = mod.cwrap('GetScreenWidth', 'number', [])
+  raylib.GetScreenHeight = mod.cwrap('GetScreenHeight', 'number', [])
+  raylib.IsMouseButtonDown = mod.cwrap('IsMouseButtonDown', 'boolean', ['number'])
   
-  // NOTE: these ones actually modify how it works (not just convert/raise/lower types)
-  
-  // title doesn't really do anyhting, so make it optional
-  raylib.InitWindow = (height, width) => mod._InitWindow(height, width, "")
+  // these have struct params/return, so need wrap (to get struct._address)
+  raylib.ClearBackground = color => mod.ccall('ClearBackground', 'void', ['pointer'], [color._address])
+  raylib.DrawText = (text, x, y, fontSize, color) => mod.ccall('DrawText', 'void', ['string', 'number', 'number', 'number', 'pointer'], [text, x, y, fontSize, color._address])
+  raylib.DrawTexture = (texture, x, y, color) => mod.ccall('DrawTexture', 'void', ['pointer', 'number', 'number', 'pointer'], [texture._address, x, y, color._address])
+  raylib.DrawRectangle = (x, y, width, height, color) => mod.ccall('DrawRectangle', 'void', ['number', 'number', 'number', 'number', 'pointer'], [x, y, width, height, color._address])
+  raylib.GetMousePosition = () => {
+    const ret = new raylib.Vector2()
+    mod.ccall('GetMousePosition', 'void', ['pointer'], [ret._address])
+    return ret
+  }
   
   // LoadTexture, but (async) insert the file into fake FS first
   raylib.LoadTexture = async filename => {
     await raylib.addFile(filename)
-    let ptr_filename = mod.allocateUTF8(filename)
     const texture = new raylib.Texture()
-    mod._LoadTexture(texture._address, ptr_filename)
-    mod._free(ptr_filename)
+    mod.ccall('LoadTexture', 'void', ['pointer', 'string'], [texture._address, filename])
     return texture
   }
   

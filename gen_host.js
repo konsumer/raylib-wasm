@@ -3,16 +3,19 @@
 
 import { readFile, writeFile } from 'fs/promises'
 
-const { defines, structs, aliases, enums, callbacks, functions } = await fetch('https://raw.githubusercontent.com/raysan5/raylib/master/parser/output/raylib_api.json').then(r => r.json())
+let { defines, structs, aliases, enums, callbacks, functions } = await fetch('https://raw.githubusercontent.com/raysan5/raylib/master/parser/output/raylib_api.json').then(r => r.json())
 
-// add type-aliases
+// add type-aliases & a keyed list for lookup
+const mappedStructs = structs.reduce((a, c) => ({...a, [c.name]: c}), {})
 for (const { type, name, description } of aliases) {
-  structs.push({
-    ...structs.find(s => s.name === type),
+  mappedStructs[name] = {
+   ...mappedStructs[type],
     description,
     name
-  })
+  }
 }
+structs = Object.values(mappedStructs)
+
 
 // generate a default-value for a type
 function defaultValue(type) {
@@ -29,6 +32,52 @@ function defaultValue(type) {
   
   return 0
 }
+
+
+// emscripten type-converters are a bit incomplete. This makes values easier to use with c-types
+// TODO: check unsigned is working right
+const irTypes = ['i8', 'i16', 'i32', 'i64', 'float', 'double', '*']
+const mapType = type => {
+  if (type.includes('*')) {
+    return '*'
+  }
+
+  if (type === 'int') {
+    return 'i32'
+  }
+
+  if (!irTypes.includes(type)) {
+    console.log(`Unkown type: ${type}`)
+    return '*'
+  }
+  return type
+}
+const valGetter = (name, type) => {
+  if (type === 'u8' || type === 'unsigned char') {
+    return `mod.HEAPU8[${name}]`
+  }
+  if (type === 'u32' || type === 'unsigned int') {
+    return `mod.HEAPU32[${name}]`
+  }
+  if (type === 'string') {
+    return `mod.UTF8ToString(${name})`
+  }
+  return `mod.getValue(${name}, '${mapType(type)}')`
+}
+const valSetter = (name, valueName, type) => {
+  if (type === 'u8' || type === 'unsigned char') {
+    return `mod.HEAPU8[${name}] = ${valueName}`
+  }
+  if (type === 'u32' || type === 'unsigned int') {
+    return `mod.HEAPU32[${name}] = ${valueName}`
+  }
+  if (type === 'string') {
+    return `mod.stringToUTF8(${name}, ${valueName})`
+  }
+  return `mod.setValue(${name}, ${valueName}, '${mapType(type)}')`
+}
+
+
 
 // indent a string
 const indentString = (str, count=2, indent = ' ') => str.replace(/^/gm, indent.repeat(count))
@@ -76,10 +125,10 @@ function outputGetters (struct) {
 
     const out = `
     get ${field.name} () {
-      return valGetter(this._address + ${offsetSize}, '${field.type}')
+      return ${valGetter(`this._address + ${offsetSize}`, field.type)}
     }
     set ${field.name} (${field.name}) {
-      valSetter(this._address + ${offsetSize}, '${field.type}', ${field.name})
+      ${valSetter(`this._address + ${offsetSize}`, field.name, field.type)}
     }
 `
     offsetSize += size
@@ -94,14 +143,20 @@ import Module from './raylib_wasm.js'
 // run this function before calling anything
 export async function setup(canvas, userInit, userUpdate) {
   const raylib = {}
+
 `
 for (const s of structs) {
   const size = s.fields.reduce((a, c) => a + getSize(c.type), 0)
   code += `  // ${s.description}
   raylib.${s.name} = class ${s.name} {
-    constructor(${s.fields.map(f => `${f.name} = ${defaultValue(f.type)}`).join(', ')}) {
+    constructor(init = {}, _address) {
+      const {${s.fields.map(f => `${f.name} = ${defaultValue(f.type)}`).join(', ')}} = init
       this._size = ${size}
-      this._address = mod._malloc(this._size)
+      if (_address) {
+        this._address = _address
+      } else {
+        this._address = mod._malloc(this._size)
+      }
       ${s.fields.map(f => `this.${f.name} = ${f.name}`).join('\n      ')}
     }
     ${outputGetters(s)}
@@ -123,7 +178,7 @@ code += `
 `
 
 for (const c of defines.filter(c => c.type === 'COLOR')) {
-  code += `\n  raylib.${c.name} = ${c.value.replace(/CLITERAL\(Color\){ ([0-9]+), ([0-9]+), ([0-9]+), ([0-9]+) }/, 'new raylib.Color($1, $2, $3, $4)')} // ${c.description}`
+  code += `\n  raylib.${c.name} = ${c.value.replace(/CLITERAL\(Color\){ ([0-9]+), ([0-9]+), ([0-9]+), ([0-9]+) }/, 'new raylib.Color({r: $1, g: $2, b: $3, a: $4})')} // ${c.description}`
 }
 
 code += indentString(await readFile('handmade_wrappers.js', 'utf8')) + `
