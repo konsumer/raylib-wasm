@@ -1,12 +1,10 @@
 <html>
-  <head>
-    <title>Raylib Web</title>
-    <link rel="stylesheet" href="rayweb.css" />
-  </head>
-  <body>
-    <canvas id="canvas"></canvas>
-    <!-- <textarea readonly id="output"></textarea> -->
-    <div id="status"></div>
+<head>
+<title>Raylib Web</title>
+<link rel="stylesheet" href="rayweb.css" />
+</head>
+<body>
+<canvas id="canvas"></canvas>
 <script type=module>
 import runGame from './raylib.js'
 
@@ -21,7 +19,11 @@ const MAX_BATCH_ELEMENTS = 8192
 
 const InitGame = async (raylib) => {
   raylib.InitWindow(640, 480)
-  texBunny = await raylib.LoadTexture('wabbit_alpha.png')
+  
+  // TODO: Eventually this will be built into wrapper to pre-load files, but for now we load it before loading it in raylib
+  await raylib.addFile('wabbit_alpha.png')
+  
+  texBunny = raylib.LoadTexture('wabbit_alpha.png')
 }
 
 const UpdateGame = (raylib, ts) => {
@@ -70,6 +72,7 @@ const UpdateGame = (raylib, ts) => {
   raylib.EndDrawing()
 }
 
+// this is how to start your engine
 runGame(document.getElementById('canvas'), InitGame, UpdateGame)
 
 // this keeps a nice aspect for the canvas
