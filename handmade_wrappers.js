@@ -1,7 +1,44 @@
 /* global raylib */
 
+raylib.WasmArray = class WasmArray {
+  constructor(size, typeSize, typeSetter, typeGetter, vals = []) {
+    this._typeSize = typeSize
+    this._arraySize = size
+    this._typeSetter = typeSetter
+    this._typeGetter = typeGetter
+    this._size = size * typeSize
+    this._address = mod._malloc(this._size)
+    for (const i in vals) {
+      this[i] = vals[i]
+    }
+  }
+
+  get (i) {
+    if (i < 0 || i > (this._arraySize - 1)) {
+      throw new Error(`${i} is out of bounds for [${this._arraySize}]`)
+    }
+    return this._typeGetter(this._address + (i * this._typeSize))
+  }
+
+  set (i, v) {
+    if (i < 0 || i > (this._arraySize - 1)) {
+      throw new Error(`${i} is out of bounds for [${this._arraySize}]`)
+    }
+    return this._typeSetter(this._address + (i * this._typeSize), v)
+  }
+}
+
+raylib.ArrayFloat = class ArrayFloat extends raylib.WasmArray {
+  constructor(vals) {
+    if (!vals || vals.length === 0) {
+      throw new Error('Initial value is required.')
+    }
+    super(vals.length, 32, f32Setter, f32Getter, vals)
+  }
+}
+
 // emscripten type-converters are a bit incomplete. This makes values easier to use
-// TODO: these were added by hand, 1 at atime
+// TODO: these were added by hand, 1 at atime, should be replaced with 1-off converter utils like f32Setter/f32Getter
 function valGetter(address, type) {
   switch(type) {
     case 'unsigned char': return mod.HEAPU8[address]

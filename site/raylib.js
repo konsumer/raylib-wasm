@@ -1,4 +1,5 @@
 
+// TODO: inline this?
 import Module from './raylib_wasm.js'
 
 // run this function before calling anything
@@ -6,7 +7,7 @@ export async function setup(canvas, userInit, userUpdate) {
   const raylib = {}
   // Vector2, 2 components
   raylib.Vector2 = class Vector2 {
-    constructor(x, y) {
+    constructor(x = 0, y = 0) {
       this._size = 8
       this._address = mod._malloc(this._size)
       this.x = x
@@ -32,7 +33,7 @@ export async function setup(canvas, userInit, userUpdate) {
 
   // Vector3, 3 components
   raylib.Vector3 = class Vector3 {
-    constructor(x, y, z) {
+    constructor(x = 0, y = 0, z = 0) {
       this._size = 12
       this._address = mod._malloc(this._size)
       this.x = x
@@ -67,7 +68,7 @@ export async function setup(canvas, userInit, userUpdate) {
 
   // Vector4, 4 components
   raylib.Vector4 = class Vector4 {
-    constructor(x, y, z, w) {
+    constructor(x = 0, y = 0, z = 0, w = 0) {
       this._size = 16
       this._address = mod._malloc(this._size)
       this.x = x
@@ -111,7 +112,7 @@ export async function setup(canvas, userInit, userUpdate) {
 
   // Matrix, 4x4 components, column major, OpenGL style, right-handed
   raylib.Matrix = class Matrix {
-    constructor(m0, m4, m8, m12, m1, m5, m9, m13, m2, m6, m10, m14, m3, m7, m11, m15) {
+    constructor(m0 = 0, m4 = 0, m8 = 0, m12 = 0, m1 = 0, m5 = 0, m9 = 0, m13 = 0, m2 = 0, m6 = 0, m10 = 0, m14 = 0, m3 = 0, m7 = 0, m11 = 0, m15 = 0) {
       this._size = 64
       this._address = mod._malloc(this._size)
       this.m0 = m0
@@ -263,7 +264,7 @@ export async function setup(canvas, userInit, userUpdate) {
 
   // Color, 4 components, R8G8B8A8 (32bit)
   raylib.Color = class Color {
-    constructor(r, g, b, a) {
+    constructor(r = 0, g = 0, b = 0, a = 0) {
       this._size = 4
       this._address = mod._malloc(this._size)
       this.r = r
@@ -307,7 +308,7 @@ export async function setup(canvas, userInit, userUpdate) {
 
   // Rectangle, 4 components
   raylib.Rectangle = class Rectangle {
-    constructor(x, y, width, height) {
+    constructor(x = 0, y = 0, width = 0, height = 0) {
       this._size = 16
       this._address = mod._malloc(this._size)
       this.x = x
@@ -351,7 +352,7 @@ export async function setup(canvas, userInit, userUpdate) {
 
   // Image, pixel data stored in CPU memory (RAM)
   raylib.Image = class Image {
-    constructor(data, width, height, mipmaps, format) {
+    constructor(data = 0, width = 0, height = 0, mipmaps = 0, format = 0) {
       this._size = 20
       this._address = mod._malloc(this._size)
       this.data = data
@@ -404,7 +405,7 @@ export async function setup(canvas, userInit, userUpdate) {
 
   // Texture, tex data stored in GPU memory (VRAM)
   raylib.Texture = class Texture {
-    constructor(id, width, height, mipmaps, format) {
+    constructor(id = 0, width = 0, height = 0, mipmaps = 0, format = 0) {
       this._size = 20
       this._address = mod._malloc(this._size)
       this.id = id
@@ -457,7 +458,7 @@ export async function setup(canvas, userInit, userUpdate) {
 
   // RenderTexture, fbo for texture rendering
   raylib.RenderTexture = class RenderTexture {
-    constructor(id, texture, depth) {
+    constructor(id = 0, texture = new Texture(), depth = new Texture()) {
       this._size = 44
       this._address = mod._malloc(this._size)
       this.id = id
@@ -492,7 +493,7 @@ export async function setup(canvas, userInit, userUpdate) {
 
   // NPatchInfo, n-patch layout info
   raylib.NPatchInfo = class NPatchInfo {
-    constructor(source, left, top, right, bottom, layout) {
+    constructor(source = new Rectangle(), left = 0, top = 0, right = 0, bottom = 0, layout = 0) {
       this._size = 36
       this._address = mod._malloc(this._size)
       this.source = source
@@ -554,7 +555,7 @@ export async function setup(canvas, userInit, userUpdate) {
 
   // GlyphInfo, font characters glyphs info
   raylib.GlyphInfo = class GlyphInfo {
-    constructor(value, offsetX, offsetY, advanceX, image) {
+    constructor(value = 0, offsetX = 0, offsetY = 0, advanceX = 0, image = new Image()) {
       this._size = 36
       this._address = mod._malloc(this._size)
       this.value = value
@@ -607,7 +608,7 @@ export async function setup(canvas, userInit, userUpdate) {
 
   // Font, font texture and GlyphInfo array data
   raylib.Font = class Font {
-    constructor(baseSize, glyphCount, glyphPadding, texture, recs, glyphs) {
+    constructor(baseSize = 0, glyphCount = 0, glyphPadding = 0, texture = new Texture2D(), recs = new Rectangle(), glyphs = new GlyphInfo()) {
       this._size = 40
       this._address = mod._malloc(this._size)
       this.baseSize = baseSize
@@ -669,7 +670,7 @@ export async function setup(canvas, userInit, userUpdate) {
 
   // Camera, defines position/orientation in 3d space
   raylib.Camera3D = class Camera3D {
-    constructor(position, target, up, fovy, projection) {
+    constructor(position = new Vector3(), target = new Vector3(), up = new Vector3(), fovy = 0, projection = 0) {
       this._size = 44
       this._address = mod._malloc(this._size)
       this.position = position
@@ -722,7 +723,7 @@ export async function setup(canvas, userInit, userUpdate) {
 
   // Camera2D, defines position/orientation in 2d space
   raylib.Camera2D = class Camera2D {
-    constructor(offset, target, rotation, zoom) {
+    constructor(offset = new Vector2(), target = new Vector2(), rotation = 0, zoom = 0) {
       this._size = 24
       this._address = mod._malloc(this._size)
       this.offset = offset
@@ -766,7 +767,7 @@ export async function setup(canvas, userInit, userUpdate) {
 
   // Mesh, vertex data and vao/vbo
   raylib.Mesh = class Mesh {
-    constructor(vertexCount, triangleCount, vertices, texcoords, texcoords2, normals, tangents, colors, indices, animVertices, animNormals, boneIds, boneWeights, vaoId, vboId) {
+    constructor(vertexCount = 0, triangleCount = 0, vertices = 0, texcoords = 0, texcoords2 = 0, normals = 0, tangents = 0, colors = 0, indices = 0, animVertices = 0, animNormals = 0, boneIds = 0, boneWeights = 0, vaoId = 0, vboId = 0) {
       this._size = 60
       this._address = mod._malloc(this._size)
       this.vertexCount = vertexCount
@@ -909,7 +910,7 @@ export async function setup(canvas, userInit, userUpdate) {
 
   // Shader
   raylib.Shader = class Shader {
-    constructor(id, locs) {
+    constructor(id = 0, locs = 0) {
       this._size = 8
       this._address = mod._malloc(this._size)
       this.id = id
@@ -935,7 +936,7 @@ export async function setup(canvas, userInit, userUpdate) {
 
   // MaterialMap
   raylib.MaterialMap = class MaterialMap {
-    constructor(texture, color, value) {
+    constructor(texture = new Texture2D(), color = new Color(), value = 0) {
       this._size = 28
       this._address = mod._malloc(this._size)
       this.texture = texture
@@ -970,7 +971,7 @@ export async function setup(canvas, userInit, userUpdate) {
 
   // Material, includes shader and maps
   raylib.Material = class Material {
-    constructor(shader, maps, params) {
+    constructor(shader = new Shader(), maps = new MaterialMap(), params = [0, 0, 0, 0]) {
       this._size = 28
       this._address = mod._malloc(this._size)
       this.shader = shader
@@ -1005,7 +1006,7 @@ export async function setup(canvas, userInit, userUpdate) {
 
   // Transform, vertex transformation data
   raylib.Transform = class Transform {
-    constructor(translation, rotation, scale) {
+    constructor(translation = new Vector3(), rotation = new Quaternion(), scale = new Vector3()) {
       this._size = 40
       this._address = mod._malloc(this._size)
       this.translation = translation
@@ -1040,7 +1041,7 @@ export async function setup(canvas, userInit, userUpdate) {
 
   // Bone, skeletal animation bone
   raylib.BoneInfo = class BoneInfo {
-    constructor(name, parent) {
+    constructor(name = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], parent = 0) {
       this._size = 36
       this._address = mod._malloc(this._size)
       this.name = name
@@ -1066,7 +1067,7 @@ export async function setup(canvas, userInit, userUpdate) {
 
   // Model, meshes, materials and animation data
   raylib.Model = class Model {
-    constructor(transform, meshCount, materialCount, meshes, materials, meshMaterial, boneCount, bones, bindPose) {
+    constructor(transform = new Matrix(), meshCount = 0, materialCount = 0, meshes = new Mesh(), materials = new Material(), meshMaterial = 0, boneCount = 0, bones = new BoneInfo(), bindPose = new Transform()) {
       this._size = 96
       this._address = mod._malloc(this._size)
       this.transform = transform
@@ -1155,7 +1156,7 @@ export async function setup(canvas, userInit, userUpdate) {
 
   // ModelAnimation
   raylib.ModelAnimation = class ModelAnimation {
-    constructor(boneCount, frameCount, bones, framePoses, name) {
+    constructor(boneCount = 0, frameCount = 0, bones = new BoneInfo(), framePoses = new Transform(), name = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]) {
       this._size = 48
       this._address = mod._malloc(this._size)
       this.boneCount = boneCount
@@ -1208,7 +1209,7 @@ export async function setup(canvas, userInit, userUpdate) {
 
   // Ray, ray for raycasting
   raylib.Ray = class Ray {
-    constructor(position, direction) {
+    constructor(position = new Vector3(), direction = new Vector3()) {
       this._size = 24
       this._address = mod._malloc(this._size)
       this.position = position
@@ -1234,7 +1235,7 @@ export async function setup(canvas, userInit, userUpdate) {
 
   // RayCollision, ray hit information
   raylib.RayCollision = class RayCollision {
-    constructor(hit, distance, point, normal) {
+    constructor(hit = 0, distance = 0, point = new Vector3(), normal = new Vector3()) {
       this._size = 29
       this._address = mod._malloc(this._size)
       this.hit = hit
@@ -1278,7 +1279,7 @@ export async function setup(canvas, userInit, userUpdate) {
 
   // BoundingBox
   raylib.BoundingBox = class BoundingBox {
-    constructor(min, max) {
+    constructor(min = new Vector3(), max = new Vector3()) {
       this._size = 24
       this._address = mod._malloc(this._size)
       this.min = min
@@ -1304,7 +1305,7 @@ export async function setup(canvas, userInit, userUpdate) {
 
   // Wave, audio wave data
   raylib.Wave = class Wave {
-    constructor(frameCount, sampleRate, sampleSize, channels, data) {
+    constructor(frameCount = 0, sampleRate = 0, sampleSize = 0, channels = 0, data = 0) {
       this._size = 20
       this._address = mod._malloc(this._size)
       this.frameCount = frameCount
@@ -1357,7 +1358,7 @@ export async function setup(canvas, userInit, userUpdate) {
 
   // AudioStream, custom audio stream
   raylib.AudioStream = class AudioStream {
-    constructor(buffer, processor, sampleRate, sampleSize, channels) {
+    constructor(buffer = 0, processor = 0, sampleRate = 0, sampleSize = 0, channels = 0) {
       this._size = 20
       this._address = mod._malloc(this._size)
       this.buffer = buffer
@@ -1410,7 +1411,7 @@ export async function setup(canvas, userInit, userUpdate) {
 
   // Sound
   raylib.Sound = class Sound {
-    constructor(stream, frameCount) {
+    constructor(stream = new AudioStream(), frameCount = 0) {
       this._size = 24
       this._address = mod._malloc(this._size)
       this.stream = stream
@@ -1436,7 +1437,7 @@ export async function setup(canvas, userInit, userUpdate) {
 
   // Music, audio stream, anything longer than ~10 seconds should be streamed
   raylib.Music = class Music {
-    constructor(stream, frameCount, looping, ctxType, ctxData) {
+    constructor(stream = new AudioStream(), frameCount = 0, looping = 0, ctxType = 0, ctxData = 0) {
       this._size = 33
       this._address = mod._malloc(this._size)
       this.stream = stream
@@ -1489,7 +1490,7 @@ export async function setup(canvas, userInit, userUpdate) {
 
   // VrDeviceInfo, Head-Mounted-Display device parameters
   raylib.VrDeviceInfo = class VrDeviceInfo {
-    constructor(hResolution, vResolution, hScreenSize, vScreenSize, vScreenCenter, eyeToScreenDistance, lensSeparationDistance, interpupillaryDistance, lensDistortionValues, chromaAbCorrection) {
+    constructor(hResolution = 0, vResolution = 0, hScreenSize = 0, vScreenSize = 0, vScreenCenter = 0, eyeToScreenDistance = 0, lensSeparationDistance = 0, interpupillaryDistance = 0, lensDistortionValues = [0, 0, 0, 0], chromaAbCorrection = [0, 0, 0, 0]) {
       this._size = 64
       this._address = mod._malloc(this._size)
       this.hResolution = hResolution
@@ -1587,7 +1588,7 @@ export async function setup(canvas, userInit, userUpdate) {
 
   // VrStereoConfig, VR stereo rendering configuration for simulator
   raylib.VrStereoConfig = class VrStereoConfig {
-    constructor(projection, viewOffset, leftLensCenter, rightLensCenter, leftScreenCenter, rightScreenCenter, scale, scaleIn) {
+    constructor(projection = [new Matrix(), new Matrix()], viewOffset = [new Matrix(), new Matrix()], leftLensCenter = [0, 0], rightLensCenter = [0, 0], leftScreenCenter = [0, 0], rightScreenCenter = [0, 0], scale = [0, 0], scaleIn = [0, 0]) {
       this._size = 304
       this._address = mod._malloc(this._size)
       this.projection = projection
@@ -1667,7 +1668,7 @@ export async function setup(canvas, userInit, userUpdate) {
 
   // File path list
   raylib.FilePathList = class FilePathList {
-    constructor(capacity, count, paths) {
+    constructor(capacity = 0, count = 0, paths = 0) {
       this._size = 12
       this._address = mod._malloc(this._size)
       this.capacity = capacity
@@ -1702,7 +1703,7 @@ export async function setup(canvas, userInit, userUpdate) {
 
   // Quaternion, 4 components (Vector4 alias)
   raylib.Quaternion = class Quaternion {
-    constructor(x, y, z, w) {
+    constructor(x = 0, y = 0, z = 0, w = 0) {
       this._size = 16
       this._address = mod._malloc(this._size)
       this.x = x
@@ -1746,7 +1747,7 @@ export async function setup(canvas, userInit, userUpdate) {
 
   // Texture2D, same as Texture
   raylib.Texture2D = class Texture2D {
-    constructor(id, width, height, mipmaps, format) {
+    constructor(id = 0, width = 0, height = 0, mipmaps = 0, format = 0) {
       this._size = 20
       this._address = mod._malloc(this._size)
       this.id = id
@@ -1799,7 +1800,7 @@ export async function setup(canvas, userInit, userUpdate) {
 
   // TextureCubemap, same as Texture
   raylib.TextureCubemap = class TextureCubemap {
-    constructor(id, width, height, mipmaps, format) {
+    constructor(id = 0, width = 0, height = 0, mipmaps = 0, format = 0) {
       this._size = 20
       this._address = mod._malloc(this._size)
       this.id = id
@@ -1852,7 +1853,7 @@ export async function setup(canvas, userInit, userUpdate) {
 
   // RenderTexture2D, same as RenderTexture
   raylib.RenderTexture2D = class RenderTexture2D {
-    constructor(id, texture, depth) {
+    constructor(id = 0, texture = new Texture(), depth = new Texture()) {
       this._size = 44
       this._address = mod._malloc(this._size)
       this.id = id
@@ -1887,7 +1888,7 @@ export async function setup(canvas, userInit, userUpdate) {
 
   // Camera type fallback, defaults to Camera3D
   raylib.Camera = class Camera {
-    constructor(position, target, up, fovy, projection) {
+    constructor(position = new Vector3(), target = new Vector3(), up = new Vector3(), fovy = 0, projection = 0) {
       this._size = 44
       this._address = mod._malloc(this._size)
       this.position = position
@@ -2296,6 +2297,7 @@ export async function setup(canvas, userInit, userUpdate) {
   raylib.NPATCH_THREE_PATCH_HORIZONTAL = 2 // Npatch layout: 3x1 tiles
 
 
+  // TODO: you can add wasmBinary here for inline-loading
   const mod = await Module({canvas})
   raylib.module = mod
 
@@ -2326,8 +2328,45 @@ export async function setup(canvas, userInit, userUpdate) {
   raylib.MAGENTA = new raylib.Color(255, 0, 255, 255) // Magenta
   raylib.RAYWHITE = new raylib.Color(245, 245, 245, 255) // My own White (raylib logo)  /* global raylib */
   
+  raylib.WasmArray = class WasmArray {
+    constructor(size, typeSize, typeSetter, typeGetter, vals = []) {
+      this._typeSize = typeSize
+      this._arraySize = size
+      this._typeSetter = typeSetter
+      this._typeGetter = typeGetter
+      this._size = size * typeSize
+      this._address = mod._malloc(this._size)
+      for (const i in vals) {
+        this[i] = vals[i]
+      }
+    }
+  
+    get (i) {
+      if (i < 0 || i > (this._arraySize - 1)) {
+        throw new Error(`${i} is out of bounds for [${this._arraySize}]`)
+      }
+      return this._typeGetter(this._address + (i * this._typeSize))
+    }
+  
+    set (i, v) {
+      if (i < 0 || i > (this._arraySize - 1)) {
+        throw new Error(`${i} is out of bounds for [${this._arraySize}]`)
+      }
+      return this._typeSetter(this._address + (i * this._typeSize), v)
+    }
+  }
+  
+  raylib.ArrayFloat = class ArrayFloat extends raylib.WasmArray {
+    constructor(vals) {
+      if (!vals || vals.length === 0) {
+        throw new Error('Initial value is required.')
+      }
+      super(vals.length, 32, f32Setter, f32Getter, vals)
+    }
+  }
+  
   // emscripten type-converters are a bit incomplete. This makes values easier to use
-  // TODO: these were added by hand, 1 at atime
+  // TODO: these were added by hand, 1 at atime, should be replaced with 1-off converter utils like f32Setter/f32Getter
   function valGetter(address, type) {
     switch(type) {
       case 'unsigned char': return mod.HEAPU8[address]

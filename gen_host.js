@@ -14,25 +14,45 @@ for (const { type, name, description } of aliases) {
   })
 }
 
+// generate a default-value for a type
+function defaultValue(type) {
+  // array-types
+  const a = type.match(/([a-zA-Z 0-9]+) *\[([0-9]+)\]/)
+  if (a) {
+    const v = defaultValue(a[1])
+    return '[' + [...(new Array(parseInt(a[2])))].map(() => v).join(', ') + ']'
+  }
+  // structs
+  if (type.match(/^[A-Z]/)) {
+    return `new ${type.replace(/\*/g, '').replace(/ /g, '')}()`
+  }
+  
+  return 0
+}
+
 // indent a string
 const indentString = (str, count=2, indent = ' ') => str.replace(/^/gm, indent.repeat(count))
 
 // get the byte-size of a type
 function getSize (type) {
+  // pointers are 32bit
   if (type.includes('*')) {
     return 4
   }
 
+  // arrays are size * typeSize
   if (type.includes('[')) {
     const t = type.split('[')
     return getSize(t[0]) * t[1].split(']')[0]
   }
 
+  // structs are size of all fields addded
   const s = structs.find(s => s.name === type)
   if (s) {
     return s.fields.reduce((a, c) => a + getSize(c.type), 0)
   }
 
+  // the rest (atoms) have a size
   switch (type) {
     case 'bool':
     case 'char':
@@ -68,6 +88,7 @@ function outputGetters (struct) {
 }
 
 let code = `
+// TODO: inline this?
 import Module from './raylib_wasm.js'
 
 // run this function before calling anything
@@ -78,7 +99,7 @@ for (const s of structs) {
   const size = s.fields.reduce((a, c) => a + getSize(c.type), 0)
   code += `  // ${s.description}
   raylib.${s.name} = class ${s.name} {
-    constructor(${s.fields.map(f => f.name).join(', ')}) {
+    constructor(${s.fields.map(f => `${f.name} = ${defaultValue(f.type)}`).join(', ')}) {
       this._size = ${size}
       this._address = mod._malloc(this._size)
       ${s.fields.map(f => `this.${f.name} = ${f.name}`).join('\n      ')}
@@ -96,6 +117,7 @@ for (const e of enums) {
 }
 
 code += `
+  // TODO: you can add wasmBinary here for inline-loading
   const mod = await Module({canvas})
   raylib.module = mod
 `
