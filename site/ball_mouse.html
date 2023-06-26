@@ -1,6 +1,6 @@
 <html>
 <head>
-<title>Raylib Wasm - Ball Key</title>
+<title>Raylib Wasm - Ball Mouse</title>
 <link rel="stylesheet" href="rayweb.css" />
 </head>
 <body>
@@ -11,6 +11,7 @@ import runGame from './raylib.js'
 // example game
 
 let ballPosition
+let ballColor
 
 const InitGame = async (raylib) => {
   // since there is only one raylib, let's just globalize it
@@ -19,16 +20,26 @@ const InitGame = async (raylib) => {
   const screenWidth = 800
   const screenHeight = 450
   InitWindow(screenWidth, screenHeight)
-  ballPosition = new Vector2({x: screenWidth/2, y: screenHeight/2})
+  ballPosition = new Vector2()
+  ballColor = DARKBLUE
 }
 
 const UpdateGame = (ts) => {
   ballPosition = GetMousePosition()
 
+  if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) ballColor = MAROON
+  // you'll notice many of these do not work on web:
+  else if (IsMouseButtonPressed(MOUSE_BUTTON_MIDDLE)) ballColor = LIME
+  else if (IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) ballColor = DARKBLUE
+  else if (IsMouseButtonPressed(MOUSE_BUTTON_SIDE)) ballColor = PURPLE
+  else if (IsMouseButtonPressed(MOUSE_BUTTON_EXTRA)) ballColor = YELLOW
+  else if (IsMouseButtonPressed(MOUSE_BUTTON_FORWARD)) ballColor = ORANGE
+  else if (IsMouseButtonPressed(MOUSE_BUTTON_BACK)) ballColor = BEIGE
+
   BeginDrawing()
   ClearBackground(RAYWHITE)
-  DrawText("move the ball with arrow keys", 10, 10, 20, DARKGRAY);
-  DrawCircleV(ballPosition, 50, MAROON)
+  DrawCircleV(ballPosition, 40, ballColor)
+  DrawText("move ball with mouse and click mouse button to change color", 10, 10, 20, DARKGRAY)
   EndDrawing()
 }
 
