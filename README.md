@@ -1,6 +1,4 @@
-This is the start of some ideas about making raylib games in JS for the web.
-
-It's not really functional yet, but see [index.html](site/index.html) for an example. It includes raylib 4.5.0.
+This is the start of some ideas about making raylib games in JS for the web. It includes raylib 4.5.0.
 
 ### usage
 
@@ -8,6 +6,18 @@ It's not really functional yet, but see [index.html](site/index.html) for an exa
 # run local development web-server
 npm start
 ```
+
+It live-reloads, so it can be a great way to prototype some raylib code, even for other languages/platforms.
+
+You can include these files in your project to get started:
+
+- [raylib.js](site/raylib.js)
+- [raylib_wasm.js](site/raylib_wasm.js)
+- [raylib_wasm.wasm](site/raylib_wasm.wasm)
+
+
+Have a look at [basic.html](site/basic.html) to see how to use it.
+
 
 ### development
 

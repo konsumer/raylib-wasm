@@ -1,0 +1,51 @@
+<html>
+<head>
+<title>Raylib Wasm - Ball Key</title>
+<link rel="stylesheet" href="rayweb.css" />
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<script type=module>
+import runGame from './raylib.js'
+
+// example game
+
+let ballPosition
+
+const InitGame = async (raylib) => {
+  // since there is only one raylib, let's just globalize it
+  raylib.globalize()
+
+  const screenWidth = 800
+  const screenHeight = 450
+  InitWindow(screenWidth, screenHeight)
+  ballPosition = new Vector2({x: screenWidth/2, y: screenHeight/2})
+}
+
+const UpdateGame = (ts) => {
+  ballPosition = GetMousePosition()
+
+  BeginDrawing()
+  ClearBackground(RAYWHITE)
+  DrawText("move the ball with arrow keys", 10, 10, 20, DARKGRAY);
+  DrawCircleV(ballPosition, 50, MAROON)
+  EndDrawing()
+}
+
+// this is how to start your engine
+runGame(document.getElementById('canvas'), InitGame, UpdateGame)
+
+// this keeps a nice aspect for the canvas
+const onResize = () => {
+  window.removeEventListener('resize', onResize)
+  setTimeout(() => {
+    window.addEventListener('resize', onResize)
+  }, 1000)
+  const { clientWidth, clientHeight } = document.body
+  document.getElementById('canvas').className = clientWidth > clientHeight ? 'landscape' : 'portrait'
+}
+onResize()
+
+</script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<html>
+<head>
+<title>Raylib Wasm - Basic</title>
+<link rel="stylesheet" href="rayweb.css" />
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<script type=module>
+import runGame from './raylib.js'
+
+// example game
+
+const InitGame = async (raylib) => {
+  // since there is only one raylib, let's just globalize it
+  raylib.globalize()
+  
+  InitWindow(800, 450)
+}
+
+const UpdateGame = (ts) => {
+  BeginDrawing()
+  ClearBackground(RAYWHITE)
+  DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
+  DrawFPS(10, 10)
+  EndDrawing()
+}
+
+// this is how to start your engine
+runGame(document.getElementById('canvas'), InitGame, UpdateGame)
+
+// this keeps a nice aspect for the canvas
+const onResize = () => {
+  window.removeEventListener('resize', onResize)
+  setTimeout(() => {
+    window.addEventListener('resize', onResize)
+  }, 1000)
+  const { clientWidth, clientHeight } = document.body
+  document.getElementById('canvas').className = clientWidth > clientHeight ? 'landscape' : 'portrait'
+}
+onResize()
+
+</script>
+</body>
+</html>

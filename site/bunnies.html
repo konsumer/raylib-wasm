@@ -1,0 +1,99 @@
+<html>
+<head>
+<title>Raylib Wasm - Bunnies</title>
+<link rel="stylesheet" href="rayweb.css" />
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<script type=module>
+import runGame from './raylib.js'
+
+// example game
+
+// add files to filesystem
+let texBunny
+const bunnies = []
+
+const MAX_BUNNIES = 50000
+const MAX_BATCH_ELEMENTS = 8192
+
+const InitGame = async (raylib) => {
+  // since there is only one raylib, let's just globalize it
+  raylib.globalize()
+
+  InitWindow(640, 480)
+  
+  // TODO: Eventually this will be built into wrapper to pre-load files, but for now we load it before loading it in raylib
+  await addFile('assets/wabbit_alpha.png')
+  
+  texBunny = LoadTexture('assets/wabbit_alpha.png')
+}
+
+const UpdateGame = (ts) => {
+  // Create more bunnies
+  if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) {
+    for (let i = 0; i < 100; i++){
+      if (bunnies.length < MAX_BUNNIES){
+        // I copy this so I can free it: not totally required, but maybe slightly better memory-usage/performance
+        const p = GetMousePosition()
+        const position = { x: p.x, y: p.y }
+        free(p)
+
+        bunnies.push({
+          position: GetMousePosition(),
+          speed: {
+            x: GetRandomValue(-250, 250) / 60,
+            y: GetRandomValue(-250, 250) / 60
+          },
+          color: new Color({
+            r: GetRandomValue(50, 240),
+            g: GetRandomValue(80, 240),
+            b: GetRandomValue(100, 240),
+            a: 255
+          })
+        })
+      }
+    }
+  }
+
+  // Update bunnies
+  for (let bunny of bunnies) {
+    bunny.position.x += bunny.speed.x
+    bunny.position.y += bunny.speed.y
+    if (((bunny.position.x + texBunny.width/2) > GetScreenWidth()) || ((bunny.position.x + texBunny.width/2) < 0)) {
+      bunny.speed.x *= -1
+    }
+    if (((bunny.position.y + texBunny.height/2) > GetScreenHeight()) || ((bunny.position.y + texBunny.height/2 - 40) < 0)) {
+      bunny.speed.y *= -1
+    }
+  }
+
+  BeginDrawing()
+  ClearBackground(RAYWHITE)
+  for (let bunny of bunnies) {
+    DrawTexture(texBunny, bunny.position.x, bunny.position.y, bunny.color)
+  }
+  DrawRectangle(0, 0, 640, 40, BLACK)
+  DrawText(`bunnies: ${bunnies.length}`, 120, 10, 20, GREEN)
+  DrawText(`batched draw calls: ${1 + Math.floor(bunnies.length/MAX_BATCH_ELEMENTS)}`, 320, 10, 20, MAROON)
+  DrawFPS(10, 10)
+  EndDrawing()
+}
+
+// this is how to start your engine
+runGame(document.getElementById('canvas'), InitGame, UpdateGame)
+
+// this keeps a nice aspect for the canvas
+const onResize = () => {
+  window.removeEventListener('resize', onResize)
+  setTimeout(() => {
+    window.addEventListener('resize', onResize)
+  }, 1000)
+  const { clientWidth, clientHeight } = document.body
+  document.getElementById('canvas').className = clientWidth > clientHeight ? 'landscape' : 'portrait'
+}
+onResize()
+
+</script>
+</body>
+</html>

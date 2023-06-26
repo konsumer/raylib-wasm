@@ -224,16 +224,17 @@ for (const { name, description, returnType, params = [] } of functions) {
   if (returnsStruct) {
     callParams.unshift('_ret._address')
     callParamTypes.unshift("'pointer'")
-
+    code += `const _${name} = mod.cwrap('${name}', 'void', [${callParamTypes.join(', ')}])\n  `
     code += `raylib.${name} = (${wasmParams.join(', ')}) => {
     const _ret = new raylib.${returnsStruct.name}()
-    mod.ccall('${name}', 'void', [${callParamTypes.join(', ')}], [${callParams.join(', ')}])
+    _${name}(${callParams.join(', ')})
     return _ret
   }
 
 `
   } else {
-    code += `raylib.${name} = (${wasmParams.join(', ')}) => mod.ccall('${name}', ${mapTypeToJs(returnType)}, [${callParamTypes.join(', ')}], [${callParams.join(', ')}])\n\n`
+    code += `const _${name} = mod.cwrap('${name}', 'void', [${callParamTypes.join(', ')}])\n  `
+    code += `raylib.${name} = (${wasmParams.join(', ')}) => _${name}(${callParams.join(', ')})\n\n`
   }
 }
 
@@ -241,23 +242,37 @@ for (const { name, description, returnType, params = [] } of functions) {
 code += `
   // insert remote file in WASM filesystem
   raylib.addFile = async filename => {
+    const p = filename.split('/').slice(0,-1)
+    for (const i in p) {
+      mod.FS.mkdir(p.slice(0, i + 1).join('/'))
+    }
     mod.FS.writeFile(filename, new Uint8Array(await fetch(filename).then(r => r.arrayBuffer())))
   }
 
   // more convenient free() for structs
   raylib.free = ptr => ptr._address ? mod._free(ptr._address) : mod._free(ptr)
 
-  // process user-functions
+  // we use raylib to namespace operations to a single wasm runtime instance
+  // this is sort of like importing all the stuff from raylib object, if you only have 1 on page
+  raylib.globalize = () => {
+    for (const k of Object.keys(raylib)) {
+      window[k] = raylib[k]
+    }
+  }
+
+  // process user-functions, make raylib look like it's global
   if (userInit) {
     await userInit(raylib)
   }
-  const updateLoop = (timeStamp) => {
-    if (userUpdate) {
-      userUpdate(raylib, timeStamp)
+
+  if (userUpdate) {
+    const updateLoop = (timeStamp) => {
+      userUpdate(timeStamp, raylib)
+      requestAnimationFrame(updateLoop)
     }
-    requestAnimationFrame(updateLoop)
+    updateLoop()
   }
-  updateLoop()
+
   return raylib
 }
 

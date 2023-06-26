@@ -2330,1949 +2330,2467 @@ export async function setup(canvas, userInit, userUpdate) {
   raylib.RAYWHITE = new raylib.Color({r: 245, g: 245, b: 245, a: 255}) // My own White (raylib logo)
 
   // Initialize window and OpenGL context: InitWindow(int, int, const char *) => void
-  raylib.InitWindow = (width, height, title) => mod.ccall('InitWindow', 'pointer', ['number', 'number', 'string'], [width, height, title])
+  const _InitWindow = mod.cwrap('InitWindow', 'void', ['number', 'number', 'string'])
+  raylib.InitWindow = (width, height, title) => _InitWindow(width, height, title)
 
   // Check if KEY_ESCAPE pressed or Close icon pressed: WindowShouldClose() => bool
-  raylib.WindowShouldClose = () => mod.ccall('WindowShouldClose', 'boolean', [], [])
+  const _WindowShouldClose = mod.cwrap('WindowShouldClose', 'void', [])
+  raylib.WindowShouldClose = () => _WindowShouldClose()
 
   // Close window and unload OpenGL context: CloseWindow() => void
-  raylib.CloseWindow = () => mod.ccall('CloseWindow', 'pointer', [], [])
+  const _CloseWindow = mod.cwrap('CloseWindow', 'void', [])
+  raylib.CloseWindow = () => _CloseWindow()
 
   // Check if window has been initialized successfully: IsWindowReady() => bool
-  raylib.IsWindowReady = () => mod.ccall('IsWindowReady', 'boolean', [], [])
+  const _IsWindowReady = mod.cwrap('IsWindowReady', 'void', [])
+  raylib.IsWindowReady = () => _IsWindowReady()
 
   // Check if window is currently fullscreen: IsWindowFullscreen() => bool
-  raylib.IsWindowFullscreen = () => mod.ccall('IsWindowFullscreen', 'boolean', [], [])
+  const _IsWindowFullscreen = mod.cwrap('IsWindowFullscreen', 'void', [])
+  raylib.IsWindowFullscreen = () => _IsWindowFullscreen()
 
   // Check if window has been resized last frame: IsWindowResized() => bool
-  raylib.IsWindowResized = () => mod.ccall('IsWindowResized', 'boolean', [], [])
+  const _IsWindowResized = mod.cwrap('IsWindowResized', 'void', [])
+  raylib.IsWindowResized = () => _IsWindowResized()
 
   // Check if one specific window flag is enabled: IsWindowState(unsigned int) => bool
-  raylib.IsWindowState = (flag) => mod.ccall('IsWindowState', 'boolean', ['number'], [flag])
+  const _IsWindowState = mod.cwrap('IsWindowState', 'void', ['number'])
+  raylib.IsWindowState = (flag) => _IsWindowState(flag)
 
   // Clear window configuration state flags: ClearWindowState(unsigned int) => void
-  raylib.ClearWindowState = (flags) => mod.ccall('ClearWindowState', 'pointer', ['number'], [flags])
+  const _ClearWindowState = mod.cwrap('ClearWindowState', 'void', ['number'])
+  raylib.ClearWindowState = (flags) => _ClearWindowState(flags)
 
   // Set monitor for the current window (fullscreen mode): SetWindowMonitor(int) => void
-  raylib.SetWindowMonitor = (monitor) => mod.ccall('SetWindowMonitor', 'pointer', ['number'], [monitor])
+  const _SetWindowMonitor = mod.cwrap('SetWindowMonitor', 'void', ['number'])
+  raylib.SetWindowMonitor = (monitor) => _SetWindowMonitor(monitor)
 
   // Set window minimum dimensions (for FLAG_WINDOW_RESIZABLE): SetWindowMinSize(int, int) => void
-  raylib.SetWindowMinSize = (width, height) => mod.ccall('SetWindowMinSize', 'pointer', ['number', 'number'], [width, height])
+  const _SetWindowMinSize = mod.cwrap('SetWindowMinSize', 'void', ['number', 'number'])
+  raylib.SetWindowMinSize = (width, height) => _SetWindowMinSize(width, height)
 
   // Set window dimensions: SetWindowSize(int, int) => void
-  raylib.SetWindowSize = (width, height) => mod.ccall('SetWindowSize', 'pointer', ['number', 'number'], [width, height])
+  const _SetWindowSize = mod.cwrap('SetWindowSize', 'void', ['number', 'number'])
+  raylib.SetWindowSize = (width, height) => _SetWindowSize(width, height)
 
   // Get native window handle: GetWindowHandle() => void *
-  raylib.GetWindowHandle = () => mod.ccall('GetWindowHandle', 'pointer', [], [])
+  const _GetWindowHandle = mod.cwrap('GetWindowHandle', 'void', [])
+  raylib.GetWindowHandle = () => _GetWindowHandle()
 
   // Get current screen width: GetScreenWidth() => int
-  raylib.GetScreenWidth = () => mod.ccall('GetScreenWidth', 'number', [], [])
+  const _GetScreenWidth = mod.cwrap('GetScreenWidth', 'void', [])
+  raylib.GetScreenWidth = () => _GetScreenWidth()
 
   // Get current screen height: GetScreenHeight() => int
-  raylib.GetScreenHeight = () => mod.ccall('GetScreenHeight', 'number', [], [])
+  const _GetScreenHeight = mod.cwrap('GetScreenHeight', 'void', [])
+  raylib.GetScreenHeight = () => _GetScreenHeight()
 
   // Get current render width (it considers HiDPI): GetRenderWidth() => int
-  raylib.GetRenderWidth = () => mod.ccall('GetRenderWidth', 'number', [], [])
+  const _GetRenderWidth = mod.cwrap('GetRenderWidth', 'void', [])
+  raylib.GetRenderWidth = () => _GetRenderWidth()
 
   // Get current render height (it considers HiDPI): GetRenderHeight() => int
-  raylib.GetRenderHeight = () => mod.ccall('GetRenderHeight', 'number', [], [])
+  const _GetRenderHeight = mod.cwrap('GetRenderHeight', 'void', [])
+  raylib.GetRenderHeight = () => _GetRenderHeight()
 
   // Get number of connected monitors: GetMonitorCount() => int
-  raylib.GetMonitorCount = () => mod.ccall('GetMonitorCount', 'number', [], [])
+  const _GetMonitorCount = mod.cwrap('GetMonitorCount', 'void', [])
+  raylib.GetMonitorCount = () => _GetMonitorCount()
 
   // Get current connected monitor: GetCurrentMonitor() => int
-  raylib.GetCurrentMonitor = () => mod.ccall('GetCurrentMonitor', 'number', [], [])
+  const _GetCurrentMonitor = mod.cwrap('GetCurrentMonitor', 'void', [])
+  raylib.GetCurrentMonitor = () => _GetCurrentMonitor()
 
   // Get specified monitor position: GetMonitorPosition(int) => Vector2
+  const _GetMonitorPosition = mod.cwrap('GetMonitorPosition', 'void', ['pointer', 'number'])
   raylib.GetMonitorPosition = (monitor) => {
     const _ret = new raylib.Vector2()
-    mod.ccall('GetMonitorPosition', 'void', ['pointer', 'number'], [_ret._address, monitor])
+    _GetMonitorPosition(_ret._address, monitor)
     return _ret
   }
 
   // Get specified monitor width (current video mode used by monitor): GetMonitorWidth(int) => int
-  raylib.GetMonitorWidth = (monitor) => mod.ccall('GetMonitorWidth', 'number', ['number'], [monitor])
+  const _GetMonitorWidth = mod.cwrap('GetMonitorWidth', 'void', ['number'])
+  raylib.GetMonitorWidth = (monitor) => _GetMonitorWidth(monitor)
 
   // Get specified monitor height (current video mode used by monitor): GetMonitorHeight(int) => int
-  raylib.GetMonitorHeight = (monitor) => mod.ccall('GetMonitorHeight', 'number', ['number'], [monitor])
+  const _GetMonitorHeight = mod.cwrap('GetMonitorHeight', 'void', ['number'])
+  raylib.GetMonitorHeight = (monitor) => _GetMonitorHeight(monitor)
 
   // Get specified monitor physical width in millimetres: GetMonitorPhysicalWidth(int) => int
-  raylib.GetMonitorPhysicalWidth = (monitor) => mod.ccall('GetMonitorPhysicalWidth', 'number', ['number'], [monitor])
+  const _GetMonitorPhysicalWidth = mod.cwrap('GetMonitorPhysicalWidth', 'void', ['number'])
+  raylib.GetMonitorPhysicalWidth = (monitor) => _GetMonitorPhysicalWidth(monitor)
 
   // Get specified monitor physical height in millimetres: GetMonitorPhysicalHeight(int) => int
-  raylib.GetMonitorPhysicalHeight = (monitor) => mod.ccall('GetMonitorPhysicalHeight', 'number', ['number'], [monitor])
+  const _GetMonitorPhysicalHeight = mod.cwrap('GetMonitorPhysicalHeight', 'void', ['number'])
+  raylib.GetMonitorPhysicalHeight = (monitor) => _GetMonitorPhysicalHeight(monitor)
 
   // Get specified monitor refresh rate: GetMonitorRefreshRate(int) => int
-  raylib.GetMonitorRefreshRate = (monitor) => mod.ccall('GetMonitorRefreshRate', 'number', ['number'], [monitor])
+  const _GetMonitorRefreshRate = mod.cwrap('GetMonitorRefreshRate', 'void', ['number'])
+  raylib.GetMonitorRefreshRate = (monitor) => _GetMonitorRefreshRate(monitor)
 
   // Get window position XY on monitor: GetWindowPosition() => Vector2
+  const _GetWindowPosition = mod.cwrap('GetWindowPosition', 'void', ['pointer'])
   raylib.GetWindowPosition = () => {
     const _ret = new raylib.Vector2()
-    mod.ccall('GetWindowPosition', 'void', ['pointer'], [_ret._address])
+    _GetWindowPosition(_ret._address)
     return _ret
   }
 
   // Get window scale DPI factor: GetWindowScaleDPI() => Vector2
+  const _GetWindowScaleDPI = mod.cwrap('GetWindowScaleDPI', 'void', ['pointer'])
   raylib.GetWindowScaleDPI = () => {
     const _ret = new raylib.Vector2()
-    mod.ccall('GetWindowScaleDPI', 'void', ['pointer'], [_ret._address])
+    _GetWindowScaleDPI(_ret._address)
     return _ret
   }
 
   // Get the human-readable, UTF-8 encoded name of the primary monitor: GetMonitorName(int) => const char *
-  raylib.GetMonitorName = (monitor) => mod.ccall('GetMonitorName', 'string', ['number'], [monitor])
+  const _GetMonitorName = mod.cwrap('GetMonitorName', 'void', ['number'])
+  raylib.GetMonitorName = (monitor) => _GetMonitorName(monitor)
 
   // Set clipboard text content: SetClipboardText(const char *) => void
-  raylib.SetClipboardText = (text) => mod.ccall('SetClipboardText', 'pointer', ['string'], [text])
+  const _SetClipboardText = mod.cwrap('SetClipboardText', 'void', ['string'])
+  raylib.SetClipboardText = (text) => _SetClipboardText(text)
 
   // Get clipboard text content: GetClipboardText() => const char *
-  raylib.GetClipboardText = () => mod.ccall('GetClipboardText', 'string', [], [])
+  const _GetClipboardText = mod.cwrap('GetClipboardText', 'void', [])
+  raylib.GetClipboardText = () => _GetClipboardText()
 
   // Enable waiting for events on EndDrawing(), no automatic event polling: EnableEventWaiting() => void
-  raylib.EnableEventWaiting = () => mod.ccall('EnableEventWaiting', 'pointer', [], [])
+  const _EnableEventWaiting = mod.cwrap('EnableEventWaiting', 'void', [])
+  raylib.EnableEventWaiting = () => _EnableEventWaiting()
 
   // Disable waiting for events on EndDrawing(), automatic events polling: DisableEventWaiting() => void
-  raylib.DisableEventWaiting = () => mod.ccall('DisableEventWaiting', 'pointer', [], [])
+  const _DisableEventWaiting = mod.cwrap('DisableEventWaiting', 'void', [])
+  raylib.DisableEventWaiting = () => _DisableEventWaiting()
 
   // Swap back buffer with front buffer (screen drawing): SwapScreenBuffer() => void
-  raylib.SwapScreenBuffer = () => mod.ccall('SwapScreenBuffer', 'pointer', [], [])
+  const _SwapScreenBuffer = mod.cwrap('SwapScreenBuffer', 'void', [])
+  raylib.SwapScreenBuffer = () => _SwapScreenBuffer()
 
   // Register all input events: PollInputEvents() => void
-  raylib.PollInputEvents = () => mod.ccall('PollInputEvents', 'pointer', [], [])
+  const _PollInputEvents = mod.cwrap('PollInputEvents', 'void', [])
+  raylib.PollInputEvents = () => _PollInputEvents()
 
   // Wait for some time (halt program execution): WaitTime(double) => void
-  raylib.WaitTime = (seconds) => mod.ccall('WaitTime', 'pointer', ['number'], [seconds])
+  const _WaitTime = mod.cwrap('WaitTime', 'void', ['number'])
+  raylib.WaitTime = (seconds) => _WaitTime(seconds)
 
   // Shows cursor: ShowCursor() => void
-  raylib.ShowCursor = () => mod.ccall('ShowCursor', 'pointer', [], [])
+  const _ShowCursor = mod.cwrap('ShowCursor', 'void', [])
+  raylib.ShowCursor = () => _ShowCursor()
 
   // Hides cursor: HideCursor() => void
-  raylib.HideCursor = () => mod.ccall('HideCursor', 'pointer', [], [])
+  const _HideCursor = mod.cwrap('HideCursor', 'void', [])
+  raylib.HideCursor = () => _HideCursor()
 
   // Check if cursor is not visible: IsCursorHidden() => bool
-  raylib.IsCursorHidden = () => mod.ccall('IsCursorHidden', 'boolean', [], [])
+  const _IsCursorHidden = mod.cwrap('IsCursorHidden', 'void', [])
+  raylib.IsCursorHidden = () => _IsCursorHidden()
 
   // Enables cursor (unlock cursor): EnableCursor() => void
-  raylib.EnableCursor = () => mod.ccall('EnableCursor', 'pointer', [], [])
+  const _EnableCursor = mod.cwrap('EnableCursor', 'void', [])
+  raylib.EnableCursor = () => _EnableCursor()
 
   // Disables cursor (lock cursor): DisableCursor() => void
-  raylib.DisableCursor = () => mod.ccall('DisableCursor', 'pointer', [], [])
+  const _DisableCursor = mod.cwrap('DisableCursor', 'void', [])
+  raylib.DisableCursor = () => _DisableCursor()
 
   // Check if cursor is on the screen: IsCursorOnScreen() => bool
-  raylib.IsCursorOnScreen = () => mod.ccall('IsCursorOnScreen', 'boolean', [], [])
+  const _IsCursorOnScreen = mod.cwrap('IsCursorOnScreen', 'void', [])
+  raylib.IsCursorOnScreen = () => _IsCursorOnScreen()
 
   // Set background color (framebuffer clear color): ClearBackground(Color) => void
-  raylib.ClearBackground = (color) => mod.ccall('ClearBackground', 'pointer', ['pointer'], [color._address])
+  const _ClearBackground = mod.cwrap('ClearBackground', 'void', ['pointer'])
+  raylib.ClearBackground = (color) => _ClearBackground(color._address)
 
   // Setup canvas (framebuffer) to start drawing: BeginDrawing() => void
-  raylib.BeginDrawing = () => mod.ccall('BeginDrawing', 'pointer', [], [])
+  const _BeginDrawing = mod.cwrap('BeginDrawing', 'void', [])
+  raylib.BeginDrawing = () => _BeginDrawing()
 
   // End canvas drawing and swap buffers (double buffering): EndDrawing() => void
-  raylib.EndDrawing = () => mod.ccall('EndDrawing', 'pointer', [], [])
+  const _EndDrawing = mod.cwrap('EndDrawing', 'void', [])
+  raylib.EndDrawing = () => _EndDrawing()
 
   // Begin 2D mode with custom camera (2D): BeginMode2D(Camera2D) => void
-  raylib.BeginMode2D = (camera) => mod.ccall('BeginMode2D', 'pointer', ['pointer'], [camera._address])
+  const _BeginMode2D = mod.cwrap('BeginMode2D', 'void', ['pointer'])
+  raylib.BeginMode2D = (camera) => _BeginMode2D(camera._address)
 
   // Ends 2D mode with custom camera: EndMode2D() => void
-  raylib.EndMode2D = () => mod.ccall('EndMode2D', 'pointer', [], [])
+  const _EndMode2D = mod.cwrap('EndMode2D', 'void', [])
+  raylib.EndMode2D = () => _EndMode2D()
 
   // Begin 3D mode with custom camera (3D): BeginMode3D(Camera3D) => void
-  raylib.BeginMode3D = (camera) => mod.ccall('BeginMode3D', 'pointer', ['pointer'], [camera._address])
+  const _BeginMode3D = mod.cwrap('BeginMode3D', 'void', ['pointer'])
+  raylib.BeginMode3D = (camera) => _BeginMode3D(camera._address)
 
   // Ends 3D mode and returns to default 2D orthographic mode: EndMode3D() => void
-  raylib.EndMode3D = () => mod.ccall('EndMode3D', 'pointer', [], [])
+  const _EndMode3D = mod.cwrap('EndMode3D', 'void', [])
+  raylib.EndMode3D = () => _EndMode3D()
 
   // Begin drawing to render texture: BeginTextureMode(RenderTexture2D) => void
-  raylib.BeginTextureMode = (target) => mod.ccall('BeginTextureMode', 'pointer', ['pointer'], [target._address])
+  const _BeginTextureMode = mod.cwrap('BeginTextureMode', 'void', ['pointer'])
+  raylib.BeginTextureMode = (target) => _BeginTextureMode(target._address)
 
   // Ends drawing to render texture: EndTextureMode() => void
-  raylib.EndTextureMode = () => mod.ccall('EndTextureMode', 'pointer', [], [])
+  const _EndTextureMode = mod.cwrap('EndTextureMode', 'void', [])
+  raylib.EndTextureMode = () => _EndTextureMode()
 
   // Begin custom shader drawing: BeginShaderMode(Shader) => void
-  raylib.BeginShaderMode = (shader) => mod.ccall('BeginShaderMode', 'pointer', ['pointer'], [shader._address])
+  const _BeginShaderMode = mod.cwrap('BeginShaderMode', 'void', ['pointer'])
+  raylib.BeginShaderMode = (shader) => _BeginShaderMode(shader._address)
 
   // End custom shader drawing (use default shader): EndShaderMode() => void
-  raylib.EndShaderMode = () => mod.ccall('EndShaderMode', 'pointer', [], [])
+  const _EndShaderMode = mod.cwrap('EndShaderMode', 'void', [])
+  raylib.EndShaderMode = () => _EndShaderMode()
 
   // Begin blending mode (alpha, additive, multiplied, subtract, custom): BeginBlendMode(int) => void
-  raylib.BeginBlendMode = (mode) => mod.ccall('BeginBlendMode', 'pointer', ['number'], [mode])
+  const _BeginBlendMode = mod.cwrap('BeginBlendMode', 'void', ['number'])
+  raylib.BeginBlendMode = (mode) => _BeginBlendMode(mode)
 
   // End blending mode (reset to default: alpha blending): EndBlendMode() => void
-  raylib.EndBlendMode = () => mod.ccall('EndBlendMode', 'pointer', [], [])
+  const _EndBlendMode = mod.cwrap('EndBlendMode', 'void', [])
+  raylib.EndBlendMode = () => _EndBlendMode()
 
   // Begin scissor mode (define screen area for following drawing): BeginScissorMode(int, int, int, int) => void
-  raylib.BeginScissorMode = (x, y, width, height) => mod.ccall('BeginScissorMode', 'pointer', ['number', 'number', 'number', 'number'], [x, y, width, height])
+  const _BeginScissorMode = mod.cwrap('BeginScissorMode', 'void', ['number', 'number', 'number', 'number'])
+  raylib.BeginScissorMode = (x, y, width, height) => _BeginScissorMode(x, y, width, height)
 
   // End scissor mode: EndScissorMode() => void
-  raylib.EndScissorMode = () => mod.ccall('EndScissorMode', 'pointer', [], [])
+  const _EndScissorMode = mod.cwrap('EndScissorMode', 'void', [])
+  raylib.EndScissorMode = () => _EndScissorMode()
 
   // Begin stereo rendering (requires VR simulator): BeginVrStereoMode(VrStereoConfig) => void
-  raylib.BeginVrStereoMode = (config) => mod.ccall('BeginVrStereoMode', 'pointer', ['pointer'], [config._address])
+  const _BeginVrStereoMode = mod.cwrap('BeginVrStereoMode', 'void', ['pointer'])
+  raylib.BeginVrStereoMode = (config) => _BeginVrStereoMode(config._address)
 
   // End stereo rendering (requires VR simulator): EndVrStereoMode() => void
-  raylib.EndVrStereoMode = () => mod.ccall('EndVrStereoMode', 'pointer', [], [])
+  const _EndVrStereoMode = mod.cwrap('EndVrStereoMode', 'void', [])
+  raylib.EndVrStereoMode = () => _EndVrStereoMode()
 
   // Load VR stereo config for VR simulator device parameters: LoadVrStereoConfig(VrDeviceInfo) => VrStereoConfig
+  const _LoadVrStereoConfig = mod.cwrap('LoadVrStereoConfig', 'void', ['pointer', 'pointer'])
   raylib.LoadVrStereoConfig = (device) => {
     const _ret = new raylib.VrStereoConfig()
-    mod.ccall('LoadVrStereoConfig', 'void', ['pointer', 'pointer'], [_ret._address, device._address])
+    _LoadVrStereoConfig(_ret._address, device._address)
     return _ret
   }
 
   // Unload VR stereo config: UnloadVrStereoConfig(VrStereoConfig) => void
-  raylib.UnloadVrStereoConfig = (config) => mod.ccall('UnloadVrStereoConfig', 'pointer', ['pointer'], [config._address])
+  const _UnloadVrStereoConfig = mod.cwrap('UnloadVrStereoConfig', 'void', ['pointer'])
+  raylib.UnloadVrStereoConfig = (config) => _UnloadVrStereoConfig(config._address)
 
   // Load shader from files and bind default locations: LoadShader(const char *, const char *) => Shader
+  const _LoadShader = mod.cwrap('LoadShader', 'void', ['pointer', 'string', 'string'])
   raylib.LoadShader = (vsFileName, fsFileName) => {
     const _ret = new raylib.Shader()
-    mod.ccall('LoadShader', 'void', ['pointer', 'string', 'string'], [_ret._address, vsFileName, fsFileName])
+    _LoadShader(_ret._address, vsFileName, fsFileName)
     return _ret
   }
 
   // Load shader from code strings and bind default locations: LoadShaderFromMemory(const char *, const char *) => Shader
+  const _LoadShaderFromMemory = mod.cwrap('LoadShaderFromMemory', 'void', ['pointer', 'string', 'string'])
   raylib.LoadShaderFromMemory = (vsCode, fsCode) => {
     const _ret = new raylib.Shader()
-    mod.ccall('LoadShaderFromMemory', 'void', ['pointer', 'string', 'string'], [_ret._address, vsCode, fsCode])
+    _LoadShaderFromMemory(_ret._address, vsCode, fsCode)
     return _ret
   }
 
   // Check if a shader is ready: IsShaderReady(Shader) => bool
-  raylib.IsShaderReady = (shader) => mod.ccall('IsShaderReady', 'boolean', ['pointer'], [shader._address])
+  const _IsShaderReady = mod.cwrap('IsShaderReady', 'void', ['pointer'])
+  raylib.IsShaderReady = (shader) => _IsShaderReady(shader._address)
 
   // Get shader uniform location: GetShaderLocation(Shader, const char *) => int
-  raylib.GetShaderLocation = (shader, uniformName) => mod.ccall('GetShaderLocation', 'number', ['pointer', 'string'], [shader._address, uniformName])
+  const _GetShaderLocation = mod.cwrap('GetShaderLocation', 'void', ['pointer', 'string'])
+  raylib.GetShaderLocation = (shader, uniformName) => _GetShaderLocation(shader._address, uniformName)
 
   // Get shader attribute location: GetShaderLocationAttrib(Shader, const char *) => int
-  raylib.GetShaderLocationAttrib = (shader, attribName) => mod.ccall('GetShaderLocationAttrib', 'number', ['pointer', 'string'], [shader._address, attribName])
+  const _GetShaderLocationAttrib = mod.cwrap('GetShaderLocationAttrib', 'void', ['pointer', 'string'])
+  raylib.GetShaderLocationAttrib = (shader, attribName) => _GetShaderLocationAttrib(shader._address, attribName)
 
   // Set shader uniform value: SetShaderValue(Shader, int, const void *, int) => void
-  raylib.SetShaderValue = (shader, locIndex, value, uniformType) => mod.ccall('SetShaderValue', 'pointer', ['pointer', 'number', 'pointer', 'number'], [shader._address, locIndex, value._address, uniformType])
+  const _SetShaderValue = mod.cwrap('SetShaderValue', 'void', ['pointer', 'number', 'pointer', 'number'])
+  raylib.SetShaderValue = (shader, locIndex, value, uniformType) => _SetShaderValue(shader._address, locIndex, value._address, uniformType)
 
   // Set shader uniform value vector: SetShaderValueV(Shader, int, const void *, int, int) => void
-  raylib.SetShaderValueV = (shader, locIndex, value, uniformType, count) => mod.ccall('SetShaderValueV', 'pointer', ['pointer', 'number', 'pointer', 'number', 'number'], [shader._address, locIndex, value._address, uniformType, count])
+  const _SetShaderValueV = mod.cwrap('SetShaderValueV', 'void', ['pointer', 'number', 'pointer', 'number', 'number'])
+  raylib.SetShaderValueV = (shader, locIndex, value, uniformType, count) => _SetShaderValueV(shader._address, locIndex, value._address, uniformType, count)
 
   // Set shader uniform value (matrix 4x4): SetShaderValueMatrix(Shader, int, Matrix) => void
-  raylib.SetShaderValueMatrix = (shader, locIndex, mat) => mod.ccall('SetShaderValueMatrix', 'pointer', ['pointer', 'number', 'pointer'], [shader._address, locIndex, mat._address])
+  const _SetShaderValueMatrix = mod.cwrap('SetShaderValueMatrix', 'void', ['pointer', 'number', 'pointer'])
+  raylib.SetShaderValueMatrix = (shader, locIndex, mat) => _SetShaderValueMatrix(shader._address, locIndex, mat._address)
 
   // Set shader uniform value for texture (sampler2d): SetShaderValueTexture(Shader, int, Texture2D) => void
-  raylib.SetShaderValueTexture = (shader, locIndex, texture) => mod.ccall('SetShaderValueTexture', 'pointer', ['pointer', 'number', 'pointer'], [shader._address, locIndex, texture._address])
+  const _SetShaderValueTexture = mod.cwrap('SetShaderValueTexture', 'void', ['pointer', 'number', 'pointer'])
+  raylib.SetShaderValueTexture = (shader, locIndex, texture) => _SetShaderValueTexture(shader._address, locIndex, texture._address)
 
   // Unload shader from GPU memory (VRAM): UnloadShader(Shader) => void
-  raylib.UnloadShader = (shader) => mod.ccall('UnloadShader', 'pointer', ['pointer'], [shader._address])
+  const _UnloadShader = mod.cwrap('UnloadShader', 'void', ['pointer'])
+  raylib.UnloadShader = (shader) => _UnloadShader(shader._address)
 
   // Get a ray trace from mouse position: GetMouseRay(Vector2, Camera) => Ray
+  const _GetMouseRay = mod.cwrap('GetMouseRay', 'void', ['pointer', 'pointer', 'pointer'])
   raylib.GetMouseRay = (mousePosition, camera) => {
     const _ret = new raylib.Ray()
-    mod.ccall('GetMouseRay', 'void', ['pointer', 'pointer', 'pointer'], [_ret._address, mousePosition._address, camera._address])
+    _GetMouseRay(_ret._address, mousePosition._address, camera._address)
     return _ret
   }
 
   // Get camera transform matrix (view matrix): GetCameraMatrix(Camera) => Matrix
+  const _GetCameraMatrix = mod.cwrap('GetCameraMatrix', 'void', ['pointer', 'pointer'])
   raylib.GetCameraMatrix = (camera) => {
     const _ret = new raylib.Matrix()
-    mod.ccall('GetCameraMatrix', 'void', ['pointer', 'pointer'], [_ret._address, camera._address])
+    _GetCameraMatrix(_ret._address, camera._address)
     return _ret
   }
 
   // Get camera 2d transform matrix: GetCameraMatrix2D(Camera2D) => Matrix
+  const _GetCameraMatrix2D = mod.cwrap('GetCameraMatrix2D', 'void', ['pointer', 'pointer'])
   raylib.GetCameraMatrix2D = (camera) => {
     const _ret = new raylib.Matrix()
-    mod.ccall('GetCameraMatrix2D', 'void', ['pointer', 'pointer'], [_ret._address, camera._address])
+    _GetCameraMatrix2D(_ret._address, camera._address)
     return _ret
   }
 
   // Get the screen space position for a 3d world space position: GetWorldToScreen(Vector3, Camera) => Vector2
+  const _GetWorldToScreen = mod.cwrap('GetWorldToScreen', 'void', ['pointer', 'pointer', 'pointer'])
   raylib.GetWorldToScreen = (position, camera) => {
     const _ret = new raylib.Vector2()
-    mod.ccall('GetWorldToScreen', 'void', ['pointer', 'pointer', 'pointer'], [_ret._address, position._address, camera._address])
+    _GetWorldToScreen(_ret._address, position._address, camera._address)
     return _ret
   }
 
   // Get the world space position for a 2d camera screen space position: GetScreenToWorld2D(Vector2, Camera2D) => Vector2
+  const _GetScreenToWorld2D = mod.cwrap('GetScreenToWorld2D', 'void', ['pointer', 'pointer', 'pointer'])
   raylib.GetScreenToWorld2D = (position, camera) => {
     const _ret = new raylib.Vector2()
-    mod.ccall('GetScreenToWorld2D', 'void', ['pointer', 'pointer', 'pointer'], [_ret._address, position._address, camera._address])
+    _GetScreenToWorld2D(_ret._address, position._address, camera._address)
     return _ret
   }
 
   // Get size position for a 3d world space position: GetWorldToScreenEx(Vector3, Camera, int, int) => Vector2
+  const _GetWorldToScreenEx = mod.cwrap('GetWorldToScreenEx', 'void', ['pointer', 'pointer', 'pointer', 'number', 'number'])
   raylib.GetWorldToScreenEx = (position, camera, width, height) => {
     const _ret = new raylib.Vector2()
-    mod.ccall('GetWorldToScreenEx', 'void', ['pointer', 'pointer', 'pointer', 'number', 'number'], [_ret._address, position._address, camera._address, width, height])
+    _GetWorldToScreenEx(_ret._address, position._address, camera._address, width, height)
     return _ret
   }
 
   // Get the screen space position for a 2d camera world space position: GetWorldToScreen2D(Vector2, Camera2D) => Vector2
+  const _GetWorldToScreen2D = mod.cwrap('GetWorldToScreen2D', 'void', ['pointer', 'pointer', 'pointer'])
   raylib.GetWorldToScreen2D = (position, camera) => {
     const _ret = new raylib.Vector2()
-    mod.ccall('GetWorldToScreen2D', 'void', ['pointer', 'pointer', 'pointer'], [_ret._address, position._address, camera._address])
+    _GetWorldToScreen2D(_ret._address, position._address, camera._address)
     return _ret
   }
 
   // Set target FPS (maximum): SetTargetFPS(int) => void
-  raylib.SetTargetFPS = (fps) => mod.ccall('SetTargetFPS', 'pointer', ['number'], [fps])
+  const _SetTargetFPS = mod.cwrap('SetTargetFPS', 'void', ['number'])
+  raylib.SetTargetFPS = (fps) => _SetTargetFPS(fps)
 
   // Get current FPS: GetFPS() => int
-  raylib.GetFPS = () => mod.ccall('GetFPS', 'number', [], [])
+  const _GetFPS = mod.cwrap('GetFPS', 'void', [])
+  raylib.GetFPS = () => _GetFPS()
 
   // Get time in seconds for last frame drawn (delta time): GetFrameTime() => float
-  raylib.GetFrameTime = () => mod.ccall('GetFrameTime', 'number', [], [])
+  const _GetFrameTime = mod.cwrap('GetFrameTime', 'void', [])
+  raylib.GetFrameTime = () => _GetFrameTime()
 
   // Get elapsed time in seconds since InitWindow(): GetTime() => double
-  raylib.GetTime = () => mod.ccall('GetTime', 'number', [], [])
+  const _GetTime = mod.cwrap('GetTime', 'void', [])
+  raylib.GetTime = () => _GetTime()
 
   // Get a random value between min and max (both included): GetRandomValue(int, int) => int
-  raylib.GetRandomValue = (min, max) => mod.ccall('GetRandomValue', 'number', ['number', 'number'], [min, max])
+  const _GetRandomValue = mod.cwrap('GetRandomValue', 'void', ['number', 'number'])
+  raylib.GetRandomValue = (min, max) => _GetRandomValue(min, max)
 
   // Set the seed for the random number generator: SetRandomSeed(unsigned int) => void
-  raylib.SetRandomSeed = (seed) => mod.ccall('SetRandomSeed', 'pointer', ['number'], [seed])
+  const _SetRandomSeed = mod.cwrap('SetRandomSeed', 'void', ['number'])
+  raylib.SetRandomSeed = (seed) => _SetRandomSeed(seed)
 
   // Takes a screenshot of current screen (filename extension defines format): TakeScreenshot(const char *) => void
-  raylib.TakeScreenshot = (fileName) => mod.ccall('TakeScreenshot', 'pointer', ['string'], [fileName])
+  const _TakeScreenshot = mod.cwrap('TakeScreenshot', 'void', ['string'])
+  raylib.TakeScreenshot = (fileName) => _TakeScreenshot(fileName)
 
   // Setup init configuration flags (view FLAGS): SetConfigFlags(unsigned int) => void
-  raylib.SetConfigFlags = (flags) => mod.ccall('SetConfigFlags', 'pointer', ['number'], [flags])
+  const _SetConfigFlags = mod.cwrap('SetConfigFlags', 'void', ['number'])
+  raylib.SetConfigFlags = (flags) => _SetConfigFlags(flags)
 
   // Show trace log messages (LOG_DEBUG, LOG_INFO, LOG_WARNING, LOG_ERROR...): TraceLog(int, const char *, ...) => void
-  raylib.TraceLog = (logLevel, text, args) => mod.ccall('TraceLog', 'pointer', ['number', 'string', 'pointer'], [logLevel, text, args._address])
+  const _TraceLog = mod.cwrap('TraceLog', 'void', ['number', 'string', 'pointer'])
+  raylib.TraceLog = (logLevel, text, args) => _TraceLog(logLevel, text, args._address)
 
   // Set the current threshold (minimum) log level: SetTraceLogLevel(int) => void
-  raylib.SetTraceLogLevel = (logLevel) => mod.ccall('SetTraceLogLevel', 'pointer', ['number'], [logLevel])
+  const _SetTraceLogLevel = mod.cwrap('SetTraceLogLevel', 'void', ['number'])
+  raylib.SetTraceLogLevel = (logLevel) => _SetTraceLogLevel(logLevel)
 
   // Internal memory allocator: MemAlloc(unsigned int) => void *
-  raylib.MemAlloc = (size) => mod.ccall('MemAlloc', 'pointer', ['number'], [size])
+  const _MemAlloc = mod.cwrap('MemAlloc', 'void', ['number'])
+  raylib.MemAlloc = (size) => _MemAlloc(size)
 
   // Internal memory reallocator: MemRealloc(void *, unsigned int) => void *
-  raylib.MemRealloc = (ptr, size) => mod.ccall('MemRealloc', 'pointer', ['pointer', 'number'], [ptr._address, size])
+  const _MemRealloc = mod.cwrap('MemRealloc', 'void', ['pointer', 'number'])
+  raylib.MemRealloc = (ptr, size) => _MemRealloc(ptr._address, size)
 
   // Internal memory free: MemFree(void *) => void
-  raylib.MemFree = (ptr) => mod.ccall('MemFree', 'pointer', ['pointer'], [ptr._address])
+  const _MemFree = mod.cwrap('MemFree', 'void', ['pointer'])
+  raylib.MemFree = (ptr) => _MemFree(ptr._address)
 
   // Open URL with default system browser (if available): OpenURL(const char *) => void
-  raylib.OpenURL = (url) => mod.ccall('OpenURL', 'pointer', ['string'], [url])
+  const _OpenURL = mod.cwrap('OpenURL', 'void', ['string'])
+  raylib.OpenURL = (url) => _OpenURL(url)
 
   // Set custom trace log: SetTraceLogCallback(TraceLogCallback) => void
-  raylib.SetTraceLogCallback = (callback) => mod.ccall('SetTraceLogCallback', 'pointer', ['pointer'], [callback._address])
+  const _SetTraceLogCallback = mod.cwrap('SetTraceLogCallback', 'void', ['pointer'])
+  raylib.SetTraceLogCallback = (callback) => _SetTraceLogCallback(callback._address)
 
   // Set custom file binary data loader: SetLoadFileDataCallback(LoadFileDataCallback) => void
-  raylib.SetLoadFileDataCallback = (callback) => mod.ccall('SetLoadFileDataCallback', 'pointer', ['pointer'], [callback._address])
+  const _SetLoadFileDataCallback = mod.cwrap('SetLoadFileDataCallback', 'void', ['pointer'])
+  raylib.SetLoadFileDataCallback = (callback) => _SetLoadFileDataCallback(callback._address)
 
   // Set custom file binary data saver: SetSaveFileDataCallback(SaveFileDataCallback) => void
-  raylib.SetSaveFileDataCallback = (callback) => mod.ccall('SetSaveFileDataCallback', 'pointer', ['pointer'], [callback._address])
+  const _SetSaveFileDataCallback = mod.cwrap('SetSaveFileDataCallback', 'void', ['pointer'])
+  raylib.SetSaveFileDataCallback = (callback) => _SetSaveFileDataCallback(callback._address)
 
   // Set custom file text data loader: SetLoadFileTextCallback(LoadFileTextCallback) => void
-  raylib.SetLoadFileTextCallback = (callback) => mod.ccall('SetLoadFileTextCallback', 'pointer', ['pointer'], [callback._address])
+  const _SetLoadFileTextCallback = mod.cwrap('SetLoadFileTextCallback', 'void', ['pointer'])
+  raylib.SetLoadFileTextCallback = (callback) => _SetLoadFileTextCallback(callback._address)
 
   // Set custom file text data saver: SetSaveFileTextCallback(SaveFileTextCallback) => void
-  raylib.SetSaveFileTextCallback = (callback) => mod.ccall('SetSaveFileTextCallback', 'pointer', ['pointer'], [callback._address])
+  const _SetSaveFileTextCallback = mod.cwrap('SetSaveFileTextCallback', 'void', ['pointer'])
+  raylib.SetSaveFileTextCallback = (callback) => _SetSaveFileTextCallback(callback._address)
 
   // Load file data as byte array (read): LoadFileData(const char *, unsigned int *) => unsigned char *
-  raylib.LoadFileData = (fileName, bytesRead) => mod.ccall('LoadFileData', 'pointer', ['string', 'pointer'], [fileName, bytesRead._address])
+  const _LoadFileData = mod.cwrap('LoadFileData', 'void', ['string', 'pointer'])
+  raylib.LoadFileData = (fileName, bytesRead) => _LoadFileData(fileName, bytesRead._address)
 
   // Unload file data allocated by LoadFileData(): UnloadFileData(unsigned char *) => void
-  raylib.UnloadFileData = (data) => mod.ccall('UnloadFileData', 'pointer', ['pointer'], [data._address])
+  const _UnloadFileData = mod.cwrap('UnloadFileData', 'void', ['pointer'])
+  raylib.UnloadFileData = (data) => _UnloadFileData(data._address)
 
   // Save data to file from byte array (write), returns true on success: SaveFileData(const char *, void *, unsigned int) => bool
-  raylib.SaveFileData = (fileName, data, bytesToWrite) => mod.ccall('SaveFileData', 'boolean', ['string', 'pointer', 'number'], [fileName, data._address, bytesToWrite])
+  const _SaveFileData = mod.cwrap('SaveFileData', 'void', ['string', 'pointer', 'number'])
+  raylib.SaveFileData = (fileName, data, bytesToWrite) => _SaveFileData(fileName, data._address, bytesToWrite)
 
   // Export data to code (.h), returns true on success: ExportDataAsCode(const unsigned char *, unsigned int, const char *) => bool
-  raylib.ExportDataAsCode = (data, size, fileName) => mod.ccall('ExportDataAsCode', 'boolean', ['pointer', 'number', 'string'], [data._address, size, fileName])
+  const _ExportDataAsCode = mod.cwrap('ExportDataAsCode', 'void', ['pointer', 'number', 'string'])
+  raylib.ExportDataAsCode = (data, size, fileName) => _ExportDataAsCode(data._address, size, fileName)
 
   // Load text data from file (read), returns a '\0' terminated string: LoadFileText(const char *) => char *
-  raylib.LoadFileText = (fileName) => mod.ccall('LoadFileText', 'pointer', ['string'], [fileName])
+  const _LoadFileText = mod.cwrap('LoadFileText', 'void', ['string'])
+  raylib.LoadFileText = (fileName) => _LoadFileText(fileName)
 
   // Unload file text data allocated by LoadFileText(): UnloadFileText(char *) => void
-  raylib.UnloadFileText = (text) => mod.ccall('UnloadFileText', 'pointer', ['pointer'], [text._address])
+  const _UnloadFileText = mod.cwrap('UnloadFileText', 'void', ['pointer'])
+  raylib.UnloadFileText = (text) => _UnloadFileText(text._address)
 
   // Save text data to file (write), string must be '\0' terminated, returns true on success: SaveFileText(const char *, char *) => bool
-  raylib.SaveFileText = (fileName, text) => mod.ccall('SaveFileText', 'boolean', ['string', 'pointer'], [fileName, text._address])
+  const _SaveFileText = mod.cwrap('SaveFileText', 'void', ['string', 'pointer'])
+  raylib.SaveFileText = (fileName, text) => _SaveFileText(fileName, text._address)
 
   // Check if file exists: FileExists(const char *) => bool
-  raylib.FileExists = (fileName) => mod.ccall('FileExists', 'boolean', ['string'], [fileName])
+  const _FileExists = mod.cwrap('FileExists', 'void', ['string'])
+  raylib.FileExists = (fileName) => _FileExists(fileName)
 
   // Check if a directory path exists: DirectoryExists(const char *) => bool
-  raylib.DirectoryExists = (dirPath) => mod.ccall('DirectoryExists', 'boolean', ['string'], [dirPath])
+  const _DirectoryExists = mod.cwrap('DirectoryExists', 'void', ['string'])
+  raylib.DirectoryExists = (dirPath) => _DirectoryExists(dirPath)
 
   // Check file extension (including point: .png, .wav): IsFileExtension(const char *, const char *) => bool
-  raylib.IsFileExtension = (fileName, ext) => mod.ccall('IsFileExtension', 'boolean', ['string', 'string'], [fileName, ext])
+  const _IsFileExtension = mod.cwrap('IsFileExtension', 'void', ['string', 'string'])
+  raylib.IsFileExtension = (fileName, ext) => _IsFileExtension(fileName, ext)
 
   // Get file length in bytes (NOTE: GetFileSize() conflicts with windows.h): GetFileLength(const char *) => int
-  raylib.GetFileLength = (fileName) => mod.ccall('GetFileLength', 'number', ['string'], [fileName])
+  const _GetFileLength = mod.cwrap('GetFileLength', 'void', ['string'])
+  raylib.GetFileLength = (fileName) => _GetFileLength(fileName)
 
   // Get pointer to extension for a filename string (includes dot: '.png'): GetFileExtension(const char *) => const char *
-  raylib.GetFileExtension = (fileName) => mod.ccall('GetFileExtension', 'string', ['string'], [fileName])
+  const _GetFileExtension = mod.cwrap('GetFileExtension', 'void', ['string'])
+  raylib.GetFileExtension = (fileName) => _GetFileExtension(fileName)
 
   // Get pointer to filename for a path string: GetFileName(const char *) => const char *
-  raylib.GetFileName = (filePath) => mod.ccall('GetFileName', 'string', ['string'], [filePath])
+  const _GetFileName = mod.cwrap('GetFileName', 'void', ['string'])
+  raylib.GetFileName = (filePath) => _GetFileName(filePath)
 
   // Get filename string without extension (uses static string): GetFileNameWithoutExt(const char *) => const char *
-  raylib.GetFileNameWithoutExt = (filePath) => mod.ccall('GetFileNameWithoutExt', 'string', ['string'], [filePath])
+  const _GetFileNameWithoutExt = mod.cwrap('GetFileNameWithoutExt', 'void', ['string'])
+  raylib.GetFileNameWithoutExt = (filePath) => _GetFileNameWithoutExt(filePath)
 
   // Get full path for a given fileName with path (uses static string): GetDirectoryPath(const char *) => const char *
-  raylib.GetDirectoryPath = (filePath) => mod.ccall('GetDirectoryPath', 'string', ['string'], [filePath])
+  const _GetDirectoryPath = mod.cwrap('GetDirectoryPath', 'void', ['string'])
+  raylib.GetDirectoryPath = (filePath) => _GetDirectoryPath(filePath)
 
   // Get previous directory path for a given path (uses static string): GetPrevDirectoryPath(const char *) => const char *
-  raylib.GetPrevDirectoryPath = (dirPath) => mod.ccall('GetPrevDirectoryPath', 'string', ['string'], [dirPath])
+  const _GetPrevDirectoryPath = mod.cwrap('GetPrevDirectoryPath', 'void', ['string'])
+  raylib.GetPrevDirectoryPath = (dirPath) => _GetPrevDirectoryPath(dirPath)
 
   // Get current working directory (uses static string): GetWorkingDirectory() => const char *
-  raylib.GetWorkingDirectory = () => mod.ccall('GetWorkingDirectory', 'string', [], [])
+  const _GetWorkingDirectory = mod.cwrap('GetWorkingDirectory', 'void', [])
+  raylib.GetWorkingDirectory = () => _GetWorkingDirectory()
 
   // Get the directory if the running application (uses static string): GetApplicationDirectory() => const char *
-  raylib.GetApplicationDirectory = () => mod.ccall('GetApplicationDirectory', 'string', [], [])
+  const _GetApplicationDirectory = mod.cwrap('GetApplicationDirectory', 'void', [])
+  raylib.GetApplicationDirectory = () => _GetApplicationDirectory()
 
   // Change working directory, return true on success: ChangeDirectory(const char *) => bool
-  raylib.ChangeDirectory = (dir) => mod.ccall('ChangeDirectory', 'boolean', ['string'], [dir])
+  const _ChangeDirectory = mod.cwrap('ChangeDirectory', 'void', ['string'])
+  raylib.ChangeDirectory = (dir) => _ChangeDirectory(dir)
 
   // Check if a given path is a file or a directory: IsPathFile(const char *) => bool
-  raylib.IsPathFile = (path) => mod.ccall('IsPathFile', 'boolean', ['string'], [path])
+  const _IsPathFile = mod.cwrap('IsPathFile', 'void', ['string'])
+  raylib.IsPathFile = (path) => _IsPathFile(path)
 
   // Load directory filepaths: LoadDirectoryFiles(const char *) => FilePathList
+  const _LoadDirectoryFiles = mod.cwrap('LoadDirectoryFiles', 'void', ['pointer', 'string'])
   raylib.LoadDirectoryFiles = (dirPath) => {
     const _ret = new raylib.FilePathList()
-    mod.ccall('LoadDirectoryFiles', 'void', ['pointer', 'string'], [_ret._address, dirPath])
+    _LoadDirectoryFiles(_ret._address, dirPath)
     return _ret
   }
 
   // Load directory filepaths with extension filtering and recursive directory scan: LoadDirectoryFilesEx(const char *, const char *, bool) => FilePathList
+  const _LoadDirectoryFilesEx = mod.cwrap('LoadDirectoryFilesEx', 'void', ['pointer', 'string', 'string', 'boolean'])
   raylib.LoadDirectoryFilesEx = (basePath, filter, scanSubdirs) => {
     const _ret = new raylib.FilePathList()
-    mod.ccall('LoadDirectoryFilesEx', 'void', ['pointer', 'string', 'string', 'boolean'], [_ret._address, basePath, filter, scanSubdirs])
+    _LoadDirectoryFilesEx(_ret._address, basePath, filter, scanSubdirs)
     return _ret
   }
 
   // Unload filepaths: UnloadDirectoryFiles(FilePathList) => void
-  raylib.UnloadDirectoryFiles = (files) => mod.ccall('UnloadDirectoryFiles', 'pointer', ['pointer'], [files._address])
+  const _UnloadDirectoryFiles = mod.cwrap('UnloadDirectoryFiles', 'void', ['pointer'])
+  raylib.UnloadDirectoryFiles = (files) => _UnloadDirectoryFiles(files._address)
 
   // Check if a file has been dropped into window: IsFileDropped() => bool
-  raylib.IsFileDropped = () => mod.ccall('IsFileDropped', 'boolean', [], [])
+  const _IsFileDropped = mod.cwrap('IsFileDropped', 'void', [])
+  raylib.IsFileDropped = () => _IsFileDropped()
 
   // Load dropped filepaths: LoadDroppedFiles() => FilePathList
+  const _LoadDroppedFiles = mod.cwrap('LoadDroppedFiles', 'void', ['pointer'])
   raylib.LoadDroppedFiles = () => {
     const _ret = new raylib.FilePathList()
-    mod.ccall('LoadDroppedFiles', 'void', ['pointer'], [_ret._address])
+    _LoadDroppedFiles(_ret._address)
     return _ret
   }
 
   // Unload dropped filepaths: UnloadDroppedFiles(FilePathList) => void
-  raylib.UnloadDroppedFiles = (files) => mod.ccall('UnloadDroppedFiles', 'pointer', ['pointer'], [files._address])
+  const _UnloadDroppedFiles = mod.cwrap('UnloadDroppedFiles', 'void', ['pointer'])
+  raylib.UnloadDroppedFiles = (files) => _UnloadDroppedFiles(files._address)
 
   // Get file modification time (last write time): GetFileModTime(const char *) => long
-  raylib.GetFileModTime = (fileName) => mod.ccall('GetFileModTime', 'number', ['string'], [fileName])
+  const _GetFileModTime = mod.cwrap('GetFileModTime', 'void', ['string'])
+  raylib.GetFileModTime = (fileName) => _GetFileModTime(fileName)
 
   // Compress data (DEFLATE algorithm), memory must be MemFree(): CompressData(const unsigned char *, int, int *) => unsigned char *
-  raylib.CompressData = (data, dataSize, compDataSize) => mod.ccall('CompressData', 'pointer', ['pointer', 'number', 'pointer'], [data._address, dataSize, compDataSize._address])
+  const _CompressData = mod.cwrap('CompressData', 'void', ['pointer', 'number', 'pointer'])
+  raylib.CompressData = (data, dataSize, compDataSize) => _CompressData(data._address, dataSize, compDataSize._address)
 
   // Decompress data (DEFLATE algorithm), memory must be MemFree(): DecompressData(const unsigned char *, int, int *) => unsigned char *
-  raylib.DecompressData = (compData, compDataSize, dataSize) => mod.ccall('DecompressData', 'pointer', ['pointer', 'number', 'pointer'], [compData._address, compDataSize, dataSize._address])
+  const _DecompressData = mod.cwrap('DecompressData', 'void', ['pointer', 'number', 'pointer'])
+  raylib.DecompressData = (compData, compDataSize, dataSize) => _DecompressData(compData._address, compDataSize, dataSize._address)
 
   // Encode data to Base64 string, memory must be MemFree(): EncodeDataBase64(const unsigned char *, int, int *) => char *
-  raylib.EncodeDataBase64 = (data, dataSize, outputSize) => mod.ccall('EncodeDataBase64', 'pointer', ['pointer', 'number', 'pointer'], [data._address, dataSize, outputSize._address])
+  const _EncodeDataBase64 = mod.cwrap('EncodeDataBase64', 'void', ['pointer', 'number', 'pointer'])
+  raylib.EncodeDataBase64 = (data, dataSize, outputSize) => _EncodeDataBase64(data._address, dataSize, outputSize._address)
 
   // Decode Base64 string data, memory must be MemFree(): DecodeDataBase64(const unsigned char *, int *) => unsigned char *
-  raylib.DecodeDataBase64 = (data, outputSize) => mod.ccall('DecodeDataBase64', 'pointer', ['pointer', 'pointer'], [data._address, outputSize._address])
+  const _DecodeDataBase64 = mod.cwrap('DecodeDataBase64', 'void', ['pointer', 'pointer'])
+  raylib.DecodeDataBase64 = (data, outputSize) => _DecodeDataBase64(data._address, outputSize._address)
 
   // Check if a key has been pressed once: IsKeyPressed(int) => bool
-  raylib.IsKeyPressed = (key) => mod.ccall('IsKeyPressed', 'boolean', ['number'], [key])
+  const _IsKeyPressed = mod.cwrap('IsKeyPressed', 'void', ['number'])
+  raylib.IsKeyPressed = (key) => _IsKeyPressed(key)
 
   // Check if a key is being pressed: IsKeyDown(int) => bool
-  raylib.IsKeyDown = (key) => mod.ccall('IsKeyDown', 'boolean', ['number'], [key])
+  const _IsKeyDown = mod.cwrap('IsKeyDown', 'void', ['number'])
+  raylib.IsKeyDown = (key) => _IsKeyDown(key)
 
   // Check if a key has been released once: IsKeyReleased(int) => bool
-  raylib.IsKeyReleased = (key) => mod.ccall('IsKeyReleased', 'boolean', ['number'], [key])
+  const _IsKeyReleased = mod.cwrap('IsKeyReleased', 'void', ['number'])
+  raylib.IsKeyReleased = (key) => _IsKeyReleased(key)
 
   // Check if a key is NOT being pressed: IsKeyUp(int) => bool
-  raylib.IsKeyUp = (key) => mod.ccall('IsKeyUp', 'boolean', ['number'], [key])
+  const _IsKeyUp = mod.cwrap('IsKeyUp', 'void', ['number'])
+  raylib.IsKeyUp = (key) => _IsKeyUp(key)
 
   // Set a custom key to exit program (default is ESC): SetExitKey(int) => void
-  raylib.SetExitKey = (key) => mod.ccall('SetExitKey', 'pointer', ['number'], [key])
+  const _SetExitKey = mod.cwrap('SetExitKey', 'void', ['number'])
+  raylib.SetExitKey = (key) => _SetExitKey(key)
 
   // Get key pressed (keycode), call it multiple times for keys queued, returns 0 when the queue is empty: GetKeyPressed() => int
-  raylib.GetKeyPressed = () => mod.ccall('GetKeyPressed', 'number', [], [])
+  const _GetKeyPressed = mod.cwrap('GetKeyPressed', 'void', [])
+  raylib.GetKeyPressed = () => _GetKeyPressed()
 
   // Get char pressed (unicode), call it multiple times for chars queued, returns 0 when the queue is empty: GetCharPressed() => int
-  raylib.GetCharPressed = () => mod.ccall('GetCharPressed', 'number', [], [])
+  const _GetCharPressed = mod.cwrap('GetCharPressed', 'void', [])
+  raylib.GetCharPressed = () => _GetCharPressed()
 
   // Check if a gamepad is available: IsGamepadAvailable(int) => bool
-  raylib.IsGamepadAvailable = (gamepad) => mod.ccall('IsGamepadAvailable', 'boolean', ['number'], [gamepad])
+  const _IsGamepadAvailable = mod.cwrap('IsGamepadAvailable', 'void', ['number'])
+  raylib.IsGamepadAvailable = (gamepad) => _IsGamepadAvailable(gamepad)
 
   // Get gamepad internal name id: GetGamepadName(int) => const char *
-  raylib.GetGamepadName = (gamepad) => mod.ccall('GetGamepadName', 'string', ['number'], [gamepad])
+  const _GetGamepadName = mod.cwrap('GetGamepadName', 'void', ['number'])
+  raylib.GetGamepadName = (gamepad) => _GetGamepadName(gamepad)
 
   // Check if a gamepad button has been pressed once: IsGamepadButtonPressed(int, int) => bool
-  raylib.IsGamepadButtonPressed = (gamepad, button) => mod.ccall('IsGamepadButtonPressed', 'boolean', ['number', 'number'], [gamepad, button])
+  const _IsGamepadButtonPressed = mod.cwrap('IsGamepadButtonPressed', 'void', ['number', 'number'])
+  raylib.IsGamepadButtonPressed = (gamepad, button) => _IsGamepadButtonPressed(gamepad, button)
 
   // Check if a gamepad button is being pressed: IsGamepadButtonDown(int, int) => bool
-  raylib.IsGamepadButtonDown = (gamepad, button) => mod.ccall('IsGamepadButtonDown', 'boolean', ['number', 'number'], [gamepad, button])
+  const _IsGamepadButtonDown = mod.cwrap('IsGamepadButtonDown', 'void', ['number', 'number'])
+  raylib.IsGamepadButtonDown = (gamepad, button) => _IsGamepadButtonDown(gamepad, button)
 
   // Check if a gamepad button has been released once: IsGamepadButtonReleased(int, int) => bool
-  raylib.IsGamepadButtonReleased = (gamepad, button) => mod.ccall('IsGamepadButtonReleased', 'boolean', ['number', 'number'], [gamepad, button])
+  const _IsGamepadButtonReleased = mod.cwrap('IsGamepadButtonReleased', 'void', ['number', 'number'])
+  raylib.IsGamepadButtonReleased = (gamepad, button) => _IsGamepadButtonReleased(gamepad, button)
 
   // Check if a gamepad button is NOT being pressed: IsGamepadButtonUp(int, int) => bool
-  raylib.IsGamepadButtonUp = (gamepad, button) => mod.ccall('IsGamepadButtonUp', 'boolean', ['number', 'number'], [gamepad, button])
+  const _IsGamepadButtonUp = mod.cwrap('IsGamepadButtonUp', 'void', ['number', 'number'])
+  raylib.IsGamepadButtonUp = (gamepad, button) => _IsGamepadButtonUp(gamepad, button)
 
   // Get the last gamepad button pressed: GetGamepadButtonPressed() => int
-  raylib.GetGamepadButtonPressed = () => mod.ccall('GetGamepadButtonPressed', 'number', [], [])
+  const _GetGamepadButtonPressed = mod.cwrap('GetGamepadButtonPressed', 'void', [])
+  raylib.GetGamepadButtonPressed = () => _GetGamepadButtonPressed()
 
   // Get gamepad axis count for a gamepad: GetGamepadAxisCount(int) => int
-  raylib.GetGamepadAxisCount = (gamepad) => mod.ccall('GetGamepadAxisCount', 'number', ['number'], [gamepad])
+  const _GetGamepadAxisCount = mod.cwrap('GetGamepadAxisCount', 'void', ['number'])
+  raylib.GetGamepadAxisCount = (gamepad) => _GetGamepadAxisCount(gamepad)
 
   // Get axis movement value for a gamepad axis: GetGamepadAxisMovement(int, int) => float
-  raylib.GetGamepadAxisMovement = (gamepad, axis) => mod.ccall('GetGamepadAxisMovement', 'number', ['number', 'number'], [gamepad, axis])
+  const _GetGamepadAxisMovement = mod.cwrap('GetGamepadAxisMovement', 'void', ['number', 'number'])
+  raylib.GetGamepadAxisMovement = (gamepad, axis) => _GetGamepadAxisMovement(gamepad, axis)
 
   // Set internal gamepad mappings (SDL_GameControllerDB): SetGamepadMappings(const char *) => int
-  raylib.SetGamepadMappings = (mappings) => mod.ccall('SetGamepadMappings', 'number', ['string'], [mappings])
+  const _SetGamepadMappings = mod.cwrap('SetGamepadMappings', 'void', ['string'])
+  raylib.SetGamepadMappings = (mappings) => _SetGamepadMappings(mappings)
 
   // Check if a mouse button has been pressed once: IsMouseButtonPressed(int) => bool
-  raylib.IsMouseButtonPressed = (button) => mod.ccall('IsMouseButtonPressed', 'boolean', ['number'], [button])
+  const _IsMouseButtonPressed = mod.cwrap('IsMouseButtonPressed', 'void', ['number'])
+  raylib.IsMouseButtonPressed = (button) => _IsMouseButtonPressed(button)
 
   // Check if a mouse button is being pressed: IsMouseButtonDown(int) => bool
-  raylib.IsMouseButtonDown = (button) => mod.ccall('IsMouseButtonDown', 'boolean', ['number'], [button])
+  const _IsMouseButtonDown = mod.cwrap('IsMouseButtonDown', 'void', ['number'])
+  raylib.IsMouseButtonDown = (button) => _IsMouseButtonDown(button)
 
   // Check if a mouse button has been released once: IsMouseButtonReleased(int) => bool
-  raylib.IsMouseButtonReleased = (button) => mod.ccall('IsMouseButtonReleased', 'boolean', ['number'], [button])
+  const _IsMouseButtonReleased = mod.cwrap('IsMouseButtonReleased', 'void', ['number'])
+  raylib.IsMouseButtonReleased = (button) => _IsMouseButtonReleased(button)
 
   // Check if a mouse button is NOT being pressed: IsMouseButtonUp(int) => bool
-  raylib.IsMouseButtonUp = (button) => mod.ccall('IsMouseButtonUp', 'boolean', ['number'], [button])
+  const _IsMouseButtonUp = mod.cwrap('IsMouseButtonUp', 'void', ['number'])
+  raylib.IsMouseButtonUp = (button) => _IsMouseButtonUp(button)
 
   // Get mouse position X: GetMouseX() => int
-  raylib.GetMouseX = () => mod.ccall('GetMouseX', 'number', [], [])
+  const _GetMouseX = mod.cwrap('GetMouseX', 'void', [])
+  raylib.GetMouseX = () => _GetMouseX()
 
   // Get mouse position Y: GetMouseY() => int
-  raylib.GetMouseY = () => mod.ccall('GetMouseY', 'number', [], [])
+  const _GetMouseY = mod.cwrap('GetMouseY', 'void', [])
+  raylib.GetMouseY = () => _GetMouseY()
 
   // Get mouse position XY: GetMousePosition() => Vector2
+  const _GetMousePosition = mod.cwrap('GetMousePosition', 'void', ['pointer'])
   raylib.GetMousePosition = () => {
     const _ret = new raylib.Vector2()
-    mod.ccall('GetMousePosition', 'void', ['pointer'], [_ret._address])
+    _GetMousePosition(_ret._address)
     return _ret
   }
 
   // Get mouse delta between frames: GetMouseDelta() => Vector2
+  const _GetMouseDelta = mod.cwrap('GetMouseDelta', 'void', ['pointer'])
   raylib.GetMouseDelta = () => {
     const _ret = new raylib.Vector2()
-    mod.ccall('GetMouseDelta', 'void', ['pointer'], [_ret._address])
+    _GetMouseDelta(_ret._address)
     return _ret
   }
 
   // Set mouse position XY: SetMousePosition(int, int) => void
-  raylib.SetMousePosition = (x, y) => mod.ccall('SetMousePosition', 'pointer', ['number', 'number'], [x, y])
+  const _SetMousePosition = mod.cwrap('SetMousePosition', 'void', ['number', 'number'])
+  raylib.SetMousePosition = (x, y) => _SetMousePosition(x, y)
 
   // Set mouse offset: SetMouseOffset(int, int) => void
-  raylib.SetMouseOffset = (offsetX, offsetY) => mod.ccall('SetMouseOffset', 'pointer', ['number', 'number'], [offsetX, offsetY])
+  const _SetMouseOffset = mod.cwrap('SetMouseOffset', 'void', ['number', 'number'])
+  raylib.SetMouseOffset = (offsetX, offsetY) => _SetMouseOffset(offsetX, offsetY)
 
   // Set mouse scaling: SetMouseScale(float, float) => void
-  raylib.SetMouseScale = (scaleX, scaleY) => mod.ccall('SetMouseScale', 'pointer', ['number', 'number'], [scaleX, scaleY])
+  const _SetMouseScale = mod.cwrap('SetMouseScale', 'void', ['number', 'number'])
+  raylib.SetMouseScale = (scaleX, scaleY) => _SetMouseScale(scaleX, scaleY)
 
   // Get mouse wheel movement for X or Y, whichever is larger: GetMouseWheelMove() => float
-  raylib.GetMouseWheelMove = () => mod.ccall('GetMouseWheelMove', 'number', [], [])
+  const _GetMouseWheelMove = mod.cwrap('GetMouseWheelMove', 'void', [])
+  raylib.GetMouseWheelMove = () => _GetMouseWheelMove()
 
   // Get mouse wheel movement for both X and Y: GetMouseWheelMoveV() => Vector2
+  const _GetMouseWheelMoveV = mod.cwrap('GetMouseWheelMoveV', 'void', ['pointer'])
   raylib.GetMouseWheelMoveV = () => {
     const _ret = new raylib.Vector2()
-    mod.ccall('GetMouseWheelMoveV', 'void', ['pointer'], [_ret._address])
+    _GetMouseWheelMoveV(_ret._address)
     return _ret
   }
 
   // Set mouse cursor: SetMouseCursor(int) => void
-  raylib.SetMouseCursor = (cursor) => mod.ccall('SetMouseCursor', 'pointer', ['number'], [cursor])
+  const _SetMouseCursor = mod.cwrap('SetMouseCursor', 'void', ['number'])
+  raylib.SetMouseCursor = (cursor) => _SetMouseCursor(cursor)
 
   // Get touch position X for touch point 0 (relative to screen size): GetTouchX() => int
-  raylib.GetTouchX = () => mod.ccall('GetTouchX', 'number', [], [])
+  const _GetTouchX = mod.cwrap('GetTouchX', 'void', [])
+  raylib.GetTouchX = () => _GetTouchX()
 
   // Get touch position Y for touch point 0 (relative to screen size): GetTouchY() => int
-  raylib.GetTouchY = () => mod.ccall('GetTouchY', 'number', [], [])
+  const _GetTouchY = mod.cwrap('GetTouchY', 'void', [])
+  raylib.GetTouchY = () => _GetTouchY()
 
   // Get touch position XY for a touch point index (relative to screen size): GetTouchPosition(int) => Vector2
+  const _GetTouchPosition = mod.cwrap('GetTouchPosition', 'void', ['pointer', 'number'])
   raylib.GetTouchPosition = (index) => {
     const _ret = new raylib.Vector2()
-    mod.ccall('GetTouchPosition', 'void', ['pointer', 'number'], [_ret._address, index])
+    _GetTouchPosition(_ret._address, index)
     return _ret
   }
 
   // Get touch point identifier for given index: GetTouchPointId(int) => int
-  raylib.GetTouchPointId = (index) => mod.ccall('GetTouchPointId', 'number', ['number'], [index])
+  const _GetTouchPointId = mod.cwrap('GetTouchPointId', 'void', ['number'])
+  raylib.GetTouchPointId = (index) => _GetTouchPointId(index)
 
   // Get number of touch points: GetTouchPointCount() => int
-  raylib.GetTouchPointCount = () => mod.ccall('GetTouchPointCount', 'number', [], [])
+  const _GetTouchPointCount = mod.cwrap('GetTouchPointCount', 'void', [])
+  raylib.GetTouchPointCount = () => _GetTouchPointCount()
 
   // Enable a set of gestures using flags: SetGesturesEnabled(unsigned int) => void
-  raylib.SetGesturesEnabled = (flags) => mod.ccall('SetGesturesEnabled', 'pointer', ['number'], [flags])
+  const _SetGesturesEnabled = mod.cwrap('SetGesturesEnabled', 'void', ['number'])
+  raylib.SetGesturesEnabled = (flags) => _SetGesturesEnabled(flags)
 
   // Check if a gesture have been detected: IsGestureDetected(int) => bool
-  raylib.IsGestureDetected = (gesture) => mod.ccall('IsGestureDetected', 'boolean', ['number'], [gesture])
+  const _IsGestureDetected = mod.cwrap('IsGestureDetected', 'void', ['number'])
+  raylib.IsGestureDetected = (gesture) => _IsGestureDetected(gesture)
 
   // Get latest detected gesture: GetGestureDetected() => int
-  raylib.GetGestureDetected = () => mod.ccall('GetGestureDetected', 'number', [], [])
+  const _GetGestureDetected = mod.cwrap('GetGestureDetected', 'void', [])
+  raylib.GetGestureDetected = () => _GetGestureDetected()
 
   // Get gesture hold time in milliseconds: GetGestureHoldDuration() => float
-  raylib.GetGestureHoldDuration = () => mod.ccall('GetGestureHoldDuration', 'number', [], [])
+  const _GetGestureHoldDuration = mod.cwrap('GetGestureHoldDuration', 'void', [])
+  raylib.GetGestureHoldDuration = () => _GetGestureHoldDuration()
 
   // Get gesture drag vector: GetGestureDragVector() => Vector2
+  const _GetGestureDragVector = mod.cwrap('GetGestureDragVector', 'void', ['pointer'])
   raylib.GetGestureDragVector = () => {
     const _ret = new raylib.Vector2()
-    mod.ccall('GetGestureDragVector', 'void', ['pointer'], [_ret._address])
+    _GetGestureDragVector(_ret._address)
     return _ret
   }
 
   // Get gesture drag angle: GetGestureDragAngle() => float
-  raylib.GetGestureDragAngle = () => mod.ccall('GetGestureDragAngle', 'number', [], [])
+  const _GetGestureDragAngle = mod.cwrap('GetGestureDragAngle', 'void', [])
+  raylib.GetGestureDragAngle = () => _GetGestureDragAngle()
 
   // Get gesture pinch delta: GetGesturePinchVector() => Vector2
+  const _GetGesturePinchVector = mod.cwrap('GetGesturePinchVector', 'void', ['pointer'])
   raylib.GetGesturePinchVector = () => {
     const _ret = new raylib.Vector2()
-    mod.ccall('GetGesturePinchVector', 'void', ['pointer'], [_ret._address])
+    _GetGesturePinchVector(_ret._address)
     return _ret
   }
 
   // Get gesture pinch angle: GetGesturePinchAngle() => float
-  raylib.GetGesturePinchAngle = () => mod.ccall('GetGesturePinchAngle', 'number', [], [])
+  const _GetGesturePinchAngle = mod.cwrap('GetGesturePinchAngle', 'void', [])
+  raylib.GetGesturePinchAngle = () => _GetGesturePinchAngle()
 
   // Update camera position for selected mode: UpdateCamera(Camera *, int) => void
-  raylib.UpdateCamera = (camera, mode) => mod.ccall('UpdateCamera', 'pointer', ['pointer', 'number'], [camera._address, mode])
+  const _UpdateCamera = mod.cwrap('UpdateCamera', 'void', ['pointer', 'number'])
+  raylib.UpdateCamera = (camera, mode) => _UpdateCamera(camera._address, mode)
 
   // Update camera movement/rotation: UpdateCameraPro(Camera *, Vector3, Vector3, float) => void
-  raylib.UpdateCameraPro = (camera, movement, rotation, zoom) => mod.ccall('UpdateCameraPro', 'pointer', ['pointer', 'pointer', 'pointer', 'number'], [camera._address, movement._address, rotation._address, zoom])
+  const _UpdateCameraPro = mod.cwrap('UpdateCameraPro', 'void', ['pointer', 'pointer', 'pointer', 'number'])
+  raylib.UpdateCameraPro = (camera, movement, rotation, zoom) => _UpdateCameraPro(camera._address, movement._address, rotation._address, zoom)
 
   // Set texture and rectangle to be used on shapes drawing: SetShapesTexture(Texture2D, Rectangle) => void
-  raylib.SetShapesTexture = (texture, source) => mod.ccall('SetShapesTexture', 'pointer', ['pointer', 'pointer'], [texture._address, source._address])
+  const _SetShapesTexture = mod.cwrap('SetShapesTexture', 'void', ['pointer', 'pointer'])
+  raylib.SetShapesTexture = (texture, source) => _SetShapesTexture(texture._address, source._address)
 
   // Draw a pixel: DrawPixel(int, int, Color) => void
-  raylib.DrawPixel = (posX, posY, color) => mod.ccall('DrawPixel', 'pointer', ['number', 'number', 'pointer'], [posX, posY, color._address])
+  const _DrawPixel = mod.cwrap('DrawPixel', 'void', ['number', 'number', 'pointer'])
+  raylib.DrawPixel = (posX, posY, color) => _DrawPixel(posX, posY, color._address)
 
   // Draw a pixel (Vector version): DrawPixelV(Vector2, Color) => void
-  raylib.DrawPixelV = (position, color) => mod.ccall('DrawPixelV', 'pointer', ['pointer', 'pointer'], [position._address, color._address])
+  const _DrawPixelV = mod.cwrap('DrawPixelV', 'void', ['pointer', 'pointer'])
+  raylib.DrawPixelV = (position, color) => _DrawPixelV(position._address, color._address)
 
   // Draw a line: DrawLine(int, int, int, int, Color) => void
-  raylib.DrawLine = (startPosX, startPosY, endPosX, endPosY, color) => mod.ccall('DrawLine', 'pointer', ['number', 'number', 'number', 'number', 'pointer'], [startPosX, startPosY, endPosX, endPosY, color._address])
+  const _DrawLine = mod.cwrap('DrawLine', 'void', ['number', 'number', 'number', 'number', 'pointer'])
+  raylib.DrawLine = (startPosX, startPosY, endPosX, endPosY, color) => _DrawLine(startPosX, startPosY, endPosX, endPosY, color._address)
 
   // Draw a line (Vector version): DrawLineV(Vector2, Vector2, Color) => void
-  raylib.DrawLineV = (startPos, endPos, color) => mod.ccall('DrawLineV', 'pointer', ['pointer', 'pointer', 'pointer'], [startPos._address, endPos._address, color._address])
+  const _DrawLineV = mod.cwrap('DrawLineV', 'void', ['pointer', 'pointer', 'pointer'])
+  raylib.DrawLineV = (startPos, endPos, color) => _DrawLineV(startPos._address, endPos._address, color._address)
 
   // Draw a line defining thickness: DrawLineEx(Vector2, Vector2, float, Color) => void
-  raylib.DrawLineEx = (startPos, endPos, thick, color) => mod.ccall('DrawLineEx', 'pointer', ['pointer', 'pointer', 'number', 'pointer'], [startPos._address, endPos._address, thick, color._address])
+  const _DrawLineEx = mod.cwrap('DrawLineEx', 'void', ['pointer', 'pointer', 'number', 'pointer'])
+  raylib.DrawLineEx = (startPos, endPos, thick, color) => _DrawLineEx(startPos._address, endPos._address, thick, color._address)
 
   // Draw a line using cubic-bezier curves in-out: DrawLineBezier(Vector2, Vector2, float, Color) => void
-  raylib.DrawLineBezier = (startPos, endPos, thick, color) => mod.ccall('DrawLineBezier', 'pointer', ['pointer', 'pointer', 'number', 'pointer'], [startPos._address, endPos._address, thick, color._address])
+  const _DrawLineBezier = mod.cwrap('DrawLineBezier', 'void', ['pointer', 'pointer', 'number', 'pointer'])
+  raylib.DrawLineBezier = (startPos, endPos, thick, color) => _DrawLineBezier(startPos._address, endPos._address, thick, color._address)
 
   // Draw line using quadratic bezier curves with a control point: DrawLineBezierQuad(Vector2, Vector2, Vector2, float, Color) => void
-  raylib.DrawLineBezierQuad = (startPos, endPos, controlPos, thick, color) => mod.ccall('DrawLineBezierQuad', 'pointer', ['pointer', 'pointer', 'pointer', 'number', 'pointer'], [startPos._address, endPos._address, controlPos._address, thick, color._address])
+  const _DrawLineBezierQuad = mod.cwrap('DrawLineBezierQuad', 'void', ['pointer', 'pointer', 'pointer', 'number', 'pointer'])
+  raylib.DrawLineBezierQuad = (startPos, endPos, controlPos, thick, color) => _DrawLineBezierQuad(startPos._address, endPos._address, controlPos._address, thick, color._address)
 
   // Draw line using cubic bezier curves with 2 control points: DrawLineBezierCubic(Vector2, Vector2, Vector2, Vector2, float, Color) => void
-  raylib.DrawLineBezierCubic = (startPos, endPos, startControlPos, endControlPos, thick, color) => mod.ccall('DrawLineBezierCubic', 'pointer', ['pointer', 'pointer', 'pointer', 'pointer', 'number', 'pointer'], [startPos._address, endPos._address, startControlPos._address, endControlPos._address, thick, color._address])
+  const _DrawLineBezierCubic = mod.cwrap('DrawLineBezierCubic', 'void', ['pointer', 'pointer', 'pointer', 'pointer', 'number', 'pointer'])
+  raylib.DrawLineBezierCubic = (startPos, endPos, startControlPos, endControlPos, thick, color) => _DrawLineBezierCubic(startPos._address, endPos._address, startControlPos._address, endControlPos._address, thick, color._address)
 
   // Draw lines sequence: DrawLineStrip(Vector2 *, int, Color) => void
-  raylib.DrawLineStrip = (points, pointCount, color) => mod.ccall('DrawLineStrip', 'pointer', ['pointer', 'number', 'pointer'], [points._address, pointCount, color._address])
+  const _DrawLineStrip = mod.cwrap('DrawLineStrip', 'void', ['pointer', 'number', 'pointer'])
+  raylib.DrawLineStrip = (points, pointCount, color) => _DrawLineStrip(points._address, pointCount, color._address)
 
   // Draw a color-filled circle: DrawCircle(int, int, float, Color) => void
-  raylib.DrawCircle = (centerX, centerY, radius, color) => mod.ccall('DrawCircle', 'pointer', ['number', 'number', 'number', 'pointer'], [centerX, centerY, radius, color._address])
+  const _DrawCircle = mod.cwrap('DrawCircle', 'void', ['number', 'number', 'number', 'pointer'])
+  raylib.DrawCircle = (centerX, centerY, radius, color) => _DrawCircle(centerX, centerY, radius, color._address)
 
   // Draw a piece of a circle: DrawCircleSector(Vector2, float, float, float, int, Color) => void
-  raylib.DrawCircleSector = (center, radius, startAngle, endAngle, segments, color) => mod.ccall('DrawCircleSector', 'pointer', ['pointer', 'number', 'number', 'number', 'number', 'pointer'], [center._address, radius, startAngle, endAngle, segments, color._address])
+  const _DrawCircleSector = mod.cwrap('DrawCircleSector', 'void', ['pointer', 'number', 'number', 'number', 'number', 'pointer'])
+  raylib.DrawCircleSector = (center, radius, startAngle, endAngle, segments, color) => _DrawCircleSector(center._address, radius, startAngle, endAngle, segments, color._address)
 
   // Draw circle sector outline: DrawCircleSectorLines(Vector2, float, float, float, int, Color) => void
-  raylib.DrawCircleSectorLines = (center, radius, startAngle, endAngle, segments, color) => mod.ccall('DrawCircleSectorLines', 'pointer', ['pointer', 'number', 'number', 'number', 'number', 'pointer'], [center._address, radius, startAngle, endAngle, segments, color._address])
+  const _DrawCircleSectorLines = mod.cwrap('DrawCircleSectorLines', 'void', ['pointer', 'number', 'number', 'number', 'number', 'pointer'])
+  raylib.DrawCircleSectorLines = (center, radius, startAngle, endAngle, segments, color) => _DrawCircleSectorLines(center._address, radius, startAngle, endAngle, segments, color._address)
 
   // Draw a gradient-filled circle: DrawCircleGradient(int, int, float, Color, Color) => void
-  raylib.DrawCircleGradient = (centerX, centerY, radius, color1, color2) => mod.ccall('DrawCircleGradient', 'pointer', ['number', 'number', 'number', 'pointer', 'pointer'], [centerX, centerY, radius, color1._address, color2._address])
+  const _DrawCircleGradient = mod.cwrap('DrawCircleGradient', 'void', ['number', 'number', 'number', 'pointer', 'pointer'])
+  raylib.DrawCircleGradient = (centerX, centerY, radius, color1, color2) => _DrawCircleGradient(centerX, centerY, radius, color1._address, color2._address)
 
   // Draw a color-filled circle (Vector version): DrawCircleV(Vector2, float, Color) => void
-  raylib.DrawCircleV = (center, radius, color) => mod.ccall('DrawCircleV', 'pointer', ['pointer', 'number', 'pointer'], [center._address, radius, color._address])
+  const _DrawCircleV = mod.cwrap('DrawCircleV', 'void', ['pointer', 'number', 'pointer'])
+  raylib.DrawCircleV = (center, radius, color) => _DrawCircleV(center._address, radius, color._address)
 
   // Draw circle outline: DrawCircleLines(int, int, float, Color) => void
-  raylib.DrawCircleLines = (centerX, centerY, radius, color) => mod.ccall('DrawCircleLines', 'pointer', ['number', 'number', 'number', 'pointer'], [centerX, centerY, radius, color._address])
+  const _DrawCircleLines = mod.cwrap('DrawCircleLines', 'void', ['number', 'number', 'number', 'pointer'])
+  raylib.DrawCircleLines = (centerX, centerY, radius, color) => _DrawCircleLines(centerX, centerY, radius, color._address)
 
   // Draw ellipse: DrawEllipse(int, int, float, float, Color) => void
-  raylib.DrawEllipse = (centerX, centerY, radiusH, radiusV, color) => mod.ccall('DrawEllipse', 'pointer', ['number', 'number', 'number', 'number', 'pointer'], [centerX, centerY, radiusH, radiusV, color._address])
+  const _DrawEllipse = mod.cwrap('DrawEllipse', 'void', ['number', 'number', 'number', 'number', 'pointer'])
+  raylib.DrawEllipse = (centerX, centerY, radiusH, radiusV, color) => _DrawEllipse(centerX, centerY, radiusH, radiusV, color._address)
 
   // Draw ellipse outline: DrawEllipseLines(int, int, float, float, Color) => void
-  raylib.DrawEllipseLines = (centerX, centerY, radiusH, radiusV, color) => mod.ccall('DrawEllipseLines', 'pointer', ['number', 'number', 'number', 'number', 'pointer'], [centerX, centerY, radiusH, radiusV, color._address])
+  const _DrawEllipseLines = mod.cwrap('DrawEllipseLines', 'void', ['number', 'number', 'number', 'number', 'pointer'])
+  raylib.DrawEllipseLines = (centerX, centerY, radiusH, radiusV, color) => _DrawEllipseLines(centerX, centerY, radiusH, radiusV, color._address)
 
   // Draw ring: DrawRing(Vector2, float, float, float, float, int, Color) => void
-  raylib.DrawRing = (center, innerRadius, outerRadius, startAngle, endAngle, segments, color) => mod.ccall('DrawRing', 'pointer', ['pointer', 'number', 'number', 'number', 'number', 'number', 'pointer'], [center._address, innerRadius, outerRadius, startAngle, endAngle, segments, color._address])
+  const _DrawRing = mod.cwrap('DrawRing', 'void', ['pointer', 'number', 'number', 'number', 'number', 'number', 'pointer'])
+  raylib.DrawRing = (center, innerRadius, outerRadius, startAngle, endAngle, segments, color) => _DrawRing(center._address, innerRadius, outerRadius, startAngle, endAngle, segments, color._address)
 
   // Draw ring outline: DrawRingLines(Vector2, float, float, float, float, int, Color) => void
-  raylib.DrawRingLines = (center, innerRadius, outerRadius, startAngle, endAngle, segments, color) => mod.ccall('DrawRingLines', 'pointer', ['pointer', 'number', 'number', 'number', 'number', 'number', 'pointer'], [center._address, innerRadius, outerRadius, startAngle, endAngle, segments, color._address])
+  const _DrawRingLines = mod.cwrap('DrawRingLines', 'void', ['pointer', 'number', 'number', 'number', 'number', 'number', 'pointer'])
+  raylib.DrawRingLines = (center, innerRadius, outerRadius, startAngle, endAngle, segments, color) => _DrawRingLines(center._address, innerRadius, outerRadius, startAngle, endAngle, segments, color._address)
 
   // Draw a color-filled rectangle: DrawRectangle(int, int, int, int, Color) => void
-  raylib.DrawRectangle = (posX, posY, width, height, color) => mod.ccall('DrawRectangle', 'pointer', ['number', 'number', 'number', 'number', 'pointer'], [posX, posY, width, height, color._address])
+  const _DrawRectangle = mod.cwrap('DrawRectangle', 'void', ['number', 'number', 'number', 'number', 'pointer'])
+  raylib.DrawRectangle = (posX, posY, width, height, color) => _DrawRectangle(posX, posY, width, height, color._address)
 
   // Draw a color-filled rectangle (Vector version): DrawRectangleV(Vector2, Vector2, Color) => void
-  raylib.DrawRectangleV = (position, size, color) => mod.ccall('DrawRectangleV', 'pointer', ['pointer', 'pointer', 'pointer'], [position._address, size._address, color._address])
+  const _DrawRectangleV = mod.cwrap('DrawRectangleV', 'void', ['pointer', 'pointer', 'pointer'])
+  raylib.DrawRectangleV = (position, size, color) => _DrawRectangleV(position._address, size._address, color._address)
 
   // Draw a color-filled rectangle: DrawRectangleRec(Rectangle, Color) => void
-  raylib.DrawRectangleRec = (rec, color) => mod.ccall('DrawRectangleRec', 'pointer', ['pointer', 'pointer'], [rec._address, color._address])
+  const _DrawRectangleRec = mod.cwrap('DrawRectangleRec', 'void', ['pointer', 'pointer'])
+  raylib.DrawRectangleRec = (rec, color) => _DrawRectangleRec(rec._address, color._address)
 
   // Draw a color-filled rectangle with pro parameters: DrawRectanglePro(Rectangle, Vector2, float, Color) => void
-  raylib.DrawRectanglePro = (rec, origin, rotation, color) => mod.ccall('DrawRectanglePro', 'pointer', ['pointer', 'pointer', 'number', 'pointer'], [rec._address, origin._address, rotation, color._address])
+  const _DrawRectanglePro = mod.cwrap('DrawRectanglePro', 'void', ['pointer', 'pointer', 'number', 'pointer'])
+  raylib.DrawRectanglePro = (rec, origin, rotation, color) => _DrawRectanglePro(rec._address, origin._address, rotation, color._address)
 
   // Draw a vertical-gradient-filled rectangle: DrawRectangleGradientV(int, int, int, int, Color, Color) => void
-  raylib.DrawRectangleGradientV = (posX, posY, width, height, color1, color2) => mod.ccall('DrawRectangleGradientV', 'pointer', ['number', 'number', 'number', 'number', 'pointer', 'pointer'], [posX, posY, width, height, color1._address, color2._address])
+  const _DrawRectangleGradientV = mod.cwrap('DrawRectangleGradientV', 'void', ['number', 'number', 'number', 'number', 'pointer', 'pointer'])
+  raylib.DrawRectangleGradientV = (posX, posY, width, height, color1, color2) => _DrawRectangleGradientV(posX, posY, width, height, color1._address, color2._address)
 
   // Draw a horizontal-gradient-filled rectangle: DrawRectangleGradientH(int, int, int, int, Color, Color) => void
-  raylib.DrawRectangleGradientH = (posX, posY, width, height, color1, color2) => mod.ccall('DrawRectangleGradientH', 'pointer', ['number', 'number', 'number', 'number', 'pointer', 'pointer'], [posX, posY, width, height, color1._address, color2._address])
+  const _DrawRectangleGradientH = mod.cwrap('DrawRectangleGradientH', 'void', ['number', 'number', 'number', 'number', 'pointer', 'pointer'])
+  raylib.DrawRectangleGradientH = (posX, posY, width, height, color1, color2) => _DrawRectangleGradientH(posX, posY, width, height, color1._address, color2._address)
 
   // Draw a gradient-filled rectangle with custom vertex colors: DrawRectangleGradientEx(Rectangle, Color, Color, Color, Color) => void
-  raylib.DrawRectangleGradientEx = (rec, col1, col2, col3, col4) => mod.ccall('DrawRectangleGradientEx', 'pointer', ['pointer', 'pointer', 'pointer', 'pointer', 'pointer'], [rec._address, col1._address, col2._address, col3._address, col4._address])
+  const _DrawRectangleGradientEx = mod.cwrap('DrawRectangleGradientEx', 'void', ['pointer', 'pointer', 'pointer', 'pointer', 'pointer'])
+  raylib.DrawRectangleGradientEx = (rec, col1, col2, col3, col4) => _DrawRectangleGradientEx(rec._address, col1._address, col2._address, col3._address, col4._address)
 
   // Draw rectangle outline: DrawRectangleLines(int, int, int, int, Color) => void
-  raylib.DrawRectangleLines = (posX, posY, width, height, color) => mod.ccall('DrawRectangleLines', 'pointer', ['number', 'number', 'number', 'number', 'pointer'], [posX, posY, width, height, color._address])
+  const _DrawRectangleLines = mod.cwrap('DrawRectangleLines', 'void', ['number', 'number', 'number', 'number', 'pointer'])
+  raylib.DrawRectangleLines = (posX, posY, width, height, color) => _DrawRectangleLines(posX, posY, width, height, color._address)
 
   // Draw rectangle outline with extended parameters: DrawRectangleLinesEx(Rectangle, float, Color) => void
-  raylib.DrawRectangleLinesEx = (rec, lineThick, color) => mod.ccall('DrawRectangleLinesEx', 'pointer', ['pointer', 'number', 'pointer'], [rec._address, lineThick, color._address])
+  const _DrawRectangleLinesEx = mod.cwrap('DrawRectangleLinesEx', 'void', ['pointer', 'number', 'pointer'])
+  raylib.DrawRectangleLinesEx = (rec, lineThick, color) => _DrawRectangleLinesEx(rec._address, lineThick, color._address)
 
   // Draw rectangle with rounded edges: DrawRectangleRounded(Rectangle, float, int, Color) => void
-  raylib.DrawRectangleRounded = (rec, roundness, segments, color) => mod.ccall('DrawRectangleRounded', 'pointer', ['pointer', 'number', 'number', 'pointer'], [rec._address, roundness, segments, color._address])
+  const _DrawRectangleRounded = mod.cwrap('DrawRectangleRounded', 'void', ['pointer', 'number', 'number', 'pointer'])
+  raylib.DrawRectangleRounded = (rec, roundness, segments, color) => _DrawRectangleRounded(rec._address, roundness, segments, color._address)
 
   // Draw rectangle with rounded edges outline: DrawRectangleRoundedLines(Rectangle, float, int, float, Color) => void
-  raylib.DrawRectangleRoundedLines = (rec, roundness, segments, lineThick, color) => mod.ccall('DrawRectangleRoundedLines', 'pointer', ['pointer', 'number', 'number', 'number', 'pointer'], [rec._address, roundness, segments, lineThick, color._address])
+  const _DrawRectangleRoundedLines = mod.cwrap('DrawRectangleRoundedLines', 'void', ['pointer', 'number', 'number', 'number', 'pointer'])
+  raylib.DrawRectangleRoundedLines = (rec, roundness, segments, lineThick, color) => _DrawRectangleRoundedLines(rec._address, roundness, segments, lineThick, color._address)
 
   // Draw a color-filled triangle (vertex in counter-clockwise order!): DrawTriangle(Vector2, Vector2, Vector2, Color) => void
-  raylib.DrawTriangle = (v1, v2, v3, color) => mod.ccall('DrawTriangle', 'pointer', ['pointer', 'pointer', 'pointer', 'pointer'], [v1._address, v2._address, v3._address, color._address])
+  const _DrawTriangle = mod.cwrap('DrawTriangle', 'void', ['pointer', 'pointer', 'pointer', 'pointer'])
+  raylib.DrawTriangle = (v1, v2, v3, color) => _DrawTriangle(v1._address, v2._address, v3._address, color._address)
 
   // Draw triangle outline (vertex in counter-clockwise order!): DrawTriangleLines(Vector2, Vector2, Vector2, Color) => void
-  raylib.DrawTriangleLines = (v1, v2, v3, color) => mod.ccall('DrawTriangleLines', 'pointer', ['pointer', 'pointer', 'pointer', 'pointer'], [v1._address, v2._address, v3._address, color._address])
+  const _DrawTriangleLines = mod.cwrap('DrawTriangleLines', 'void', ['pointer', 'pointer', 'pointer', 'pointer'])
+  raylib.DrawTriangleLines = (v1, v2, v3, color) => _DrawTriangleLines(v1._address, v2._address, v3._address, color._address)
 
   // Draw a triangle fan defined by points (first vertex is the center): DrawTriangleFan(Vector2 *, int, Color) => void
-  raylib.DrawTriangleFan = (points, pointCount, color) => mod.ccall('DrawTriangleFan', 'pointer', ['pointer', 'number', 'pointer'], [points._address, pointCount, color._address])
+  const _DrawTriangleFan = mod.cwrap('DrawTriangleFan', 'void', ['pointer', 'number', 'pointer'])
+  raylib.DrawTriangleFan = (points, pointCount, color) => _DrawTriangleFan(points._address, pointCount, color._address)
 
   // Draw a triangle strip defined by points: DrawTriangleStrip(Vector2 *, int, Color) => void
-  raylib.DrawTriangleStrip = (points, pointCount, color) => mod.ccall('DrawTriangleStrip', 'pointer', ['pointer', 'number', 'pointer'], [points._address, pointCount, color._address])
+  const _DrawTriangleStrip = mod.cwrap('DrawTriangleStrip', 'void', ['pointer', 'number', 'pointer'])
+  raylib.DrawTriangleStrip = (points, pointCount, color) => _DrawTriangleStrip(points._address, pointCount, color._address)
 
   // Draw a regular polygon (Vector version): DrawPoly(Vector2, int, float, float, Color) => void
-  raylib.DrawPoly = (center, sides, radius, rotation, color) => mod.ccall('DrawPoly', 'pointer', ['pointer', 'number', 'number', 'number', 'pointer'], [center._address, sides, radius, rotation, color._address])
+  const _DrawPoly = mod.cwrap('DrawPoly', 'void', ['pointer', 'number', 'number', 'number', 'pointer'])
+  raylib.DrawPoly = (center, sides, radius, rotation, color) => _DrawPoly(center._address, sides, radius, rotation, color._address)
 
   // Draw a polygon outline of n sides: DrawPolyLines(Vector2, int, float, float, Color) => void
-  raylib.DrawPolyLines = (center, sides, radius, rotation, color) => mod.ccall('DrawPolyLines', 'pointer', ['pointer', 'number', 'number', 'number', 'pointer'], [center._address, sides, radius, rotation, color._address])
+  const _DrawPolyLines = mod.cwrap('DrawPolyLines', 'void', ['pointer', 'number', 'number', 'number', 'pointer'])
+  raylib.DrawPolyLines = (center, sides, radius, rotation, color) => _DrawPolyLines(center._address, sides, radius, rotation, color._address)
 
   // Draw a polygon outline of n sides with extended parameters: DrawPolyLinesEx(Vector2, int, float, float, float, Color) => void
-  raylib.DrawPolyLinesEx = (center, sides, radius, rotation, lineThick, color) => mod.ccall('DrawPolyLinesEx', 'pointer', ['pointer', 'number', 'number', 'number', 'number', 'pointer'], [center._address, sides, radius, rotation, lineThick, color._address])
+  const _DrawPolyLinesEx = mod.cwrap('DrawPolyLinesEx', 'void', ['pointer', 'number', 'number', 'number', 'number', 'pointer'])
+  raylib.DrawPolyLinesEx = (center, sides, radius, rotation, lineThick, color) => _DrawPolyLinesEx(center._address, sides, radius, rotation, lineThick, color._address)
 
   // Check collision between two rectangles: CheckCollisionRecs(Rectangle, Rectangle) => bool
-  raylib.CheckCollisionRecs = (rec1, rec2) => mod.ccall('CheckCollisionRecs', 'boolean', ['pointer', 'pointer'], [rec1._address, rec2._address])
+  const _CheckCollisionRecs = mod.cwrap('CheckCollisionRecs', 'void', ['pointer', 'pointer'])
+  raylib.CheckCollisionRecs = (rec1, rec2) => _CheckCollisionRecs(rec1._address, rec2._address)
 
   // Check collision between two circles: CheckCollisionCircles(Vector2, float, Vector2, float) => bool
-  raylib.CheckCollisionCircles = (center1, radius1, center2, radius2) => mod.ccall('CheckCollisionCircles', 'boolean', ['pointer', 'number', 'pointer', 'number'], [center1._address, radius1, center2._address, radius2])
+  const _CheckCollisionCircles = mod.cwrap('CheckCollisionCircles', 'void', ['pointer', 'number', 'pointer', 'number'])
+  raylib.CheckCollisionCircles = (center1, radius1, center2, radius2) => _CheckCollisionCircles(center1._address, radius1, center2._address, radius2)
 
   // Check collision between circle and rectangle: CheckCollisionCircleRec(Vector2, float, Rectangle) => bool
-  raylib.CheckCollisionCircleRec = (center, radius, rec) => mod.ccall('CheckCollisionCircleRec', 'boolean', ['pointer', 'number', 'pointer'], [center._address, radius, rec._address])
+  const _CheckCollisionCircleRec = mod.cwrap('CheckCollisionCircleRec', 'void', ['pointer', 'number', 'pointer'])
+  raylib.CheckCollisionCircleRec = (center, radius, rec) => _CheckCollisionCircleRec(center._address, radius, rec._address)
 
   // Check if point is inside rectangle: CheckCollisionPointRec(Vector2, Rectangle) => bool
-  raylib.CheckCollisionPointRec = (point, rec) => mod.ccall('CheckCollisionPointRec', 'boolean', ['pointer', 'pointer'], [point._address, rec._address])
+  const _CheckCollisionPointRec = mod.cwrap('CheckCollisionPointRec', 'void', ['pointer', 'pointer'])
+  raylib.CheckCollisionPointRec = (point, rec) => _CheckCollisionPointRec(point._address, rec._address)
 
   // Check if point is inside circle: CheckCollisionPointCircle(Vector2, Vector2, float) => bool
-  raylib.CheckCollisionPointCircle = (point, center, radius) => mod.ccall('CheckCollisionPointCircle', 'boolean', ['pointer', 'pointer', 'number'], [point._address, center._address, radius])
+  const _CheckCollisionPointCircle = mod.cwrap('CheckCollisionPointCircle', 'void', ['pointer', 'pointer', 'number'])
+  raylib.CheckCollisionPointCircle = (point, center, radius) => _CheckCollisionPointCircle(point._address, center._address, radius)
 
   // Check if point is inside a triangle: CheckCollisionPointTriangle(Vector2, Vector2, Vector2, Vector2) => bool
-  raylib.CheckCollisionPointTriangle = (point, p1, p2, p3) => mod.ccall('CheckCollisionPointTriangle', 'boolean', ['pointer', 'pointer', 'pointer', 'pointer'], [point._address, p1._address, p2._address, p3._address])
+  const _CheckCollisionPointTriangle = mod.cwrap('CheckCollisionPointTriangle', 'void', ['pointer', 'pointer', 'pointer', 'pointer'])
+  raylib.CheckCollisionPointTriangle = (point, p1, p2, p3) => _CheckCollisionPointTriangle(point._address, p1._address, p2._address, p3._address)
 
   // Check if point is within a polygon described by array of vertices: CheckCollisionPointPoly(Vector2, Vector2 *, int) => bool
-  raylib.CheckCollisionPointPoly = (point, points, pointCount) => mod.ccall('CheckCollisionPointPoly', 'boolean', ['pointer', 'pointer', 'number'], [point._address, points._address, pointCount])
+  const _CheckCollisionPointPoly = mod.cwrap('CheckCollisionPointPoly', 'void', ['pointer', 'pointer', 'number'])
+  raylib.CheckCollisionPointPoly = (point, points, pointCount) => _CheckCollisionPointPoly(point._address, points._address, pointCount)
 
   // Check the collision between two lines defined by two points each, returns collision point by reference: CheckCollisionLines(Vector2, Vector2, Vector2, Vector2, Vector2 *) => bool
-  raylib.CheckCollisionLines = (startPos1, endPos1, startPos2, endPos2, collisionPoint) => mod.ccall('CheckCollisionLines', 'boolean', ['pointer', 'pointer', 'pointer', 'pointer', 'pointer'], [startPos1._address, endPos1._address, startPos2._address, endPos2._address, collisionPoint._address])
+  const _CheckCollisionLines = mod.cwrap('CheckCollisionLines', 'void', ['pointer', 'pointer', 'pointer', 'pointer', 'pointer'])
+  raylib.CheckCollisionLines = (startPos1, endPos1, startPos2, endPos2, collisionPoint) => _CheckCollisionLines(startPos1._address, endPos1._address, startPos2._address, endPos2._address, collisionPoint._address)
 
   // Check if point belongs to line created between two points [p1] and [p2] with defined margin in pixels [threshold]: CheckCollisionPointLine(Vector2, Vector2, Vector2, int) => bool
-  raylib.CheckCollisionPointLine = (point, p1, p2, threshold) => mod.ccall('CheckCollisionPointLine', 'boolean', ['pointer', 'pointer', 'pointer', 'number'], [point._address, p1._address, p2._address, threshold])
+  const _CheckCollisionPointLine = mod.cwrap('CheckCollisionPointLine', 'void', ['pointer', 'pointer', 'pointer', 'number'])
+  raylib.CheckCollisionPointLine = (point, p1, p2, threshold) => _CheckCollisionPointLine(point._address, p1._address, p2._address, threshold)
 
   // Get collision rectangle for two rectangles collision: GetCollisionRec(Rectangle, Rectangle) => Rectangle
+  const _GetCollisionRec = mod.cwrap('GetCollisionRec', 'void', ['pointer', 'pointer', 'pointer'])
   raylib.GetCollisionRec = (rec1, rec2) => {
     const _ret = new raylib.Rectangle()
-    mod.ccall('GetCollisionRec', 'void', ['pointer', 'pointer', 'pointer'], [_ret._address, rec1._address, rec2._address])
+    _GetCollisionRec(_ret._address, rec1._address, rec2._address)
     return _ret
   }
 
   // Load image from file into CPU memory (RAM): LoadImage(const char *) => Image
+  const _LoadImage = mod.cwrap('LoadImage', 'void', ['pointer', 'string'])
   raylib.LoadImage = (fileName) => {
     const _ret = new raylib.Image()
-    mod.ccall('LoadImage', 'void', ['pointer', 'string'], [_ret._address, fileName])
+    _LoadImage(_ret._address, fileName)
     return _ret
   }
 
   // Load image from RAW file data: LoadImageRaw(const char *, int, int, int, int) => Image
+  const _LoadImageRaw = mod.cwrap('LoadImageRaw', 'void', ['pointer', 'string', 'number', 'number', 'number', 'number'])
   raylib.LoadImageRaw = (fileName, width, height, format, headerSize) => {
     const _ret = new raylib.Image()
-    mod.ccall('LoadImageRaw', 'void', ['pointer', 'string', 'number', 'number', 'number', 'number'], [_ret._address, fileName, width, height, format, headerSize])
+    _LoadImageRaw(_ret._address, fileName, width, height, format, headerSize)
     return _ret
   }
 
   // Load image sequence from file (frames appended to image.data): LoadImageAnim(const char *, int *) => Image
+  const _LoadImageAnim = mod.cwrap('LoadImageAnim', 'void', ['pointer', 'string', 'pointer'])
   raylib.LoadImageAnim = (fileName, frames) => {
     const _ret = new raylib.Image()
-    mod.ccall('LoadImageAnim', 'void', ['pointer', 'string', 'pointer'], [_ret._address, fileName, frames._address])
+    _LoadImageAnim(_ret._address, fileName, frames._address)
     return _ret
   }
 
   // Load image from memory buffer, fileType refers to extension: i.e. '.png': LoadImageFromMemory(const char *, const unsigned char *, int) => Image
+  const _LoadImageFromMemory = mod.cwrap('LoadImageFromMemory', 'void', ['pointer', 'string', 'pointer', 'number'])
   raylib.LoadImageFromMemory = (fileType, fileData, dataSize) => {
     const _ret = new raylib.Image()
-    mod.ccall('LoadImageFromMemory', 'void', ['pointer', 'string', 'pointer', 'number'], [_ret._address, fileType, fileData._address, dataSize])
+    _LoadImageFromMemory(_ret._address, fileType, fileData._address, dataSize)
     return _ret
   }
 
   // Load image from GPU texture data: LoadImageFromTexture(Texture2D) => Image
+  const _LoadImageFromTexture = mod.cwrap('LoadImageFromTexture', 'void', ['pointer', 'pointer'])
   raylib.LoadImageFromTexture = (texture) => {
     const _ret = new raylib.Image()
-    mod.ccall('LoadImageFromTexture', 'void', ['pointer', 'pointer'], [_ret._address, texture._address])
+    _LoadImageFromTexture(_ret._address, texture._address)
     return _ret
   }
 
   // Load image from screen buffer and (screenshot): LoadImageFromScreen() => Image
+  const _LoadImageFromScreen = mod.cwrap('LoadImageFromScreen', 'void', ['pointer'])
   raylib.LoadImageFromScreen = () => {
     const _ret = new raylib.Image()
-    mod.ccall('LoadImageFromScreen', 'void', ['pointer'], [_ret._address])
+    _LoadImageFromScreen(_ret._address)
     return _ret
   }
 
   // Check if an image is ready: IsImageReady(Image) => bool
-  raylib.IsImageReady = (image) => mod.ccall('IsImageReady', 'boolean', ['pointer'], [image._address])
+  const _IsImageReady = mod.cwrap('IsImageReady', 'void', ['pointer'])
+  raylib.IsImageReady = (image) => _IsImageReady(image._address)
 
   // Unload image from CPU memory (RAM): UnloadImage(Image) => void
-  raylib.UnloadImage = (image) => mod.ccall('UnloadImage', 'pointer', ['pointer'], [image._address])
+  const _UnloadImage = mod.cwrap('UnloadImage', 'void', ['pointer'])
+  raylib.UnloadImage = (image) => _UnloadImage(image._address)
 
   // Export image data to file, returns true on success: ExportImage(Image, const char *) => bool
-  raylib.ExportImage = (image, fileName) => mod.ccall('ExportImage', 'boolean', ['pointer', 'string'], [image._address, fileName])
+  const _ExportImage = mod.cwrap('ExportImage', 'void', ['pointer', 'string'])
+  raylib.ExportImage = (image, fileName) => _ExportImage(image._address, fileName)
 
   // Export image as code file defining an array of bytes, returns true on success: ExportImageAsCode(Image, const char *) => bool
-  raylib.ExportImageAsCode = (image, fileName) => mod.ccall('ExportImageAsCode', 'boolean', ['pointer', 'string'], [image._address, fileName])
+  const _ExportImageAsCode = mod.cwrap('ExportImageAsCode', 'void', ['pointer', 'string'])
+  raylib.ExportImageAsCode = (image, fileName) => _ExportImageAsCode(image._address, fileName)
 
   // Generate image: plain color: GenImageColor(int, int, Color) => Image
+  const _GenImageColor = mod.cwrap('GenImageColor', 'void', ['pointer', 'number', 'number', 'pointer'])
   raylib.GenImageColor = (width, height, color) => {
     const _ret = new raylib.Image()
-    mod.ccall('GenImageColor', 'void', ['pointer', 'number', 'number', 'pointer'], [_ret._address, width, height, color._address])
+    _GenImageColor(_ret._address, width, height, color._address)
     return _ret
   }
 
   // Generate image: linear gradient, direction in degrees [0..360], 0=Vertical gradient: GenImageGradientLinear(int, int, int, Color, Color) => Image
+  const _GenImageGradientLinear = mod.cwrap('GenImageGradientLinear', 'void', ['pointer', 'number', 'number', 'number', 'pointer', 'pointer'])
   raylib.GenImageGradientLinear = (width, height, direction, start, end) => {
     const _ret = new raylib.Image()
-    mod.ccall('GenImageGradientLinear', 'void', ['pointer', 'number', 'number', 'number', 'pointer', 'pointer'], [_ret._address, width, height, direction, start._address, end._address])
+    _GenImageGradientLinear(_ret._address, width, height, direction, start._address, end._address)
     return _ret
   }
 
   // Generate image: radial gradient: GenImageGradientRadial(int, int, float, Color, Color) => Image
+  const _GenImageGradientRadial = mod.cwrap('GenImageGradientRadial', 'void', ['pointer', 'number', 'number', 'number', 'pointer', 'pointer'])
   raylib.GenImageGradientRadial = (width, height, density, inner, outer) => {
     const _ret = new raylib.Image()
-    mod.ccall('GenImageGradientRadial', 'void', ['pointer', 'number', 'number', 'number', 'pointer', 'pointer'], [_ret._address, width, height, density, inner._address, outer._address])
+    _GenImageGradientRadial(_ret._address, width, height, density, inner._address, outer._address)
     return _ret
   }
 
   // Generate image: square gradient: GenImageGradientSquare(int, int, float, Color, Color) => Image
+  const _GenImageGradientSquare = mod.cwrap('GenImageGradientSquare', 'void', ['pointer', 'number', 'number', 'number', 'pointer', 'pointer'])
   raylib.GenImageGradientSquare = (width, height, density, inner, outer) => {
     const _ret = new raylib.Image()
-    mod.ccall('GenImageGradientSquare', 'void', ['pointer', 'number', 'number', 'number', 'pointer', 'pointer'], [_ret._address, width, height, density, inner._address, outer._address])
+    _GenImageGradientSquare(_ret._address, width, height, density, inner._address, outer._address)
     return _ret
   }
 
   // Generate image: checked: GenImageChecked(int, int, int, int, Color, Color) => Image
+  const _GenImageChecked = mod.cwrap('GenImageChecked', 'void', ['pointer', 'number', 'number', 'number', 'number', 'pointer', 'pointer'])
   raylib.GenImageChecked = (width, height, checksX, checksY, col1, col2) => {
     const _ret = new raylib.Image()
-    mod.ccall('GenImageChecked', 'void', ['pointer', 'number', 'number', 'number', 'number', 'pointer', 'pointer'], [_ret._address, width, height, checksX, checksY, col1._address, col2._address])
+    _GenImageChecked(_ret._address, width, height, checksX, checksY, col1._address, col2._address)
     return _ret
   }
 
   // Generate image: white noise: GenImageWhiteNoise(int, int, float) => Image
+  const _GenImageWhiteNoise = mod.cwrap('GenImageWhiteNoise', 'void', ['pointer', 'number', 'number', 'number'])
   raylib.GenImageWhiteNoise = (width, height, factor) => {
     const _ret = new raylib.Image()
-    mod.ccall('GenImageWhiteNoise', 'void', ['pointer', 'number', 'number', 'number'], [_ret._address, width, height, factor])
+    _GenImageWhiteNoise(_ret._address, width, height, factor)
     return _ret
   }
 
   // Generate image: perlin noise: GenImagePerlinNoise(int, int, int, int, float) => Image
+  const _GenImagePerlinNoise = mod.cwrap('GenImagePerlinNoise', 'void', ['pointer', 'number', 'number', 'number', 'number', 'number'])
   raylib.GenImagePerlinNoise = (width, height, offsetX, offsetY, scale) => {
     const _ret = new raylib.Image()
-    mod.ccall('GenImagePerlinNoise', 'void', ['pointer', 'number', 'number', 'number', 'number', 'number'], [_ret._address, width, height, offsetX, offsetY, scale])
+    _GenImagePerlinNoise(_ret._address, width, height, offsetX, offsetY, scale)
     return _ret
   }
 
   // Generate image: cellular algorithm, bigger tileSize means bigger cells: GenImageCellular(int, int, int) => Image
+  const _GenImageCellular = mod.cwrap('GenImageCellular', 'void', ['pointer', 'number', 'number', 'number'])
   raylib.GenImageCellular = (width, height, tileSize) => {
     const _ret = new raylib.Image()
-    mod.ccall('GenImageCellular', 'void', ['pointer', 'number', 'number', 'number'], [_ret._address, width, height, tileSize])
+    _GenImageCellular(_ret._address, width, height, tileSize)
     return _ret
   }
 
   // Generate image: grayscale image from text data: GenImageText(int, int, const char *) => Image
+  const _GenImageText = mod.cwrap('GenImageText', 'void', ['pointer', 'number', 'number', 'string'])
   raylib.GenImageText = (width, height, text) => {
     const _ret = new raylib.Image()
-    mod.ccall('GenImageText', 'void', ['pointer', 'number', 'number', 'string'], [_ret._address, width, height, text])
+    _GenImageText(_ret._address, width, height, text)
     return _ret
   }
 
   // Create an image duplicate (useful for transformations): ImageCopy(Image) => Image
+  const _ImageCopy = mod.cwrap('ImageCopy', 'void', ['pointer', 'pointer'])
   raylib.ImageCopy = (image) => {
     const _ret = new raylib.Image()
-    mod.ccall('ImageCopy', 'void', ['pointer', 'pointer'], [_ret._address, image._address])
+    _ImageCopy(_ret._address, image._address)
     return _ret
   }
 
   // Create an image from another image piece: ImageFromImage(Image, Rectangle) => Image
+  const _ImageFromImage = mod.cwrap('ImageFromImage', 'void', ['pointer', 'pointer', 'pointer'])
   raylib.ImageFromImage = (image, rec) => {
     const _ret = new raylib.Image()
-    mod.ccall('ImageFromImage', 'void', ['pointer', 'pointer', 'pointer'], [_ret._address, image._address, rec._address])
+    _ImageFromImage(_ret._address, image._address, rec._address)
     return _ret
   }
 
   // Create an image from text (default font): ImageText(const char *, int, Color) => Image
+  const _ImageText = mod.cwrap('ImageText', 'void', ['pointer', 'string', 'number', 'pointer'])
   raylib.ImageText = (text, fontSize, color) => {
     const _ret = new raylib.Image()
-    mod.ccall('ImageText', 'void', ['pointer', 'string', 'number', 'pointer'], [_ret._address, text, fontSize, color._address])
+    _ImageText(_ret._address, text, fontSize, color._address)
     return _ret
   }
 
   // Create an image from text (custom sprite font): ImageTextEx(Font, const char *, float, float, Color) => Image
+  const _ImageTextEx = mod.cwrap('ImageTextEx', 'void', ['pointer', 'pointer', 'string', 'number', 'number', 'pointer'])
   raylib.ImageTextEx = (font, text, fontSize, spacing, tint) => {
     const _ret = new raylib.Image()
-    mod.ccall('ImageTextEx', 'void', ['pointer', 'pointer', 'string', 'number', 'number', 'pointer'], [_ret._address, font._address, text, fontSize, spacing, tint._address])
+    _ImageTextEx(_ret._address, font._address, text, fontSize, spacing, tint._address)
     return _ret
   }
 
   // Convert image data to desired format: ImageFormat(Image *, int) => void
-  raylib.ImageFormat = (image, newFormat) => mod.ccall('ImageFormat', 'pointer', ['pointer', 'number'], [image._address, newFormat])
+  const _ImageFormat = mod.cwrap('ImageFormat', 'void', ['pointer', 'number'])
+  raylib.ImageFormat = (image, newFormat) => _ImageFormat(image._address, newFormat)
 
   // Convert image to POT (power-of-two): ImageToPOT(Image *, Color) => void
-  raylib.ImageToPOT = (image, fill) => mod.ccall('ImageToPOT', 'pointer', ['pointer', 'pointer'], [image._address, fill._address])
+  const _ImageToPOT = mod.cwrap('ImageToPOT', 'void', ['pointer', 'pointer'])
+  raylib.ImageToPOT = (image, fill) => _ImageToPOT(image._address, fill._address)
 
   // Crop an image to a defined rectangle: ImageCrop(Image *, Rectangle) => void
-  raylib.ImageCrop = (image, crop) => mod.ccall('ImageCrop', 'pointer', ['pointer', 'pointer'], [image._address, crop._address])
+  const _ImageCrop = mod.cwrap('ImageCrop', 'void', ['pointer', 'pointer'])
+  raylib.ImageCrop = (image, crop) => _ImageCrop(image._address, crop._address)
 
   // Crop image depending on alpha value: ImageAlphaCrop(Image *, float) => void
-  raylib.ImageAlphaCrop = (image, threshold) => mod.ccall('ImageAlphaCrop', 'pointer', ['pointer', 'number'], [image._address, threshold])
+  const _ImageAlphaCrop = mod.cwrap('ImageAlphaCrop', 'void', ['pointer', 'number'])
+  raylib.ImageAlphaCrop = (image, threshold) => _ImageAlphaCrop(image._address, threshold)
 
   // Clear alpha channel to desired color: ImageAlphaClear(Image *, Color, float) => void
-  raylib.ImageAlphaClear = (image, color, threshold) => mod.ccall('ImageAlphaClear', 'pointer', ['pointer', 'pointer', 'number'], [image._address, color._address, threshold])
+  const _ImageAlphaClear = mod.cwrap('ImageAlphaClear', 'void', ['pointer', 'pointer', 'number'])
+  raylib.ImageAlphaClear = (image, color, threshold) => _ImageAlphaClear(image._address, color._address, threshold)
 
   // Apply alpha mask to image: ImageAlphaMask(Image *, Image) => void
-  raylib.ImageAlphaMask = (image, alphaMask) => mod.ccall('ImageAlphaMask', 'pointer', ['pointer', 'pointer'], [image._address, alphaMask._address])
+  const _ImageAlphaMask = mod.cwrap('ImageAlphaMask', 'void', ['pointer', 'pointer'])
+  raylib.ImageAlphaMask = (image, alphaMask) => _ImageAlphaMask(image._address, alphaMask._address)
 
   // Premultiply alpha channel: ImageAlphaPremultiply(Image *) => void
-  raylib.ImageAlphaPremultiply = (image) => mod.ccall('ImageAlphaPremultiply', 'pointer', ['pointer'], [image._address])
+  const _ImageAlphaPremultiply = mod.cwrap('ImageAlphaPremultiply', 'void', ['pointer'])
+  raylib.ImageAlphaPremultiply = (image) => _ImageAlphaPremultiply(image._address)
 
   // Apply Gaussian blur using a box blur approximation: ImageBlurGaussian(Image *, int) => void
-  raylib.ImageBlurGaussian = (image, blurSize) => mod.ccall('ImageBlurGaussian', 'pointer', ['pointer', 'number'], [image._address, blurSize])
+  const _ImageBlurGaussian = mod.cwrap('ImageBlurGaussian', 'void', ['pointer', 'number'])
+  raylib.ImageBlurGaussian = (image, blurSize) => _ImageBlurGaussian(image._address, blurSize)
 
   // Resize image (Bicubic scaling algorithm): ImageResize(Image *, int, int) => void
-  raylib.ImageResize = (image, newWidth, newHeight) => mod.ccall('ImageResize', 'pointer', ['pointer', 'number', 'number'], [image._address, newWidth, newHeight])
+  const _ImageResize = mod.cwrap('ImageResize', 'void', ['pointer', 'number', 'number'])
+  raylib.ImageResize = (image, newWidth, newHeight) => _ImageResize(image._address, newWidth, newHeight)
 
   // Resize image (Nearest-Neighbor scaling algorithm): ImageResizeNN(Image *, int, int) => void
-  raylib.ImageResizeNN = (image, newWidth, newHeight) => mod.ccall('ImageResizeNN', 'pointer', ['pointer', 'number', 'number'], [image._address, newWidth, newHeight])
+  const _ImageResizeNN = mod.cwrap('ImageResizeNN', 'void', ['pointer', 'number', 'number'])
+  raylib.ImageResizeNN = (image, newWidth, newHeight) => _ImageResizeNN(image._address, newWidth, newHeight)
 
   // Resize canvas and fill with color: ImageResizeCanvas(Image *, int, int, int, int, Color) => void
-  raylib.ImageResizeCanvas = (image, newWidth, newHeight, offsetX, offsetY, fill) => mod.ccall('ImageResizeCanvas', 'pointer', ['pointer', 'number', 'number', 'number', 'number', 'pointer'], [image._address, newWidth, newHeight, offsetX, offsetY, fill._address])
+  const _ImageResizeCanvas = mod.cwrap('ImageResizeCanvas', 'void', ['pointer', 'number', 'number', 'number', 'number', 'pointer'])
+  raylib.ImageResizeCanvas = (image, newWidth, newHeight, offsetX, offsetY, fill) => _ImageResizeCanvas(image._address, newWidth, newHeight, offsetX, offsetY, fill._address)
 
   // Compute all mipmap levels for a provided image: ImageMipmaps(Image *) => void
-  raylib.ImageMipmaps = (image) => mod.ccall('ImageMipmaps', 'pointer', ['pointer'], [image._address])
+  const _ImageMipmaps = mod.cwrap('ImageMipmaps', 'void', ['pointer'])
+  raylib.ImageMipmaps = (image) => _ImageMipmaps(image._address)
 
   // Dither image data to 16bpp or lower (Floyd-Steinberg dithering): ImageDither(Image *, int, int, int, int) => void
-  raylib.ImageDither = (image, rBpp, gBpp, bBpp, aBpp) => mod.ccall('ImageDither', 'pointer', ['pointer', 'number', 'number', 'number', 'number'], [image._address, rBpp, gBpp, bBpp, aBpp])
+  const _ImageDither = mod.cwrap('ImageDither', 'void', ['pointer', 'number', 'number', 'number', 'number'])
+  raylib.ImageDither = (image, rBpp, gBpp, bBpp, aBpp) => _ImageDither(image._address, rBpp, gBpp, bBpp, aBpp)
 
   // Flip image vertically: ImageFlipVertical(Image *) => void
-  raylib.ImageFlipVertical = (image) => mod.ccall('ImageFlipVertical', 'pointer', ['pointer'], [image._address])
+  const _ImageFlipVertical = mod.cwrap('ImageFlipVertical', 'void', ['pointer'])
+  raylib.ImageFlipVertical = (image) => _ImageFlipVertical(image._address)
 
   // Flip image horizontally: ImageFlipHorizontal(Image *) => void
-  raylib.ImageFlipHorizontal = (image) => mod.ccall('ImageFlipHorizontal', 'pointer', ['pointer'], [image._address])
+  const _ImageFlipHorizontal = mod.cwrap('ImageFlipHorizontal', 'void', ['pointer'])
+  raylib.ImageFlipHorizontal = (image) => _ImageFlipHorizontal(image._address)
 
   // Rotate image by input angle in degrees (-359 to 359) : ImageRotate(Image *, int) => void
-  raylib.ImageRotate = (image, degrees) => mod.ccall('ImageRotate', 'pointer', ['pointer', 'number'], [image._address, degrees])
+  const _ImageRotate = mod.cwrap('ImageRotate', 'void', ['pointer', 'number'])
+  raylib.ImageRotate = (image, degrees) => _ImageRotate(image._address, degrees)
 
   // Rotate image clockwise 90deg: ImageRotateCW(Image *) => void
-  raylib.ImageRotateCW = (image) => mod.ccall('ImageRotateCW', 'pointer', ['pointer'], [image._address])
+  const _ImageRotateCW = mod.cwrap('ImageRotateCW', 'void', ['pointer'])
+  raylib.ImageRotateCW = (image) => _ImageRotateCW(image._address)
 
   // Rotate image counter-clockwise 90deg: ImageRotateCCW(Image *) => void
-  raylib.ImageRotateCCW = (image) => mod.ccall('ImageRotateCCW', 'pointer', ['pointer'], [image._address])
+  const _ImageRotateCCW = mod.cwrap('ImageRotateCCW', 'void', ['pointer'])
+  raylib.ImageRotateCCW = (image) => _ImageRotateCCW(image._address)
 
   // Modify image color: tint: ImageColorTint(Image *, Color) => void
-  raylib.ImageColorTint = (image, color) => mod.ccall('ImageColorTint', 'pointer', ['pointer', 'pointer'], [image._address, color._address])
+  const _ImageColorTint = mod.cwrap('ImageColorTint', 'void', ['pointer', 'pointer'])
+  raylib.ImageColorTint = (image, color) => _ImageColorTint(image._address, color._address)
 
   // Modify image color: invert: ImageColorInvert(Image *) => void
-  raylib.ImageColorInvert = (image) => mod.ccall('ImageColorInvert', 'pointer', ['pointer'], [image._address])
+  const _ImageColorInvert = mod.cwrap('ImageColorInvert', 'void', ['pointer'])
+  raylib.ImageColorInvert = (image) => _ImageColorInvert(image._address)
 
   // Modify image color: grayscale: ImageColorGrayscale(Image *) => void
-  raylib.ImageColorGrayscale = (image) => mod.ccall('ImageColorGrayscale', 'pointer', ['pointer'], [image._address])
+  const _ImageColorGrayscale = mod.cwrap('ImageColorGrayscale', 'void', ['pointer'])
+  raylib.ImageColorGrayscale = (image) => _ImageColorGrayscale(image._address)
 
   // Modify image color: contrast (-100 to 100): ImageColorContrast(Image *, float) => void
-  raylib.ImageColorContrast = (image, contrast) => mod.ccall('ImageColorContrast', 'pointer', ['pointer', 'number'], [image._address, contrast])
+  const _ImageColorContrast = mod.cwrap('ImageColorContrast', 'void', ['pointer', 'number'])
+  raylib.ImageColorContrast = (image, contrast) => _ImageColorContrast(image._address, contrast)
 
   // Modify image color: brightness (-255 to 255): ImageColorBrightness(Image *, int) => void
-  raylib.ImageColorBrightness = (image, brightness) => mod.ccall('ImageColorBrightness', 'pointer', ['pointer', 'number'], [image._address, brightness])
+  const _ImageColorBrightness = mod.cwrap('ImageColorBrightness', 'void', ['pointer', 'number'])
+  raylib.ImageColorBrightness = (image, brightness) => _ImageColorBrightness(image._address, brightness)
 
   // Modify image color: replace color: ImageColorReplace(Image *, Color, Color) => void
-  raylib.ImageColorReplace = (image, color, replace) => mod.ccall('ImageColorReplace', 'pointer', ['pointer', 'pointer', 'pointer'], [image._address, color._address, replace._address])
+  const _ImageColorReplace = mod.cwrap('ImageColorReplace', 'void', ['pointer', 'pointer', 'pointer'])
+  raylib.ImageColorReplace = (image, color, replace) => _ImageColorReplace(image._address, color._address, replace._address)
 
   // Load color data from image as a Color array (RGBA - 32bit): LoadImageColors(Image) => Color *
+  const _LoadImageColors = mod.cwrap('LoadImageColors', 'void', ['pointer', 'pointer'])
   raylib.LoadImageColors = (image) => {
     const _ret = new raylib.Color()
-    mod.ccall('LoadImageColors', 'void', ['pointer', 'pointer'], [_ret._address, image._address])
+    _LoadImageColors(_ret._address, image._address)
     return _ret
   }
 
   // Load colors palette from image as a Color array (RGBA - 32bit): LoadImagePalette(Image, int, int *) => Color *
+  const _LoadImagePalette = mod.cwrap('LoadImagePalette', 'void', ['pointer', 'pointer', 'number', 'pointer'])
   raylib.LoadImagePalette = (image, maxPaletteSize, colorCount) => {
     const _ret = new raylib.Color()
-    mod.ccall('LoadImagePalette', 'void', ['pointer', 'pointer', 'number', 'pointer'], [_ret._address, image._address, maxPaletteSize, colorCount._address])
+    _LoadImagePalette(_ret._address, image._address, maxPaletteSize, colorCount._address)
     return _ret
   }
 
   // Unload color data loaded with LoadImageColors(): UnloadImageColors(Color *) => void
-  raylib.UnloadImageColors = (colors) => mod.ccall('UnloadImageColors', 'pointer', ['pointer'], [colors._address])
+  const _UnloadImageColors = mod.cwrap('UnloadImageColors', 'void', ['pointer'])
+  raylib.UnloadImageColors = (colors) => _UnloadImageColors(colors._address)
 
   // Unload colors palette loaded with LoadImagePalette(): UnloadImagePalette(Color *) => void
-  raylib.UnloadImagePalette = (colors) => mod.ccall('UnloadImagePalette', 'pointer', ['pointer'], [colors._address])
+  const _UnloadImagePalette = mod.cwrap('UnloadImagePalette', 'void', ['pointer'])
+  raylib.UnloadImagePalette = (colors) => _UnloadImagePalette(colors._address)
 
   // Get image alpha border rectangle: GetImageAlphaBorder(Image, float) => Rectangle
+  const _GetImageAlphaBorder = mod.cwrap('GetImageAlphaBorder', 'void', ['pointer', 'pointer', 'number'])
   raylib.GetImageAlphaBorder = (image, threshold) => {
     const _ret = new raylib.Rectangle()
-    mod.ccall('GetImageAlphaBorder', 'void', ['pointer', 'pointer', 'number'], [_ret._address, image._address, threshold])
+    _GetImageAlphaBorder(_ret._address, image._address, threshold)
     return _ret
   }
 
   // Get image pixel color at (x, y) position: GetImageColor(Image, int, int) => Color
+  const _GetImageColor = mod.cwrap('GetImageColor', 'void', ['pointer', 'pointer', 'number', 'number'])
   raylib.GetImageColor = (image, x, y) => {
     const _ret = new raylib.Color()
-    mod.ccall('GetImageColor', 'void', ['pointer', 'pointer', 'number', 'number'], [_ret._address, image._address, x, y])
+    _GetImageColor(_ret._address, image._address, x, y)
     return _ret
   }
 
   // Clear image background with given color: ImageClearBackground(Image *, Color) => void
-  raylib.ImageClearBackground = (dst, color) => mod.ccall('ImageClearBackground', 'pointer', ['pointer', 'pointer'], [dst._address, color._address])
+  const _ImageClearBackground = mod.cwrap('ImageClearBackground', 'void', ['pointer', 'pointer'])
+  raylib.ImageClearBackground = (dst, color) => _ImageClearBackground(dst._address, color._address)
 
   // Draw pixel within an image: ImageDrawPixel(Image *, int, int, Color) => void
-  raylib.ImageDrawPixel = (dst, posX, posY, color) => mod.ccall('ImageDrawPixel', 'pointer', ['pointer', 'number', 'number', 'pointer'], [dst._address, posX, posY, color._address])
+  const _ImageDrawPixel = mod.cwrap('ImageDrawPixel', 'void', ['pointer', 'number', 'number', 'pointer'])
+  raylib.ImageDrawPixel = (dst, posX, posY, color) => _ImageDrawPixel(dst._address, posX, posY, color._address)
 
   // Draw pixel within an image (Vector version): ImageDrawPixelV(Image *, Vector2, Color) => void
-  raylib.ImageDrawPixelV = (dst, position, color) => mod.ccall('ImageDrawPixelV', 'pointer', ['pointer', 'pointer', 'pointer'], [dst._address, position._address, color._address])
+  const _ImageDrawPixelV = mod.cwrap('ImageDrawPixelV', 'void', ['pointer', 'pointer', 'pointer'])
+  raylib.ImageDrawPixelV = (dst, position, color) => _ImageDrawPixelV(dst._address, position._address, color._address)
 
   // Draw line within an image: ImageDrawLine(Image *, int, int, int, int, Color) => void
-  raylib.ImageDrawLine = (dst, startPosX, startPosY, endPosX, endPosY, color) => mod.ccall('ImageDrawLine', 'pointer', ['pointer', 'number', 'number', 'number', 'number', 'pointer'], [dst._address, startPosX, startPosY, endPosX, endPosY, color._address])
+  const _ImageDrawLine = mod.cwrap('ImageDrawLine', 'void', ['pointer', 'number', 'number', 'number', 'number', 'pointer'])
+  raylib.ImageDrawLine = (dst, startPosX, startPosY, endPosX, endPosY, color) => _ImageDrawLine(dst._address, startPosX, startPosY, endPosX, endPosY, color._address)
 
   // Draw line within an image (Vector version): ImageDrawLineV(Image *, Vector2, Vector2, Color) => void
-  raylib.ImageDrawLineV = (dst, start, end, color) => mod.ccall('ImageDrawLineV', 'pointer', ['pointer', 'pointer', 'pointer', 'pointer'], [dst._address, start._address, end._address, color._address])
+  const _ImageDrawLineV = mod.cwrap('ImageDrawLineV', 'void', ['pointer', 'pointer', 'pointer', 'pointer'])
+  raylib.ImageDrawLineV = (dst, start, end, color) => _ImageDrawLineV(dst._address, start._address, end._address, color._address)
 
   // Draw a filled circle within an image: ImageDrawCircle(Image *, int, int, int, Color) => void
-  raylib.ImageDrawCircle = (dst, centerX, centerY, radius, color) => mod.ccall('ImageDrawCircle', 'pointer', ['pointer', 'number', 'number', 'number', 'pointer'], [dst._address, centerX, centerY, radius, color._address])
+  const _ImageDrawCircle = mod.cwrap('ImageDrawCircle', 'void', ['pointer', 'number', 'number', 'number', 'pointer'])
+  raylib.ImageDrawCircle = (dst, centerX, centerY, radius, color) => _ImageDrawCircle(dst._address, centerX, centerY, radius, color._address)
 
   // Draw a filled circle within an image (Vector version): ImageDrawCircleV(Image *, Vector2, int, Color) => void
-  raylib.ImageDrawCircleV = (dst, center, radius, color) => mod.ccall('ImageDrawCircleV', 'pointer', ['pointer', 'pointer', 'number', 'pointer'], [dst._address, center._address, radius, color._address])
+  const _ImageDrawCircleV = mod.cwrap('ImageDrawCircleV', 'void', ['pointer', 'pointer', 'number', 'pointer'])
+  raylib.ImageDrawCircleV = (dst, center, radius, color) => _ImageDrawCircleV(dst._address, center._address, radius, color._address)
 
   // Draw circle outline within an image: ImageDrawCircleLines(Image *, int, int, int, Color) => void
-  raylib.ImageDrawCircleLines = (dst, centerX, centerY, radius, color) => mod.ccall('ImageDrawCircleLines', 'pointer', ['pointer', 'number', 'number', 'number', 'pointer'], [dst._address, centerX, centerY, radius, color._address])
+  const _ImageDrawCircleLines = mod.cwrap('ImageDrawCircleLines', 'void', ['pointer', 'number', 'number', 'number', 'pointer'])
+  raylib.ImageDrawCircleLines = (dst, centerX, centerY, radius, color) => _ImageDrawCircleLines(dst._address, centerX, centerY, radius, color._address)
 
   // Draw circle outline within an image (Vector version): ImageDrawCircleLinesV(Image *, Vector2, int, Color) => void
-  raylib.ImageDrawCircleLinesV = (dst, center, radius, color) => mod.ccall('ImageDrawCircleLinesV', 'pointer', ['pointer', 'pointer', 'number', 'pointer'], [dst._address, center._address, radius, color._address])
+  const _ImageDrawCircleLinesV = mod.cwrap('ImageDrawCircleLinesV', 'void', ['pointer', 'pointer', 'number', 'pointer'])
+  raylib.ImageDrawCircleLinesV = (dst, center, radius, color) => _ImageDrawCircleLinesV(dst._address, center._address, radius, color._address)
 
   // Draw rectangle within an image: ImageDrawRectangle(Image *, int, int, int, int, Color) => void
-  raylib.ImageDrawRectangle = (dst, posX, posY, width, height, color) => mod.ccall('ImageDrawRectangle', 'pointer', ['pointer', 'number', 'number', 'number', 'number', 'pointer'], [dst._address, posX, posY, width, height, color._address])
+  const _ImageDrawRectangle = mod.cwrap('ImageDrawRectangle', 'void', ['pointer', 'number', 'number', 'number', 'number', 'pointer'])
+  raylib.ImageDrawRectangle = (dst, posX, posY, width, height, color) => _ImageDrawRectangle(dst._address, posX, posY, width, height, color._address)
 
   // Draw rectangle within an image (Vector version): ImageDrawRectangleV(Image *, Vector2, Vector2, Color) => void
-  raylib.ImageDrawRectangleV = (dst, position, size, color) => mod.ccall('ImageDrawRectangleV', 'pointer', ['pointer', 'pointer', 'pointer', 'pointer'], [dst._address, position._address, size._address, color._address])
+  const _ImageDrawRectangleV = mod.cwrap('ImageDrawRectangleV', 'void', ['pointer', 'pointer', 'pointer', 'pointer'])
+  raylib.ImageDrawRectangleV = (dst, position, size, color) => _ImageDrawRectangleV(dst._address, position._address, size._address, color._address)
 
   // Draw rectangle within an image: ImageDrawRectangleRec(Image *, Rectangle, Color) => void
-  raylib.ImageDrawRectangleRec = (dst, rec, color) => mod.ccall('ImageDrawRectangleRec', 'pointer', ['pointer', 'pointer', 'pointer'], [dst._address, rec._address, color._address])
+  const _ImageDrawRectangleRec = mod.cwrap('ImageDrawRectangleRec', 'void', ['pointer', 'pointer', 'pointer'])
+  raylib.ImageDrawRectangleRec = (dst, rec, color) => _ImageDrawRectangleRec(dst._address, rec._address, color._address)
 
   // Draw rectangle lines within an image: ImageDrawRectangleLines(Image *, Rectangle, int, Color) => void
-  raylib.ImageDrawRectangleLines = (dst, rec, thick, color) => mod.ccall('ImageDrawRectangleLines', 'pointer', ['pointer', 'pointer', 'number', 'pointer'], [dst._address, rec._address, thick, color._address])
+  const _ImageDrawRectangleLines = mod.cwrap('ImageDrawRectangleLines', 'void', ['pointer', 'pointer', 'number', 'pointer'])
+  raylib.ImageDrawRectangleLines = (dst, rec, thick, color) => _ImageDrawRectangleLines(dst._address, rec._address, thick, color._address)
 
   // Draw a source image within a destination image (tint applied to source): ImageDraw(Image *, Image, Rectangle, Rectangle, Color) => void
-  raylib.ImageDraw = (dst, src, srcRec, dstRec, tint) => mod.ccall('ImageDraw', 'pointer', ['pointer', 'pointer', 'pointer', 'pointer', 'pointer'], [dst._address, src._address, srcRec._address, dstRec._address, tint._address])
+  const _ImageDraw = mod.cwrap('ImageDraw', 'void', ['pointer', 'pointer', 'pointer', 'pointer', 'pointer'])
+  raylib.ImageDraw = (dst, src, srcRec, dstRec, tint) => _ImageDraw(dst._address, src._address, srcRec._address, dstRec._address, tint._address)
 
   // Draw text (using default font) within an image (destination): ImageDrawText(Image *, const char *, int, int, int, Color) => void
-  raylib.ImageDrawText = (dst, text, posX, posY, fontSize, color) => mod.ccall('ImageDrawText', 'pointer', ['pointer', 'string', 'number', 'number', 'number', 'pointer'], [dst._address, text, posX, posY, fontSize, color._address])
+  const _ImageDrawText = mod.cwrap('ImageDrawText', 'void', ['pointer', 'string', 'number', 'number', 'number', 'pointer'])
+  raylib.ImageDrawText = (dst, text, posX, posY, fontSize, color) => _ImageDrawText(dst._address, text, posX, posY, fontSize, color._address)
 
   // Draw text (custom sprite font) within an image (destination): ImageDrawTextEx(Image *, Font, const char *, Vector2, float, float, Color) => void
-  raylib.ImageDrawTextEx = (dst, font, text, position, fontSize, spacing, tint) => mod.ccall('ImageDrawTextEx', 'pointer', ['pointer', 'pointer', 'string', 'pointer', 'number', 'number', 'pointer'], [dst._address, font._address, text, position._address, fontSize, spacing, tint._address])
+  const _ImageDrawTextEx = mod.cwrap('ImageDrawTextEx', 'void', ['pointer', 'pointer', 'string', 'pointer', 'number', 'number', 'pointer'])
+  raylib.ImageDrawTextEx = (dst, font, text, position, fontSize, spacing, tint) => _ImageDrawTextEx(dst._address, font._address, text, position._address, fontSize, spacing, tint._address)
 
   // Load texture from file into GPU memory (VRAM): LoadTexture(const char *) => Texture2D
+  const _LoadTexture = mod.cwrap('LoadTexture', 'void', ['pointer', 'string'])
   raylib.LoadTexture = (fileName) => {
     const _ret = new raylib.Texture2D()
-    mod.ccall('LoadTexture', 'void', ['pointer', 'string'], [_ret._address, fileName])
+    _LoadTexture(_ret._address, fileName)
     return _ret
   }
 
   // Load texture from image data: LoadTextureFromImage(Image) => Texture2D
+  const _LoadTextureFromImage = mod.cwrap('LoadTextureFromImage', 'void', ['pointer', 'pointer'])
   raylib.LoadTextureFromImage = (image) => {
     const _ret = new raylib.Texture2D()
-    mod.ccall('LoadTextureFromImage', 'void', ['pointer', 'pointer'], [_ret._address, image._address])
+    _LoadTextureFromImage(_ret._address, image._address)
     return _ret
   }
 
   // Load cubemap from image, multiple image cubemap layouts supported: LoadTextureCubemap(Image, int) => TextureCubemap
+  const _LoadTextureCubemap = mod.cwrap('LoadTextureCubemap', 'void', ['pointer', 'pointer', 'number'])
   raylib.LoadTextureCubemap = (image, layout) => {
     const _ret = new raylib.TextureCubemap()
-    mod.ccall('LoadTextureCubemap', 'void', ['pointer', 'pointer', 'number'], [_ret._address, image._address, layout])
+    _LoadTextureCubemap(_ret._address, image._address, layout)
     return _ret
   }
 
   // Load texture for rendering (framebuffer): LoadRenderTexture(int, int) => RenderTexture2D
+  const _LoadRenderTexture = mod.cwrap('LoadRenderTexture', 'void', ['pointer', 'number', 'number'])
   raylib.LoadRenderTexture = (width, height) => {
     const _ret = new raylib.RenderTexture2D()
-    mod.ccall('LoadRenderTexture', 'void', ['pointer', 'number', 'number'], [_ret._address, width, height])
+    _LoadRenderTexture(_ret._address, width, height)
     return _ret
   }
 
   // Check if a texture is ready: IsTextureReady(Texture2D) => bool
-  raylib.IsTextureReady = (texture) => mod.ccall('IsTextureReady', 'boolean', ['pointer'], [texture._address])
+  const _IsTextureReady = mod.cwrap('IsTextureReady', 'void', ['pointer'])
+  raylib.IsTextureReady = (texture) => _IsTextureReady(texture._address)
 
   // Unload texture from GPU memory (VRAM): UnloadTexture(Texture2D) => void
-  raylib.UnloadTexture = (texture) => mod.ccall('UnloadTexture', 'pointer', ['pointer'], [texture._address])
+  const _UnloadTexture = mod.cwrap('UnloadTexture', 'void', ['pointer'])
+  raylib.UnloadTexture = (texture) => _UnloadTexture(texture._address)
 
   // Check if a render texture is ready: IsRenderTextureReady(RenderTexture2D) => bool
-  raylib.IsRenderTextureReady = (target) => mod.ccall('IsRenderTextureReady', 'boolean', ['pointer'], [target._address])
+  const _IsRenderTextureReady = mod.cwrap('IsRenderTextureReady', 'void', ['pointer'])
+  raylib.IsRenderTextureReady = (target) => _IsRenderTextureReady(target._address)
 
   // Unload render texture from GPU memory (VRAM): UnloadRenderTexture(RenderTexture2D) => void
-  raylib.UnloadRenderTexture = (target) => mod.ccall('UnloadRenderTexture', 'pointer', ['pointer'], [target._address])
+  const _UnloadRenderTexture = mod.cwrap('UnloadRenderTexture', 'void', ['pointer'])
+  raylib.UnloadRenderTexture = (target) => _UnloadRenderTexture(target._address)
 
   // Update GPU texture with new data: UpdateTexture(Texture2D, const void *) => void
-  raylib.UpdateTexture = (texture, pixels) => mod.ccall('UpdateTexture', 'pointer', ['pointer', 'pointer'], [texture._address, pixels._address])
+  const _UpdateTexture = mod.cwrap('UpdateTexture', 'void', ['pointer', 'pointer'])
+  raylib.UpdateTexture = (texture, pixels) => _UpdateTexture(texture._address, pixels._address)
 
   // Update GPU texture rectangle with new data: UpdateTextureRec(Texture2D, Rectangle, const void *) => void
-  raylib.UpdateTextureRec = (texture, rec, pixels) => mod.ccall('UpdateTextureRec', 'pointer', ['pointer', 'pointer', 'pointer'], [texture._address, rec._address, pixels._address])
+  const _UpdateTextureRec = mod.cwrap('UpdateTextureRec', 'void', ['pointer', 'pointer', 'pointer'])
+  raylib.UpdateTextureRec = (texture, rec, pixels) => _UpdateTextureRec(texture._address, rec._address, pixels._address)
 
   // Generate GPU mipmaps for a texture: GenTextureMipmaps(Texture2D *) => void
-  raylib.GenTextureMipmaps = (texture) => mod.ccall('GenTextureMipmaps', 'pointer', ['pointer'], [texture._address])
+  const _GenTextureMipmaps = mod.cwrap('GenTextureMipmaps', 'void', ['pointer'])
+  raylib.GenTextureMipmaps = (texture) => _GenTextureMipmaps(texture._address)
 
   // Set texture scaling filter mode: SetTextureFilter(Texture2D, int) => void
-  raylib.SetTextureFilter = (texture, filter) => mod.ccall('SetTextureFilter', 'pointer', ['pointer', 'number'], [texture._address, filter])
+  const _SetTextureFilter = mod.cwrap('SetTextureFilter', 'void', ['pointer', 'number'])
+  raylib.SetTextureFilter = (texture, filter) => _SetTextureFilter(texture._address, filter)
 
   // Set texture wrapping mode: SetTextureWrap(Texture2D, int) => void
-  raylib.SetTextureWrap = (texture, wrap) => mod.ccall('SetTextureWrap', 'pointer', ['pointer', 'number'], [texture._address, wrap])
+  const _SetTextureWrap = mod.cwrap('SetTextureWrap', 'void', ['pointer', 'number'])
+  raylib.SetTextureWrap = (texture, wrap) => _SetTextureWrap(texture._address, wrap)
 
   // Draw a Texture2D: DrawTexture(Texture2D, int, int, Color) => void
-  raylib.DrawTexture = (texture, posX, posY, tint) => mod.ccall('DrawTexture', 'pointer', ['pointer', 'number', 'number', 'pointer'], [texture._address, posX, posY, tint._address])
+  const _DrawTexture = mod.cwrap('DrawTexture', 'void', ['pointer', 'number', 'number', 'pointer'])
+  raylib.DrawTexture = (texture, posX, posY, tint) => _DrawTexture(texture._address, posX, posY, tint._address)
 
   // Draw a Texture2D with position defined as Vector2: DrawTextureV(Texture2D, Vector2, Color) => void
-  raylib.DrawTextureV = (texture, position, tint) => mod.ccall('DrawTextureV', 'pointer', ['pointer', 'pointer', 'pointer'], [texture._address, position._address, tint._address])
+  const _DrawTextureV = mod.cwrap('DrawTextureV', 'void', ['pointer', 'pointer', 'pointer'])
+  raylib.DrawTextureV = (texture, position, tint) => _DrawTextureV(texture._address, position._address, tint._address)
 
   // Draw a Texture2D with extended parameters: DrawTextureEx(Texture2D, Vector2, float, float, Color) => void
-  raylib.DrawTextureEx = (texture, position, rotation, scale, tint) => mod.ccall('DrawTextureEx', 'pointer', ['pointer', 'pointer', 'number', 'number', 'pointer'], [texture._address, position._address, rotation, scale, tint._address])
+  const _DrawTextureEx = mod.cwrap('DrawTextureEx', 'void', ['pointer', 'pointer', 'number', 'number', 'pointer'])
+  raylib.DrawTextureEx = (texture, position, rotation, scale, tint) => _DrawTextureEx(texture._address, position._address, rotation, scale, tint._address)
 
   // Draw a part of a texture defined by a rectangle: DrawTextureRec(Texture2D, Rectangle, Vector2, Color) => void
-  raylib.DrawTextureRec = (texture, source, position, tint) => mod.ccall('DrawTextureRec', 'pointer', ['pointer', 'pointer', 'pointer', 'pointer'], [texture._address, source._address, position._address, tint._address])
+  const _DrawTextureRec = mod.cwrap('DrawTextureRec', 'void', ['pointer', 'pointer', 'pointer', 'pointer'])
+  raylib.DrawTextureRec = (texture, source, position, tint) => _DrawTextureRec(texture._address, source._address, position._address, tint._address)
 
   // Draw a part of a texture defined by a rectangle with 'pro' parameters: DrawTexturePro(Texture2D, Rectangle, Rectangle, Vector2, float, Color) => void
-  raylib.DrawTexturePro = (texture, source, dest, origin, rotation, tint) => mod.ccall('DrawTexturePro', 'pointer', ['pointer', 'pointer', 'pointer', 'pointer', 'number', 'pointer'], [texture._address, source._address, dest._address, origin._address, rotation, tint._address])
+  const _DrawTexturePro = mod.cwrap('DrawTexturePro', 'void', ['pointer', 'pointer', 'pointer', 'pointer', 'number', 'pointer'])
+  raylib.DrawTexturePro = (texture, source, dest, origin, rotation, tint) => _DrawTexturePro(texture._address, source._address, dest._address, origin._address, rotation, tint._address)
 
   // Draws a texture (or part of it) that stretches or shrinks nicely: DrawTextureNPatch(Texture2D, NPatchInfo, Rectangle, Vector2, float, Color) => void
-  raylib.DrawTextureNPatch = (texture, nPatchInfo, dest, origin, rotation, tint) => mod.ccall('DrawTextureNPatch', 'pointer', ['pointer', 'pointer', 'pointer', 'pointer', 'number', 'pointer'], [texture._address, nPatchInfo._address, dest._address, origin._address, rotation, tint._address])
+  const _DrawTextureNPatch = mod.cwrap('DrawTextureNPatch', 'void', ['pointer', 'pointer', 'pointer', 'pointer', 'number', 'pointer'])
+  raylib.DrawTextureNPatch = (texture, nPatchInfo, dest, origin, rotation, tint) => _DrawTextureNPatch(texture._address, nPatchInfo._address, dest._address, origin._address, rotation, tint._address)
 
   // Get color with alpha applied, alpha goes from 0.0f to 1.0f: Fade(Color, float) => Color
+  const _Fade = mod.cwrap('Fade', 'void', ['pointer', 'pointer', 'number'])
   raylib.Fade = (color, alpha) => {
     const _ret = new raylib.Color()
-    mod.ccall('Fade', 'void', ['pointer', 'pointer', 'number'], [_ret._address, color._address, alpha])
+    _Fade(_ret._address, color._address, alpha)
     return _ret
   }
 
   // Get hexadecimal value for a Color: ColorToInt(Color) => int
-  raylib.ColorToInt = (color) => mod.ccall('ColorToInt', 'number', ['pointer'], [color._address])
+  const _ColorToInt = mod.cwrap('ColorToInt', 'void', ['pointer'])
+  raylib.ColorToInt = (color) => _ColorToInt(color._address)
 
   // Get Color normalized as float [0..1]: ColorNormalize(Color) => Vector4
+  const _ColorNormalize = mod.cwrap('ColorNormalize', 'void', ['pointer', 'pointer'])
   raylib.ColorNormalize = (color) => {
     const _ret = new raylib.Vector4()
-    mod.ccall('ColorNormalize', 'void', ['pointer', 'pointer'], [_ret._address, color._address])
+    _ColorNormalize(_ret._address, color._address)
     return _ret
   }
 
   // Get Color from normalized values [0..1]: ColorFromNormalized(Vector4) => Color
+  const _ColorFromNormalized = mod.cwrap('ColorFromNormalized', 'void', ['pointer', 'pointer'])
   raylib.ColorFromNormalized = (normalized) => {
     const _ret = new raylib.Color()
-    mod.ccall('ColorFromNormalized', 'void', ['pointer', 'pointer'], [_ret._address, normalized._address])
+    _ColorFromNormalized(_ret._address, normalized._address)
     return _ret
   }
 
   // Get HSV values for a Color, hue [0..360], saturation/value [0..1]: ColorToHSV(Color) => Vector3
+  const _ColorToHSV = mod.cwrap('ColorToHSV', 'void', ['pointer', 'pointer'])
   raylib.ColorToHSV = (color) => {
     const _ret = new raylib.Vector3()
-    mod.ccall('ColorToHSV', 'void', ['pointer', 'pointer'], [_ret._address, color._address])
+    _ColorToHSV(_ret._address, color._address)
     return _ret
   }
 
   // Get a Color from HSV values, hue [0..360], saturation/value [0..1]: ColorFromHSV(float, float, float) => Color
+  const _ColorFromHSV = mod.cwrap('ColorFromHSV', 'void', ['pointer', 'number', 'number', 'number'])
   raylib.ColorFromHSV = (hue, saturation, value) => {
     const _ret = new raylib.Color()
-    mod.ccall('ColorFromHSV', 'void', ['pointer', 'number', 'number', 'number'], [_ret._address, hue, saturation, value])
+    _ColorFromHSV(_ret._address, hue, saturation, value)
     return _ret
   }
 
   // Get color multiplied with another color: ColorTint(Color, Color) => Color
+  const _ColorTint = mod.cwrap('ColorTint', 'void', ['pointer', 'pointer', 'pointer'])
   raylib.ColorTint = (color, tint) => {
     const _ret = new raylib.Color()
-    mod.ccall('ColorTint', 'void', ['pointer', 'pointer', 'pointer'], [_ret._address, color._address, tint._address])
+    _ColorTint(_ret._address, color._address, tint._address)
     return _ret
   }
 
   // Get color with brightness correction, brightness factor goes from -1.0f to 1.0f: ColorBrightness(Color, float) => Color
+  const _ColorBrightness = mod.cwrap('ColorBrightness', 'void', ['pointer', 'pointer', 'number'])
   raylib.ColorBrightness = (color, factor) => {
     const _ret = new raylib.Color()
-    mod.ccall('ColorBrightness', 'void', ['pointer', 'pointer', 'number'], [_ret._address, color._address, factor])
+    _ColorBrightness(_ret._address, color._address, factor)
     return _ret
   }
 
   // Get color with contrast correction, contrast values between -1.0f and 1.0f: ColorContrast(Color, float) => Color
+  const _ColorContrast = mod.cwrap('ColorContrast', 'void', ['pointer', 'pointer', 'number'])
   raylib.ColorContrast = (color, contrast) => {
     const _ret = new raylib.Color()
-    mod.ccall('ColorContrast', 'void', ['pointer', 'pointer', 'number'], [_ret._address, color._address, contrast])
+    _ColorContrast(_ret._address, color._address, contrast)
     return _ret
   }
 
   // Get color with alpha applied, alpha goes from 0.0f to 1.0f: ColorAlpha(Color, float) => Color
+  const _ColorAlpha = mod.cwrap('ColorAlpha', 'void', ['pointer', 'pointer', 'number'])
   raylib.ColorAlpha = (color, alpha) => {
     const _ret = new raylib.Color()
-    mod.ccall('ColorAlpha', 'void', ['pointer', 'pointer', 'number'], [_ret._address, color._address, alpha])
+    _ColorAlpha(_ret._address, color._address, alpha)
     return _ret
   }
 
   // Get src alpha-blended into dst color with tint: ColorAlphaBlend(Color, Color, Color) => Color
+  const _ColorAlphaBlend = mod.cwrap('ColorAlphaBlend', 'void', ['pointer', 'pointer', 'pointer', 'pointer'])
   raylib.ColorAlphaBlend = (dst, src, tint) => {
     const _ret = new raylib.Color()
-    mod.ccall('ColorAlphaBlend', 'void', ['pointer', 'pointer', 'pointer', 'pointer'], [_ret._address, dst._address, src._address, tint._address])
+    _ColorAlphaBlend(_ret._address, dst._address, src._address, tint._address)
     return _ret
   }
 
   // Get Color structure from hexadecimal value: GetColor(unsigned int) => Color
+  const _GetColor = mod.cwrap('GetColor', 'void', ['pointer', 'number'])
   raylib.GetColor = (hexValue) => {
     const _ret = new raylib.Color()
-    mod.ccall('GetColor', 'void', ['pointer', 'number'], [_ret._address, hexValue])
+    _GetColor(_ret._address, hexValue)
     return _ret
   }
 
   // Get Color from a source pixel pointer of certain format: GetPixelColor(void *, int) => Color
+  const _GetPixelColor = mod.cwrap('GetPixelColor', 'void', ['pointer', 'pointer', 'number'])
   raylib.GetPixelColor = (srcPtr, format) => {
     const _ret = new raylib.Color()
-    mod.ccall('GetPixelColor', 'void', ['pointer', 'pointer', 'number'], [_ret._address, srcPtr._address, format])
+    _GetPixelColor(_ret._address, srcPtr._address, format)
     return _ret
   }
 
   // Set color formatted into destination pixel pointer: SetPixelColor(void *, Color, int) => void
-  raylib.SetPixelColor = (dstPtr, color, format) => mod.ccall('SetPixelColor', 'pointer', ['pointer', 'pointer', 'number'], [dstPtr._address, color._address, format])
+  const _SetPixelColor = mod.cwrap('SetPixelColor', 'void', ['pointer', 'pointer', 'number'])
+  raylib.SetPixelColor = (dstPtr, color, format) => _SetPixelColor(dstPtr._address, color._address, format)
 
   // Get pixel data size in bytes for certain format: GetPixelDataSize(int, int, int) => int
-  raylib.GetPixelDataSize = (width, height, format) => mod.ccall('GetPixelDataSize', 'number', ['number', 'number', 'number'], [width, height, format])
+  const _GetPixelDataSize = mod.cwrap('GetPixelDataSize', 'void', ['number', 'number', 'number'])
+  raylib.GetPixelDataSize = (width, height, format) => _GetPixelDataSize(width, height, format)
 
   // Get the default Font: GetFontDefault() => Font
+  const _GetFontDefault = mod.cwrap('GetFontDefault', 'void', ['pointer'])
   raylib.GetFontDefault = () => {
     const _ret = new raylib.Font()
-    mod.ccall('GetFontDefault', 'void', ['pointer'], [_ret._address])
+    _GetFontDefault(_ret._address)
     return _ret
   }
 
   // Load font from file into GPU memory (VRAM): LoadFont(const char *) => Font
+  const _LoadFont = mod.cwrap('LoadFont', 'void', ['pointer', 'string'])
   raylib.LoadFont = (fileName) => {
     const _ret = new raylib.Font()
-    mod.ccall('LoadFont', 'void', ['pointer', 'string'], [_ret._address, fileName])
+    _LoadFont(_ret._address, fileName)
     return _ret
   }
 
   // Load font from file with extended parameters, use NULL for fontChars and 0 for glyphCount to load the default character set: LoadFontEx(const char *, int, int *, int) => Font
+  const _LoadFontEx = mod.cwrap('LoadFontEx', 'void', ['pointer', 'string', 'number', 'pointer', 'number'])
   raylib.LoadFontEx = (fileName, fontSize, fontChars, glyphCount) => {
     const _ret = new raylib.Font()
-    mod.ccall('LoadFontEx', 'void', ['pointer', 'string', 'number', 'pointer', 'number'], [_ret._address, fileName, fontSize, fontChars._address, glyphCount])
+    _LoadFontEx(_ret._address, fileName, fontSize, fontChars._address, glyphCount)
     return _ret
   }
 
   // Load font from Image (XNA style): LoadFontFromImage(Image, Color, int) => Font
+  const _LoadFontFromImage = mod.cwrap('LoadFontFromImage', 'void', ['pointer', 'pointer', 'pointer', 'number'])
   raylib.LoadFontFromImage = (image, key, firstChar) => {
     const _ret = new raylib.Font()
-    mod.ccall('LoadFontFromImage', 'void', ['pointer', 'pointer', 'pointer', 'number'], [_ret._address, image._address, key._address, firstChar])
+    _LoadFontFromImage(_ret._address, image._address, key._address, firstChar)
     return _ret
   }
 
   // Load font from memory buffer, fileType refers to extension: i.e. '.ttf': LoadFontFromMemory(const char *, const unsigned char *, int, int, int *, int) => Font
+  const _LoadFontFromMemory = mod.cwrap('LoadFontFromMemory', 'void', ['pointer', 'string', 'pointer', 'number', 'number', 'pointer', 'number'])
   raylib.LoadFontFromMemory = (fileType, fileData, dataSize, fontSize, fontChars, glyphCount) => {
     const _ret = new raylib.Font()
-    mod.ccall('LoadFontFromMemory', 'void', ['pointer', 'string', 'pointer', 'number', 'number', 'pointer', 'number'], [_ret._address, fileType, fileData._address, dataSize, fontSize, fontChars._address, glyphCount])
+    _LoadFontFromMemory(_ret._address, fileType, fileData._address, dataSize, fontSize, fontChars._address, glyphCount)
     return _ret
   }
 
   // Check if a font is ready: IsFontReady(Font) => bool
-  raylib.IsFontReady = (font) => mod.ccall('IsFontReady', 'boolean', ['pointer'], [font._address])
+  const _IsFontReady = mod.cwrap('IsFontReady', 'void', ['pointer'])
+  raylib.IsFontReady = (font) => _IsFontReady(font._address)
 
   // Load font data for further use: LoadFontData(const unsigned char *, int, int, int *, int, int) => GlyphInfo *
+  const _LoadFontData = mod.cwrap('LoadFontData', 'void', ['pointer', 'pointer', 'number', 'number', 'pointer', 'number', 'number'])
   raylib.LoadFontData = (fileData, dataSize, fontSize, fontChars, glyphCount, type) => {
     const _ret = new raylib.GlyphInfo()
-    mod.ccall('LoadFontData', 'void', ['pointer', 'pointer', 'number', 'number', 'pointer', 'number', 'number'], [_ret._address, fileData._address, dataSize, fontSize, fontChars._address, glyphCount, type])
+    _LoadFontData(_ret._address, fileData._address, dataSize, fontSize, fontChars._address, glyphCount, type)
     return _ret
   }
 
   // Generate image font atlas using chars info: GenImageFontAtlas(const GlyphInfo *, Rectangle **, int, int, int, int) => Image
+  const _GenImageFontAtlas = mod.cwrap('GenImageFontAtlas', 'void', ['pointer', 'pointer', 'pointer', 'number', 'number', 'number', 'number'])
   raylib.GenImageFontAtlas = (chars, recs, glyphCount, fontSize, padding, packMethod) => {
     const _ret = new raylib.Image()
-    mod.ccall('GenImageFontAtlas', 'void', ['pointer', 'pointer', 'pointer', 'number', 'number', 'number', 'number'], [_ret._address, chars._address, recs._address, glyphCount, fontSize, padding, packMethod])
+    _GenImageFontAtlas(_ret._address, chars._address, recs._address, glyphCount, fontSize, padding, packMethod)
     return _ret
   }
 
   // Unload font chars info data (RAM): UnloadFontData(GlyphInfo *, int) => void
-  raylib.UnloadFontData = (chars, glyphCount) => mod.ccall('UnloadFontData', 'pointer', ['pointer', 'number'], [chars._address, glyphCount])
+  const _UnloadFontData = mod.cwrap('UnloadFontData', 'void', ['pointer', 'number'])
+  raylib.UnloadFontData = (chars, glyphCount) => _UnloadFontData(chars._address, glyphCount)
 
   // Unload font from GPU memory (VRAM): UnloadFont(Font) => void
-  raylib.UnloadFont = (font) => mod.ccall('UnloadFont', 'pointer', ['pointer'], [font._address])
+  const _UnloadFont = mod.cwrap('UnloadFont', 'void', ['pointer'])
+  raylib.UnloadFont = (font) => _UnloadFont(font._address)
 
   // Export font as code file, returns true on success: ExportFontAsCode(Font, const char *) => bool
-  raylib.ExportFontAsCode = (font, fileName) => mod.ccall('ExportFontAsCode', 'boolean', ['pointer', 'string'], [font._address, fileName])
+  const _ExportFontAsCode = mod.cwrap('ExportFontAsCode', 'void', ['pointer', 'string'])
+  raylib.ExportFontAsCode = (font, fileName) => _ExportFontAsCode(font._address, fileName)
 
   // Draw current FPS: DrawFPS(int, int) => void
-  raylib.DrawFPS = (posX, posY) => mod.ccall('DrawFPS', 'pointer', ['number', 'number'], [posX, posY])
+  const _DrawFPS = mod.cwrap('DrawFPS', 'void', ['number', 'number'])
+  raylib.DrawFPS = (posX, posY) => _DrawFPS(posX, posY)
 
   // Draw text (using default font): DrawText(const char *, int, int, int, Color) => void
-  raylib.DrawText = (text, posX, posY, fontSize, color) => mod.ccall('DrawText', 'pointer', ['string', 'number', 'number', 'number', 'pointer'], [text, posX, posY, fontSize, color._address])
+  const _DrawText = mod.cwrap('DrawText', 'void', ['string', 'number', 'number', 'number', 'pointer'])
+  raylib.DrawText = (text, posX, posY, fontSize, color) => _DrawText(text, posX, posY, fontSize, color._address)
 
   // Draw text using font and additional parameters: DrawTextEx(Font, const char *, Vector2, float, float, Color) => void
-  raylib.DrawTextEx = (font, text, position, fontSize, spacing, tint) => mod.ccall('DrawTextEx', 'pointer', ['pointer', 'string', 'pointer', 'number', 'number', 'pointer'], [font._address, text, position._address, fontSize, spacing, tint._address])
+  const _DrawTextEx = mod.cwrap('DrawTextEx', 'void', ['pointer', 'string', 'pointer', 'number', 'number', 'pointer'])
+  raylib.DrawTextEx = (font, text, position, fontSize, spacing, tint) => _DrawTextEx(font._address, text, position._address, fontSize, spacing, tint._address)
 
   // Draw text using Font and pro parameters (rotation): DrawTextPro(Font, const char *, Vector2, Vector2, float, float, float, Color) => void
-  raylib.DrawTextPro = (font, text, position, origin, rotation, fontSize, spacing, tint) => mod.ccall('DrawTextPro', 'pointer', ['pointer', 'string', 'pointer', 'pointer', 'number', 'number', 'number', 'pointer'], [font._address, text, position._address, origin._address, rotation, fontSize, spacing, tint._address])
+  const _DrawTextPro = mod.cwrap('DrawTextPro', 'void', ['pointer', 'string', 'pointer', 'pointer', 'number', 'number', 'number', 'pointer'])
+  raylib.DrawTextPro = (font, text, position, origin, rotation, fontSize, spacing, tint) => _DrawTextPro(font._address, text, position._address, origin._address, rotation, fontSize, spacing, tint._address)
 
   // Draw one character (codepoint): DrawTextCodepoint(Font, int, Vector2, float, Color) => void
-  raylib.DrawTextCodepoint = (font, codepoint, position, fontSize, tint) => mod.ccall('DrawTextCodepoint', 'pointer', ['pointer', 'number', 'pointer', 'number', 'pointer'], [font._address, codepoint, position._address, fontSize, tint._address])
+  const _DrawTextCodepoint = mod.cwrap('DrawTextCodepoint', 'void', ['pointer', 'number', 'pointer', 'number', 'pointer'])
+  raylib.DrawTextCodepoint = (font, codepoint, position, fontSize, tint) => _DrawTextCodepoint(font._address, codepoint, position._address, fontSize, tint._address)
 
   // Draw multiple character (codepoint): DrawTextCodepoints(Font, const int *, int, Vector2, float, float, Color) => void
-  raylib.DrawTextCodepoints = (font, codepoints, count, position, fontSize, spacing, tint) => mod.ccall('DrawTextCodepoints', 'pointer', ['pointer', 'pointer', 'number', 'pointer', 'number', 'number', 'pointer'], [font._address, codepoints._address, count, position._address, fontSize, spacing, tint._address])
+  const _DrawTextCodepoints = mod.cwrap('DrawTextCodepoints', 'void', ['pointer', 'pointer', 'number', 'pointer', 'number', 'number', 'pointer'])
+  raylib.DrawTextCodepoints = (font, codepoints, count, position, fontSize, spacing, tint) => _DrawTextCodepoints(font._address, codepoints._address, count, position._address, fontSize, spacing, tint._address)
 
   // Measure string width for default font: MeasureText(const char *, int) => int
-  raylib.MeasureText = (text, fontSize) => mod.ccall('MeasureText', 'number', ['string', 'number'], [text, fontSize])
+  const _MeasureText = mod.cwrap('MeasureText', 'void', ['string', 'number'])
+  raylib.MeasureText = (text, fontSize) => _MeasureText(text, fontSize)
 
   // Measure string size for Font: MeasureTextEx(Font, const char *, float, float) => Vector2
+  const _MeasureTextEx = mod.cwrap('MeasureTextEx', 'void', ['pointer', 'pointer', 'string', 'number', 'number'])
   raylib.MeasureTextEx = (font, text, fontSize, spacing) => {
     const _ret = new raylib.Vector2()
-    mod.ccall('MeasureTextEx', 'void', ['pointer', 'pointer', 'string', 'number', 'number'], [_ret._address, font._address, text, fontSize, spacing])
+    _MeasureTextEx(_ret._address, font._address, text, fontSize, spacing)
     return _ret
   }
 
   // Get glyph index position in font for a codepoint (unicode character), fallback to '?' if not found: GetGlyphIndex(Font, int) => int
-  raylib.GetGlyphIndex = (font, codepoint) => mod.ccall('GetGlyphIndex', 'number', ['pointer', 'number'], [font._address, codepoint])
+  const _GetGlyphIndex = mod.cwrap('GetGlyphIndex', 'void', ['pointer', 'number'])
+  raylib.GetGlyphIndex = (font, codepoint) => _GetGlyphIndex(font._address, codepoint)
 
   // Get glyph font info data for a codepoint (unicode character), fallback to '?' if not found: GetGlyphInfo(Font, int) => GlyphInfo
+  const _GetGlyphInfo = mod.cwrap('GetGlyphInfo', 'void', ['pointer', 'pointer', 'number'])
   raylib.GetGlyphInfo = (font, codepoint) => {
     const _ret = new raylib.GlyphInfo()
-    mod.ccall('GetGlyphInfo', 'void', ['pointer', 'pointer', 'number'], [_ret._address, font._address, codepoint])
+    _GetGlyphInfo(_ret._address, font._address, codepoint)
     return _ret
   }
 
   // Get glyph rectangle in font atlas for a codepoint (unicode character), fallback to '?' if not found: GetGlyphAtlasRec(Font, int) => Rectangle
+  const _GetGlyphAtlasRec = mod.cwrap('GetGlyphAtlasRec', 'void', ['pointer', 'pointer', 'number'])
   raylib.GetGlyphAtlasRec = (font, codepoint) => {
     const _ret = new raylib.Rectangle()
-    mod.ccall('GetGlyphAtlasRec', 'void', ['pointer', 'pointer', 'number'], [_ret._address, font._address, codepoint])
+    _GetGlyphAtlasRec(_ret._address, font._address, codepoint)
     return _ret
   }
 
   // Load UTF-8 text encoded from codepoints array: LoadUTF8(const int *, int) => char *
-  raylib.LoadUTF8 = (codepoints, length) => mod.ccall('LoadUTF8', 'pointer', ['pointer', 'number'], [codepoints._address, length])
+  const _LoadUTF8 = mod.cwrap('LoadUTF8', 'void', ['pointer', 'number'])
+  raylib.LoadUTF8 = (codepoints, length) => _LoadUTF8(codepoints._address, length)
 
   // Unload UTF-8 text encoded from codepoints array: UnloadUTF8(char *) => void
-  raylib.UnloadUTF8 = (text) => mod.ccall('UnloadUTF8', 'pointer', ['pointer'], [text._address])
+  const _UnloadUTF8 = mod.cwrap('UnloadUTF8', 'void', ['pointer'])
+  raylib.UnloadUTF8 = (text) => _UnloadUTF8(text._address)
 
   // Load all codepoints from a UTF-8 text string, codepoints count returned by parameter: LoadCodepoints(const char *, int *) => int *
-  raylib.LoadCodepoints = (text, count) => mod.ccall('LoadCodepoints', 'pointer', ['string', 'pointer'], [text, count._address])
+  const _LoadCodepoints = mod.cwrap('LoadCodepoints', 'void', ['string', 'pointer'])
+  raylib.LoadCodepoints = (text, count) => _LoadCodepoints(text, count._address)
 
   // Unload codepoints data from memory: UnloadCodepoints(int *) => void
-  raylib.UnloadCodepoints = (codepoints) => mod.ccall('UnloadCodepoints', 'pointer', ['pointer'], [codepoints._address])
+  const _UnloadCodepoints = mod.cwrap('UnloadCodepoints', 'void', ['pointer'])
+  raylib.UnloadCodepoints = (codepoints) => _UnloadCodepoints(codepoints._address)
 
   // Get total number of codepoints in a UTF-8 encoded string: GetCodepointCount(const char *) => int
-  raylib.GetCodepointCount = (text) => mod.ccall('GetCodepointCount', 'number', ['string'], [text])
+  const _GetCodepointCount = mod.cwrap('GetCodepointCount', 'void', ['string'])
+  raylib.GetCodepointCount = (text) => _GetCodepointCount(text)
 
   // Get next codepoint in a UTF-8 encoded string, 0x3f('?') is returned on failure: GetCodepoint(const char *, int *) => int
-  raylib.GetCodepoint = (text, codepointSize) => mod.ccall('GetCodepoint', 'number', ['string', 'pointer'], [text, codepointSize._address])
+  const _GetCodepoint = mod.cwrap('GetCodepoint', 'void', ['string', 'pointer'])
+  raylib.GetCodepoint = (text, codepointSize) => _GetCodepoint(text, codepointSize._address)
 
   // Get next codepoint in a UTF-8 encoded string, 0x3f('?') is returned on failure: GetCodepointNext(const char *, int *) => int
-  raylib.GetCodepointNext = (text, codepointSize) => mod.ccall('GetCodepointNext', 'number', ['string', 'pointer'], [text, codepointSize._address])
+  const _GetCodepointNext = mod.cwrap('GetCodepointNext', 'void', ['string', 'pointer'])
+  raylib.GetCodepointNext = (text, codepointSize) => _GetCodepointNext(text, codepointSize._address)
 
   // Get previous codepoint in a UTF-8 encoded string, 0x3f('?') is returned on failure: GetCodepointPrevious(const char *, int *) => int
-  raylib.GetCodepointPrevious = (text, codepointSize) => mod.ccall('GetCodepointPrevious', 'number', ['string', 'pointer'], [text, codepointSize._address])
+  const _GetCodepointPrevious = mod.cwrap('GetCodepointPrevious', 'void', ['string', 'pointer'])
+  raylib.GetCodepointPrevious = (text, codepointSize) => _GetCodepointPrevious(text, codepointSize._address)
 
   // Encode one codepoint into UTF-8 byte array (array length returned as parameter): CodepointToUTF8(int, int *) => const char *
-  raylib.CodepointToUTF8 = (codepoint, utf8Size) => mod.ccall('CodepointToUTF8', 'string', ['number', 'pointer'], [codepoint, utf8Size._address])
+  const _CodepointToUTF8 = mod.cwrap('CodepointToUTF8', 'void', ['number', 'pointer'])
+  raylib.CodepointToUTF8 = (codepoint, utf8Size) => _CodepointToUTF8(codepoint, utf8Size._address)
 
   // Copy one string to another, returns bytes copied: TextCopy(char *, const char *) => int
-  raylib.TextCopy = (dst, src) => mod.ccall('TextCopy', 'number', ['pointer', 'string'], [dst._address, src])
+  const _TextCopy = mod.cwrap('TextCopy', 'void', ['pointer', 'string'])
+  raylib.TextCopy = (dst, src) => _TextCopy(dst._address, src)
 
   // Check if two text string are equal: TextIsEqual(const char *, const char *) => bool
-  raylib.TextIsEqual = (text1, text2) => mod.ccall('TextIsEqual', 'boolean', ['string', 'string'], [text1, text2])
+  const _TextIsEqual = mod.cwrap('TextIsEqual', 'void', ['string', 'string'])
+  raylib.TextIsEqual = (text1, text2) => _TextIsEqual(text1, text2)
 
   // Get text length, checks for '\0' ending: TextLength(const char *) => unsigned int
-  raylib.TextLength = (text) => mod.ccall('TextLength', 'number', ['string'], [text])
+  const _TextLength = mod.cwrap('TextLength', 'void', ['string'])
+  raylib.TextLength = (text) => _TextLength(text)
 
   // Text formatting with variables (sprintf() style): TextFormat(const char *, ...) => const char *
-  raylib.TextFormat = (text, args) => mod.ccall('TextFormat', 'string', ['string', 'pointer'], [text, args._address])
+  const _TextFormat = mod.cwrap('TextFormat', 'void', ['string', 'pointer'])
+  raylib.TextFormat = (text, args) => _TextFormat(text, args._address)
 
   // Get a piece of a text string: TextSubtext(const char *, int, int) => const char *
-  raylib.TextSubtext = (text, position, length) => mod.ccall('TextSubtext', 'string', ['string', 'number', 'number'], [text, position, length])
+  const _TextSubtext = mod.cwrap('TextSubtext', 'void', ['string', 'number', 'number'])
+  raylib.TextSubtext = (text, position, length) => _TextSubtext(text, position, length)
 
   // Replace text string (WARNING: memory must be freed!): TextReplace(char *, const char *, const char *) => char *
-  raylib.TextReplace = (text, replace, by) => mod.ccall('TextReplace', 'pointer', ['pointer', 'string', 'string'], [text._address, replace, by])
+  const _TextReplace = mod.cwrap('TextReplace', 'void', ['pointer', 'string', 'string'])
+  raylib.TextReplace = (text, replace, by) => _TextReplace(text._address, replace, by)
 
   // Insert text in a position (WARNING: memory must be freed!): TextInsert(const char *, const char *, int) => char *
-  raylib.TextInsert = (text, insert, position) => mod.ccall('TextInsert', 'pointer', ['string', 'string', 'number'], [text, insert, position])
+  const _TextInsert = mod.cwrap('TextInsert', 'void', ['string', 'string', 'number'])
+  raylib.TextInsert = (text, insert, position) => _TextInsert(text, insert, position)
 
   // Join text strings with delimiter: TextJoin(const char **, int, const char *) => const char *
-  raylib.TextJoin = (textList, count, delimiter) => mod.ccall('TextJoin', 'string', ['pointer', 'number', 'string'], [textList._address, count, delimiter])
+  const _TextJoin = mod.cwrap('TextJoin', 'void', ['pointer', 'number', 'string'])
+  raylib.TextJoin = (textList, count, delimiter) => _TextJoin(textList._address, count, delimiter)
 
   // Split text into multiple strings: TextSplit(const char *, char, int *) => const char **
-  raylib.TextSplit = (text, delimiter, count) => mod.ccall('TextSplit', 'pointer', ['string', 'number', 'pointer'], [text, delimiter, count._address])
+  const _TextSplit = mod.cwrap('TextSplit', 'void', ['string', 'number', 'pointer'])
+  raylib.TextSplit = (text, delimiter, count) => _TextSplit(text, delimiter, count._address)
 
   // Append text at specific position and move cursor!: TextAppend(char *, const char *, int *) => void
-  raylib.TextAppend = (text, append, position) => mod.ccall('TextAppend', 'pointer', ['pointer', 'string', 'pointer'], [text._address, append, position._address])
+  const _TextAppend = mod.cwrap('TextAppend', 'void', ['pointer', 'string', 'pointer'])
+  raylib.TextAppend = (text, append, position) => _TextAppend(text._address, append, position._address)
 
   // Find first text occurrence within a string: TextFindIndex(const char *, const char *) => int
-  raylib.TextFindIndex = (text, find) => mod.ccall('TextFindIndex', 'number', ['string', 'string'], [text, find])
+  const _TextFindIndex = mod.cwrap('TextFindIndex', 'void', ['string', 'string'])
+  raylib.TextFindIndex = (text, find) => _TextFindIndex(text, find)
 
   // Get upper case version of provided string: TextToUpper(const char *) => const char *
-  raylib.TextToUpper = (text) => mod.ccall('TextToUpper', 'string', ['string'], [text])
+  const _TextToUpper = mod.cwrap('TextToUpper', 'void', ['string'])
+  raylib.TextToUpper = (text) => _TextToUpper(text)
 
   // Get lower case version of provided string: TextToLower(const char *) => const char *
-  raylib.TextToLower = (text) => mod.ccall('TextToLower', 'string', ['string'], [text])
+  const _TextToLower = mod.cwrap('TextToLower', 'void', ['string'])
+  raylib.TextToLower = (text) => _TextToLower(text)
 
   // Get Pascal case notation version of provided string: TextToPascal(const char *) => const char *
-  raylib.TextToPascal = (text) => mod.ccall('TextToPascal', 'string', ['string'], [text])
+  const _TextToPascal = mod.cwrap('TextToPascal', 'void', ['string'])
+  raylib.TextToPascal = (text) => _TextToPascal(text)
 
   // Get integer value from text (negative values not supported): TextToInteger(const char *) => int
-  raylib.TextToInteger = (text) => mod.ccall('TextToInteger', 'number', ['string'], [text])
+  const _TextToInteger = mod.cwrap('TextToInteger', 'void', ['string'])
+  raylib.TextToInteger = (text) => _TextToInteger(text)
 
   // Draw a line in 3D world space: DrawLine3D(Vector3, Vector3, Color) => void
-  raylib.DrawLine3D = (startPos, endPos, color) => mod.ccall('DrawLine3D', 'pointer', ['pointer', 'pointer', 'pointer'], [startPos._address, endPos._address, color._address])
+  const _DrawLine3D = mod.cwrap('DrawLine3D', 'void', ['pointer', 'pointer', 'pointer'])
+  raylib.DrawLine3D = (startPos, endPos, color) => _DrawLine3D(startPos._address, endPos._address, color._address)
 
   // Draw a point in 3D space, actually a small line: DrawPoint3D(Vector3, Color) => void
-  raylib.DrawPoint3D = (position, color) => mod.ccall('DrawPoint3D', 'pointer', ['pointer', 'pointer'], [position._address, color._address])
+  const _DrawPoint3D = mod.cwrap('DrawPoint3D', 'void', ['pointer', 'pointer'])
+  raylib.DrawPoint3D = (position, color) => _DrawPoint3D(position._address, color._address)
 
   // Draw a circle in 3D world space: DrawCircle3D(Vector3, float, Vector3, float, Color) => void
-  raylib.DrawCircle3D = (center, radius, rotationAxis, rotationAngle, color) => mod.ccall('DrawCircle3D', 'pointer', ['pointer', 'number', 'pointer', 'number', 'pointer'], [center._address, radius, rotationAxis._address, rotationAngle, color._address])
+  const _DrawCircle3D = mod.cwrap('DrawCircle3D', 'void', ['pointer', 'number', 'pointer', 'number', 'pointer'])
+  raylib.DrawCircle3D = (center, radius, rotationAxis, rotationAngle, color) => _DrawCircle3D(center._address, radius, rotationAxis._address, rotationAngle, color._address)
 
   // Draw a color-filled triangle (vertex in counter-clockwise order!): DrawTriangle3D(Vector3, Vector3, Vector3, Color) => void
-  raylib.DrawTriangle3D = (v1, v2, v3, color) => mod.ccall('DrawTriangle3D', 'pointer', ['pointer', 'pointer', 'pointer', 'pointer'], [v1._address, v2._address, v3._address, color._address])
+  const _DrawTriangle3D = mod.cwrap('DrawTriangle3D', 'void', ['pointer', 'pointer', 'pointer', 'pointer'])
+  raylib.DrawTriangle3D = (v1, v2, v3, color) => _DrawTriangle3D(v1._address, v2._address, v3._address, color._address)
 
   // Draw a triangle strip defined by points: DrawTriangleStrip3D(Vector3 *, int, Color) => void
-  raylib.DrawTriangleStrip3D = (points, pointCount, color) => mod.ccall('DrawTriangleStrip3D', 'pointer', ['pointer', 'number', 'pointer'], [points._address, pointCount, color._address])
+  const _DrawTriangleStrip3D = mod.cwrap('DrawTriangleStrip3D', 'void', ['pointer', 'number', 'pointer'])
+  raylib.DrawTriangleStrip3D = (points, pointCount, color) => _DrawTriangleStrip3D(points._address, pointCount, color._address)
 
   // Draw cube: DrawCube(Vector3, float, float, float, Color) => void
-  raylib.DrawCube = (position, width, height, length, color) => mod.ccall('DrawCube', 'pointer', ['pointer', 'number', 'number', 'number', 'pointer'], [position._address, width, height, length, color._address])
+  const _DrawCube = mod.cwrap('DrawCube', 'void', ['pointer', 'number', 'number', 'number', 'pointer'])
+  raylib.DrawCube = (position, width, height, length, color) => _DrawCube(position._address, width, height, length, color._address)
 
   // Draw cube (Vector version): DrawCubeV(Vector3, Vector3, Color) => void
-  raylib.DrawCubeV = (position, size, color) => mod.ccall('DrawCubeV', 'pointer', ['pointer', 'pointer', 'pointer'], [position._address, size._address, color._address])
+  const _DrawCubeV = mod.cwrap('DrawCubeV', 'void', ['pointer', 'pointer', 'pointer'])
+  raylib.DrawCubeV = (position, size, color) => _DrawCubeV(position._address, size._address, color._address)
 
   // Draw cube wires: DrawCubeWires(Vector3, float, float, float, Color) => void
-  raylib.DrawCubeWires = (position, width, height, length, color) => mod.ccall('DrawCubeWires', 'pointer', ['pointer', 'number', 'number', 'number', 'pointer'], [position._address, width, height, length, color._address])
+  const _DrawCubeWires = mod.cwrap('DrawCubeWires', 'void', ['pointer', 'number', 'number', 'number', 'pointer'])
+  raylib.DrawCubeWires = (position, width, height, length, color) => _DrawCubeWires(position._address, width, height, length, color._address)
 
   // Draw cube wires (Vector version): DrawCubeWiresV(Vector3, Vector3, Color) => void
-  raylib.DrawCubeWiresV = (position, size, color) => mod.ccall('DrawCubeWiresV', 'pointer', ['pointer', 'pointer', 'pointer'], [position._address, size._address, color._address])
+  const _DrawCubeWiresV = mod.cwrap('DrawCubeWiresV', 'void', ['pointer', 'pointer', 'pointer'])
+  raylib.DrawCubeWiresV = (position, size, color) => _DrawCubeWiresV(position._address, size._address, color._address)
 
   // Draw sphere: DrawSphere(Vector3, float, Color) => void
-  raylib.DrawSphere = (centerPos, radius, color) => mod.ccall('DrawSphere', 'pointer', ['pointer', 'number', 'pointer'], [centerPos._address, radius, color._address])
+  const _DrawSphere = mod.cwrap('DrawSphere', 'void', ['pointer', 'number', 'pointer'])
+  raylib.DrawSphere = (centerPos, radius, color) => _DrawSphere(centerPos._address, radius, color._address)
 
   // Draw sphere with extended parameters: DrawSphereEx(Vector3, float, int, int, Color) => void
-  raylib.DrawSphereEx = (centerPos, radius, rings, slices, color) => mod.ccall('DrawSphereEx', 'pointer', ['pointer', 'number', 'number', 'number', 'pointer'], [centerPos._address, radius, rings, slices, color._address])
+  const _DrawSphereEx = mod.cwrap('DrawSphereEx', 'void', ['pointer', 'number', 'number', 'number', 'pointer'])
+  raylib.DrawSphereEx = (centerPos, radius, rings, slices, color) => _DrawSphereEx(centerPos._address, radius, rings, slices, color._address)
 
   // Draw sphere wires: DrawSphereWires(Vector3, float, int, int, Color) => void
-  raylib.DrawSphereWires = (centerPos, radius, rings, slices, color) => mod.ccall('DrawSphereWires', 'pointer', ['pointer', 'number', 'number', 'number', 'pointer'], [centerPos._address, radius, rings, slices, color._address])
+  const _DrawSphereWires = mod.cwrap('DrawSphereWires', 'void', ['pointer', 'number', 'number', 'number', 'pointer'])
+  raylib.DrawSphereWires = (centerPos, radius, rings, slices, color) => _DrawSphereWires(centerPos._address, radius, rings, slices, color._address)
 
   // Draw a cylinder/cone: DrawCylinder(Vector3, float, float, float, int, Color) => void
-  raylib.DrawCylinder = (position, radiusTop, radiusBottom, height, slices, color) => mod.ccall('DrawCylinder', 'pointer', ['pointer', 'number', 'number', 'number', 'number', 'pointer'], [position._address, radiusTop, radiusBottom, height, slices, color._address])
+  const _DrawCylinder = mod.cwrap('DrawCylinder', 'void', ['pointer', 'number', 'number', 'number', 'number', 'pointer'])
+  raylib.DrawCylinder = (position, radiusTop, radiusBottom, height, slices, color) => _DrawCylinder(position._address, radiusTop, radiusBottom, height, slices, color._address)
 
   // Draw a cylinder with base at startPos and top at endPos: DrawCylinderEx(Vector3, Vector3, float, float, int, Color) => void
-  raylib.DrawCylinderEx = (startPos, endPos, startRadius, endRadius, sides, color) => mod.ccall('DrawCylinderEx', 'pointer', ['pointer', 'pointer', 'number', 'number', 'number', 'pointer'], [startPos._address, endPos._address, startRadius, endRadius, sides, color._address])
+  const _DrawCylinderEx = mod.cwrap('DrawCylinderEx', 'void', ['pointer', 'pointer', 'number', 'number', 'number', 'pointer'])
+  raylib.DrawCylinderEx = (startPos, endPos, startRadius, endRadius, sides, color) => _DrawCylinderEx(startPos._address, endPos._address, startRadius, endRadius, sides, color._address)
 
   // Draw a cylinder/cone wires: DrawCylinderWires(Vector3, float, float, float, int, Color) => void
-  raylib.DrawCylinderWires = (position, radiusTop, radiusBottom, height, slices, color) => mod.ccall('DrawCylinderWires', 'pointer', ['pointer', 'number', 'number', 'number', 'number', 'pointer'], [position._address, radiusTop, radiusBottom, height, slices, color._address])
+  const _DrawCylinderWires = mod.cwrap('DrawCylinderWires', 'void', ['pointer', 'number', 'number', 'number', 'number', 'pointer'])
+  raylib.DrawCylinderWires = (position, radiusTop, radiusBottom, height, slices, color) => _DrawCylinderWires(position._address, radiusTop, radiusBottom, height, slices, color._address)
 
   // Draw a cylinder wires with base at startPos and top at endPos: DrawCylinderWiresEx(Vector3, Vector3, float, float, int, Color) => void
-  raylib.DrawCylinderWiresEx = (startPos, endPos, startRadius, endRadius, sides, color) => mod.ccall('DrawCylinderWiresEx', 'pointer', ['pointer', 'pointer', 'number', 'number', 'number', 'pointer'], [startPos._address, endPos._address, startRadius, endRadius, sides, color._address])
+  const _DrawCylinderWiresEx = mod.cwrap('DrawCylinderWiresEx', 'void', ['pointer', 'pointer', 'number', 'number', 'number', 'pointer'])
+  raylib.DrawCylinderWiresEx = (startPos, endPos, startRadius, endRadius, sides, color) => _DrawCylinderWiresEx(startPos._address, endPos._address, startRadius, endRadius, sides, color._address)
 
   // Draw a capsule with the center of its sphere caps at startPos and endPos: DrawCapsule(Vector3, Vector3, float, int, int, Color) => void
-  raylib.DrawCapsule = (startPos, endPos, radius, slices, rings, color) => mod.ccall('DrawCapsule', 'pointer', ['pointer', 'pointer', 'number', 'number', 'number', 'pointer'], [startPos._address, endPos._address, radius, slices, rings, color._address])
+  const _DrawCapsule = mod.cwrap('DrawCapsule', 'void', ['pointer', 'pointer', 'number', 'number', 'number', 'pointer'])
+  raylib.DrawCapsule = (startPos, endPos, radius, slices, rings, color) => _DrawCapsule(startPos._address, endPos._address, radius, slices, rings, color._address)
 
   // Draw capsule wireframe with the center of its sphere caps at startPos and endPos: DrawCapsuleWires(Vector3, Vector3, float, int, int, Color) => void
-  raylib.DrawCapsuleWires = (startPos, endPos, radius, slices, rings, color) => mod.ccall('DrawCapsuleWires', 'pointer', ['pointer', 'pointer', 'number', 'number', 'number', 'pointer'], [startPos._address, endPos._address, radius, slices, rings, color._address])
+  const _DrawCapsuleWires = mod.cwrap('DrawCapsuleWires', 'void', ['pointer', 'pointer', 'number', 'number', 'number', 'pointer'])
+  raylib.DrawCapsuleWires = (startPos, endPos, radius, slices, rings, color) => _DrawCapsuleWires(startPos._address, endPos._address, radius, slices, rings, color._address)
 
   // Draw a plane XZ: DrawPlane(Vector3, Vector2, Color) => void
-  raylib.DrawPlane = (centerPos, size, color) => mod.ccall('DrawPlane', 'pointer', ['pointer', 'pointer', 'pointer'], [centerPos._address, size._address, color._address])
+  const _DrawPlane = mod.cwrap('DrawPlane', 'void', ['pointer', 'pointer', 'pointer'])
+  raylib.DrawPlane = (centerPos, size, color) => _DrawPlane(centerPos._address, size._address, color._address)
 
   // Draw a ray line: DrawRay(Ray, Color) => void
-  raylib.DrawRay = (ray, color) => mod.ccall('DrawRay', 'pointer', ['pointer', 'pointer'], [ray._address, color._address])
+  const _DrawRay = mod.cwrap('DrawRay', 'void', ['pointer', 'pointer'])
+  raylib.DrawRay = (ray, color) => _DrawRay(ray._address, color._address)
 
   // Draw a grid (centered at (0, 0, 0)): DrawGrid(int, float) => void
-  raylib.DrawGrid = (slices, spacing) => mod.ccall('DrawGrid', 'pointer', ['number', 'number'], [slices, spacing])
+  const _DrawGrid = mod.cwrap('DrawGrid', 'void', ['number', 'number'])
+  raylib.DrawGrid = (slices, spacing) => _DrawGrid(slices, spacing)
 
   // Load model from files (meshes and materials): LoadModel(const char *) => Model
+  const _LoadModel = mod.cwrap('LoadModel', 'void', ['pointer', 'string'])
   raylib.LoadModel = (fileName) => {
     const _ret = new raylib.Model()
-    mod.ccall('LoadModel', 'void', ['pointer', 'string'], [_ret._address, fileName])
+    _LoadModel(_ret._address, fileName)
     return _ret
   }
 
   // Load model from generated mesh (default material): LoadModelFromMesh(Mesh) => Model
+  const _LoadModelFromMesh = mod.cwrap('LoadModelFromMesh', 'void', ['pointer', 'pointer'])
   raylib.LoadModelFromMesh = (mesh) => {
     const _ret = new raylib.Model()
-    mod.ccall('LoadModelFromMesh', 'void', ['pointer', 'pointer'], [_ret._address, mesh._address])
+    _LoadModelFromMesh(_ret._address, mesh._address)
     return _ret
   }
 
   // Check if a model is ready: IsModelReady(Model) => bool
-  raylib.IsModelReady = (model) => mod.ccall('IsModelReady', 'boolean', ['pointer'], [model._address])
+  const _IsModelReady = mod.cwrap('IsModelReady', 'void', ['pointer'])
+  raylib.IsModelReady = (model) => _IsModelReady(model._address)
 
   // Unload model (including meshes) from memory (RAM and/or VRAM): UnloadModel(Model) => void
-  raylib.UnloadModel = (model) => mod.ccall('UnloadModel', 'pointer', ['pointer'], [model._address])
+  const _UnloadModel = mod.cwrap('UnloadModel', 'void', ['pointer'])
+  raylib.UnloadModel = (model) => _UnloadModel(model._address)
 
   // Compute model bounding box limits (considers all meshes): GetModelBoundingBox(Model) => BoundingBox
+  const _GetModelBoundingBox = mod.cwrap('GetModelBoundingBox', 'void', ['pointer', 'pointer'])
   raylib.GetModelBoundingBox = (model) => {
     const _ret = new raylib.BoundingBox()
-    mod.ccall('GetModelBoundingBox', 'void', ['pointer', 'pointer'], [_ret._address, model._address])
+    _GetModelBoundingBox(_ret._address, model._address)
     return _ret
   }
 
   // Draw a model (with texture if set): DrawModel(Model, Vector3, float, Color) => void
-  raylib.DrawModel = (model, position, scale, tint) => mod.ccall('DrawModel', 'pointer', ['pointer', 'pointer', 'number', 'pointer'], [model._address, position._address, scale, tint._address])
+  const _DrawModel = mod.cwrap('DrawModel', 'void', ['pointer', 'pointer', 'number', 'pointer'])
+  raylib.DrawModel = (model, position, scale, tint) => _DrawModel(model._address, position._address, scale, tint._address)
 
   // Draw a model with extended parameters: DrawModelEx(Model, Vector3, Vector3, float, Vector3, Color) => void
-  raylib.DrawModelEx = (model, position, rotationAxis, rotationAngle, scale, tint) => mod.ccall('DrawModelEx', 'pointer', ['pointer', 'pointer', 'pointer', 'number', 'pointer', 'pointer'], [model._address, position._address, rotationAxis._address, rotationAngle, scale._address, tint._address])
+  const _DrawModelEx = mod.cwrap('DrawModelEx', 'void', ['pointer', 'pointer', 'pointer', 'number', 'pointer', 'pointer'])
+  raylib.DrawModelEx = (model, position, rotationAxis, rotationAngle, scale, tint) => _DrawModelEx(model._address, position._address, rotationAxis._address, rotationAngle, scale._address, tint._address)
 
   // Draw a model wires (with texture if set): DrawModelWires(Model, Vector3, float, Color) => void
-  raylib.DrawModelWires = (model, position, scale, tint) => mod.ccall('DrawModelWires', 'pointer', ['pointer', 'pointer', 'number', 'pointer'], [model._address, position._address, scale, tint._address])
+  const _DrawModelWires = mod.cwrap('DrawModelWires', 'void', ['pointer', 'pointer', 'number', 'pointer'])
+  raylib.DrawModelWires = (model, position, scale, tint) => _DrawModelWires(model._address, position._address, scale, tint._address)
 
   // Draw a model wires (with texture if set) with extended parameters: DrawModelWiresEx(Model, Vector3, Vector3, float, Vector3, Color) => void
-  raylib.DrawModelWiresEx = (model, position, rotationAxis, rotationAngle, scale, tint) => mod.ccall('DrawModelWiresEx', 'pointer', ['pointer', 'pointer', 'pointer', 'number', 'pointer', 'pointer'], [model._address, position._address, rotationAxis._address, rotationAngle, scale._address, tint._address])
+  const _DrawModelWiresEx = mod.cwrap('DrawModelWiresEx', 'void', ['pointer', 'pointer', 'pointer', 'number', 'pointer', 'pointer'])
+  raylib.DrawModelWiresEx = (model, position, rotationAxis, rotationAngle, scale, tint) => _DrawModelWiresEx(model._address, position._address, rotationAxis._address, rotationAngle, scale._address, tint._address)
 
   // Draw bounding box (wires): DrawBoundingBox(BoundingBox, Color) => void
-  raylib.DrawBoundingBox = (box, color) => mod.ccall('DrawBoundingBox', 'pointer', ['pointer', 'pointer'], [box._address, color._address])
+  const _DrawBoundingBox = mod.cwrap('DrawBoundingBox', 'void', ['pointer', 'pointer'])
+  raylib.DrawBoundingBox = (box, color) => _DrawBoundingBox(box._address, color._address)
 
   // Draw a billboard texture: DrawBillboard(Camera, Texture2D, Vector3, float, Color) => void
-  raylib.DrawBillboard = (camera, texture, position, size, tint) => mod.ccall('DrawBillboard', 'pointer', ['pointer', 'pointer', 'pointer', 'number', 'pointer'], [camera._address, texture._address, position._address, size, tint._address])
+  const _DrawBillboard = mod.cwrap('DrawBillboard', 'void', ['pointer', 'pointer', 'pointer', 'number', 'pointer'])
+  raylib.DrawBillboard = (camera, texture, position, size, tint) => _DrawBillboard(camera._address, texture._address, position._address, size, tint._address)
 
   // Draw a billboard texture defined by source: DrawBillboardRec(Camera, Texture2D, Rectangle, Vector3, Vector2, Color) => void
-  raylib.DrawBillboardRec = (camera, texture, source, position, size, tint) => mod.ccall('DrawBillboardRec', 'pointer', ['pointer', 'pointer', 'pointer', 'pointer', 'pointer', 'pointer'], [camera._address, texture._address, source._address, position._address, size._address, tint._address])
+  const _DrawBillboardRec = mod.cwrap('DrawBillboardRec', 'void', ['pointer', 'pointer', 'pointer', 'pointer', 'pointer', 'pointer'])
+  raylib.DrawBillboardRec = (camera, texture, source, position, size, tint) => _DrawBillboardRec(camera._address, texture._address, source._address, position._address, size._address, tint._address)
 
   // Draw a billboard texture defined by source and rotation: DrawBillboardPro(Camera, Texture2D, Rectangle, Vector3, Vector3, Vector2, Vector2, float, Color) => void
-  raylib.DrawBillboardPro = (camera, texture, source, position, up, size, origin, rotation, tint) => mod.ccall('DrawBillboardPro', 'pointer', ['pointer', 'pointer', 'pointer', 'pointer', 'pointer', 'pointer', 'pointer', 'number', 'pointer'], [camera._address, texture._address, source._address, position._address, up._address, size._address, origin._address, rotation, tint._address])
+  const _DrawBillboardPro = mod.cwrap('DrawBillboardPro', 'void', ['pointer', 'pointer', 'pointer', 'pointer', 'pointer', 'pointer', 'pointer', 'number', 'pointer'])
+  raylib.DrawBillboardPro = (camera, texture, source, position, up, size, origin, rotation, tint) => _DrawBillboardPro(camera._address, texture._address, source._address, position._address, up._address, size._address, origin._address, rotation, tint._address)
 
   // Upload mesh vertex data in GPU and provide VAO/VBO ids: UploadMesh(Mesh *, bool) => void
-  raylib.UploadMesh = (mesh, dynamic) => mod.ccall('UploadMesh', 'pointer', ['pointer', 'boolean'], [mesh._address, dynamic])
+  const _UploadMesh = mod.cwrap('UploadMesh', 'void', ['pointer', 'boolean'])
+  raylib.UploadMesh = (mesh, dynamic) => _UploadMesh(mesh._address, dynamic)
 
   // Update mesh vertex data in GPU for a specific buffer index: UpdateMeshBuffer(Mesh, int, const void *, int, int) => void
-  raylib.UpdateMeshBuffer = (mesh, index, data, dataSize, offset) => mod.ccall('UpdateMeshBuffer', 'pointer', ['pointer', 'number', 'pointer', 'number', 'number'], [mesh._address, index, data._address, dataSize, offset])
+  const _UpdateMeshBuffer = mod.cwrap('UpdateMeshBuffer', 'void', ['pointer', 'number', 'pointer', 'number', 'number'])
+  raylib.UpdateMeshBuffer = (mesh, index, data, dataSize, offset) => _UpdateMeshBuffer(mesh._address, index, data._address, dataSize, offset)
 
   // Unload mesh data from CPU and GPU: UnloadMesh(Mesh) => void
-  raylib.UnloadMesh = (mesh) => mod.ccall('UnloadMesh', 'pointer', ['pointer'], [mesh._address])
+  const _UnloadMesh = mod.cwrap('UnloadMesh', 'void', ['pointer'])
+  raylib.UnloadMesh = (mesh) => _UnloadMesh(mesh._address)
 
   // Draw a 3d mesh with material and transform: DrawMesh(Mesh, Material, Matrix) => void
-  raylib.DrawMesh = (mesh, material, transform) => mod.ccall('DrawMesh', 'pointer', ['pointer', 'pointer', 'pointer'], [mesh._address, material._address, transform._address])
+  const _DrawMesh = mod.cwrap('DrawMesh', 'void', ['pointer', 'pointer', 'pointer'])
+  raylib.DrawMesh = (mesh, material, transform) => _DrawMesh(mesh._address, material._address, transform._address)
 
   // Draw multiple mesh instances with material and different transforms: DrawMeshInstanced(Mesh, Material, const Matrix *, int) => void
-  raylib.DrawMeshInstanced = (mesh, material, transforms, instances) => mod.ccall('DrawMeshInstanced', 'pointer', ['pointer', 'pointer', 'pointer', 'number'], [mesh._address, material._address, transforms._address, instances])
+  const _DrawMeshInstanced = mod.cwrap('DrawMeshInstanced', 'void', ['pointer', 'pointer', 'pointer', 'number'])
+  raylib.DrawMeshInstanced = (mesh, material, transforms, instances) => _DrawMeshInstanced(mesh._address, material._address, transforms._address, instances)
 
   // Export mesh data to file, returns true on success: ExportMesh(Mesh, const char *) => bool
-  raylib.ExportMesh = (mesh, fileName) => mod.ccall('ExportMesh', 'boolean', ['pointer', 'string'], [mesh._address, fileName])
+  const _ExportMesh = mod.cwrap('ExportMesh', 'void', ['pointer', 'string'])
+  raylib.ExportMesh = (mesh, fileName) => _ExportMesh(mesh._address, fileName)
 
   // Compute mesh bounding box limits: GetMeshBoundingBox(Mesh) => BoundingBox
+  const _GetMeshBoundingBox = mod.cwrap('GetMeshBoundingBox', 'void', ['pointer', 'pointer'])
   raylib.GetMeshBoundingBox = (mesh) => {
     const _ret = new raylib.BoundingBox()
-    mod.ccall('GetMeshBoundingBox', 'void', ['pointer', 'pointer'], [_ret._address, mesh._address])
+    _GetMeshBoundingBox(_ret._address, mesh._address)
     return _ret
   }
 
   // Compute mesh tangents: GenMeshTangents(Mesh *) => void
-  raylib.GenMeshTangents = (mesh) => mod.ccall('GenMeshTangents', 'pointer', ['pointer'], [mesh._address])
+  const _GenMeshTangents = mod.cwrap('GenMeshTangents', 'void', ['pointer'])
+  raylib.GenMeshTangents = (mesh) => _GenMeshTangents(mesh._address)
 
   // Generate polygonal mesh: GenMeshPoly(int, float) => Mesh
+  const _GenMeshPoly = mod.cwrap('GenMeshPoly', 'void', ['pointer', 'number', 'number'])
   raylib.GenMeshPoly = (sides, radius) => {
     const _ret = new raylib.Mesh()
-    mod.ccall('GenMeshPoly', 'void', ['pointer', 'number', 'number'], [_ret._address, sides, radius])
+    _GenMeshPoly(_ret._address, sides, radius)
     return _ret
   }
 
   // Generate plane mesh (with subdivisions): GenMeshPlane(float, float, int, int) => Mesh
+  const _GenMeshPlane = mod.cwrap('GenMeshPlane', 'void', ['pointer', 'number', 'number', 'number', 'number'])
   raylib.GenMeshPlane = (width, length, resX, resZ) => {
     const _ret = new raylib.Mesh()
-    mod.ccall('GenMeshPlane', 'void', ['pointer', 'number', 'number', 'number', 'number'], [_ret._address, width, length, resX, resZ])
+    _GenMeshPlane(_ret._address, width, length, resX, resZ)
     return _ret
   }
 
   // Generate cuboid mesh: GenMeshCube(float, float, float) => Mesh
+  const _GenMeshCube = mod.cwrap('GenMeshCube', 'void', ['pointer', 'number', 'number', 'number'])
   raylib.GenMeshCube = (width, height, length) => {
     const _ret = new raylib.Mesh()
-    mod.ccall('GenMeshCube', 'void', ['pointer', 'number', 'number', 'number'], [_ret._address, width, height, length])
+    _GenMeshCube(_ret._address, width, height, length)
     return _ret
   }
 
   // Generate sphere mesh (standard sphere): GenMeshSphere(float, int, int) => Mesh
+  const _GenMeshSphere = mod.cwrap('GenMeshSphere', 'void', ['pointer', 'number', 'number', 'number'])
   raylib.GenMeshSphere = (radius, rings, slices) => {
     const _ret = new raylib.Mesh()
-    mod.ccall('GenMeshSphere', 'void', ['pointer', 'number', 'number', 'number'], [_ret._address, radius, rings, slices])
+    _GenMeshSphere(_ret._address, radius, rings, slices)
     return _ret
   }
 
   // Generate half-sphere mesh (no bottom cap): GenMeshHemiSphere(float, int, int) => Mesh
+  const _GenMeshHemiSphere = mod.cwrap('GenMeshHemiSphere', 'void', ['pointer', 'number', 'number', 'number'])
   raylib.GenMeshHemiSphere = (radius, rings, slices) => {
     const _ret = new raylib.Mesh()
-    mod.ccall('GenMeshHemiSphere', 'void', ['pointer', 'number', 'number', 'number'], [_ret._address, radius, rings, slices])
+    _GenMeshHemiSphere(_ret._address, radius, rings, slices)
     return _ret
   }
 
   // Generate cylinder mesh: GenMeshCylinder(float, float, int) => Mesh
+  const _GenMeshCylinder = mod.cwrap('GenMeshCylinder', 'void', ['pointer', 'number', 'number', 'number'])
   raylib.GenMeshCylinder = (radius, height, slices) => {
     const _ret = new raylib.Mesh()
-    mod.ccall('GenMeshCylinder', 'void', ['pointer', 'number', 'number', 'number'], [_ret._address, radius, height, slices])
+    _GenMeshCylinder(_ret._address, radius, height, slices)
     return _ret
   }
 
   // Generate cone/pyramid mesh: GenMeshCone(float, float, int) => Mesh
+  const _GenMeshCone = mod.cwrap('GenMeshCone', 'void', ['pointer', 'number', 'number', 'number'])
   raylib.GenMeshCone = (radius, height, slices) => {
     const _ret = new raylib.Mesh()
-    mod.ccall('GenMeshCone', 'void', ['pointer', 'number', 'number', 'number'], [_ret._address, radius, height, slices])
+    _GenMeshCone(_ret._address, radius, height, slices)
     return _ret
   }
 
   // Generate torus mesh: GenMeshTorus(float, float, int, int) => Mesh
+  const _GenMeshTorus = mod.cwrap('GenMeshTorus', 'void', ['pointer', 'number', 'number', 'number', 'number'])
   raylib.GenMeshTorus = (radius, size, radSeg, sides) => {
     const _ret = new raylib.Mesh()
-    mod.ccall('GenMeshTorus', 'void', ['pointer', 'number', 'number', 'number', 'number'], [_ret._address, radius, size, radSeg, sides])
+    _GenMeshTorus(_ret._address, radius, size, radSeg, sides)
     return _ret
   }
 
   // Generate trefoil knot mesh: GenMeshKnot(float, float, int, int) => Mesh
+  const _GenMeshKnot = mod.cwrap('GenMeshKnot', 'void', ['pointer', 'number', 'number', 'number', 'number'])
   raylib.GenMeshKnot = (radius, size, radSeg, sides) => {
     const _ret = new raylib.Mesh()
-    mod.ccall('GenMeshKnot', 'void', ['pointer', 'number', 'number', 'number', 'number'], [_ret._address, radius, size, radSeg, sides])
+    _GenMeshKnot(_ret._address, radius, size, radSeg, sides)
     return _ret
   }
 
   // Generate heightmap mesh from image data: GenMeshHeightmap(Image, Vector3) => Mesh
+  const _GenMeshHeightmap = mod.cwrap('GenMeshHeightmap', 'void', ['pointer', 'pointer', 'pointer'])
   raylib.GenMeshHeightmap = (heightmap, size) => {
     const _ret = new raylib.Mesh()
-    mod.ccall('GenMeshHeightmap', 'void', ['pointer', 'pointer', 'pointer'], [_ret._address, heightmap._address, size._address])
+    _GenMeshHeightmap(_ret._address, heightmap._address, size._address)
     return _ret
   }
 
   // Generate cubes-based map mesh from image data: GenMeshCubicmap(Image, Vector3) => Mesh
+  const _GenMeshCubicmap = mod.cwrap('GenMeshCubicmap', 'void', ['pointer', 'pointer', 'pointer'])
   raylib.GenMeshCubicmap = (cubicmap, cubeSize) => {
     const _ret = new raylib.Mesh()
-    mod.ccall('GenMeshCubicmap', 'void', ['pointer', 'pointer', 'pointer'], [_ret._address, cubicmap._address, cubeSize._address])
+    _GenMeshCubicmap(_ret._address, cubicmap._address, cubeSize._address)
     return _ret
   }
 
   // Load materials from model file: LoadMaterials(const char *, int *) => Material *
+  const _LoadMaterials = mod.cwrap('LoadMaterials', 'void', ['pointer', 'string', 'pointer'])
   raylib.LoadMaterials = (fileName, materialCount) => {
     const _ret = new raylib.Material()
-    mod.ccall('LoadMaterials', 'void', ['pointer', 'string', 'pointer'], [_ret._address, fileName, materialCount._address])
+    _LoadMaterials(_ret._address, fileName, materialCount._address)
     return _ret
   }
 
   // Load default material (Supports: DIFFUSE, SPECULAR, NORMAL maps): LoadMaterialDefault() => Material
+  const _LoadMaterialDefault = mod.cwrap('LoadMaterialDefault', 'void', ['pointer'])
   raylib.LoadMaterialDefault = () => {
     const _ret = new raylib.Material()
-    mod.ccall('LoadMaterialDefault', 'void', ['pointer'], [_ret._address])
+    _LoadMaterialDefault(_ret._address)
     return _ret
   }
 
   // Check if a material is ready: IsMaterialReady(Material) => bool
-  raylib.IsMaterialReady = (material) => mod.ccall('IsMaterialReady', 'boolean', ['pointer'], [material._address])
+  const _IsMaterialReady = mod.cwrap('IsMaterialReady', 'void', ['pointer'])
+  raylib.IsMaterialReady = (material) => _IsMaterialReady(material._address)
 
   // Unload material from GPU memory (VRAM): UnloadMaterial(Material) => void
-  raylib.UnloadMaterial = (material) => mod.ccall('UnloadMaterial', 'pointer', ['pointer'], [material._address])
+  const _UnloadMaterial = mod.cwrap('UnloadMaterial', 'void', ['pointer'])
+  raylib.UnloadMaterial = (material) => _UnloadMaterial(material._address)
 
   // Set texture for a material map type (MATERIAL_MAP_DIFFUSE, MATERIAL_MAP_SPECULAR...): SetMaterialTexture(Material *, int, Texture2D) => void
-  raylib.SetMaterialTexture = (material, mapType, texture) => mod.ccall('SetMaterialTexture', 'pointer', ['pointer', 'number', 'pointer'], [material._address, mapType, texture._address])
+  const _SetMaterialTexture = mod.cwrap('SetMaterialTexture', 'void', ['pointer', 'number', 'pointer'])
+  raylib.SetMaterialTexture = (material, mapType, texture) => _SetMaterialTexture(material._address, mapType, texture._address)
 
   // Set material for a mesh: SetModelMeshMaterial(Model *, int, int) => void
-  raylib.SetModelMeshMaterial = (model, meshId, materialId) => mod.ccall('SetModelMeshMaterial', 'pointer', ['pointer', 'number', 'number'], [model._address, meshId, materialId])
+  const _SetModelMeshMaterial = mod.cwrap('SetModelMeshMaterial', 'void', ['pointer', 'number', 'number'])
+  raylib.SetModelMeshMaterial = (model, meshId, materialId) => _SetModelMeshMaterial(model._address, meshId, materialId)
 
   // Load model animations from file: LoadModelAnimations(const char *, unsigned int *) => ModelAnimation *
+  const _LoadModelAnimations = mod.cwrap('LoadModelAnimations', 'void', ['pointer', 'string', 'pointer'])
   raylib.LoadModelAnimations = (fileName, animCount) => {
     const _ret = new raylib.ModelAnimation()
-    mod.ccall('LoadModelAnimations', 'void', ['pointer', 'string', 'pointer'], [_ret._address, fileName, animCount._address])
+    _LoadModelAnimations(_ret._address, fileName, animCount._address)
     return _ret
   }
 
   // Update model animation pose: UpdateModelAnimation(Model, ModelAnimation, int) => void
-  raylib.UpdateModelAnimation = (model, anim, frame) => mod.ccall('UpdateModelAnimation', 'pointer', ['pointer', 'pointer', 'number'], [model._address, anim._address, frame])
+  const _UpdateModelAnimation = mod.cwrap('UpdateModelAnimation', 'void', ['pointer', 'pointer', 'number'])
+  raylib.UpdateModelAnimation = (model, anim, frame) => _UpdateModelAnimation(model._address, anim._address, frame)
 
   // Unload animation data: UnloadModelAnimation(ModelAnimation) => void
-  raylib.UnloadModelAnimation = (anim) => mod.ccall('UnloadModelAnimation', 'pointer', ['pointer'], [anim._address])
+  const _UnloadModelAnimation = mod.cwrap('UnloadModelAnimation', 'void', ['pointer'])
+  raylib.UnloadModelAnimation = (anim) => _UnloadModelAnimation(anim._address)
 
   // Unload animation array data: UnloadModelAnimations(ModelAnimation *, unsigned int) => void
-  raylib.UnloadModelAnimations = (animations, count) => mod.ccall('UnloadModelAnimations', 'pointer', ['pointer', 'number'], [animations._address, count])
+  const _UnloadModelAnimations = mod.cwrap('UnloadModelAnimations', 'void', ['pointer', 'number'])
+  raylib.UnloadModelAnimations = (animations, count) => _UnloadModelAnimations(animations._address, count)
 
   // Check model animation skeleton match: IsModelAnimationValid(Model, ModelAnimation) => bool
-  raylib.IsModelAnimationValid = (model, anim) => mod.ccall('IsModelAnimationValid', 'boolean', ['pointer', 'pointer'], [model._address, anim._address])
+  const _IsModelAnimationValid = mod.cwrap('IsModelAnimationValid', 'void', ['pointer', 'pointer'])
+  raylib.IsModelAnimationValid = (model, anim) => _IsModelAnimationValid(model._address, anim._address)
 
   // Check collision between two spheres: CheckCollisionSpheres(Vector3, float, Vector3, float) => bool
-  raylib.CheckCollisionSpheres = (center1, radius1, center2, radius2) => mod.ccall('CheckCollisionSpheres', 'boolean', ['pointer', 'number', 'pointer', 'number'], [center1._address, radius1, center2._address, radius2])
+  const _CheckCollisionSpheres = mod.cwrap('CheckCollisionSpheres', 'void', ['pointer', 'number', 'pointer', 'number'])
+  raylib.CheckCollisionSpheres = (center1, radius1, center2, radius2) => _CheckCollisionSpheres(center1._address, radius1, center2._address, radius2)
 
   // Check collision between two bounding boxes: CheckCollisionBoxes(BoundingBox, BoundingBox) => bool
-  raylib.CheckCollisionBoxes = (box1, box2) => mod.ccall('CheckCollisionBoxes', 'boolean', ['pointer', 'pointer'], [box1._address, box2._address])
+  const _CheckCollisionBoxes = mod.cwrap('CheckCollisionBoxes', 'void', ['pointer', 'pointer'])
+  raylib.CheckCollisionBoxes = (box1, box2) => _CheckCollisionBoxes(box1._address, box2._address)
 
   // Check collision between box and sphere: CheckCollisionBoxSphere(BoundingBox, Vector3, float) => bool
-  raylib.CheckCollisionBoxSphere = (box, center, radius) => mod.ccall('CheckCollisionBoxSphere', 'boolean', ['pointer', 'pointer', 'number'], [box._address, center._address, radius])
+  const _CheckCollisionBoxSphere = mod.cwrap('CheckCollisionBoxSphere', 'void', ['pointer', 'pointer', 'number'])
+  raylib.CheckCollisionBoxSphere = (box, center, radius) => _CheckCollisionBoxSphere(box._address, center._address, radius)
 
   // Get collision info between ray and sphere: GetRayCollisionSphere(Ray, Vector3, float) => RayCollision
+  const _GetRayCollisionSphere = mod.cwrap('GetRayCollisionSphere', 'void', ['pointer', 'pointer', 'pointer', 'number'])
   raylib.GetRayCollisionSphere = (ray, center, radius) => {
     const _ret = new raylib.RayCollision()
-    mod.ccall('GetRayCollisionSphere', 'void', ['pointer', 'pointer', 'pointer', 'number'], [_ret._address, ray._address, center._address, radius])
+    _GetRayCollisionSphere(_ret._address, ray._address, center._address, radius)
     return _ret
   }
 
   // Get collision info between ray and box: GetRayCollisionBox(Ray, BoundingBox) => RayCollision
+  const _GetRayCollisionBox = mod.cwrap('GetRayCollisionBox', 'void', ['pointer', 'pointer', 'pointer'])
   raylib.GetRayCollisionBox = (ray, box) => {
     const _ret = new raylib.RayCollision()
-    mod.ccall('GetRayCollisionBox', 'void', ['pointer', 'pointer', 'pointer'], [_ret._address, ray._address, box._address])
+    _GetRayCollisionBox(_ret._address, ray._address, box._address)
     return _ret
   }
 
   // Get collision info between ray and mesh: GetRayCollisionMesh(Ray, Mesh, Matrix) => RayCollision
+  const _GetRayCollisionMesh = mod.cwrap('GetRayCollisionMesh', 'void', ['pointer', 'pointer', 'pointer', 'pointer'])
   raylib.GetRayCollisionMesh = (ray, mesh, transform) => {
     const _ret = new raylib.RayCollision()
-    mod.ccall('GetRayCollisionMesh', 'void', ['pointer', 'pointer', 'pointer', 'pointer'], [_ret._address, ray._address, mesh._address, transform._address])
+    _GetRayCollisionMesh(_ret._address, ray._address, mesh._address, transform._address)
     return _ret
   }
 
   // Get collision info between ray and triangle: GetRayCollisionTriangle(Ray, Vector3, Vector3, Vector3) => RayCollision
+  const _GetRayCollisionTriangle = mod.cwrap('GetRayCollisionTriangle', 'void', ['pointer', 'pointer', 'pointer', 'pointer', 'pointer'])
   raylib.GetRayCollisionTriangle = (ray, p1, p2, p3) => {
     const _ret = new raylib.RayCollision()
-    mod.ccall('GetRayCollisionTriangle', 'void', ['pointer', 'pointer', 'pointer', 'pointer', 'pointer'], [_ret._address, ray._address, p1._address, p2._address, p3._address])
+    _GetRayCollisionTriangle(_ret._address, ray._address, p1._address, p2._address, p3._address)
     return _ret
   }
 
   // Get collision info between ray and quad: GetRayCollisionQuad(Ray, Vector3, Vector3, Vector3, Vector3) => RayCollision
+  const _GetRayCollisionQuad = mod.cwrap('GetRayCollisionQuad', 'void', ['pointer', 'pointer', 'pointer', 'pointer', 'pointer', 'pointer'])
   raylib.GetRayCollisionQuad = (ray, p1, p2, p3, p4) => {
     const _ret = new raylib.RayCollision()
-    mod.ccall('GetRayCollisionQuad', 'void', ['pointer', 'pointer', 'pointer', 'pointer', 'pointer', 'pointer'], [_ret._address, ray._address, p1._address, p2._address, p3._address, p4._address])
+    _GetRayCollisionQuad(_ret._address, ray._address, p1._address, p2._address, p3._address, p4._address)
     return _ret
   }
 
   // Initialize audio device and context: InitAudioDevice() => void
-  raylib.InitAudioDevice = () => mod.ccall('InitAudioDevice', 'pointer', [], [])
+  const _InitAudioDevice = mod.cwrap('InitAudioDevice', 'void', [])
+  raylib.InitAudioDevice = () => _InitAudioDevice()
 
   // Close the audio device and context: CloseAudioDevice() => void
-  raylib.CloseAudioDevice = () => mod.ccall('CloseAudioDevice', 'pointer', [], [])
+  const _CloseAudioDevice = mod.cwrap('CloseAudioDevice', 'void', [])
+  raylib.CloseAudioDevice = () => _CloseAudioDevice()
 
   // Check if audio device has been initialized successfully: IsAudioDeviceReady() => bool
-  raylib.IsAudioDeviceReady = () => mod.ccall('IsAudioDeviceReady', 'boolean', [], [])
+  const _IsAudioDeviceReady = mod.cwrap('IsAudioDeviceReady', 'void', [])
+  raylib.IsAudioDeviceReady = () => _IsAudioDeviceReady()
 
   // Set master volume (listener): SetMasterVolume(float) => void
-  raylib.SetMasterVolume = (volume) => mod.ccall('SetMasterVolume', 'pointer', ['number'], [volume])
+  const _SetMasterVolume = mod.cwrap('SetMasterVolume', 'void', ['number'])
+  raylib.SetMasterVolume = (volume) => _SetMasterVolume(volume)
 
   // Load wave data from file: LoadWave(const char *) => Wave
+  const _LoadWave = mod.cwrap('LoadWave', 'void', ['pointer', 'string'])
   raylib.LoadWave = (fileName) => {
     const _ret = new raylib.Wave()
-    mod.ccall('LoadWave', 'void', ['pointer', 'string'], [_ret._address, fileName])
+    _LoadWave(_ret._address, fileName)
     return _ret
   }
 
   // Load wave from memory buffer, fileType refers to extension: i.e. '.wav': LoadWaveFromMemory(const char *, const unsigned char *, int) => Wave
+  const _LoadWaveFromMemory = mod.cwrap('LoadWaveFromMemory', 'void', ['pointer', 'string', 'pointer', 'number'])
   raylib.LoadWaveFromMemory = (fileType, fileData, dataSize) => {
     const _ret = new raylib.Wave()
-    mod.ccall('LoadWaveFromMemory', 'void', ['pointer', 'string', 'pointer', 'number'], [_ret._address, fileType, fileData._address, dataSize])
+    _LoadWaveFromMemory(_ret._address, fileType, fileData._address, dataSize)
     return _ret
   }
 
   // Checks if wave data is ready: IsWaveReady(Wave) => bool
-  raylib.IsWaveReady = (wave) => mod.ccall('IsWaveReady', 'boolean', ['pointer'], [wave._address])
+  const _IsWaveReady = mod.cwrap('IsWaveReady', 'void', ['pointer'])
+  raylib.IsWaveReady = (wave) => _IsWaveReady(wave._address)
 
   // Load sound from file: LoadSound(const char *) => Sound
+  const _LoadSound = mod.cwrap('LoadSound', 'void', ['pointer', 'string'])
   raylib.LoadSound = (fileName) => {
     const _ret = new raylib.Sound()
-    mod.ccall('LoadSound', 'void', ['pointer', 'string'], [_ret._address, fileName])
+    _LoadSound(_ret._address, fileName)
     return _ret
   }
 
   // Load sound from wave data: LoadSoundFromWave(Wave) => Sound
+  const _LoadSoundFromWave = mod.cwrap('LoadSoundFromWave', 'void', ['pointer', 'pointer'])
   raylib.LoadSoundFromWave = (wave) => {
     const _ret = new raylib.Sound()
-    mod.ccall('LoadSoundFromWave', 'void', ['pointer', 'pointer'], [_ret._address, wave._address])
+    _LoadSoundFromWave(_ret._address, wave._address)
     return _ret
   }
 
   // Checks if a sound is ready: IsSoundReady(Sound) => bool
-  raylib.IsSoundReady = (sound) => mod.ccall('IsSoundReady', 'boolean', ['pointer'], [sound._address])
+  const _IsSoundReady = mod.cwrap('IsSoundReady', 'void', ['pointer'])
+  raylib.IsSoundReady = (sound) => _IsSoundReady(sound._address)
 
   // Update sound buffer with new data: UpdateSound(Sound, const void *, int) => void
-  raylib.UpdateSound = (sound, data, sampleCount) => mod.ccall('UpdateSound', 'pointer', ['pointer', 'pointer', 'number'], [sound._address, data._address, sampleCount])
+  const _UpdateSound = mod.cwrap('UpdateSound', 'void', ['pointer', 'pointer', 'number'])
+  raylib.UpdateSound = (sound, data, sampleCount) => _UpdateSound(sound._address, data._address, sampleCount)
 
   // Unload wave data: UnloadWave(Wave) => void
-  raylib.UnloadWave = (wave) => mod.ccall('UnloadWave', 'pointer', ['pointer'], [wave._address])
+  const _UnloadWave = mod.cwrap('UnloadWave', 'void', ['pointer'])
+  raylib.UnloadWave = (wave) => _UnloadWave(wave._address)
 
   // Unload sound: UnloadSound(Sound) => void
-  raylib.UnloadSound = (sound) => mod.ccall('UnloadSound', 'pointer', ['pointer'], [sound._address])
+  const _UnloadSound = mod.cwrap('UnloadSound', 'void', ['pointer'])
+  raylib.UnloadSound = (sound) => _UnloadSound(sound._address)
 
   // Export wave data to file, returns true on success: ExportWave(Wave, const char *) => bool
-  raylib.ExportWave = (wave, fileName) => mod.ccall('ExportWave', 'boolean', ['pointer', 'string'], [wave._address, fileName])
+  const _ExportWave = mod.cwrap('ExportWave', 'void', ['pointer', 'string'])
+  raylib.ExportWave = (wave, fileName) => _ExportWave(wave._address, fileName)
 
   // Export wave sample data to code (.h), returns true on success: ExportWaveAsCode(Wave, const char *) => bool
-  raylib.ExportWaveAsCode = (wave, fileName) => mod.ccall('ExportWaveAsCode', 'boolean', ['pointer', 'string'], [wave._address, fileName])
+  const _ExportWaveAsCode = mod.cwrap('ExportWaveAsCode', 'void', ['pointer', 'string'])
+  raylib.ExportWaveAsCode = (wave, fileName) => _ExportWaveAsCode(wave._address, fileName)
 
   // Play a sound: PlaySound(Sound) => void
-  raylib.PlaySound = (sound) => mod.ccall('PlaySound', 'pointer', ['pointer'], [sound._address])
+  const _PlaySound = mod.cwrap('PlaySound', 'void', ['pointer'])
+  raylib.PlaySound = (sound) => _PlaySound(sound._address)
 
   // Stop playing a sound: StopSound(Sound) => void
-  raylib.StopSound = (sound) => mod.ccall('StopSound', 'pointer', ['pointer'], [sound._address])
+  const _StopSound = mod.cwrap('StopSound', 'void', ['pointer'])
+  raylib.StopSound = (sound) => _StopSound(sound._address)
 
   // Pause a sound: PauseSound(Sound) => void
-  raylib.PauseSound = (sound) => mod.ccall('PauseSound', 'pointer', ['pointer'], [sound._address])
+  const _PauseSound = mod.cwrap('PauseSound', 'void', ['pointer'])
+  raylib.PauseSound = (sound) => _PauseSound(sound._address)
 
   // Resume a paused sound: ResumeSound(Sound) => void
-  raylib.ResumeSound = (sound) => mod.ccall('ResumeSound', 'pointer', ['pointer'], [sound._address])
+  const _ResumeSound = mod.cwrap('ResumeSound', 'void', ['pointer'])
+  raylib.ResumeSound = (sound) => _ResumeSound(sound._address)
 
   // Check if a sound is currently playing: IsSoundPlaying(Sound) => bool
-  raylib.IsSoundPlaying = (sound) => mod.ccall('IsSoundPlaying', 'boolean', ['pointer'], [sound._address])
+  const _IsSoundPlaying = mod.cwrap('IsSoundPlaying', 'void', ['pointer'])
+  raylib.IsSoundPlaying = (sound) => _IsSoundPlaying(sound._address)
 
   // Set volume for a sound (1.0 is max level): SetSoundVolume(Sound, float) => void
-  raylib.SetSoundVolume = (sound, volume) => mod.ccall('SetSoundVolume', 'pointer', ['pointer', 'number'], [sound._address, volume])
+  const _SetSoundVolume = mod.cwrap('SetSoundVolume', 'void', ['pointer', 'number'])
+  raylib.SetSoundVolume = (sound, volume) => _SetSoundVolume(sound._address, volume)
 
   // Set pitch for a sound (1.0 is base level): SetSoundPitch(Sound, float) => void
-  raylib.SetSoundPitch = (sound, pitch) => mod.ccall('SetSoundPitch', 'pointer', ['pointer', 'number'], [sound._address, pitch])
+  const _SetSoundPitch = mod.cwrap('SetSoundPitch', 'void', ['pointer', 'number'])
+  raylib.SetSoundPitch = (sound, pitch) => _SetSoundPitch(sound._address, pitch)
 
   // Set pan for a sound (0.5 is center): SetSoundPan(Sound, float) => void
-  raylib.SetSoundPan = (sound, pan) => mod.ccall('SetSoundPan', 'pointer', ['pointer', 'number'], [sound._address, pan])
+  const _SetSoundPan = mod.cwrap('SetSoundPan', 'void', ['pointer', 'number'])
+  raylib.SetSoundPan = (sound, pan) => _SetSoundPan(sound._address, pan)
 
   // Copy a wave to a new wave: WaveCopy(Wave) => Wave
+  const _WaveCopy = mod.cwrap('WaveCopy', 'void', ['pointer', 'pointer'])
   raylib.WaveCopy = (wave) => {
     const _ret = new raylib.Wave()
-    mod.ccall('WaveCopy', 'void', ['pointer', 'pointer'], [_ret._address, wave._address])
+    _WaveCopy(_ret._address, wave._address)
     return _ret
   }
 
   // Crop a wave to defined samples range: WaveCrop(Wave *, int, int) => void
-  raylib.WaveCrop = (wave, initSample, finalSample) => mod.ccall('WaveCrop', 'pointer', ['pointer', 'number', 'number'], [wave._address, initSample, finalSample])
+  const _WaveCrop = mod.cwrap('WaveCrop', 'void', ['pointer', 'number', 'number'])
+  raylib.WaveCrop = (wave, initSample, finalSample) => _WaveCrop(wave._address, initSample, finalSample)
 
   // Convert wave data to desired format: WaveFormat(Wave *, int, int, int) => void
-  raylib.WaveFormat = (wave, sampleRate, sampleSize, channels) => mod.ccall('WaveFormat', 'pointer', ['pointer', 'number', 'number', 'number'], [wave._address, sampleRate, sampleSize, channels])
+  const _WaveFormat = mod.cwrap('WaveFormat', 'void', ['pointer', 'number', 'number', 'number'])
+  raylib.WaveFormat = (wave, sampleRate, sampleSize, channels) => _WaveFormat(wave._address, sampleRate, sampleSize, channels)
 
   // Load samples data from wave as a 32bit float data array: LoadWaveSamples(Wave) => float *
-  raylib.LoadWaveSamples = (wave) => mod.ccall('LoadWaveSamples', 'pointer', ['pointer'], [wave._address])
+  const _LoadWaveSamples = mod.cwrap('LoadWaveSamples', 'void', ['pointer'])
+  raylib.LoadWaveSamples = (wave) => _LoadWaveSamples(wave._address)
 
   // Unload samples data loaded with LoadWaveSamples(): UnloadWaveSamples(float *) => void
-  raylib.UnloadWaveSamples = (samples) => mod.ccall('UnloadWaveSamples', 'pointer', ['pointer'], [samples._address])
+  const _UnloadWaveSamples = mod.cwrap('UnloadWaveSamples', 'void', ['pointer'])
+  raylib.UnloadWaveSamples = (samples) => _UnloadWaveSamples(samples._address)
 
   // Load music stream from file: LoadMusicStream(const char *) => Music
+  const _LoadMusicStream = mod.cwrap('LoadMusicStream', 'void', ['pointer', 'string'])
   raylib.LoadMusicStream = (fileName) => {
     const _ret = new raylib.Music()
-    mod.ccall('LoadMusicStream', 'void', ['pointer', 'string'], [_ret._address, fileName])
+    _LoadMusicStream(_ret._address, fileName)
     return _ret
   }
 
   // Load music stream from data: LoadMusicStreamFromMemory(const char *, const unsigned char *, int) => Music
+  const _LoadMusicStreamFromMemory = mod.cwrap('LoadMusicStreamFromMemory', 'void', ['pointer', 'string', 'pointer', 'number'])
   raylib.LoadMusicStreamFromMemory = (fileType, data, dataSize) => {
     const _ret = new raylib.Music()
-    mod.ccall('LoadMusicStreamFromMemory', 'void', ['pointer', 'string', 'pointer', 'number'], [_ret._address, fileType, data._address, dataSize])
+    _LoadMusicStreamFromMemory(_ret._address, fileType, data._address, dataSize)
     return _ret
   }
 
   // Checks if a music stream is ready: IsMusicReady(Music) => bool
-  raylib.IsMusicReady = (music) => mod.ccall('IsMusicReady', 'boolean', ['pointer'], [music._address])
+  const _IsMusicReady = mod.cwrap('IsMusicReady', 'void', ['pointer'])
+  raylib.IsMusicReady = (music) => _IsMusicReady(music._address)
 
   // Unload music stream: UnloadMusicStream(Music) => void
-  raylib.UnloadMusicStream = (music) => mod.ccall('UnloadMusicStream', 'pointer', ['pointer'], [music._address])
+  const _UnloadMusicStream = mod.cwrap('UnloadMusicStream', 'void', ['pointer'])
+  raylib.UnloadMusicStream = (music) => _UnloadMusicStream(music._address)
 
   // Start music playing: PlayMusicStream(Music) => void
-  raylib.PlayMusicStream = (music) => mod.ccall('PlayMusicStream', 'pointer', ['pointer'], [music._address])
+  const _PlayMusicStream = mod.cwrap('PlayMusicStream', 'void', ['pointer'])
+  raylib.PlayMusicStream = (music) => _PlayMusicStream(music._address)
 
   // Check if music is playing: IsMusicStreamPlaying(Music) => bool
-  raylib.IsMusicStreamPlaying = (music) => mod.ccall('IsMusicStreamPlaying', 'boolean', ['pointer'], [music._address])
+  const _IsMusicStreamPlaying = mod.cwrap('IsMusicStreamPlaying', 'void', ['pointer'])
+  raylib.IsMusicStreamPlaying = (music) => _IsMusicStreamPlaying(music._address)
 
   // Updates buffers for music streaming: UpdateMusicStream(Music) => void
-  raylib.UpdateMusicStream = (music) => mod.ccall('UpdateMusicStream', 'pointer', ['pointer'], [music._address])
+  const _UpdateMusicStream = mod.cwrap('UpdateMusicStream', 'void', ['pointer'])
+  raylib.UpdateMusicStream = (music) => _UpdateMusicStream(music._address)
 
   // Stop music playing: StopMusicStream(Music) => void
-  raylib.StopMusicStream = (music) => mod.ccall('StopMusicStream', 'pointer', ['pointer'], [music._address])
+  const _StopMusicStream = mod.cwrap('StopMusicStream', 'void', ['pointer'])
+  raylib.StopMusicStream = (music) => _StopMusicStream(music._address)
 
   // Pause music playing: PauseMusicStream(Music) => void
-  raylib.PauseMusicStream = (music) => mod.ccall('PauseMusicStream', 'pointer', ['pointer'], [music._address])
+  const _PauseMusicStream = mod.cwrap('PauseMusicStream', 'void', ['pointer'])
+  raylib.PauseMusicStream = (music) => _PauseMusicStream(music._address)
 
   // Resume playing paused music: ResumeMusicStream(Music) => void
-  raylib.ResumeMusicStream = (music) => mod.ccall('ResumeMusicStream', 'pointer', ['pointer'], [music._address])
+  const _ResumeMusicStream = mod.cwrap('ResumeMusicStream', 'void', ['pointer'])
+  raylib.ResumeMusicStream = (music) => _ResumeMusicStream(music._address)
 
   // Seek music to a position (in seconds): SeekMusicStream(Music, float) => void
-  raylib.SeekMusicStream = (music, position) => mod.ccall('SeekMusicStream', 'pointer', ['pointer', 'number'], [music._address, position])
+  const _SeekMusicStream = mod.cwrap('SeekMusicStream', 'void', ['pointer', 'number'])
+  raylib.SeekMusicStream = (music, position) => _SeekMusicStream(music._address, position)
 
   // Set volume for music (1.0 is max level): SetMusicVolume(Music, float) => void
-  raylib.SetMusicVolume = (music, volume) => mod.ccall('SetMusicVolume', 'pointer', ['pointer', 'number'], [music._address, volume])
+  const _SetMusicVolume = mod.cwrap('SetMusicVolume', 'void', ['pointer', 'number'])
+  raylib.SetMusicVolume = (music, volume) => _SetMusicVolume(music._address, volume)
 
   // Set pitch for a music (1.0 is base level): SetMusicPitch(Music, float) => void
-  raylib.SetMusicPitch = (music, pitch) => mod.ccall('SetMusicPitch', 'pointer', ['pointer', 'number'], [music._address, pitch])
+  const _SetMusicPitch = mod.cwrap('SetMusicPitch', 'void', ['pointer', 'number'])
+  raylib.SetMusicPitch = (music, pitch) => _SetMusicPitch(music._address, pitch)
 
   // Set pan for a music (0.5 is center): SetMusicPan(Music, float) => void
-  raylib.SetMusicPan = (music, pan) => mod.ccall('SetMusicPan', 'pointer', ['pointer', 'number'], [music._address, pan])
+  const _SetMusicPan = mod.cwrap('SetMusicPan', 'void', ['pointer', 'number'])
+  raylib.SetMusicPan = (music, pan) => _SetMusicPan(music._address, pan)
 
   // Get music time length (in seconds): GetMusicTimeLength(Music) => float
-  raylib.GetMusicTimeLength = (music) => mod.ccall('GetMusicTimeLength', 'number', ['pointer'], [music._address])
+  const _GetMusicTimeLength = mod.cwrap('GetMusicTimeLength', 'void', ['pointer'])
+  raylib.GetMusicTimeLength = (music) => _GetMusicTimeLength(music._address)
 
   // Get current music time played (in seconds): GetMusicTimePlayed(Music) => float
-  raylib.GetMusicTimePlayed = (music) => mod.ccall('GetMusicTimePlayed', 'number', ['pointer'], [music._address])
+  const _GetMusicTimePlayed = mod.cwrap('GetMusicTimePlayed', 'void', ['pointer'])
+  raylib.GetMusicTimePlayed = (music) => _GetMusicTimePlayed(music._address)
 
   // Load audio stream (to stream raw audio pcm data): LoadAudioStream(unsigned int, unsigned int, unsigned int) => AudioStream
+  const _LoadAudioStream = mod.cwrap('LoadAudioStream', 'void', ['pointer', 'number', 'number', 'number'])
   raylib.LoadAudioStream = (sampleRate, sampleSize, channels) => {
     const _ret = new raylib.AudioStream()
-    mod.ccall('LoadAudioStream', 'void', ['pointer', 'number', 'number', 'number'], [_ret._address, sampleRate, sampleSize, channels])
+    _LoadAudioStream(_ret._address, sampleRate, sampleSize, channels)
     return _ret
   }
 
   // Checks if an audio stream is ready: IsAudioStreamReady(AudioStream) => bool
-  raylib.IsAudioStreamReady = (stream) => mod.ccall('IsAudioStreamReady', 'boolean', ['pointer'], [stream._address])
+  const _IsAudioStreamReady = mod.cwrap('IsAudioStreamReady', 'void', ['pointer'])
+  raylib.IsAudioStreamReady = (stream) => _IsAudioStreamReady(stream._address)
 
   // Unload audio stream and free memory: UnloadAudioStream(AudioStream) => void
-  raylib.UnloadAudioStream = (stream) => mod.ccall('UnloadAudioStream', 'pointer', ['pointer'], [stream._address])
+  const _UnloadAudioStream = mod.cwrap('UnloadAudioStream', 'void', ['pointer'])
+  raylib.UnloadAudioStream = (stream) => _UnloadAudioStream(stream._address)
 
   // Update audio stream buffers with data: UpdateAudioStream(AudioStream, const void *, int) => void
-  raylib.UpdateAudioStream = (stream, data, frameCount) => mod.ccall('UpdateAudioStream', 'pointer', ['pointer', 'pointer', 'number'], [stream._address, data._address, frameCount])
+  const _UpdateAudioStream = mod.cwrap('UpdateAudioStream', 'void', ['pointer', 'pointer', 'number'])
+  raylib.UpdateAudioStream = (stream, data, frameCount) => _UpdateAudioStream(stream._address, data._address, frameCount)
 
   // Check if any audio stream buffers requires refill: IsAudioStreamProcessed(AudioStream) => bool
-  raylib.IsAudioStreamProcessed = (stream) => mod.ccall('IsAudioStreamProcessed', 'boolean', ['pointer'], [stream._address])
+  const _IsAudioStreamProcessed = mod.cwrap('IsAudioStreamProcessed', 'void', ['pointer'])
+  raylib.IsAudioStreamProcessed = (stream) => _IsAudioStreamProcessed(stream._address)
 
   // Play audio stream: PlayAudioStream(AudioStream) => void
-  raylib.PlayAudioStream = (stream) => mod.ccall('PlayAudioStream', 'pointer', ['pointer'], [stream._address])
+  const _PlayAudioStream = mod.cwrap('PlayAudioStream', 'void', ['pointer'])
+  raylib.PlayAudioStream = (stream) => _PlayAudioStream(stream._address)
 
   // Pause audio stream: PauseAudioStream(AudioStream) => void
-  raylib.PauseAudioStream = (stream) => mod.ccall('PauseAudioStream', 'pointer', ['pointer'], [stream._address])
+  const _PauseAudioStream = mod.cwrap('PauseAudioStream', 'void', ['pointer'])
+  raylib.PauseAudioStream = (stream) => _PauseAudioStream(stream._address)
 
   // Resume audio stream: ResumeAudioStream(AudioStream) => void
-  raylib.ResumeAudioStream = (stream) => mod.ccall('ResumeAudioStream', 'pointer', ['pointer'], [stream._address])
+  const _ResumeAudioStream = mod.cwrap('ResumeAudioStream', 'void', ['pointer'])
+  raylib.ResumeAudioStream = (stream) => _ResumeAudioStream(stream._address)
 
   // Check if audio stream is playing: IsAudioStreamPlaying(AudioStream) => bool
-  raylib.IsAudioStreamPlaying = (stream) => mod.ccall('IsAudioStreamPlaying', 'boolean', ['pointer'], [stream._address])
+  const _IsAudioStreamPlaying = mod.cwrap('IsAudioStreamPlaying', 'void', ['pointer'])
+  raylib.IsAudioStreamPlaying = (stream) => _IsAudioStreamPlaying(stream._address)
 
   // Stop audio stream: StopAudioStream(AudioStream) => void
-  raylib.StopAudioStream = (stream) => mod.ccall('StopAudioStream', 'pointer', ['pointer'], [stream._address])
+  const _StopAudioStream = mod.cwrap('StopAudioStream', 'void', ['pointer'])
+  raylib.StopAudioStream = (stream) => _StopAudioStream(stream._address)
 
   // Set volume for audio stream (1.0 is max level): SetAudioStreamVolume(AudioStream, float) => void
-  raylib.SetAudioStreamVolume = (stream, volume) => mod.ccall('SetAudioStreamVolume', 'pointer', ['pointer', 'number'], [stream._address, volume])
+  const _SetAudioStreamVolume = mod.cwrap('SetAudioStreamVolume', 'void', ['pointer', 'number'])
+  raylib.SetAudioStreamVolume = (stream, volume) => _SetAudioStreamVolume(stream._address, volume)
 
   // Set pitch for audio stream (1.0 is base level): SetAudioStreamPitch(AudioStream, float) => void
-  raylib.SetAudioStreamPitch = (stream, pitch) => mod.ccall('SetAudioStreamPitch', 'pointer', ['pointer', 'number'], [stream._address, pitch])
+  const _SetAudioStreamPitch = mod.cwrap('SetAudioStreamPitch', 'void', ['pointer', 'number'])
+  raylib.SetAudioStreamPitch = (stream, pitch) => _SetAudioStreamPitch(stream._address, pitch)
 
   // Set pan for audio stream (0.5 is centered): SetAudioStreamPan(AudioStream, float) => void
-  raylib.SetAudioStreamPan = (stream, pan) => mod.ccall('SetAudioStreamPan', 'pointer', ['pointer', 'number'], [stream._address, pan])
+  const _SetAudioStreamPan = mod.cwrap('SetAudioStreamPan', 'void', ['pointer', 'number'])
+  raylib.SetAudioStreamPan = (stream, pan) => _SetAudioStreamPan(stream._address, pan)
 
   // Default size for new audio streams: SetAudioStreamBufferSizeDefault(int) => void
-  raylib.SetAudioStreamBufferSizeDefault = (size) => mod.ccall('SetAudioStreamBufferSizeDefault', 'pointer', ['number'], [size])
+  const _SetAudioStreamBufferSizeDefault = mod.cwrap('SetAudioStreamBufferSizeDefault', 'void', ['number'])
+  raylib.SetAudioStreamBufferSizeDefault = (size) => _SetAudioStreamBufferSizeDefault(size)
 
   // Audio thread callback to request new data: SetAudioStreamCallback(AudioStream, AudioCallback) => void
-  raylib.SetAudioStreamCallback = (stream, callback) => mod.ccall('SetAudioStreamCallback', 'pointer', ['pointer', 'pointer'], [stream._address, callback._address])
+  const _SetAudioStreamCallback = mod.cwrap('SetAudioStreamCallback', 'void', ['pointer', 'pointer'])
+  raylib.SetAudioStreamCallback = (stream, callback) => _SetAudioStreamCallback(stream._address, callback._address)
 
   // Attach audio stream processor to stream: AttachAudioStreamProcessor(AudioStream, AudioCallback) => void
-  raylib.AttachAudioStreamProcessor = (stream, processor) => mod.ccall('AttachAudioStreamProcessor', 'pointer', ['pointer', 'pointer'], [stream._address, processor._address])
+  const _AttachAudioStreamProcessor = mod.cwrap('AttachAudioStreamProcessor', 'void', ['pointer', 'pointer'])
+  raylib.AttachAudioStreamProcessor = (stream, processor) => _AttachAudioStreamProcessor(stream._address, processor._address)
 
   // Detach audio stream processor from stream: DetachAudioStreamProcessor(AudioStream, AudioCallback) => void
-  raylib.DetachAudioStreamProcessor = (stream, processor) => mod.ccall('DetachAudioStreamProcessor', 'pointer', ['pointer', 'pointer'], [stream._address, processor._address])
+  const _DetachAudioStreamProcessor = mod.cwrap('DetachAudioStreamProcessor', 'void', ['pointer', 'pointer'])
+  raylib.DetachAudioStreamProcessor = (stream, processor) => _DetachAudioStreamProcessor(stream._address, processor._address)
 
   // Attach audio stream processor to the entire audio pipeline: AttachAudioMixedProcessor(AudioCallback) => void
-  raylib.AttachAudioMixedProcessor = (processor) => mod.ccall('AttachAudioMixedProcessor', 'pointer', ['pointer'], [processor._address])
+  const _AttachAudioMixedProcessor = mod.cwrap('AttachAudioMixedProcessor', 'void', ['pointer'])
+  raylib.AttachAudioMixedProcessor = (processor) => _AttachAudioMixedProcessor(processor._address)
 
   // Detach audio stream processor from the entire audio pipeline: DetachAudioMixedProcessor(AudioCallback) => void
-  raylib.DetachAudioMixedProcessor = (processor) => mod.ccall('DetachAudioMixedProcessor', 'pointer', ['pointer'], [processor._address])
+  const _DetachAudioMixedProcessor = mod.cwrap('DetachAudioMixedProcessor', 'void', ['pointer'])
+  raylib.DetachAudioMixedProcessor = (processor) => _DetachAudioMixedProcessor(processor._address)
 
 
   // insert remote file in WASM filesystem
   raylib.addFile = async filename => {
+    const p = filename.split('/').slice(0,-1)
+    for (const i in p) {
+      mod.FS.mkdir(p.slice(0, i + 1).join('/'))
+    }
     mod.FS.writeFile(filename, new Uint8Array(await fetch(filename).then(r => r.arrayBuffer())))
   }
 
   // more convenient free() for structs
   raylib.free = ptr => ptr._address ? mod._free(ptr._address) : mod._free(ptr)
 
-  // process user-functions
+  // we use raylib to namespace operations to a single wasm runtime instance
+  // this is sort of like importing all the stuff from raylib object, if you only have 1 on page
+  raylib.globalize = () => {
+    for (const k of Object.keys(raylib)) {
+      window[k] = raylib[k]
+    }
+  }
+
+  // process user-functions, make raylib look like it's global
   if (userInit) {
     await userInit(raylib)
   }
-  const updateLoop = (timeStamp) => {
-    if (userUpdate) {
-      userUpdate(raylib, timeStamp)
+
+  if (userUpdate) {
+    const updateLoop = (timeStamp) => {
+      userUpdate(timeStamp, raylib)
+      requestAnimationFrame(updateLoop)
     }
-    requestAnimationFrame(updateLoop)
+    updateLoop()
   }
-  updateLoop()
+
   return raylib
 }
 

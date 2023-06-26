@@ -52,3 +52,11 @@ canvas.portrait {
   text-align: center;
   width: 100vw;
 }
+
+a {
+  color: white;
+}
+
+li {
+  text-align: left;
+}

@@ -1,93 +1,21 @@
 <html>
 <head>
-<title>Raylib Web</title>
+<title>Raylib Wasm</title>
 <link rel="stylesheet" href="rayweb.css" />
 </head>
 <body>
-<canvas id="canvas"></canvas>
-<script type=module>
-import runGame from './raylib.js'
-
-// example game
-
-// add files to filesystem
-let texBunny
-const bunnies = []
-
-const MAX_BUNNIES = 50000
-const MAX_BATCH_ELEMENTS = 8192
-
-const InitGame = async (raylib) => {
-  raylib.InitWindow(640, 480)
-  
-  // TODO: Eventually this will be built into wrapper to pre-load files, but for now we load it before loading it in raylib
-  await raylib.addFile('wabbit_alpha.png')
-  
-  texBunny = raylib.LoadTexture('wabbit_alpha.png')
-}
-
-const UpdateGame = (raylib, ts) => {
-  // Create more bunnies
-  if (raylib.IsMouseButtonDown(raylib.MOUSE_BUTTON_LEFT)) {
-    for (let i = 0; i < 100; i++){
-      if (bunnies.length < MAX_BUNNIES){
-        bunnies.push({
-          position: raylib.GetMousePosition(),
-          speed: {
-            x: raylib.GetRandomValue(-250, 250) / 60,
-            y: raylib.GetRandomValue(-250, 250) / 60
-          },
-          color: new raylib.Color({
-            r: raylib.GetRandomValue(50, 240),
-            g: raylib.GetRandomValue(80, 240),
-            b: raylib.GetRandomValue(100, 240),
-            a: 255
-          })
-        })
-      }
-    }
-  }
-
-  // Update bunnies
-  for (let bunny of bunnies) {
-    bunny.position.x += bunny.speed.x
-    bunny.position.y += bunny.speed.y
-    if (((bunny.position.x + texBunny.width/2) > raylib.GetScreenWidth()) || ((bunny.position.x + texBunny.width/2) < 0)) {
-      bunny.speed.x *= -1
-    }
-    if (((bunny.position.y + texBunny.height/2) > raylib.GetScreenHeight()) || ((bunny.position.y + texBunny.height/2 - 40) < 0)) {
-      bunny.speed.y *= -1
-    }
-  }
-
-  raylib.BeginDrawing()
-  raylib.ClearBackground(raylib.RAYWHITE)
-  for (let bunny of bunnies) {
-    raylib.DrawTexture(texBunny, bunny.position.x, bunny.position.y, bunny.color)
-  }
-  raylib.DrawRectangle(0, 0, 640, 40, raylib.BLACK)
-  raylib.DrawText(`bunnies: ${bunnies.length}`, 120, 10, 20, raylib.GREEN)
-  raylib.DrawText(`batched draw calls: ${1 + Math.floor(bunnies.length/MAX_BATCH_ELEMENTS)}`, 320, 10, 20, raylib.MAROON)
-  raylib.DrawFPS(10, 10)
-  raylib.EndDrawing()
-}
-
-// this is how to start your engine
-runGame(document.getElementById('canvas'), InitGame, UpdateGame)
-
-// this keeps a nice aspect for the canvas
-const onResize = () => {
-  window.removeEventListener('resize', onResize)
-  setTimeout(() => {
-    window.addEventListener('resize', onResize)
-  }, 1000)
-  const { clientWidth, clientHeight } = document.body
-  document.getElementById('canvas').className = clientWidth > clientHeight ? 'landscape' : 'portrait'
-}
-onResize()
-
-</script>
+	<div id="intro">
+		<h1>Raylib Wasm</h1>
+		<p>
+		<a href="https://github.com/konsumer/raylib-wasm">raylib-wasm</a> is a library that allows you to make raylib games directly in the browser with javascript.</p>
+		<p>Here are some demos to check it out:</p>
+		<ul>
+			
+			<li><a href="basic.html">Basic</a> - minimal "Get Started"</li>
+			<li><a href="bunnies.html">Bunnies</a> - test out lots of drawing at once</li>
+			<li><a href="ball_key.html">Ball Key</a> - shows key input</li>
+			<li><a href="ball_mouse.html">Ball Mouse</a> - shows mouse input</li>
+		</ul>
+	</div>
 </body>
 </html>
-
-
