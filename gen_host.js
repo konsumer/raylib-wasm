@@ -241,12 +241,15 @@ for (const { name, description, returnType, params = [] } of functions) {
 
 code += `
   // insert remote file in WASM filesystem
-  raylib.addFile = async filename => {
-    const p = filename.split('/').slice(0,-1)
+  raylib.addFile = async (filename, target) => {
+    if (!target) {
+      target = filename
+    }
+    const p = target.split('/').slice(0,-1)
     for (const i in p) {
       mod.FS.mkdir(p.slice(0, i + 1).join('/'))
     }
-    mod.FS.writeFile(filename, new Uint8Array(await fetch(filename).then(r => r.arrayBuffer())))
+    mod.FS.writeFile(target, new Uint8Array(await fetch(filename).then(r => r.arrayBuffer())))
   }
 
   // more convenient free() for structs
