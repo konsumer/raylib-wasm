@@ -5,11 +5,16 @@ import { readFile, writeFile } from 'fs/promises'
 
 let { defines, structs, aliases, enums, callbacks, functions } = await fetch('https://raw.githubusercontent.com/raysan5/raylib/master/parser/output/raylib_api.json').then(r => r.json())
 
+// these are args that represent files that should be pre-loaded first
+const fileFuncArgs = {
+  LoadTexture: ['fileName']
+}
+
 // add type-aliases & a keyed list for lookup
-const mappedStructs = structs.reduce((a, c) => ({...a, [c.name]: c}), {})
+const mappedStructs = structs.reduce((a, c) => ({ ...a, [c.name]: c }), {})
 for (const { type, name, description } of aliases) {
   mappedStructs[name] = {
-   ...mappedStructs[type],
+    ...mappedStructs[type],
     description,
     name
   }
@@ -20,7 +25,7 @@ structs = Object.values(mappedStructs)
 functions = functions.filter(f => !f.description.includes('only PLATFORM_DESKTOP'))
 
 // generate a default-value for a type
-function defaultValue(type) {
+function defaultValue (type) {
   // array-types
   const a = type.match(/([a-zA-Z 0-9]+) *\[([0-9]+)\]/)
   if (a) {
@@ -35,10 +40,9 @@ function defaultValue(type) {
   if (type === 'string' || type === 'char*' || type === 'const char*') {
     return "''"
   }
-  
+
   return 0
 }
-
 
 // emscripten type-converters are a bit incomplete. This makes values easier to use with c-types
 // TODO: check unsigned is working right
@@ -121,9 +125,8 @@ function getSize (type) {
   }
 }
 
-
 // indent a string
-const indentString = (str, count=2, indent = ' ') => str.replace(/^/gm, indent.repeat(count))
+const indentString = (str, count = 2, indent = ' ') => str.replace(/^/gm, indent.repeat(count))
 
 // create all the wasm-memory getters/setters for a struct
 function outputGetters (struct) {
@@ -145,14 +148,14 @@ function outputGetters (struct) {
 }
 
 // for functions, map input/output type to JS-ish param (for cwrap/ccall auto-conversion)
-function mapTypeToJs(type) {
+function mapTypeToJs (type) {
   if (type === 'const char *') {
     return "'string'"
   }
   if (type.includes('*')) {
     return "'pointer'"
   }
-  switch(type) {
+  switch (type) {
     case 'bool':
       return "'boolean'"
     case 'int':
@@ -163,7 +166,7 @@ function mapTypeToJs(type) {
     case 'unsigned int':
       return "'number'"
     default:
-      return  "'pointer'"
+      return "'pointer'"
   }
 }
 
@@ -209,7 +212,6 @@ for (const c of defines.filter(c => c.type === 'COLOR')) {
 
 code += '\n\n'
 
-
 for (const { name, description, returnType, params = [] } of functions) {
   const returnsStruct = mappedStructs[returnType.replace('*', '').replace(' ', '')]
   const wasmParams = params.map(p => p.name)
@@ -225,8 +227,14 @@ for (const { name, description, returnType, params = [] } of functions) {
     callParams.unshift('_ret._address')
     callParamTypes.unshift("'pointer'")
     code += `const _${name} = mod.cwrap('${name}', 'void', [${callParamTypes.join(', ')}])\n  `
-    code += `raylib.${name} = (${wasmParams.join(', ')}) => {
-    const _ret = new raylib.${returnsStruct.name}()
+    if (fileFuncArgs[name]) {
+      code += `raylib.${name} = async (${wasmParams.join(', ')}) => {\n  `
+      code += fileFuncArgs[name].map(a => `  await raylib.addFile(${a})`).join('\n  ') + '\n  '
+    } else {
+      code += `raylib.${name} = (${wasmParams.join(', ')}) => {\n  `
+    }
+
+    code += `  const _ret = new raylib.${returnsStruct.name}()
     _${name}(${callParams.join(', ')})
     return _ret
   }
@@ -234,10 +242,16 @@ for (const { name, description, returnType, params = [] } of functions) {
 `
   } else {
     code += `const _${name} = mod.cwrap('${name}', 'void', [${callParamTypes.join(', ')}])\n  `
-    code += `raylib.${name} = (${wasmParams.join(', ')}) => _${name}(${callParams.join(', ')})\n\n`
+
+    if (fileFuncArgs[name]) {
+      code += `raylib.${name} = async (${wasmParams.join(', ')}) => {\n  `
+      code += fileFuncArgs[name].map(a => `  await raylib.addFile(${a})`).join('\n  ') + '\n  '
+      code += `return _${name}(${callParams.join(', ')})\n  }\n\n`
+    } else {
+      code += `raylib.${name} = (${wasmParams.join(', ')}) => _${name}(${callParams.join(', ')})\n\n`
+    }
   }
 }
-
 
 code += `
   // insert remote file in WASM filesystem
@@ -282,6 +296,5 @@ code += `
 export default setup
 
 `
-
 
 await writeFile('site/raylib.js', code)

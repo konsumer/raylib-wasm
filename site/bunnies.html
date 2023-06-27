@@ -20,13 +20,8 @@ const MAX_BATCH_ELEMENTS = 8192
 const InitGame = async (raylib) => {
   // since there is only one raylib, let's just globalize it
   raylib.globalize()
-
   InitWindow(640, 480)
-  
-  // TODO: Eventually this will be built into wrapper to pre-load files, but for now we load it before loading it in raylib
-  await addFile('assets/wabbit_alpha.png')
-  
-  texBunny = LoadTexture('assets/wabbit_alpha.png')
+  texBunny = await LoadTexture('assets/wabbit_alpha.png')
 }
 
 const UpdateGame = (ts) => {

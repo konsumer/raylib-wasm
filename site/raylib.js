@@ -3671,7 +3671,8 @@ export async function setup(canvas, userInit, userUpdate) {
 
   // Load texture from file into GPU memory (VRAM): LoadTexture(const char *) => Texture2D
   const _LoadTexture = mod.cwrap('LoadTexture', 'void', ['pointer', 'string'])
-  raylib.LoadTexture = (fileName) => {
+  raylib.LoadTexture = async (fileName) => {
+    await raylib.addFile(fileName)
     const _ret = new raylib.Texture2D()
     _LoadTexture(_ret._address, fileName)
     return _ret
