@@ -8,7 +8,7 @@
     "start": "npx -y live-server site",
     "build:wasm": "docker run --rm -v $(pwd):/src -v /tmp/emscripten-cache:/emsdk/upstream/emscripten/cache/ -u $(id -u):$(id -g) emscripten/emsdk ./build.sh",
     "build:interface": "node gen_host.js",
-    "publish": "npx -y surge site raylib.surge.sh",
+    "deploy": "npx -y surge site raylib.surge.sh",
     "build": "npm run build:wasm && npm run build:interface"
   },
   "keywords": [],
