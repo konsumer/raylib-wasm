@@ -261,8 +261,9 @@ for (const { name, description, returnType, params = [] } of functions) {
     callParamTypes.unshift("'pointer'")
     code += `const _${name} = mod.cwrap('${name}', 'void', [${callParamTypes.join(', ')}])\n  `
     if (fileFuncArgs[name]) {
+      wasmParams.push('skipLoad')
       code += `raylib.${name} = async (${wasmParams.join(', ')}) => {\n  `
-      code += fileFuncArgs[name].map(a => `  await raylib.addFile(${a})`).join('\n  ') + '\n  '
+      code += fileFuncArgs[name].map(a => `  !skipLoad && await raylib.addFile(${a})`).join('\n  ') + '\n  '
     } else {
       code += `raylib.${name} = (${wasmParams.join(', ')}) => {\n  `
     }
