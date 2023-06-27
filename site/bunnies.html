@@ -40,7 +40,7 @@ const UpdateGame = (ts) => {
         free(p)
 
         bunnies.push({
-          position: GetMousePosition(),
+          position,
           speed: {
             x: GetRandomValue(-250, 250) / 60,
             y: GetRandomValue(-250, 250) / 60
