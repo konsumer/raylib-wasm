@@ -18,7 +18,7 @@ You can include these files in your project to get started:
 
 Have a look at [basic.html](site/basic.html) to see how to use it.
 
-You can also usie it directly in [a codepen](https://codepen.io/konsumer/pen/NWEdxZq?editors=0010) for quick demos and such.
+You can also use it directly in [a codepen](https://codepen.io/konsumer/pen/NWEdxZq?editors=0010) for quick demos and such.
 
 ### development
 
