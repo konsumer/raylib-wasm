@@ -2763,7 +2763,10 @@ export async function setup(canvas, userInit, userUpdate) {
 
   // Load file data as byte array (read): LoadFileData(const char *, unsigned int *) => unsigned char *
   const _LoadFileData = mod.cwrap('LoadFileData', 'void', ['string', 'pointer'])
-  raylib.LoadFileData = (fileName, bytesRead) => _LoadFileData(fileName, bytesRead._address)
+  raylib.LoadFileData = async (fileName, bytesRead) => {
+    await raylib.addFile(fileName)
+  return _LoadFileData(fileName, bytesRead._address)
+  }
 
   // Unload file data allocated by LoadFileData(): UnloadFileData(unsigned char *) => void
   const _UnloadFileData = mod.cwrap('UnloadFileData', 'void', ['pointer'])
@@ -2779,7 +2782,10 @@ export async function setup(canvas, userInit, userUpdate) {
 
   // Load text data from file (read), returns a '\0' terminated string: LoadFileText(const char *) => char *
   const _LoadFileText = mod.cwrap('LoadFileText', 'void', ['string'])
-  raylib.LoadFileText = (fileName) => _LoadFileText(fileName)
+  raylib.LoadFileText = async (fileName) => {
+    await raylib.addFile(fileName)
+  return _LoadFileText(fileName)
+  }
 
   // Unload file text data allocated by LoadFileText(): UnloadFileText(char *) => void
   const _UnloadFileText = mod.cwrap('UnloadFileText', 'void', ['pointer'])
@@ -3303,7 +3309,8 @@ export async function setup(canvas, userInit, userUpdate) {
 
   // Load image from file into CPU memory (RAM): LoadImage(const char *) => Image
   const _LoadImage = mod.cwrap('LoadImage', 'void', ['pointer', 'string'])
-  raylib.LoadImage = (fileName) => {
+  raylib.LoadImage = async (fileName) => {
+    await raylib.addFile(fileName)
     const _ret = new raylib.Image()
     _LoadImage(_ret._address, fileName)
     return _ret
@@ -3311,7 +3318,8 @@ export async function setup(canvas, userInit, userUpdate) {
 
   // Load image from RAW file data: LoadImageRaw(const char *, int, int, int, int) => Image
   const _LoadImageRaw = mod.cwrap('LoadImageRaw', 'void', ['pointer', 'string', 'number', 'number', 'number', 'number'])
-  raylib.LoadImageRaw = (fileName, width, height, format, headerSize) => {
+  raylib.LoadImageRaw = async (fileName, width, height, format, headerSize) => {
+    await raylib.addFile(fileName)
     const _ret = new raylib.Image()
     _LoadImageRaw(_ret._address, fileName, width, height, format, headerSize)
     return _ret
@@ -3319,7 +3327,8 @@ export async function setup(canvas, userInit, userUpdate) {
 
   // Load image sequence from file (frames appended to image.data): LoadImageAnim(const char *, int *) => Image
   const _LoadImageAnim = mod.cwrap('LoadImageAnim', 'void', ['pointer', 'string', 'pointer'])
-  raylib.LoadImageAnim = (fileName, frames) => {
+  raylib.LoadImageAnim = async (fileName, frames) => {
+    await raylib.addFile(fileName)
     const _ret = new raylib.Image()
     _LoadImageAnim(_ret._address, fileName, frames._address)
     return _ret
@@ -3880,7 +3889,8 @@ export async function setup(canvas, userInit, userUpdate) {
 
   // Load font from file into GPU memory (VRAM): LoadFont(const char *) => Font
   const _LoadFont = mod.cwrap('LoadFont', 'void', ['pointer', 'string'])
-  raylib.LoadFont = (fileName) => {
+  raylib.LoadFont = async (fileName) => {
+    await raylib.addFile(fileName)
     const _ret = new raylib.Font()
     _LoadFont(_ret._address, fileName)
     return _ret
@@ -3888,7 +3898,8 @@ export async function setup(canvas, userInit, userUpdate) {
 
   // Load font from file with extended parameters, use NULL for fontChars and 0 for glyphCount to load the default character set: LoadFontEx(const char *, int, int *, int) => Font
   const _LoadFontEx = mod.cwrap('LoadFontEx', 'void', ['pointer', 'string', 'number', 'pointer', 'number'])
-  raylib.LoadFontEx = (fileName, fontSize, fontChars, glyphCount) => {
+  raylib.LoadFontEx = async (fileName, fontSize, fontChars, glyphCount) => {
+    await raylib.addFile(fileName)
     const _ret = new raylib.Font()
     _LoadFontEx(_ret._address, fileName, fontSize, fontChars._address, glyphCount)
     return _ret
@@ -4180,7 +4191,8 @@ export async function setup(canvas, userInit, userUpdate) {
 
   // Load model from files (meshes and materials): LoadModel(const char *) => Model
   const _LoadModel = mod.cwrap('LoadModel', 'void', ['pointer', 'string'])
-  raylib.LoadModel = (fileName) => {
+  raylib.LoadModel = async (fileName) => {
+    await raylib.addFile(fileName)
     const _ret = new raylib.Model()
     _LoadModel(_ret._address, fileName)
     return _ret
@@ -4368,7 +4380,8 @@ export async function setup(canvas, userInit, userUpdate) {
 
   // Load materials from model file: LoadMaterials(const char *, int *) => Material *
   const _LoadMaterials = mod.cwrap('LoadMaterials', 'void', ['pointer', 'string', 'pointer'])
-  raylib.LoadMaterials = (fileName, materialCount) => {
+  raylib.LoadMaterials = async (fileName, materialCount) => {
+    await raylib.addFile(fileName)
     const _ret = new raylib.Material()
     _LoadMaterials(_ret._address, fileName, materialCount._address)
     return _ret
@@ -4400,7 +4413,8 @@ export async function setup(canvas, userInit, userUpdate) {
 
   // Load model animations from file: LoadModelAnimations(const char *, unsigned int *) => ModelAnimation *
   const _LoadModelAnimations = mod.cwrap('LoadModelAnimations', 'void', ['pointer', 'string', 'pointer'])
-  raylib.LoadModelAnimations = (fileName, animCount) => {
+  raylib.LoadModelAnimations = async (fileName, animCount) => {
+    await raylib.addFile(fileName)
     const _ret = new raylib.ModelAnimation()
     _LoadModelAnimations(_ret._address, fileName, animCount._address)
     return _ret
@@ -4492,7 +4506,8 @@ export async function setup(canvas, userInit, userUpdate) {
 
   // Load wave data from file: LoadWave(const char *) => Wave
   const _LoadWave = mod.cwrap('LoadWave', 'void', ['pointer', 'string'])
-  raylib.LoadWave = (fileName) => {
+  raylib.LoadWave = async (fileName) => {
+    await raylib.addFile(fileName)
     const _ret = new raylib.Wave()
     _LoadWave(_ret._address, fileName)
     return _ret
@@ -4512,7 +4527,8 @@ export async function setup(canvas, userInit, userUpdate) {
 
   // Load sound from file: LoadSound(const char *) => Sound
   const _LoadSound = mod.cwrap('LoadSound', 'void', ['pointer', 'string'])
-  raylib.LoadSound = (fileName) => {
+  raylib.LoadSound = async (fileName) => {
+    await raylib.addFile(fileName)
     const _ret = new raylib.Sound()
     _LoadSound(_ret._address, fileName)
     return _ret
@@ -4608,7 +4624,8 @@ export async function setup(canvas, userInit, userUpdate) {
 
   // Load music stream from file: LoadMusicStream(const char *) => Music
   const _LoadMusicStream = mod.cwrap('LoadMusicStream', 'void', ['pointer', 'string'])
-  raylib.LoadMusicStream = (fileName) => {
+  raylib.LoadMusicStream = async (fileName) => {
+    await raylib.addFile(fileName)
     const _ret = new raylib.Music()
     _LoadMusicStream(_ret._address, fileName)
     return _ret

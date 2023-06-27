@@ -7,7 +7,40 @@ let { defines, structs, aliases, enums, callbacks, functions } = await fetch('ht
 
 // these are args that represent files that should be pre-loaded first
 const fileFuncArgs = {
-  LoadTexture: ['fileName']
+  // I am not pre-loading for these, so you will have to raylib.addFile first before using these functions
+  // FileExists: ['fileName'],
+  // GetFileLength: ['fileName'],
+  // GetFileModTime: ['fileName'],
+
+  LoadFileData: ['fileName'],
+  LoadFileText: ['fileName'],
+  LoadFont: ['fileName'],
+  LoadFontEx: ['fileName'],
+  LoadImage: ['fileName'],
+  LoadImageAnim: ['fileName'],
+  LoadImageRaw: ['fileName'],
+  LoadMaterials: ['fileName'],
+  LoadModel: ['fileName'],
+  LoadModelAnimations: ['fileName'],
+  LoadMusicStream: ['fileName'],
+  LoadSound: ['fileName'],
+  LoadTexture: ['fileName'],
+  LoadWave: ['fileName']
+}
+
+// currently not used, but these are functions that output a file to fake FS
+// you can raylib.mod.FS.readFile them or maybe we will wrap them later
+const fileFuncRet = {
+  ExportDataAsCode: ['fileName'],
+  ExportFontAsCode: ['fileName'],
+  ExportImage: ['fileName'],
+  ExportImageAsCode: ['fileName'],
+  ExportMesh: ['fileName'],
+  ExportWave: ['fileName'],
+  ExportWaveAsCode: ['fileName'],
+  SaveFileData: ['fileName'],
+  SaveFileText: ['fileName'],
+  TakeScreenshot: ['fileName']
 }
 
 // add type-aliases & a keyed list for lookup
