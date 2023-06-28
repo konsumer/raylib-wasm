@@ -6,7 +6,7 @@
   "description": "Make raylib games in JS for the web",
   "scripts": {
     "start": "npx -y live-server site",
-    "build:wasm": "docker run --rm -v $(pwd):/src -v /tmp/emscripten-cache:/emsdk/upstream/emscripten/cache/ -u $(id -u):$(id -g) emscripten/emsdk ./build.sh",
+    "build:wasm": "docker run -it --rm -v $(pwd):/src -v /tmp/emscripten-cache:/emsdk/upstream/emscripten/cache/ -u $(id -u):$(id -g) emscripten/emsdk ./build.sh",
     "build:interface": "node gen_host.js",
     "deploy": "npx -y surge site raylib.surge.sh",
     "build": "npm run build:wasm && npm run build:interface"

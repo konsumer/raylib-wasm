@@ -4,16 +4,11 @@
 <link rel="stylesheet" href="rayweb.css" />
 </head>
 <body>
-<canvas id="canvas"></canvas>
-<script type=module>
-import runGame from './raylib.js'
+<script src="raylib.js"></script>
 
-// example game
-
-const InitGame = async (raylib) => {
-  // since there is only one raylib, let's just globalize it
-  raylib.globalize()
-  
+<raylib-game>
+<script>
+const InitGame = async () => {
   InitWindow(800, 450)
 }
 
@@ -24,21 +19,8 @@ const UpdateGame = (ts) => {
   DrawFPS(10, 10)
   EndDrawing()
 }
-
-// this is how to start your engine
-runGame(document.getElementById('canvas'), InitGame, UpdateGame)
-
-// this keeps a nice aspect for the canvas
-const onResize = () => {
-  window.removeEventListener('resize', onResize)
-  setTimeout(() => {
-    window.addEventListener('resize', onResize)
-  }, 1000)
-  const { clientWidth, clientHeight } = document.body
-  document.getElementById('canvas').className = clientWidth > clientHeight ? 'landscape' : 'portrait'
-}
-onResize()
-
 </script>
+</raylib-game>
+
 </body>
 </html>
