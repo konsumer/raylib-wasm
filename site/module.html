@@ -1,25 +1,28 @@
 <html>
 <head>
-<title>Raylib Wasm - Basic</title>
+<title>Raylib Wasm - Module</title>
 <link rel="stylesheet" href="rayweb.css" />
 </head>
 <body>
-<script src="raylib.js"></script>
-<script src="canvas_aspect.js"></script>
+<canvas id="canvas"></canvas>
+<script type="module">
+import raylib_run from './raylib.module.js'
 
-<raylib-game>
-const InitGame = async () => {
+async function init(raylib) {
+  raylib.globalize()
   InitWindow(800, 450)
 }
 
-const UpdateGame = (ts) => {
+function update(ts) {
   BeginDrawing()
   ClearBackground(RAYWHITE)
   DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
   DrawFPS(10, 10)
   EndDrawing()
 }
-</raylib-game>
+
+raylib_run(document.getElementById('canvas'), init, update)
+</script>
 
 </body>
 </html>

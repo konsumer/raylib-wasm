@@ -21,10 +21,9 @@ var Module=typeof Module!="undefined"?Module:{};var readyPromiseResolve,readyPro
 
 
 // run this function before calling anything
-function raylib_run(canvas, userInit, userUpdate) {
+async function raylib_run(canvas, userInit, userUpdate) {
   const raylib = {}
-  Module({canvas, wasmBinary}).then(mod => {
-    raylib.module = mod
+  const mod = await Module({canvas, wasmBinary})
   // Vector2, 2 components
   raylib.Vector2 = class Vector2 {
     constructor(init = {}, _address) {
@@ -4815,24 +4814,18 @@ function raylib_run(canvas, userInit, userUpdate) {
   }
 
   // process user-functions, make raylib look like it's global
-  const updateLoop = (timeStamp) => {
-    userUpdate(timeStamp, raylib)
-    requestAnimationFrame(updateLoop)
-  }
 
   if (userInit) {
-    userInit(raylib).then(() => {
-      if (userUpdate) {
-        updateLoop()
-      }
-    })
-  } else {
-    if (userUpdate) {
-      updateLoop()
-    }
+    await userInit(raylib)
   }
 
-})
+  if (userUpdate) {
+    const updateLoop = (timeStamp) => {
+      userUpdate(timeStamp, raylib)
+      requestAnimationFrame(updateLoop)
+    }
+    updateLoop()
+  }
 
   return raylib
 }
@@ -4842,8 +4835,27 @@ class RaylibComponent extends HTMLElement {
     super()
     this.shadow = this.attachShadow({ mode: 'open' })
     this.canvas = document.createElement('canvas')
-    this.shadow.appendChild(this.canvas)
     this.style.display = 'none'
+    this.shadow.innerHTML = `
+<style>
+canvas.landscape {
+  height: 100vh;
+  max-width: 100vw;
+}
+canvas.portrait {
+  width: 100vw;
+  max-height: 100vh;
+}
+canvas {
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -webkit-crisp-edges;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  object-fit: contain;
+}
+</style>
+`
+    this.shadow.appendChild(this.canvas)
   }
   connectedCallback() {
     const userCode = this.textContent

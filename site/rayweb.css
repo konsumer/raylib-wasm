@@ -22,6 +22,15 @@ canvas {
   object-fit: contain;
 }
 
+canvas.landscape {
+  height: 100vh;
+  max-width: 100vw;
+}
+canvas.portrait {
+  width: 100vw;
+  max-height: 100vh;
+}
+
 #output {
   width: 100vw;
   height: 4.2em;
