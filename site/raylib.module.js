@@ -25,7 +25,6 @@ function raylib_run(canvas, userInit, userUpdate) {
   const raylib = {}
   Module({canvas, wasmBinary}).then(mod => {
     raylib.module = mod
-    console.log(mod)
   // Vector2, 2 components
   raylib.Vector2 = class Vector2 {
     constructor(init = {}, _address) {
