@@ -23,6 +23,35 @@ npm run build
 
 It is also provided via this CDN link:
 
-```
+```html
 <script src="https://cdn.jsdelivr.net/gh/konsumer/raylib-wasm@main/site/raylib.js"></script>
+```
+
+or as an ES6 module:
+
+```html
+<script type="module">
+import raylib_run from 'https://cdn.jsdelivr.net/gh/konsumer/raylib-wasm@main/site/raylib.module.js'
+</script>
+```
+
+If you prefer to not use web-components, for some reason, you can also do this:
+
+```html
+<script type="module">
+import raylib_run from 'https://cdn.jsdelivr.net/gh/konsumer/raylib-wasm@main/site/raylib.module.js'
+
+function InitGame(raylib) {
+  raylib.globalize()
+  InitWindow(640, 480)
+}
+
+function UpdateGame(ts, raylib) {
+  BeginDrawing()
+  // whatever
+  EndDrawing()
+}
+
+raylib_run(document.getElementById('canvas'), InitGame, UpdateGame)
+</script>
 ```
