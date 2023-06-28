@@ -16,6 +16,7 @@ const MAX_BATCH_ELEMENTS = 8192
 
 const InitGame = async () => {
   InitWindow(640, 480)
+  SetTargetFPS(60)
   texBunny = await LoadTexture('assets/wabbit_alpha.png')
 }
 

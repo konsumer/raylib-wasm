@@ -27,14 +27,6 @@ It is also provided via this CDN link:
 <script src="https://cdn.jsdelivr.net/gh/konsumer/raylib-wasm@main/site/raylib.js"></script>
 ```
 
-or as an ES6 module:
-
-```html
-<script type="module">
-import raylib_run from 'https://cdn.jsdelivr.net/gh/konsumer/raylib-wasm@main/site/raylib.module.js'
-</script>
-```
-
 If you prefer to not use web-components, for some reason, you can also do this:
 
 ```html
