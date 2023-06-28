@@ -379,7 +379,7 @@ if (typeof document !== 'undefined') {
 await writeFile('site/raylib.js', code)
 
 // ES6 web module
-await writeFile('site/raylib.module.js', code.replace("const importLocation = document.location.toString()", 'const importLocation = import.meta.url') + `
+await writeFile('site/raylib.module.js', code + `
 
 export { raylib_run, RaylibComponent, Module, wasmBinary }
 export default raylib_run
