@@ -495,18 +495,18 @@ function raylib_run(canvas, userInit, userUpdate) {
 
   
     get texture () {
-      return mod.getValue(this._address + 4, '*')
+      return mod.getValue(this._address + 4, 'Texture')
     }
     set texture (texture) {
-      mod.setValue(this._address + 4, texture, '*')
+      mod.setValue(this._address + 4, texture, 'Texture')
     }
 
   
     get depth () {
-      return mod.getValue(this._address + 24, '*')
+      return mod.getValue(this._address + 24, 'Texture')
     }
     set depth (depth) {
-      mod.setValue(this._address + 24, depth, '*')
+      mod.setValue(this._address + 24, depth, 'Texture')
     }
 
   }
@@ -525,10 +525,10 @@ function raylib_run(canvas, userInit, userUpdate) {
     }
     
     get source () {
-      return mod.getValue(this._address + 0, '*')
+      return mod.getValue(this._address + 0, 'Rectangle')
     }
     set source (source) {
-      mod.setValue(this._address + 0, source, '*')
+      mod.setValue(this._address + 0, source, 'Rectangle')
     }
 
   
@@ -618,10 +618,10 @@ function raylib_run(canvas, userInit, userUpdate) {
 
   
     get image () {
-      return mod.getValue(this._address + 16, '*')
+      return mod.getValue(this._address + 16, 'Image')
     }
     set image (image) {
-      mod.setValue(this._address + 16, image, '*')
+      mod.setValue(this._address + 16, image, 'Image')
     }
 
   }
@@ -664,10 +664,10 @@ function raylib_run(canvas, userInit, userUpdate) {
 
   
     get texture () {
-      return mod.getValue(this._address + 12, '*')
+      return mod.getValue(this._address + 12, 'Texture2D')
     }
     set texture (texture) {
-      mod.setValue(this._address + 12, texture, '*')
+      mod.setValue(this._address + 12, texture, 'Texture2D')
     }
 
   
@@ -701,26 +701,26 @@ function raylib_run(canvas, userInit, userUpdate) {
     }
     
     get position () {
-      return mod.getValue(this._address + 0, '*')
+      return mod.getValue(this._address + 0, 'Vector3')
     }
     set position (position) {
-      mod.setValue(this._address + 0, position, '*')
+      mod.setValue(this._address + 0, position, 'Vector3')
     }
 
   
     get target () {
-      return mod.getValue(this._address + 12, '*')
+      return mod.getValue(this._address + 12, 'Vector3')
     }
     set target (target) {
-      mod.setValue(this._address + 12, target, '*')
+      mod.setValue(this._address + 12, target, 'Vector3')
     }
 
   
     get up () {
-      return mod.getValue(this._address + 24, '*')
+      return mod.getValue(this._address + 24, 'Vector3')
     }
     set up (up) {
-      mod.setValue(this._address + 24, up, '*')
+      mod.setValue(this._address + 24, up, 'Vector3')
     }
 
   
@@ -753,18 +753,18 @@ function raylib_run(canvas, userInit, userUpdate) {
     }
     
     get offset () {
-      return mod.getValue(this._address + 0, '*')
+      return mod.getValue(this._address + 0, 'Vector2')
     }
     set offset (offset) {
-      mod.setValue(this._address + 0, offset, '*')
+      mod.setValue(this._address + 0, offset, 'Vector2')
     }
 
   
     get target () {
-      return mod.getValue(this._address + 8, '*')
+      return mod.getValue(this._address + 8, 'Vector2')
     }
     set target (target) {
-      mod.setValue(this._address + 8, target, '*')
+      mod.setValue(this._address + 8, target, 'Vector2')
     }
 
   
@@ -965,18 +965,18 @@ function raylib_run(canvas, userInit, userUpdate) {
     }
     
     get texture () {
-      return mod.getValue(this._address + 0, '*')
+      return mod.getValue(this._address + 0, 'Texture2D')
     }
     set texture (texture) {
-      mod.setValue(this._address + 0, texture, '*')
+      mod.setValue(this._address + 0, texture, 'Texture2D')
     }
 
   
     get color () {
-      return mod.getValue(this._address + 20, '*')
+      return mod.getValue(this._address + 20, 'Color')
     }
     set color (color) {
-      mod.setValue(this._address + 20, color, '*')
+      mod.setValue(this._address + 20, color, 'Color')
     }
 
   
@@ -1000,10 +1000,10 @@ function raylib_run(canvas, userInit, userUpdate) {
     }
     
     get shader () {
-      return mod.getValue(this._address + 0, '*')
+      return mod.getValue(this._address + 0, 'Shader')
     }
     set shader (shader) {
-      mod.setValue(this._address + 0, shader, '*')
+      mod.setValue(this._address + 0, shader, 'Shader')
     }
 
   
@@ -1035,26 +1035,26 @@ function raylib_run(canvas, userInit, userUpdate) {
     }
     
     get translation () {
-      return mod.getValue(this._address + 0, '*')
+      return mod.getValue(this._address + 0, 'Vector3')
     }
     set translation (translation) {
-      mod.setValue(this._address + 0, translation, '*')
+      mod.setValue(this._address + 0, translation, 'Vector3')
     }
 
   
     get rotation () {
-      return mod.getValue(this._address + 12, '*')
+      return mod.getValue(this._address + 12, 'Quaternion')
     }
     set rotation (rotation) {
-      mod.setValue(this._address + 12, rotation, '*')
+      mod.setValue(this._address + 12, rotation, 'Quaternion')
     }
 
   
     get scale () {
-      return mod.getValue(this._address + 28, '*')
+      return mod.getValue(this._address + 28, 'Vector3')
     }
     set scale (scale) {
-      mod.setValue(this._address + 28, scale, '*')
+      mod.setValue(this._address + 28, scale, 'Vector3')
     }
 
   }
@@ -1102,10 +1102,10 @@ function raylib_run(canvas, userInit, userUpdate) {
     }
     
     get transform () {
-      return mod.getValue(this._address + 0, '*')
+      return mod.getValue(this._address + 0, 'Matrix')
     }
     set transform (transform) {
-      mod.setValue(this._address + 0, transform, '*')
+      mod.setValue(this._address + 0, transform, 'Matrix')
     }
 
   
@@ -1237,18 +1237,18 @@ function raylib_run(canvas, userInit, userUpdate) {
     }
     
     get position () {
-      return mod.getValue(this._address + 0, '*')
+      return mod.getValue(this._address + 0, 'Vector3')
     }
     set position (position) {
-      mod.setValue(this._address + 0, position, '*')
+      mod.setValue(this._address + 0, position, 'Vector3')
     }
 
   
     get direction () {
-      return mod.getValue(this._address + 12, '*')
+      return mod.getValue(this._address + 12, 'Vector3')
     }
     set direction (direction) {
-      mod.setValue(this._address + 12, direction, '*')
+      mod.setValue(this._address + 12, direction, 'Vector3')
     }
 
   }
@@ -1281,18 +1281,18 @@ function raylib_run(canvas, userInit, userUpdate) {
 
   
     get point () {
-      return mod.getValue(this._address + 5, '*')
+      return mod.getValue(this._address + 5, 'Vector3')
     }
     set point (point) {
-      mod.setValue(this._address + 5, point, '*')
+      mod.setValue(this._address + 5, point, 'Vector3')
     }
 
   
     get normal () {
-      return mod.getValue(this._address + 17, '*')
+      return mod.getValue(this._address + 17, 'Vector3')
     }
     set normal (normal) {
-      mod.setValue(this._address + 17, normal, '*')
+      mod.setValue(this._address + 17, normal, 'Vector3')
     }
 
   }
@@ -1307,18 +1307,18 @@ function raylib_run(canvas, userInit, userUpdate) {
     }
     
     get min () {
-      return mod.getValue(this._address + 0, '*')
+      return mod.getValue(this._address + 0, 'Vector3')
     }
     set min (min) {
-      mod.setValue(this._address + 0, min, '*')
+      mod.setValue(this._address + 0, min, 'Vector3')
     }
 
   
     get max () {
-      return mod.getValue(this._address + 12, '*')
+      return mod.getValue(this._address + 12, 'Vector3')
     }
     set max (max) {
-      mod.setValue(this._address + 12, max, '*')
+      mod.setValue(this._address + 12, max, 'Vector3')
     }
 
   }
@@ -1439,10 +1439,10 @@ function raylib_run(canvas, userInit, userUpdate) {
     }
     
     get stream () {
-      return mod.getValue(this._address + 0, '*')
+      return mod.getValue(this._address + 0, 'AudioStream')
     }
     set stream (stream) {
-      mod.setValue(this._address + 0, stream, '*')
+      mod.setValue(this._address + 0, stream, 'AudioStream')
     }
 
   
@@ -1468,10 +1468,10 @@ function raylib_run(canvas, userInit, userUpdate) {
     }
     
     get stream () {
-      return mod.getValue(this._address + 0, '*')
+      return mod.getValue(this._address + 0, 'AudioStream')
     }
     set stream (stream) {
-      mod.setValue(this._address + 0, stream, '*')
+      mod.setValue(this._address + 0, stream, 'AudioStream')
     }
 
   
@@ -1890,18 +1890,18 @@ function raylib_run(canvas, userInit, userUpdate) {
 
   
     get texture () {
-      return mod.getValue(this._address + 4, '*')
+      return mod.getValue(this._address + 4, 'Texture')
     }
     set texture (texture) {
-      mod.setValue(this._address + 4, texture, '*')
+      mod.setValue(this._address + 4, texture, 'Texture')
     }
 
   
     get depth () {
-      return mod.getValue(this._address + 24, '*')
+      return mod.getValue(this._address + 24, 'Texture')
     }
     set depth (depth) {
-      mod.setValue(this._address + 24, depth, '*')
+      mod.setValue(this._address + 24, depth, 'Texture')
     }
 
   }
@@ -1919,26 +1919,26 @@ function raylib_run(canvas, userInit, userUpdate) {
     }
     
     get position () {
-      return mod.getValue(this._address + 0, '*')
+      return mod.getValue(this._address + 0, 'Vector3')
     }
     set position (position) {
-      mod.setValue(this._address + 0, position, '*')
+      mod.setValue(this._address + 0, position, 'Vector3')
     }
 
   
     get target () {
-      return mod.getValue(this._address + 12, '*')
+      return mod.getValue(this._address + 12, 'Vector3')
     }
     set target (target) {
-      mod.setValue(this._address + 12, target, '*')
+      mod.setValue(this._address + 12, target, 'Vector3')
     }
 
   
     get up () {
-      return mod.getValue(this._address + 24, '*')
+      return mod.getValue(this._address + 24, 'Vector3')
     }
     set up (up) {
-      mod.setValue(this._address + 24, up, '*')
+      mod.setValue(this._address + 24, up, 'Vector3')
     }
 
   
@@ -4856,11 +4856,874 @@ if (typeof UpdateGame === 'undefined') {
   console.error('Make sure to add UpdateGame() to your raylib-game.')
   return
 }
-let Vector2,Vector3,Vector4,Matrix,Color,Rectangle,Image,Texture,RenderTexture,NPatchInfo,GlyphInfo,Font,Camera3D,Camera2D,Mesh,Shader,MaterialMap,Material,Transform,BoneInfo,Model,ModelAnimation,Ray,RayCollision,BoundingBox,Wave,AudioStream,Sound,Music,VrDeviceInfo,VrStereoConfig,FilePathList,Quaternion,Texture2D,TextureCubemap,RenderTexture2D,Camera,FLAG_VSYNC_HINT,FLAG_FULLSCREEN_MODE,FLAG_WINDOW_RESIZABLE,FLAG_WINDOW_UNDECORATED,FLAG_WINDOW_HIDDEN,FLAG_WINDOW_MINIMIZED,FLAG_WINDOW_MAXIMIZED,FLAG_WINDOW_UNFOCUSED,FLAG_WINDOW_TOPMOST,FLAG_WINDOW_ALWAYS_RUN,FLAG_WINDOW_TRANSPARENT,FLAG_WINDOW_HIGHDPI,FLAG_WINDOW_MOUSE_PASSTHROUGH,FLAG_MSAA_4X_HINT,FLAG_INTERLACED_HINT,LOG_ALL,LOG_TRACE,LOG_DEBUG,LOG_INFO,LOG_WARNING,LOG_ERROR,LOG_FATAL,LOG_NONE,KEY_NULL,KEY_APOSTROPHE,KEY_COMMA,KEY_MINUS,KEY_PERIOD,KEY_SLASH,KEY_ZERO,KEY_ONE,KEY_TWO,KEY_THREE,KEY_FOUR,KEY_FIVE,KEY_SIX,KEY_SEVEN,KEY_EIGHT,KEY_NINE,KEY_SEMICOLON,KEY_EQUAL,KEY_A,KEY_B,KEY_C,KEY_D,KEY_E,KEY_F,KEY_G,KEY_H,KEY_I,KEY_J,KEY_K,KEY_L,KEY_M,KEY_N,KEY_O,KEY_P,KEY_Q,KEY_R,KEY_S,KEY_T,KEY_U,KEY_V,KEY_W,KEY_X,KEY_Y,KEY_Z,KEY_LEFT_BRACKET,KEY_BACKSLASH,KEY_RIGHT_BRACKET,KEY_GRAVE,KEY_SPACE,KEY_ESCAPE,KEY_ENTER,KEY_TAB,KEY_BACKSPACE,KEY_INSERT,KEY_DELETE,KEY_RIGHT,KEY_LEFT,KEY_DOWN,KEY_UP,KEY_PAGE_UP,KEY_PAGE_DOWN,KEY_HOME,KEY_END,KEY_CAPS_LOCK,KEY_SCROLL_LOCK,KEY_NUM_LOCK,KEY_PRINT_SCREEN,KEY_PAUSE,KEY_F1,KEY_F2,KEY_F3,KEY_F4,KEY_F5,KEY_F6,KEY_F7,KEY_F8,KEY_F9,KEY_F10,KEY_F11,KEY_F12,KEY_LEFT_SHIFT,KEY_LEFT_CONTROL,KEY_LEFT_ALT,KEY_LEFT_SUPER,KEY_RIGHT_SHIFT,KEY_RIGHT_CONTROL,KEY_RIGHT_ALT,KEY_RIGHT_SUPER,KEY_KB_MENU,KEY_KP_0,KEY_KP_1,KEY_KP_2,KEY_KP_3,KEY_KP_4,KEY_KP_5,KEY_KP_6,KEY_KP_7,KEY_KP_8,KEY_KP_9,KEY_KP_DECIMAL,KEY_KP_DIVIDE,KEY_KP_MULTIPLY,KEY_KP_SUBTRACT,KEY_KP_ADD,KEY_KP_ENTER,KEY_KP_EQUAL,KEY_BACK,KEY_MENU,KEY_VOLUME_UP,KEY_VOLUME_DOWN,MOUSE_BUTTON_LEFT,MOUSE_BUTTON_RIGHT,MOUSE_BUTTON_MIDDLE,MOUSE_BUTTON_SIDE,MOUSE_BUTTON_EXTRA,MOUSE_BUTTON_FORWARD,MOUSE_BUTTON_BACK,MOUSE_CURSOR_DEFAULT,MOUSE_CURSOR_ARROW,MOUSE_CURSOR_IBEAM,MOUSE_CURSOR_CROSSHAIR,MOUSE_CURSOR_POINTING_HAND,MOUSE_CURSOR_RESIZE_EW,MOUSE_CURSOR_RESIZE_NS,MOUSE_CURSOR_RESIZE_NWSE,MOUSE_CURSOR_RESIZE_NESW,MOUSE_CURSOR_RESIZE_ALL,MOUSE_CURSOR_NOT_ALLOWED,GAMEPAD_BUTTON_UNKNOWN,GAMEPAD_BUTTON_LEFT_FACE_UP,GAMEPAD_BUTTON_LEFT_FACE_RIGHT,GAMEPAD_BUTTON_LEFT_FACE_DOWN,GAMEPAD_BUTTON_LEFT_FACE_LEFT,GAMEPAD_BUTTON_RIGHT_FACE_UP,GAMEPAD_BUTTON_RIGHT_FACE_RIGHT,GAMEPAD_BUTTON_RIGHT_FACE_DOWN,GAMEPAD_BUTTON_RIGHT_FACE_LEFT,GAMEPAD_BUTTON_LEFT_TRIGGER_1,GAMEPAD_BUTTON_LEFT_TRIGGER_2,GAMEPAD_BUTTON_RIGHT_TRIGGER_1,GAMEPAD_BUTTON_RIGHT_TRIGGER_2,GAMEPAD_BUTTON_MIDDLE_LEFT,GAMEPAD_BUTTON_MIDDLE,GAMEPAD_BUTTON_MIDDLE_RIGHT,GAMEPAD_BUTTON_LEFT_THUMB,GAMEPAD_BUTTON_RIGHT_THUMB,GAMEPAD_AXIS_LEFT_X,GAMEPAD_AXIS_LEFT_Y,GAMEPAD_AXIS_RIGHT_X,GAMEPAD_AXIS_RIGHT_Y,GAMEPAD_AXIS_LEFT_TRIGGER,GAMEPAD_AXIS_RIGHT_TRIGGER,MATERIAL_MAP_ALBEDO,MATERIAL_MAP_METALNESS,MATERIAL_MAP_NORMAL,MATERIAL_MAP_ROUGHNESS,MATERIAL_MAP_OCCLUSION,MATERIAL_MAP_EMISSION,MATERIAL_MAP_HEIGHT,MATERIAL_MAP_CUBEMAP,MATERIAL_MAP_IRRADIANCE,MATERIAL_MAP_PREFILTER,MATERIAL_MAP_BRDF,SHADER_LOC_VERTEX_POSITION,SHADER_LOC_VERTEX_TEXCOORD01,SHADER_LOC_VERTEX_TEXCOORD02,SHADER_LOC_VERTEX_NORMAL,SHADER_LOC_VERTEX_TANGENT,SHADER_LOC_VERTEX_COLOR,SHADER_LOC_MATRIX_MVP,SHADER_LOC_MATRIX_VIEW,SHADER_LOC_MATRIX_PROJECTION,SHADER_LOC_MATRIX_MODEL,SHADER_LOC_MATRIX_NORMAL,SHADER_LOC_VECTOR_VIEW,SHADER_LOC_COLOR_DIFFUSE,SHADER_LOC_COLOR_SPECULAR,SHADER_LOC_COLOR_AMBIENT,SHADER_LOC_MAP_ALBEDO,SHADER_LOC_MAP_METALNESS,SHADER_LOC_MAP_NORMAL,SHADER_LOC_MAP_ROUGHNESS,SHADER_LOC_MAP_OCCLUSION,SHADER_LOC_MAP_EMISSION,SHADER_LOC_MAP_HEIGHT,SHADER_LOC_MAP_CUBEMAP,SHADER_LOC_MAP_IRRADIANCE,SHADER_LOC_MAP_PREFILTER,SHADER_LOC_MAP_BRDF,SHADER_UNIFORM_FLOAT,SHADER_UNIFORM_VEC2,SHADER_UNIFORM_VEC3,SHADER_UNIFORM_VEC4,SHADER_UNIFORM_INT,SHADER_UNIFORM_IVEC2,SHADER_UNIFORM_IVEC3,SHADER_UNIFORM_IVEC4,SHADER_UNIFORM_SAMPLER2D,SHADER_ATTRIB_FLOAT,SHADER_ATTRIB_VEC2,SHADER_ATTRIB_VEC3,SHADER_ATTRIB_VEC4,PIXELFORMAT_UNCOMPRESSED_GRAYSCALE,PIXELFORMAT_UNCOMPRESSED_GRAY_ALPHA,PIXELFORMAT_UNCOMPRESSED_R5G6B5,PIXELFORMAT_UNCOMPRESSED_R8G8B8,PIXELFORMAT_UNCOMPRESSED_R5G5B5A1,PIXELFORMAT_UNCOMPRESSED_R4G4B4A4,PIXELFORMAT_UNCOMPRESSED_R8G8B8A8,PIXELFORMAT_UNCOMPRESSED_R32,PIXELFORMAT_UNCOMPRESSED_R32G32B32,PIXELFORMAT_UNCOMPRESSED_R32G32B32A32,PIXELFORMAT_COMPRESSED_DXT1_RGB,PIXELFORMAT_COMPRESSED_DXT1_RGBA,PIXELFORMAT_COMPRESSED_DXT3_RGBA,PIXELFORMAT_COMPRESSED_DXT5_RGBA,PIXELFORMAT_COMPRESSED_ETC1_RGB,PIXELFORMAT_COMPRESSED_ETC2_RGB,PIXELFORMAT_COMPRESSED_ETC2_EAC_RGBA,PIXELFORMAT_COMPRESSED_PVRT_RGB,PIXELFORMAT_COMPRESSED_PVRT_RGBA,PIXELFORMAT_COMPRESSED_ASTC_4x4_RGBA,PIXELFORMAT_COMPRESSED_ASTC_8x8_RGBA,TEXTURE_FILTER_POINT,TEXTURE_FILTER_BILINEAR,TEXTURE_FILTER_TRILINEAR,TEXTURE_FILTER_ANISOTROPIC_4X,TEXTURE_FILTER_ANISOTROPIC_8X,TEXTURE_FILTER_ANISOTROPIC_16X,TEXTURE_WRAP_REPEAT,TEXTURE_WRAP_CLAMP,TEXTURE_WRAP_MIRROR_REPEAT,TEXTURE_WRAP_MIRROR_CLAMP,CUBEMAP_LAYOUT_AUTO_DETECT,CUBEMAP_LAYOUT_LINE_VERTICAL,CUBEMAP_LAYOUT_LINE_HORIZONTAL,CUBEMAP_LAYOUT_CROSS_THREE_BY_FOUR,CUBEMAP_LAYOUT_CROSS_FOUR_BY_THREE,CUBEMAP_LAYOUT_PANORAMA,FONT_DEFAULT,FONT_BITMAP,FONT_SDF,BLEND_ALPHA,BLEND_ADDITIVE,BLEND_MULTIPLIED,BLEND_ADD_COLORS,BLEND_SUBTRACT_COLORS,BLEND_ALPHA_PREMULTIPLY,BLEND_CUSTOM,BLEND_CUSTOM_SEPARATE,GESTURE_NONE,GESTURE_TAP,GESTURE_DOUBLETAP,GESTURE_HOLD,GESTURE_DRAG,GESTURE_SWIPE_RIGHT,GESTURE_SWIPE_LEFT,GESTURE_SWIPE_UP,GESTURE_SWIPE_DOWN,GESTURE_PINCH_IN,GESTURE_PINCH_OUT,CAMERA_CUSTOM,CAMERA_FREE,CAMERA_ORBITAL,CAMERA_FIRST_PERSON,CAMERA_THIRD_PERSON,CAMERA_PERSPECTIVE,CAMERA_ORTHOGRAPHIC,NPATCH_NINE_PATCH,NPATCH_THREE_PATCH_VERTICAL,NPATCH_THREE_PATCH_HORIZONTAL,module,LIGHTGRAY,GRAY,DARKGRAY,YELLOW,GOLD,ORANGE,PINK,RED,MAROON,GREEN,LIME,DARKGREEN,SKYBLUE,BLUE,DARKBLUE,PURPLE,VIOLET,DARKPURPLE,BEIGE,BROWN,DARKBROWN,WHITE,BLACK,BLANK,MAGENTA,RAYWHITE,InitWindow,WindowShouldClose,CloseWindow,IsWindowReady,IsWindowFullscreen,IsWindowResized,IsWindowState,ClearWindowState,SetWindowMonitor,SetWindowMinSize,SetWindowSize,GetWindowHandle,GetScreenWidth,GetScreenHeight,GetRenderWidth,GetRenderHeight,GetMonitorCount,GetCurrentMonitor,GetMonitorPosition,GetMonitorWidth,GetMonitorHeight,GetMonitorPhysicalWidth,GetMonitorPhysicalHeight,GetMonitorRefreshRate,GetWindowPosition,GetWindowScaleDPI,GetMonitorName,SetClipboardText,GetClipboardText,EnableEventWaiting,DisableEventWaiting,SwapScreenBuffer,PollInputEvents,WaitTime,ShowCursor,HideCursor,IsCursorHidden,EnableCursor,DisableCursor,IsCursorOnScreen,ClearBackground,BeginDrawing,EndDrawing,BeginMode2D,EndMode2D,BeginMode3D,EndMode3D,BeginTextureMode,EndTextureMode,BeginShaderMode,EndShaderMode,BeginBlendMode,EndBlendMode,BeginScissorMode,EndScissorMode,BeginVrStereoMode,EndVrStereoMode,LoadVrStereoConfig,UnloadVrStereoConfig,LoadShader,LoadShaderFromMemory,IsShaderReady,GetShaderLocation,GetShaderLocationAttrib,SetShaderValue,SetShaderValueV,SetShaderValueMatrix,SetShaderValueTexture,UnloadShader,GetMouseRay,GetCameraMatrix,GetCameraMatrix2D,GetWorldToScreen,GetScreenToWorld2D,GetWorldToScreenEx,GetWorldToScreen2D,SetTargetFPS,GetFPS,GetFrameTime,GetTime,GetRandomValue,SetRandomSeed,TakeScreenshot,SetConfigFlags,TraceLog,SetTraceLogLevel,MemAlloc,MemRealloc,MemFree,OpenURL,SetTraceLogCallback,SetLoadFileDataCallback,SetSaveFileDataCallback,SetLoadFileTextCallback,SetSaveFileTextCallback,LoadFileData,UnloadFileData,SaveFileData,ExportDataAsCode,LoadFileText,UnloadFileText,SaveFileText,FileExists,DirectoryExists,IsFileExtension,GetFileLength,GetFileExtension,GetFileName,GetFileNameWithoutExt,GetDirectoryPath,GetPrevDirectoryPath,GetWorkingDirectory,GetApplicationDirectory,ChangeDirectory,IsPathFile,LoadDirectoryFiles,LoadDirectoryFilesEx,UnloadDirectoryFiles,IsFileDropped,LoadDroppedFiles,UnloadDroppedFiles,GetFileModTime,CompressData,DecompressData,EncodeDataBase64,DecodeDataBase64,IsKeyPressed,IsKeyDown,IsKeyReleased,IsKeyUp,SetExitKey,GetKeyPressed,GetCharPressed,IsGamepadAvailable,GetGamepadName,IsGamepadButtonPressed,IsGamepadButtonDown,IsGamepadButtonReleased,IsGamepadButtonUp,GetGamepadButtonPressed,GetGamepadAxisCount,GetGamepadAxisMovement,SetGamepadMappings,IsMouseButtonPressed,IsMouseButtonDown,IsMouseButtonReleased,IsMouseButtonUp,GetMouseX,GetMouseY,GetMousePosition,GetMouseDelta,SetMousePosition,SetMouseOffset,SetMouseScale,GetMouseWheelMove,GetMouseWheelMoveV,SetMouseCursor,GetTouchX,GetTouchY,GetTouchPosition,GetTouchPointId,GetTouchPointCount,SetGesturesEnabled,IsGestureDetected,GetGestureDetected,GetGestureHoldDuration,GetGestureDragVector,GetGestureDragAngle,GetGesturePinchVector,GetGesturePinchAngle,UpdateCamera,UpdateCameraPro,SetShapesTexture,DrawPixel,DrawPixelV,DrawLine,DrawLineV,DrawLineEx,DrawLineBezier,DrawLineBezierQuad,DrawLineBezierCubic,DrawLineStrip,DrawCircle,DrawCircleSector,DrawCircleSectorLines,DrawCircleGradient,DrawCircleV,DrawCircleLines,DrawEllipse,DrawEllipseLines,DrawRing,DrawRingLines,DrawRectangle,DrawRectangleV,DrawRectangleRec,DrawRectanglePro,DrawRectangleGradientV,DrawRectangleGradientH,DrawRectangleGradientEx,DrawRectangleLines,DrawRectangleLinesEx,DrawRectangleRounded,DrawRectangleRoundedLines,DrawTriangle,DrawTriangleLines,DrawTriangleFan,DrawTriangleStrip,DrawPoly,DrawPolyLines,DrawPolyLinesEx,CheckCollisionRecs,CheckCollisionCircles,CheckCollisionCircleRec,CheckCollisionPointRec,CheckCollisionPointCircle,CheckCollisionPointTriangle,CheckCollisionPointPoly,CheckCollisionLines,CheckCollisionPointLine,GetCollisionRec,LoadImage,LoadImageRaw,LoadImageAnim,LoadImageFromMemory,LoadImageFromTexture,LoadImageFromScreen,IsImageReady,UnloadImage,ExportImage,ExportImageAsCode,GenImageColor,GenImageGradientLinear,GenImageGradientRadial,GenImageGradientSquare,GenImageChecked,GenImageWhiteNoise,GenImagePerlinNoise,GenImageCellular,GenImageText,ImageCopy,ImageFromImage,ImageText,ImageTextEx,ImageFormat,ImageToPOT,ImageCrop,ImageAlphaCrop,ImageAlphaClear,ImageAlphaMask,ImageAlphaPremultiply,ImageBlurGaussian,ImageResize,ImageResizeNN,ImageResizeCanvas,ImageMipmaps,ImageDither,ImageFlipVertical,ImageFlipHorizontal,ImageRotate,ImageRotateCW,ImageRotateCCW,ImageColorTint,ImageColorInvert,ImageColorGrayscale,ImageColorContrast,ImageColorBrightness,ImageColorReplace,LoadImageColors,LoadImagePalette,UnloadImageColors,UnloadImagePalette,GetImageAlphaBorder,GetImageColor,ImageClearBackground,ImageDrawPixel,ImageDrawPixelV,ImageDrawLine,ImageDrawLineV,ImageDrawCircle,ImageDrawCircleV,ImageDrawCircleLines,ImageDrawCircleLinesV,ImageDrawRectangle,ImageDrawRectangleV,ImageDrawRectangleRec,ImageDrawRectangleLines,ImageDraw,ImageDrawText,ImageDrawTextEx,LoadTexture,LoadTextureFromImage,LoadTextureCubemap,LoadRenderTexture,IsTextureReady,UnloadTexture,IsRenderTextureReady,UnloadRenderTexture,UpdateTexture,UpdateTextureRec,GenTextureMipmaps,SetTextureFilter,SetTextureWrap,DrawTexture,DrawTextureV,DrawTextureEx,DrawTextureRec,DrawTexturePro,DrawTextureNPatch,Fade,ColorToInt,ColorNormalize,ColorFromNormalized,ColorToHSV,ColorFromHSV,ColorTint,ColorBrightness,ColorContrast,ColorAlpha,ColorAlphaBlend,GetColor,GetPixelColor,SetPixelColor,GetPixelDataSize,GetFontDefault,LoadFont,LoadFontEx,LoadFontFromImage,LoadFontFromMemory,IsFontReady,LoadFontData,GenImageFontAtlas,UnloadFontData,UnloadFont,ExportFontAsCode,DrawFPS,DrawText,DrawTextEx,DrawTextPro,DrawTextCodepoint,DrawTextCodepoints,MeasureText,MeasureTextEx,GetGlyphIndex,GetGlyphInfo,GetGlyphAtlasRec,LoadUTF8,UnloadUTF8,LoadCodepoints,UnloadCodepoints,GetCodepointCount,GetCodepoint,GetCodepointNext,GetCodepointPrevious,CodepointToUTF8,TextCopy,TextIsEqual,TextLength,TextFormat,TextSubtext,TextReplace,TextInsert,TextJoin,TextSplit,TextAppend,TextFindIndex,TextToUpper,TextToLower,TextToPascal,TextToInteger,DrawLine3D,DrawPoint3D,DrawCircle3D,DrawTriangle3D,DrawTriangleStrip3D,DrawCube,DrawCubeV,DrawCubeWires,DrawCubeWiresV,DrawSphere,DrawSphereEx,DrawSphereWires,DrawCylinder,DrawCylinderEx,DrawCylinderWires,DrawCylinderWiresEx,DrawCapsule,DrawCapsuleWires,DrawPlane,DrawRay,DrawGrid,LoadModel,LoadModelFromMesh,IsModelReady,UnloadModel,GetModelBoundingBox,DrawModel,DrawModelEx,DrawModelWires,DrawModelWiresEx,DrawBoundingBox,DrawBillboard,DrawBillboardRec,DrawBillboardPro,UploadMesh,UpdateMeshBuffer,UnloadMesh,DrawMesh,DrawMeshInstanced,ExportMesh,GetMeshBoundingBox,GenMeshTangents,GenMeshPoly,GenMeshPlane,GenMeshCube,GenMeshSphere,GenMeshHemiSphere,GenMeshCylinder,GenMeshCone,GenMeshTorus,GenMeshKnot,GenMeshHeightmap,GenMeshCubicmap,LoadMaterials,LoadMaterialDefault,IsMaterialReady,UnloadMaterial,SetMaterialTexture,SetModelMeshMaterial,LoadModelAnimations,UpdateModelAnimation,UnloadModelAnimation,UnloadModelAnimations,IsModelAnimationValid,CheckCollisionSpheres,CheckCollisionBoxes,CheckCollisionBoxSphere,GetRayCollisionSphere,GetRayCollisionBox,GetRayCollisionMesh,GetRayCollisionTriangle,GetRayCollisionQuad,InitAudioDevice,CloseAudioDevice,IsAudioDeviceReady,SetMasterVolume,LoadWave,LoadWaveFromMemory,IsWaveReady,LoadSound,LoadSoundFromWave,IsSoundReady,UpdateSound,UnloadWave,UnloadSound,ExportWave,ExportWaveAsCode,PlaySound,StopSound,PauseSound,ResumeSound,IsSoundPlaying,SetSoundVolume,SetSoundPitch,SetSoundPan,WaveCopy,WaveCrop,WaveFormat,LoadWaveSamples,UnloadWaveSamples,LoadMusicStream,LoadMusicStreamFromMemory,IsMusicReady,UnloadMusicStream,PlayMusicStream,IsMusicStreamPlaying,UpdateMusicStream,StopMusicStream,PauseMusicStream,ResumeMusicStream,SeekMusicStream,SetMusicVolume,SetMusicPitch,SetMusicPan,GetMusicTimeLength,GetMusicTimePlayed,LoadAudioStream,IsAudioStreamReady,UnloadAudioStream,UpdateAudioStream,IsAudioStreamProcessed,PlayAudioStream,PauseAudioStream,ResumeAudioStream,IsAudioStreamPlaying,StopAudioStream,SetAudioStreamVolume,SetAudioStreamPitch,SetAudioStreamPan,SetAudioStreamBufferSizeDefault,SetAudioStreamCallback,AttachAudioStreamProcessor,DetachAudioStreamProcessor,AttachAudioMixedProcessor,DetachAudioMixedProcessor,addFile,free,globalize
+
+let free,addFile,globalize,Vector2,Vector3,Vector4,Matrix,Color,Rectangle,Image,Texture,RenderTexture,NPatchInfo,GlyphInfo,Font,Camera3D,Camera2D,Mesh,Shader,MaterialMap,Material,Transform,BoneInfo,Model,ModelAnimation,Ray,RayCollision,BoundingBox,Wave,AudioStream,Sound,Music,VrDeviceInfo,VrStereoConfig,FilePathList,Quaternion,Texture2D,TextureCubemap,RenderTexture2D,Camera,FLAG_VSYNC_HINT,FLAG_FULLSCREEN_MODE,FLAG_WINDOW_RESIZABLE,FLAG_WINDOW_UNDECORATED,FLAG_WINDOW_HIDDEN,FLAG_WINDOW_MINIMIZED,FLAG_WINDOW_MAXIMIZED,FLAG_WINDOW_UNFOCUSED,FLAG_WINDOW_TOPMOST,FLAG_WINDOW_ALWAYS_RUN,FLAG_WINDOW_TRANSPARENT,FLAG_WINDOW_HIGHDPI,FLAG_WINDOW_MOUSE_PASSTHROUGH,FLAG_MSAA_4X_HINT,FLAG_INTERLACED_HINT,LOG_ALL,LOG_TRACE,LOG_DEBUG,LOG_INFO,LOG_WARNING,LOG_ERROR,LOG_FATAL,LOG_NONE,KEY_NULL,KEY_APOSTROPHE,KEY_COMMA,KEY_MINUS,KEY_PERIOD,KEY_SLASH,KEY_ZERO,KEY_ONE,KEY_TWO,KEY_THREE,KEY_FOUR,KEY_FIVE,KEY_SIX,KEY_SEVEN,KEY_EIGHT,KEY_NINE,KEY_SEMICOLON,KEY_EQUAL,KEY_A,KEY_B,KEY_C,KEY_D,KEY_E,KEY_F,KEY_G,KEY_H,KEY_I,KEY_J,KEY_K,KEY_L,KEY_M,KEY_N,KEY_O,KEY_P,KEY_Q,KEY_R,KEY_S,KEY_T,KEY_U,KEY_V,KEY_W,KEY_X,KEY_Y,KEY_Z,KEY_LEFT_BRACKET,KEY_BACKSLASH,KEY_RIGHT_BRACKET,KEY_GRAVE,KEY_SPACE,KEY_ESCAPE,KEY_ENTER,KEY_TAB,KEY_BACKSPACE,KEY_INSERT,KEY_DELETE,KEY_RIGHT,KEY_LEFT,KEY_DOWN,KEY_UP,KEY_PAGE_UP,KEY_PAGE_DOWN,KEY_HOME,KEY_END,KEY_CAPS_LOCK,KEY_SCROLL_LOCK,KEY_NUM_LOCK,KEY_PRINT_SCREEN,KEY_PAUSE,KEY_F1,KEY_F2,KEY_F3,KEY_F4,KEY_F5,KEY_F6,KEY_F7,KEY_F8,KEY_F9,KEY_F10,KEY_F11,KEY_F12,KEY_LEFT_SHIFT,KEY_LEFT_CONTROL,KEY_LEFT_ALT,KEY_LEFT_SUPER,KEY_RIGHT_SHIFT,KEY_RIGHT_CONTROL,KEY_RIGHT_ALT,KEY_RIGHT_SUPER,KEY_KB_MENU,KEY_KP_0,KEY_KP_1,KEY_KP_2,KEY_KP_3,KEY_KP_4,KEY_KP_5,KEY_KP_6,KEY_KP_7,KEY_KP_8,KEY_KP_9,KEY_KP_DECIMAL,KEY_KP_DIVIDE,KEY_KP_MULTIPLY,KEY_KP_SUBTRACT,KEY_KP_ADD,KEY_KP_ENTER,KEY_KP_EQUAL,KEY_BACK,KEY_MENU,KEY_VOLUME_UP,KEY_VOLUME_DOWN,MOUSE_BUTTON_LEFT,MOUSE_BUTTON_RIGHT,MOUSE_BUTTON_MIDDLE,MOUSE_BUTTON_SIDE,MOUSE_BUTTON_EXTRA,MOUSE_BUTTON_FORWARD,MOUSE_BUTTON_BACK,MOUSE_CURSOR_DEFAULT,MOUSE_CURSOR_ARROW,MOUSE_CURSOR_IBEAM,MOUSE_CURSOR_CROSSHAIR,MOUSE_CURSOR_POINTING_HAND,MOUSE_CURSOR_RESIZE_EW,MOUSE_CURSOR_RESIZE_NS,MOUSE_CURSOR_RESIZE_NWSE,MOUSE_CURSOR_RESIZE_NESW,MOUSE_CURSOR_RESIZE_ALL,MOUSE_CURSOR_NOT_ALLOWED,GAMEPAD_BUTTON_UNKNOWN,GAMEPAD_BUTTON_LEFT_FACE_UP,GAMEPAD_BUTTON_LEFT_FACE_RIGHT,GAMEPAD_BUTTON_LEFT_FACE_DOWN,GAMEPAD_BUTTON_LEFT_FACE_LEFT,GAMEPAD_BUTTON_RIGHT_FACE_UP,GAMEPAD_BUTTON_RIGHT_FACE_RIGHT,GAMEPAD_BUTTON_RIGHT_FACE_DOWN,GAMEPAD_BUTTON_RIGHT_FACE_LEFT,GAMEPAD_BUTTON_LEFT_TRIGGER_1,GAMEPAD_BUTTON_LEFT_TRIGGER_2,GAMEPAD_BUTTON_RIGHT_TRIGGER_1,GAMEPAD_BUTTON_RIGHT_TRIGGER_2,GAMEPAD_BUTTON_MIDDLE_LEFT,GAMEPAD_BUTTON_MIDDLE,GAMEPAD_BUTTON_MIDDLE_RIGHT,GAMEPAD_BUTTON_LEFT_THUMB,GAMEPAD_BUTTON_RIGHT_THUMB,GAMEPAD_AXIS_LEFT_X,GAMEPAD_AXIS_LEFT_Y,GAMEPAD_AXIS_RIGHT_X,GAMEPAD_AXIS_RIGHT_Y,GAMEPAD_AXIS_LEFT_TRIGGER,GAMEPAD_AXIS_RIGHT_TRIGGER,MATERIAL_MAP_ALBEDO,MATERIAL_MAP_METALNESS,MATERIAL_MAP_NORMAL,MATERIAL_MAP_ROUGHNESS,MATERIAL_MAP_OCCLUSION,MATERIAL_MAP_EMISSION,MATERIAL_MAP_HEIGHT,MATERIAL_MAP_CUBEMAP,MATERIAL_MAP_IRRADIANCE,MATERIAL_MAP_PREFILTER,MATERIAL_MAP_BRDF,SHADER_LOC_VERTEX_POSITION,SHADER_LOC_VERTEX_TEXCOORD01,SHADER_LOC_VERTEX_TEXCOORD02,SHADER_LOC_VERTEX_NORMAL,SHADER_LOC_VERTEX_TANGENT,SHADER_LOC_VERTEX_COLOR,SHADER_LOC_MATRIX_MVP,SHADER_LOC_MATRIX_VIEW,SHADER_LOC_MATRIX_PROJECTION,SHADER_LOC_MATRIX_MODEL,SHADER_LOC_MATRIX_NORMAL,SHADER_LOC_VECTOR_VIEW,SHADER_LOC_COLOR_DIFFUSE,SHADER_LOC_COLOR_SPECULAR,SHADER_LOC_COLOR_AMBIENT,SHADER_LOC_MAP_ALBEDO,SHADER_LOC_MAP_METALNESS,SHADER_LOC_MAP_NORMAL,SHADER_LOC_MAP_ROUGHNESS,SHADER_LOC_MAP_OCCLUSION,SHADER_LOC_MAP_EMISSION,SHADER_LOC_MAP_HEIGHT,SHADER_LOC_MAP_CUBEMAP,SHADER_LOC_MAP_IRRADIANCE,SHADER_LOC_MAP_PREFILTER,SHADER_LOC_MAP_BRDF,SHADER_UNIFORM_FLOAT,SHADER_UNIFORM_VEC2,SHADER_UNIFORM_VEC3,SHADER_UNIFORM_VEC4,SHADER_UNIFORM_INT,SHADER_UNIFORM_IVEC2,SHADER_UNIFORM_IVEC3,SHADER_UNIFORM_IVEC4,SHADER_UNIFORM_SAMPLER2D,SHADER_ATTRIB_FLOAT,SHADER_ATTRIB_VEC2,SHADER_ATTRIB_VEC3,SHADER_ATTRIB_VEC4,PIXELFORMAT_UNCOMPRESSED_GRAYSCALE,PIXELFORMAT_UNCOMPRESSED_GRAY_ALPHA,PIXELFORMAT_UNCOMPRESSED_R5G6B5,PIXELFORMAT_UNCOMPRESSED_R8G8B8,PIXELFORMAT_UNCOMPRESSED_R5G5B5A1,PIXELFORMAT_UNCOMPRESSED_R4G4B4A4,PIXELFORMAT_UNCOMPRESSED_R8G8B8A8,PIXELFORMAT_UNCOMPRESSED_R32,PIXELFORMAT_UNCOMPRESSED_R32G32B32,PIXELFORMAT_UNCOMPRESSED_R32G32B32A32,PIXELFORMAT_COMPRESSED_DXT1_RGB,PIXELFORMAT_COMPRESSED_DXT1_RGBA,PIXELFORMAT_COMPRESSED_DXT3_RGBA,PIXELFORMAT_COMPRESSED_DXT5_RGBA,PIXELFORMAT_COMPRESSED_ETC1_RGB,PIXELFORMAT_COMPRESSED_ETC2_RGB,PIXELFORMAT_COMPRESSED_ETC2_EAC_RGBA,PIXELFORMAT_COMPRESSED_PVRT_RGB,PIXELFORMAT_COMPRESSED_PVRT_RGBA,PIXELFORMAT_COMPRESSED_ASTC_4x4_RGBA,PIXELFORMAT_COMPRESSED_ASTC_8x8_RGBA,TEXTURE_FILTER_POINT,TEXTURE_FILTER_BILINEAR,TEXTURE_FILTER_TRILINEAR,TEXTURE_FILTER_ANISOTROPIC_4X,TEXTURE_FILTER_ANISOTROPIC_8X,TEXTURE_FILTER_ANISOTROPIC_16X,TEXTURE_WRAP_REPEAT,TEXTURE_WRAP_CLAMP,TEXTURE_WRAP_MIRROR_REPEAT,TEXTURE_WRAP_MIRROR_CLAMP,CUBEMAP_LAYOUT_AUTO_DETECT,CUBEMAP_LAYOUT_LINE_VERTICAL,CUBEMAP_LAYOUT_LINE_HORIZONTAL,CUBEMAP_LAYOUT_CROSS_THREE_BY_FOUR,CUBEMAP_LAYOUT_CROSS_FOUR_BY_THREE,CUBEMAP_LAYOUT_PANORAMA,FONT_DEFAULT,FONT_BITMAP,FONT_SDF,BLEND_ALPHA,BLEND_ADDITIVE,BLEND_MULTIPLIED,BLEND_ADD_COLORS,BLEND_SUBTRACT_COLORS,BLEND_ALPHA_PREMULTIPLY,BLEND_CUSTOM,BLEND_CUSTOM_SEPARATE,GESTURE_NONE,GESTURE_TAP,GESTURE_DOUBLETAP,GESTURE_HOLD,GESTURE_DRAG,GESTURE_SWIPE_RIGHT,GESTURE_SWIPE_LEFT,GESTURE_SWIPE_UP,GESTURE_SWIPE_DOWN,GESTURE_PINCH_IN,GESTURE_PINCH_OUT,CAMERA_CUSTOM,CAMERA_FREE,CAMERA_ORBITAL,CAMERA_FIRST_PERSON,CAMERA_THIRD_PERSON,CAMERA_PERSPECTIVE,CAMERA_ORTHOGRAPHIC,NPATCH_NINE_PATCH,NPATCH_THREE_PATCH_VERTICAL,NPATCH_THREE_PATCH_HORIZONTAL,LIGHTGRAY,GRAY,DARKGRAY,YELLOW,GOLD,ORANGE,PINK,RED,MAROON,GREEN,LIME,DARKGREEN,SKYBLUE,BLUE,DARKBLUE,PURPLE,VIOLET,DARKPURPLE,BEIGE,BROWN,DARKBROWN,WHITE,BLACK,BLANK,MAGENTA,RAYWHITE,InitWindow,WindowShouldClose,CloseWindow,IsWindowReady,IsWindowFullscreen,IsWindowResized,IsWindowState,ClearWindowState,SetWindowMonitor,SetWindowMinSize,SetWindowSize,GetWindowHandle,GetScreenWidth,GetScreenHeight,GetRenderWidth,GetRenderHeight,GetMonitorCount,GetCurrentMonitor,GetMonitorPosition,GetMonitorWidth,GetMonitorHeight,GetMonitorPhysicalWidth,GetMonitorPhysicalHeight,GetMonitorRefreshRate,GetWindowPosition,GetWindowScaleDPI,GetMonitorName,SetClipboardText,GetClipboardText,EnableEventWaiting,DisableEventWaiting,SwapScreenBuffer,PollInputEvents,WaitTime,ShowCursor,HideCursor,IsCursorHidden,EnableCursor,DisableCursor,IsCursorOnScreen,ClearBackground,BeginDrawing,EndDrawing,BeginMode2D,EndMode2D,BeginMode3D,EndMode3D,BeginTextureMode,EndTextureMode,BeginShaderMode,EndShaderMode,BeginBlendMode,EndBlendMode,BeginScissorMode,EndScissorMode,BeginVrStereoMode,EndVrStereoMode,LoadVrStereoConfig,UnloadVrStereoConfig,LoadShader,LoadShaderFromMemory,IsShaderReady,GetShaderLocation,GetShaderLocationAttrib,SetShaderValue,SetShaderValueV,SetShaderValueMatrix,SetShaderValueTexture,UnloadShader,GetMouseRay,GetCameraMatrix,GetCameraMatrix2D,GetWorldToScreen,GetScreenToWorld2D,GetWorldToScreenEx,GetWorldToScreen2D,SetTargetFPS,GetFPS,GetFrameTime,GetTime,GetRandomValue,SetRandomSeed,TakeScreenshot,SetConfigFlags,TraceLog,SetTraceLogLevel,MemAlloc,MemRealloc,MemFree,OpenURL,SetTraceLogCallback,SetLoadFileDataCallback,SetSaveFileDataCallback,SetLoadFileTextCallback,SetSaveFileTextCallback,LoadFileData,UnloadFileData,SaveFileData,ExportDataAsCode,LoadFileText,UnloadFileText,SaveFileText,FileExists,DirectoryExists,IsFileExtension,GetFileLength,GetFileExtension,GetFileName,GetFileNameWithoutExt,GetDirectoryPath,GetPrevDirectoryPath,GetWorkingDirectory,GetApplicationDirectory,ChangeDirectory,IsPathFile,LoadDirectoryFiles,LoadDirectoryFilesEx,UnloadDirectoryFiles,IsFileDropped,LoadDroppedFiles,UnloadDroppedFiles,GetFileModTime,CompressData,DecompressData,EncodeDataBase64,DecodeDataBase64,IsKeyPressed,IsKeyDown,IsKeyReleased,IsKeyUp,SetExitKey,GetKeyPressed,GetCharPressed,IsGamepadAvailable,GetGamepadName,IsGamepadButtonPressed,IsGamepadButtonDown,IsGamepadButtonReleased,IsGamepadButtonUp,GetGamepadButtonPressed,GetGamepadAxisCount,GetGamepadAxisMovement,SetGamepadMappings,IsMouseButtonPressed,IsMouseButtonDown,IsMouseButtonReleased,IsMouseButtonUp,GetMouseX,GetMouseY,GetMousePosition,GetMouseDelta,SetMousePosition,SetMouseOffset,SetMouseScale,GetMouseWheelMove,GetMouseWheelMoveV,SetMouseCursor,GetTouchX,GetTouchY,GetTouchPosition,GetTouchPointId,GetTouchPointCount,SetGesturesEnabled,IsGestureDetected,GetGestureDetected,GetGestureHoldDuration,GetGestureDragVector,GetGestureDragAngle,GetGesturePinchVector,GetGesturePinchAngle,UpdateCamera,UpdateCameraPro,SetShapesTexture,DrawPixel,DrawPixelV,DrawLine,DrawLineV,DrawLineEx,DrawLineBezier,DrawLineBezierQuad,DrawLineBezierCubic,DrawLineStrip,DrawCircle,DrawCircleSector,DrawCircleSectorLines,DrawCircleGradient,DrawCircleV,DrawCircleLines,DrawEllipse,DrawEllipseLines,DrawRing,DrawRingLines,DrawRectangle,DrawRectangleV,DrawRectangleRec,DrawRectanglePro,DrawRectangleGradientV,DrawRectangleGradientH,DrawRectangleGradientEx,DrawRectangleLines,DrawRectangleLinesEx,DrawRectangleRounded,DrawRectangleRoundedLines,DrawTriangle,DrawTriangleLines,DrawTriangleFan,DrawTriangleStrip,DrawPoly,DrawPolyLines,DrawPolyLinesEx,CheckCollisionRecs,CheckCollisionCircles,CheckCollisionCircleRec,CheckCollisionPointRec,CheckCollisionPointCircle,CheckCollisionPointTriangle,CheckCollisionPointPoly,CheckCollisionLines,CheckCollisionPointLine,GetCollisionRec,LoadImage,LoadImageRaw,LoadImageAnim,LoadImageFromMemory,LoadImageFromTexture,LoadImageFromScreen,IsImageReady,UnloadImage,ExportImage,ExportImageAsCode,GenImageColor,GenImageGradientLinear,GenImageGradientRadial,GenImageGradientSquare,GenImageChecked,GenImageWhiteNoise,GenImagePerlinNoise,GenImageCellular,GenImageText,ImageCopy,ImageFromImage,ImageText,ImageTextEx,ImageFormat,ImageToPOT,ImageCrop,ImageAlphaCrop,ImageAlphaClear,ImageAlphaMask,ImageAlphaPremultiply,ImageBlurGaussian,ImageResize,ImageResizeNN,ImageResizeCanvas,ImageMipmaps,ImageDither,ImageFlipVertical,ImageFlipHorizontal,ImageRotate,ImageRotateCW,ImageRotateCCW,ImageColorTint,ImageColorInvert,ImageColorGrayscale,ImageColorContrast,ImageColorBrightness,ImageColorReplace,LoadImageColors,LoadImagePalette,UnloadImageColors,UnloadImagePalette,GetImageAlphaBorder,GetImageColor,ImageClearBackground,ImageDrawPixel,ImageDrawPixelV,ImageDrawLine,ImageDrawLineV,ImageDrawCircle,ImageDrawCircleV,ImageDrawCircleLines,ImageDrawCircleLinesV,ImageDrawRectangle,ImageDrawRectangleV,ImageDrawRectangleRec,ImageDrawRectangleLines,ImageDraw,ImageDrawText,ImageDrawTextEx,LoadTexture,LoadTextureFromImage,LoadTextureCubemap,LoadRenderTexture,IsTextureReady,UnloadTexture,IsRenderTextureReady,UnloadRenderTexture,UpdateTexture,UpdateTextureRec,GenTextureMipmaps,SetTextureFilter,SetTextureWrap,DrawTexture,DrawTextureV,DrawTextureEx,DrawTextureRec,DrawTexturePro,DrawTextureNPatch,Fade,ColorToInt,ColorNormalize,ColorFromNormalized,ColorToHSV,ColorFromHSV,ColorTint,ColorBrightness,ColorContrast,ColorAlpha,ColorAlphaBlend,GetColor,GetPixelColor,SetPixelColor,GetPixelDataSize,GetFontDefault,LoadFont,LoadFontEx,LoadFontFromImage,LoadFontFromMemory,IsFontReady,LoadFontData,GenImageFontAtlas,UnloadFontData,UnloadFont,ExportFontAsCode,DrawFPS,DrawText,DrawTextEx,DrawTextPro,DrawTextCodepoint,DrawTextCodepoints,MeasureText,MeasureTextEx,GetGlyphIndex,GetGlyphInfo,GetGlyphAtlasRec,LoadUTF8,UnloadUTF8,LoadCodepoints,UnloadCodepoints,GetCodepointCount,GetCodepoint,GetCodepointNext,GetCodepointPrevious,CodepointToUTF8,TextCopy,TextIsEqual,TextLength,TextFormat,TextSubtext,TextReplace,TextInsert,TextJoin,TextSplit,TextAppend,TextFindIndex,TextToUpper,TextToLower,TextToPascal,TextToInteger,DrawLine3D,DrawPoint3D,DrawCircle3D,DrawTriangle3D,DrawTriangleStrip3D,DrawCube,DrawCubeV,DrawCubeWires,DrawCubeWiresV,DrawSphere,DrawSphereEx,DrawSphereWires,DrawCylinder,DrawCylinderEx,DrawCylinderWires,DrawCylinderWiresEx,DrawCapsule,DrawCapsuleWires,DrawPlane,DrawRay,DrawGrid,LoadModel,LoadModelFromMesh,IsModelReady,UnloadModel,GetModelBoundingBox,DrawModel,DrawModelEx,DrawModelWires,DrawModelWiresEx,DrawBoundingBox,DrawBillboard,DrawBillboardRec,DrawBillboardPro,UploadMesh,UpdateMeshBuffer,UnloadMesh,DrawMesh,DrawMeshInstanced,ExportMesh,GetMeshBoundingBox,GenMeshTangents,GenMeshPoly,GenMeshPlane,GenMeshCube,GenMeshSphere,GenMeshHemiSphere,GenMeshCylinder,GenMeshCone,GenMeshTorus,GenMeshKnot,GenMeshHeightmap,GenMeshCubicmap,LoadMaterials,LoadMaterialDefault,IsMaterialReady,UnloadMaterial,SetMaterialTexture,SetModelMeshMaterial,LoadModelAnimations,UpdateModelAnimation,UnloadModelAnimation,UnloadModelAnimations,IsModelAnimationValid,CheckCollisionSpheres,CheckCollisionBoxes,CheckCollisionBoxSphere,GetRayCollisionSphere,GetRayCollisionBox,GetRayCollisionMesh,GetRayCollisionTriangle,GetRayCollisionQuad,InitAudioDevice,CloseAudioDevice,IsAudioDeviceReady,SetMasterVolume,LoadWave,LoadWaveFromMemory,IsWaveReady,LoadSound,LoadSoundFromWave,IsSoundReady,UpdateSound,UnloadWave,UnloadSound,ExportWave,ExportWaveAsCode,PlaySound,StopSound,PauseSound,ResumeSound,IsSoundPlaying,SetSoundVolume,SetSoundPitch,SetSoundPan,WaveCopy,WaveCrop,WaveFormat,LoadWaveSamples,UnloadWaveSamples,LoadMusicStream,LoadMusicStreamFromMemory,IsMusicReady,UnloadMusicStream,PlayMusicStream,IsMusicStreamPlaying,UpdateMusicStream,StopMusicStream,PauseMusicStream,ResumeMusicStream,SeekMusicStream,SetMusicVolume,SetMusicPitch,SetMusicPan,GetMusicTimeLength,GetMusicTimePlayed,LoadAudioStream,IsAudioStreamReady,UnloadAudioStream,UpdateAudioStream,IsAudioStreamProcessed,PlayAudioStream,PauseAudioStream,ResumeAudioStream,IsAudioStreamPlaying,StopAudioStream,SetAudioStreamVolume,SetAudioStreamPitch,SetAudioStreamPan,SetAudioStreamBufferSizeDefault,SetAudioStreamCallback,AttachAudioStreamProcessor,DetachAudioStreamProcessor,AttachAudioMixedProcessor,DetachAudioMixedProcessor
+
 runGame(canvas, async raylib => {
-  for (const r of Object.keys(raylib)) {
-    eval(r + '=raylib.' + r)
-  }
+  free = raylib.free
+addFile = raylib.addFile
+globalize = raylib.globalize
+Vector2 = raylib.Vector2
+Vector3 = raylib.Vector3
+Vector4 = raylib.Vector4
+Matrix = raylib.Matrix
+Color = raylib.Color
+Rectangle = raylib.Rectangle
+Image = raylib.Image
+Texture = raylib.Texture
+RenderTexture = raylib.RenderTexture
+NPatchInfo = raylib.NPatchInfo
+GlyphInfo = raylib.GlyphInfo
+Font = raylib.Font
+Camera3D = raylib.Camera3D
+Camera2D = raylib.Camera2D
+Mesh = raylib.Mesh
+Shader = raylib.Shader
+MaterialMap = raylib.MaterialMap
+Material = raylib.Material
+Transform = raylib.Transform
+BoneInfo = raylib.BoneInfo
+Model = raylib.Model
+ModelAnimation = raylib.ModelAnimation
+Ray = raylib.Ray
+RayCollision = raylib.RayCollision
+BoundingBox = raylib.BoundingBox
+Wave = raylib.Wave
+AudioStream = raylib.AudioStream
+Sound = raylib.Sound
+Music = raylib.Music
+VrDeviceInfo = raylib.VrDeviceInfo
+VrStereoConfig = raylib.VrStereoConfig
+FilePathList = raylib.FilePathList
+Quaternion = raylib.Quaternion
+Texture2D = raylib.Texture2D
+TextureCubemap = raylib.TextureCubemap
+RenderTexture2D = raylib.RenderTexture2D
+Camera = raylib.Camera
+FLAG_VSYNC_HINT = raylib.FLAG_VSYNC_HINT
+FLAG_FULLSCREEN_MODE = raylib.FLAG_FULLSCREEN_MODE
+FLAG_WINDOW_RESIZABLE = raylib.FLAG_WINDOW_RESIZABLE
+FLAG_WINDOW_UNDECORATED = raylib.FLAG_WINDOW_UNDECORATED
+FLAG_WINDOW_HIDDEN = raylib.FLAG_WINDOW_HIDDEN
+FLAG_WINDOW_MINIMIZED = raylib.FLAG_WINDOW_MINIMIZED
+FLAG_WINDOW_MAXIMIZED = raylib.FLAG_WINDOW_MAXIMIZED
+FLAG_WINDOW_UNFOCUSED = raylib.FLAG_WINDOW_UNFOCUSED
+FLAG_WINDOW_TOPMOST = raylib.FLAG_WINDOW_TOPMOST
+FLAG_WINDOW_ALWAYS_RUN = raylib.FLAG_WINDOW_ALWAYS_RUN
+FLAG_WINDOW_TRANSPARENT = raylib.FLAG_WINDOW_TRANSPARENT
+FLAG_WINDOW_HIGHDPI = raylib.FLAG_WINDOW_HIGHDPI
+FLAG_WINDOW_MOUSE_PASSTHROUGH = raylib.FLAG_WINDOW_MOUSE_PASSTHROUGH
+FLAG_MSAA_4X_HINT = raylib.FLAG_MSAA_4X_HINT
+FLAG_INTERLACED_HINT = raylib.FLAG_INTERLACED_HINT
+LOG_ALL = raylib.LOG_ALL
+LOG_TRACE = raylib.LOG_TRACE
+LOG_DEBUG = raylib.LOG_DEBUG
+LOG_INFO = raylib.LOG_INFO
+LOG_WARNING = raylib.LOG_WARNING
+LOG_ERROR = raylib.LOG_ERROR
+LOG_FATAL = raylib.LOG_FATAL
+LOG_NONE = raylib.LOG_NONE
+KEY_NULL = raylib.KEY_NULL
+KEY_APOSTROPHE = raylib.KEY_APOSTROPHE
+KEY_COMMA = raylib.KEY_COMMA
+KEY_MINUS = raylib.KEY_MINUS
+KEY_PERIOD = raylib.KEY_PERIOD
+KEY_SLASH = raylib.KEY_SLASH
+KEY_ZERO = raylib.KEY_ZERO
+KEY_ONE = raylib.KEY_ONE
+KEY_TWO = raylib.KEY_TWO
+KEY_THREE = raylib.KEY_THREE
+KEY_FOUR = raylib.KEY_FOUR
+KEY_FIVE = raylib.KEY_FIVE
+KEY_SIX = raylib.KEY_SIX
+KEY_SEVEN = raylib.KEY_SEVEN
+KEY_EIGHT = raylib.KEY_EIGHT
+KEY_NINE = raylib.KEY_NINE
+KEY_SEMICOLON = raylib.KEY_SEMICOLON
+KEY_EQUAL = raylib.KEY_EQUAL
+KEY_A = raylib.KEY_A
+KEY_B = raylib.KEY_B
+KEY_C = raylib.KEY_C
+KEY_D = raylib.KEY_D
+KEY_E = raylib.KEY_E
+KEY_F = raylib.KEY_F
+KEY_G = raylib.KEY_G
+KEY_H = raylib.KEY_H
+KEY_I = raylib.KEY_I
+KEY_J = raylib.KEY_J
+KEY_K = raylib.KEY_K
+KEY_L = raylib.KEY_L
+KEY_M = raylib.KEY_M
+KEY_N = raylib.KEY_N
+KEY_O = raylib.KEY_O
+KEY_P = raylib.KEY_P
+KEY_Q = raylib.KEY_Q
+KEY_R = raylib.KEY_R
+KEY_S = raylib.KEY_S
+KEY_T = raylib.KEY_T
+KEY_U = raylib.KEY_U
+KEY_V = raylib.KEY_V
+KEY_W = raylib.KEY_W
+KEY_X = raylib.KEY_X
+KEY_Y = raylib.KEY_Y
+KEY_Z = raylib.KEY_Z
+KEY_LEFT_BRACKET = raylib.KEY_LEFT_BRACKET
+KEY_BACKSLASH = raylib.KEY_BACKSLASH
+KEY_RIGHT_BRACKET = raylib.KEY_RIGHT_BRACKET
+KEY_GRAVE = raylib.KEY_GRAVE
+KEY_SPACE = raylib.KEY_SPACE
+KEY_ESCAPE = raylib.KEY_ESCAPE
+KEY_ENTER = raylib.KEY_ENTER
+KEY_TAB = raylib.KEY_TAB
+KEY_BACKSPACE = raylib.KEY_BACKSPACE
+KEY_INSERT = raylib.KEY_INSERT
+KEY_DELETE = raylib.KEY_DELETE
+KEY_RIGHT = raylib.KEY_RIGHT
+KEY_LEFT = raylib.KEY_LEFT
+KEY_DOWN = raylib.KEY_DOWN
+KEY_UP = raylib.KEY_UP
+KEY_PAGE_UP = raylib.KEY_PAGE_UP
+KEY_PAGE_DOWN = raylib.KEY_PAGE_DOWN
+KEY_HOME = raylib.KEY_HOME
+KEY_END = raylib.KEY_END
+KEY_CAPS_LOCK = raylib.KEY_CAPS_LOCK
+KEY_SCROLL_LOCK = raylib.KEY_SCROLL_LOCK
+KEY_NUM_LOCK = raylib.KEY_NUM_LOCK
+KEY_PRINT_SCREEN = raylib.KEY_PRINT_SCREEN
+KEY_PAUSE = raylib.KEY_PAUSE
+KEY_F1 = raylib.KEY_F1
+KEY_F2 = raylib.KEY_F2
+KEY_F3 = raylib.KEY_F3
+KEY_F4 = raylib.KEY_F4
+KEY_F5 = raylib.KEY_F5
+KEY_F6 = raylib.KEY_F6
+KEY_F7 = raylib.KEY_F7
+KEY_F8 = raylib.KEY_F8
+KEY_F9 = raylib.KEY_F9
+KEY_F10 = raylib.KEY_F10
+KEY_F11 = raylib.KEY_F11
+KEY_F12 = raylib.KEY_F12
+KEY_LEFT_SHIFT = raylib.KEY_LEFT_SHIFT
+KEY_LEFT_CONTROL = raylib.KEY_LEFT_CONTROL
+KEY_LEFT_ALT = raylib.KEY_LEFT_ALT
+KEY_LEFT_SUPER = raylib.KEY_LEFT_SUPER
+KEY_RIGHT_SHIFT = raylib.KEY_RIGHT_SHIFT
+KEY_RIGHT_CONTROL = raylib.KEY_RIGHT_CONTROL
+KEY_RIGHT_ALT = raylib.KEY_RIGHT_ALT
+KEY_RIGHT_SUPER = raylib.KEY_RIGHT_SUPER
+KEY_KB_MENU = raylib.KEY_KB_MENU
+KEY_KP_0 = raylib.KEY_KP_0
+KEY_KP_1 = raylib.KEY_KP_1
+KEY_KP_2 = raylib.KEY_KP_2
+KEY_KP_3 = raylib.KEY_KP_3
+KEY_KP_4 = raylib.KEY_KP_4
+KEY_KP_5 = raylib.KEY_KP_5
+KEY_KP_6 = raylib.KEY_KP_6
+KEY_KP_7 = raylib.KEY_KP_7
+KEY_KP_8 = raylib.KEY_KP_8
+KEY_KP_9 = raylib.KEY_KP_9
+KEY_KP_DECIMAL = raylib.KEY_KP_DECIMAL
+KEY_KP_DIVIDE = raylib.KEY_KP_DIVIDE
+KEY_KP_MULTIPLY = raylib.KEY_KP_MULTIPLY
+KEY_KP_SUBTRACT = raylib.KEY_KP_SUBTRACT
+KEY_KP_ADD = raylib.KEY_KP_ADD
+KEY_KP_ENTER = raylib.KEY_KP_ENTER
+KEY_KP_EQUAL = raylib.KEY_KP_EQUAL
+KEY_BACK = raylib.KEY_BACK
+KEY_MENU = raylib.KEY_MENU
+KEY_VOLUME_UP = raylib.KEY_VOLUME_UP
+KEY_VOLUME_DOWN = raylib.KEY_VOLUME_DOWN
+MOUSE_BUTTON_LEFT = raylib.MOUSE_BUTTON_LEFT
+MOUSE_BUTTON_RIGHT = raylib.MOUSE_BUTTON_RIGHT
+MOUSE_BUTTON_MIDDLE = raylib.MOUSE_BUTTON_MIDDLE
+MOUSE_BUTTON_SIDE = raylib.MOUSE_BUTTON_SIDE
+MOUSE_BUTTON_EXTRA = raylib.MOUSE_BUTTON_EXTRA
+MOUSE_BUTTON_FORWARD = raylib.MOUSE_BUTTON_FORWARD
+MOUSE_BUTTON_BACK = raylib.MOUSE_BUTTON_BACK
+MOUSE_CURSOR_DEFAULT = raylib.MOUSE_CURSOR_DEFAULT
+MOUSE_CURSOR_ARROW = raylib.MOUSE_CURSOR_ARROW
+MOUSE_CURSOR_IBEAM = raylib.MOUSE_CURSOR_IBEAM
+MOUSE_CURSOR_CROSSHAIR = raylib.MOUSE_CURSOR_CROSSHAIR
+MOUSE_CURSOR_POINTING_HAND = raylib.MOUSE_CURSOR_POINTING_HAND
+MOUSE_CURSOR_RESIZE_EW = raylib.MOUSE_CURSOR_RESIZE_EW
+MOUSE_CURSOR_RESIZE_NS = raylib.MOUSE_CURSOR_RESIZE_NS
+MOUSE_CURSOR_RESIZE_NWSE = raylib.MOUSE_CURSOR_RESIZE_NWSE
+MOUSE_CURSOR_RESIZE_NESW = raylib.MOUSE_CURSOR_RESIZE_NESW
+MOUSE_CURSOR_RESIZE_ALL = raylib.MOUSE_CURSOR_RESIZE_ALL
+MOUSE_CURSOR_NOT_ALLOWED = raylib.MOUSE_CURSOR_NOT_ALLOWED
+GAMEPAD_BUTTON_UNKNOWN = raylib.GAMEPAD_BUTTON_UNKNOWN
+GAMEPAD_BUTTON_LEFT_FACE_UP = raylib.GAMEPAD_BUTTON_LEFT_FACE_UP
+GAMEPAD_BUTTON_LEFT_FACE_RIGHT = raylib.GAMEPAD_BUTTON_LEFT_FACE_RIGHT
+GAMEPAD_BUTTON_LEFT_FACE_DOWN = raylib.GAMEPAD_BUTTON_LEFT_FACE_DOWN
+GAMEPAD_BUTTON_LEFT_FACE_LEFT = raylib.GAMEPAD_BUTTON_LEFT_FACE_LEFT
+GAMEPAD_BUTTON_RIGHT_FACE_UP = raylib.GAMEPAD_BUTTON_RIGHT_FACE_UP
+GAMEPAD_BUTTON_RIGHT_FACE_RIGHT = raylib.GAMEPAD_BUTTON_RIGHT_FACE_RIGHT
+GAMEPAD_BUTTON_RIGHT_FACE_DOWN = raylib.GAMEPAD_BUTTON_RIGHT_FACE_DOWN
+GAMEPAD_BUTTON_RIGHT_FACE_LEFT = raylib.GAMEPAD_BUTTON_RIGHT_FACE_LEFT
+GAMEPAD_BUTTON_LEFT_TRIGGER_1 = raylib.GAMEPAD_BUTTON_LEFT_TRIGGER_1
+GAMEPAD_BUTTON_LEFT_TRIGGER_2 = raylib.GAMEPAD_BUTTON_LEFT_TRIGGER_2
+GAMEPAD_BUTTON_RIGHT_TRIGGER_1 = raylib.GAMEPAD_BUTTON_RIGHT_TRIGGER_1
+GAMEPAD_BUTTON_RIGHT_TRIGGER_2 = raylib.GAMEPAD_BUTTON_RIGHT_TRIGGER_2
+GAMEPAD_BUTTON_MIDDLE_LEFT = raylib.GAMEPAD_BUTTON_MIDDLE_LEFT
+GAMEPAD_BUTTON_MIDDLE = raylib.GAMEPAD_BUTTON_MIDDLE
+GAMEPAD_BUTTON_MIDDLE_RIGHT = raylib.GAMEPAD_BUTTON_MIDDLE_RIGHT
+GAMEPAD_BUTTON_LEFT_THUMB = raylib.GAMEPAD_BUTTON_LEFT_THUMB
+GAMEPAD_BUTTON_RIGHT_THUMB = raylib.GAMEPAD_BUTTON_RIGHT_THUMB
+GAMEPAD_AXIS_LEFT_X = raylib.GAMEPAD_AXIS_LEFT_X
+GAMEPAD_AXIS_LEFT_Y = raylib.GAMEPAD_AXIS_LEFT_Y
+GAMEPAD_AXIS_RIGHT_X = raylib.GAMEPAD_AXIS_RIGHT_X
+GAMEPAD_AXIS_RIGHT_Y = raylib.GAMEPAD_AXIS_RIGHT_Y
+GAMEPAD_AXIS_LEFT_TRIGGER = raylib.GAMEPAD_AXIS_LEFT_TRIGGER
+GAMEPAD_AXIS_RIGHT_TRIGGER = raylib.GAMEPAD_AXIS_RIGHT_TRIGGER
+MATERIAL_MAP_ALBEDO = raylib.MATERIAL_MAP_ALBEDO
+MATERIAL_MAP_METALNESS = raylib.MATERIAL_MAP_METALNESS
+MATERIAL_MAP_NORMAL = raylib.MATERIAL_MAP_NORMAL
+MATERIAL_MAP_ROUGHNESS = raylib.MATERIAL_MAP_ROUGHNESS
+MATERIAL_MAP_OCCLUSION = raylib.MATERIAL_MAP_OCCLUSION
+MATERIAL_MAP_EMISSION = raylib.MATERIAL_MAP_EMISSION
+MATERIAL_MAP_HEIGHT = raylib.MATERIAL_MAP_HEIGHT
+MATERIAL_MAP_CUBEMAP = raylib.MATERIAL_MAP_CUBEMAP
+MATERIAL_MAP_IRRADIANCE = raylib.MATERIAL_MAP_IRRADIANCE
+MATERIAL_MAP_PREFILTER = raylib.MATERIAL_MAP_PREFILTER
+MATERIAL_MAP_BRDF = raylib.MATERIAL_MAP_BRDF
+SHADER_LOC_VERTEX_POSITION = raylib.SHADER_LOC_VERTEX_POSITION
+SHADER_LOC_VERTEX_TEXCOORD01 = raylib.SHADER_LOC_VERTEX_TEXCOORD01
+SHADER_LOC_VERTEX_TEXCOORD02 = raylib.SHADER_LOC_VERTEX_TEXCOORD02
+SHADER_LOC_VERTEX_NORMAL = raylib.SHADER_LOC_VERTEX_NORMAL
+SHADER_LOC_VERTEX_TANGENT = raylib.SHADER_LOC_VERTEX_TANGENT
+SHADER_LOC_VERTEX_COLOR = raylib.SHADER_LOC_VERTEX_COLOR
+SHADER_LOC_MATRIX_MVP = raylib.SHADER_LOC_MATRIX_MVP
+SHADER_LOC_MATRIX_VIEW = raylib.SHADER_LOC_MATRIX_VIEW
+SHADER_LOC_MATRIX_PROJECTION = raylib.SHADER_LOC_MATRIX_PROJECTION
+SHADER_LOC_MATRIX_MODEL = raylib.SHADER_LOC_MATRIX_MODEL
+SHADER_LOC_MATRIX_NORMAL = raylib.SHADER_LOC_MATRIX_NORMAL
+SHADER_LOC_VECTOR_VIEW = raylib.SHADER_LOC_VECTOR_VIEW
+SHADER_LOC_COLOR_DIFFUSE = raylib.SHADER_LOC_COLOR_DIFFUSE
+SHADER_LOC_COLOR_SPECULAR = raylib.SHADER_LOC_COLOR_SPECULAR
+SHADER_LOC_COLOR_AMBIENT = raylib.SHADER_LOC_COLOR_AMBIENT
+SHADER_LOC_MAP_ALBEDO = raylib.SHADER_LOC_MAP_ALBEDO
+SHADER_LOC_MAP_METALNESS = raylib.SHADER_LOC_MAP_METALNESS
+SHADER_LOC_MAP_NORMAL = raylib.SHADER_LOC_MAP_NORMAL
+SHADER_LOC_MAP_ROUGHNESS = raylib.SHADER_LOC_MAP_ROUGHNESS
+SHADER_LOC_MAP_OCCLUSION = raylib.SHADER_LOC_MAP_OCCLUSION
+SHADER_LOC_MAP_EMISSION = raylib.SHADER_LOC_MAP_EMISSION
+SHADER_LOC_MAP_HEIGHT = raylib.SHADER_LOC_MAP_HEIGHT
+SHADER_LOC_MAP_CUBEMAP = raylib.SHADER_LOC_MAP_CUBEMAP
+SHADER_LOC_MAP_IRRADIANCE = raylib.SHADER_LOC_MAP_IRRADIANCE
+SHADER_LOC_MAP_PREFILTER = raylib.SHADER_LOC_MAP_PREFILTER
+SHADER_LOC_MAP_BRDF = raylib.SHADER_LOC_MAP_BRDF
+SHADER_UNIFORM_FLOAT = raylib.SHADER_UNIFORM_FLOAT
+SHADER_UNIFORM_VEC2 = raylib.SHADER_UNIFORM_VEC2
+SHADER_UNIFORM_VEC3 = raylib.SHADER_UNIFORM_VEC3
+SHADER_UNIFORM_VEC4 = raylib.SHADER_UNIFORM_VEC4
+SHADER_UNIFORM_INT = raylib.SHADER_UNIFORM_INT
+SHADER_UNIFORM_IVEC2 = raylib.SHADER_UNIFORM_IVEC2
+SHADER_UNIFORM_IVEC3 = raylib.SHADER_UNIFORM_IVEC3
+SHADER_UNIFORM_IVEC4 = raylib.SHADER_UNIFORM_IVEC4
+SHADER_UNIFORM_SAMPLER2D = raylib.SHADER_UNIFORM_SAMPLER2D
+SHADER_ATTRIB_FLOAT = raylib.SHADER_ATTRIB_FLOAT
+SHADER_ATTRIB_VEC2 = raylib.SHADER_ATTRIB_VEC2
+SHADER_ATTRIB_VEC3 = raylib.SHADER_ATTRIB_VEC3
+SHADER_ATTRIB_VEC4 = raylib.SHADER_ATTRIB_VEC4
+PIXELFORMAT_UNCOMPRESSED_GRAYSCALE = raylib.PIXELFORMAT_UNCOMPRESSED_GRAYSCALE
+PIXELFORMAT_UNCOMPRESSED_GRAY_ALPHA = raylib.PIXELFORMAT_UNCOMPRESSED_GRAY_ALPHA
+PIXELFORMAT_UNCOMPRESSED_R5G6B5 = raylib.PIXELFORMAT_UNCOMPRESSED_R5G6B5
+PIXELFORMAT_UNCOMPRESSED_R8G8B8 = raylib.PIXELFORMAT_UNCOMPRESSED_R8G8B8
+PIXELFORMAT_UNCOMPRESSED_R5G5B5A1 = raylib.PIXELFORMAT_UNCOMPRESSED_R5G5B5A1
+PIXELFORMAT_UNCOMPRESSED_R4G4B4A4 = raylib.PIXELFORMAT_UNCOMPRESSED_R4G4B4A4
+PIXELFORMAT_UNCOMPRESSED_R8G8B8A8 = raylib.PIXELFORMAT_UNCOMPRESSED_R8G8B8A8
+PIXELFORMAT_UNCOMPRESSED_R32 = raylib.PIXELFORMAT_UNCOMPRESSED_R32
+PIXELFORMAT_UNCOMPRESSED_R32G32B32 = raylib.PIXELFORMAT_UNCOMPRESSED_R32G32B32
+PIXELFORMAT_UNCOMPRESSED_R32G32B32A32 = raylib.PIXELFORMAT_UNCOMPRESSED_R32G32B32A32
+PIXELFORMAT_COMPRESSED_DXT1_RGB = raylib.PIXELFORMAT_COMPRESSED_DXT1_RGB
+PIXELFORMAT_COMPRESSED_DXT1_RGBA = raylib.PIXELFORMAT_COMPRESSED_DXT1_RGBA
+PIXELFORMAT_COMPRESSED_DXT3_RGBA = raylib.PIXELFORMAT_COMPRESSED_DXT3_RGBA
+PIXELFORMAT_COMPRESSED_DXT5_RGBA = raylib.PIXELFORMAT_COMPRESSED_DXT5_RGBA
+PIXELFORMAT_COMPRESSED_ETC1_RGB = raylib.PIXELFORMAT_COMPRESSED_ETC1_RGB
+PIXELFORMAT_COMPRESSED_ETC2_RGB = raylib.PIXELFORMAT_COMPRESSED_ETC2_RGB
+PIXELFORMAT_COMPRESSED_ETC2_EAC_RGBA = raylib.PIXELFORMAT_COMPRESSED_ETC2_EAC_RGBA
+PIXELFORMAT_COMPRESSED_PVRT_RGB = raylib.PIXELFORMAT_COMPRESSED_PVRT_RGB
+PIXELFORMAT_COMPRESSED_PVRT_RGBA = raylib.PIXELFORMAT_COMPRESSED_PVRT_RGBA
+PIXELFORMAT_COMPRESSED_ASTC_4x4_RGBA = raylib.PIXELFORMAT_COMPRESSED_ASTC_4x4_RGBA
+PIXELFORMAT_COMPRESSED_ASTC_8x8_RGBA = raylib.PIXELFORMAT_COMPRESSED_ASTC_8x8_RGBA
+TEXTURE_FILTER_POINT = raylib.TEXTURE_FILTER_POINT
+TEXTURE_FILTER_BILINEAR = raylib.TEXTURE_FILTER_BILINEAR
+TEXTURE_FILTER_TRILINEAR = raylib.TEXTURE_FILTER_TRILINEAR
+TEXTURE_FILTER_ANISOTROPIC_4X = raylib.TEXTURE_FILTER_ANISOTROPIC_4X
+TEXTURE_FILTER_ANISOTROPIC_8X = raylib.TEXTURE_FILTER_ANISOTROPIC_8X
+TEXTURE_FILTER_ANISOTROPIC_16X = raylib.TEXTURE_FILTER_ANISOTROPIC_16X
+TEXTURE_WRAP_REPEAT = raylib.TEXTURE_WRAP_REPEAT
+TEXTURE_WRAP_CLAMP = raylib.TEXTURE_WRAP_CLAMP
+TEXTURE_WRAP_MIRROR_REPEAT = raylib.TEXTURE_WRAP_MIRROR_REPEAT
+TEXTURE_WRAP_MIRROR_CLAMP = raylib.TEXTURE_WRAP_MIRROR_CLAMP
+CUBEMAP_LAYOUT_AUTO_DETECT = raylib.CUBEMAP_LAYOUT_AUTO_DETECT
+CUBEMAP_LAYOUT_LINE_VERTICAL = raylib.CUBEMAP_LAYOUT_LINE_VERTICAL
+CUBEMAP_LAYOUT_LINE_HORIZONTAL = raylib.CUBEMAP_LAYOUT_LINE_HORIZONTAL
+CUBEMAP_LAYOUT_CROSS_THREE_BY_FOUR = raylib.CUBEMAP_LAYOUT_CROSS_THREE_BY_FOUR
+CUBEMAP_LAYOUT_CROSS_FOUR_BY_THREE = raylib.CUBEMAP_LAYOUT_CROSS_FOUR_BY_THREE
+CUBEMAP_LAYOUT_PANORAMA = raylib.CUBEMAP_LAYOUT_PANORAMA
+FONT_DEFAULT = raylib.FONT_DEFAULT
+FONT_BITMAP = raylib.FONT_BITMAP
+FONT_SDF = raylib.FONT_SDF
+BLEND_ALPHA = raylib.BLEND_ALPHA
+BLEND_ADDITIVE = raylib.BLEND_ADDITIVE
+BLEND_MULTIPLIED = raylib.BLEND_MULTIPLIED
+BLEND_ADD_COLORS = raylib.BLEND_ADD_COLORS
+BLEND_SUBTRACT_COLORS = raylib.BLEND_SUBTRACT_COLORS
+BLEND_ALPHA_PREMULTIPLY = raylib.BLEND_ALPHA_PREMULTIPLY
+BLEND_CUSTOM = raylib.BLEND_CUSTOM
+BLEND_CUSTOM_SEPARATE = raylib.BLEND_CUSTOM_SEPARATE
+GESTURE_NONE = raylib.GESTURE_NONE
+GESTURE_TAP = raylib.GESTURE_TAP
+GESTURE_DOUBLETAP = raylib.GESTURE_DOUBLETAP
+GESTURE_HOLD = raylib.GESTURE_HOLD
+GESTURE_DRAG = raylib.GESTURE_DRAG
+GESTURE_SWIPE_RIGHT = raylib.GESTURE_SWIPE_RIGHT
+GESTURE_SWIPE_LEFT = raylib.GESTURE_SWIPE_LEFT
+GESTURE_SWIPE_UP = raylib.GESTURE_SWIPE_UP
+GESTURE_SWIPE_DOWN = raylib.GESTURE_SWIPE_DOWN
+GESTURE_PINCH_IN = raylib.GESTURE_PINCH_IN
+GESTURE_PINCH_OUT = raylib.GESTURE_PINCH_OUT
+CAMERA_CUSTOM = raylib.CAMERA_CUSTOM
+CAMERA_FREE = raylib.CAMERA_FREE
+CAMERA_ORBITAL = raylib.CAMERA_ORBITAL
+CAMERA_FIRST_PERSON = raylib.CAMERA_FIRST_PERSON
+CAMERA_THIRD_PERSON = raylib.CAMERA_THIRD_PERSON
+CAMERA_PERSPECTIVE = raylib.CAMERA_PERSPECTIVE
+CAMERA_ORTHOGRAPHIC = raylib.CAMERA_ORTHOGRAPHIC
+NPATCH_NINE_PATCH = raylib.NPATCH_NINE_PATCH
+NPATCH_THREE_PATCH_VERTICAL = raylib.NPATCH_THREE_PATCH_VERTICAL
+NPATCH_THREE_PATCH_HORIZONTAL = raylib.NPATCH_THREE_PATCH_HORIZONTAL
+LIGHTGRAY = raylib.LIGHTGRAY
+GRAY = raylib.GRAY
+DARKGRAY = raylib.DARKGRAY
+YELLOW = raylib.YELLOW
+GOLD = raylib.GOLD
+ORANGE = raylib.ORANGE
+PINK = raylib.PINK
+RED = raylib.RED
+MAROON = raylib.MAROON
+GREEN = raylib.GREEN
+LIME = raylib.LIME
+DARKGREEN = raylib.DARKGREEN
+SKYBLUE = raylib.SKYBLUE
+BLUE = raylib.BLUE
+DARKBLUE = raylib.DARKBLUE
+PURPLE = raylib.PURPLE
+VIOLET = raylib.VIOLET
+DARKPURPLE = raylib.DARKPURPLE
+BEIGE = raylib.BEIGE
+BROWN = raylib.BROWN
+DARKBROWN = raylib.DARKBROWN
+WHITE = raylib.WHITE
+BLACK = raylib.BLACK
+BLANK = raylib.BLANK
+MAGENTA = raylib.MAGENTA
+RAYWHITE = raylib.RAYWHITE
+InitWindow = raylib.InitWindow
+WindowShouldClose = raylib.WindowShouldClose
+CloseWindow = raylib.CloseWindow
+IsWindowReady = raylib.IsWindowReady
+IsWindowFullscreen = raylib.IsWindowFullscreen
+IsWindowResized = raylib.IsWindowResized
+IsWindowState = raylib.IsWindowState
+ClearWindowState = raylib.ClearWindowState
+SetWindowMonitor = raylib.SetWindowMonitor
+SetWindowMinSize = raylib.SetWindowMinSize
+SetWindowSize = raylib.SetWindowSize
+GetWindowHandle = raylib.GetWindowHandle
+GetScreenWidth = raylib.GetScreenWidth
+GetScreenHeight = raylib.GetScreenHeight
+GetRenderWidth = raylib.GetRenderWidth
+GetRenderHeight = raylib.GetRenderHeight
+GetMonitorCount = raylib.GetMonitorCount
+GetCurrentMonitor = raylib.GetCurrentMonitor
+GetMonitorPosition = raylib.GetMonitorPosition
+GetMonitorWidth = raylib.GetMonitorWidth
+GetMonitorHeight = raylib.GetMonitorHeight
+GetMonitorPhysicalWidth = raylib.GetMonitorPhysicalWidth
+GetMonitorPhysicalHeight = raylib.GetMonitorPhysicalHeight
+GetMonitorRefreshRate = raylib.GetMonitorRefreshRate
+GetWindowPosition = raylib.GetWindowPosition
+GetWindowScaleDPI = raylib.GetWindowScaleDPI
+GetMonitorName = raylib.GetMonitorName
+SetClipboardText = raylib.SetClipboardText
+GetClipboardText = raylib.GetClipboardText
+EnableEventWaiting = raylib.EnableEventWaiting
+DisableEventWaiting = raylib.DisableEventWaiting
+SwapScreenBuffer = raylib.SwapScreenBuffer
+PollInputEvents = raylib.PollInputEvents
+WaitTime = raylib.WaitTime
+ShowCursor = raylib.ShowCursor
+HideCursor = raylib.HideCursor
+IsCursorHidden = raylib.IsCursorHidden
+EnableCursor = raylib.EnableCursor
+DisableCursor = raylib.DisableCursor
+IsCursorOnScreen = raylib.IsCursorOnScreen
+ClearBackground = raylib.ClearBackground
+BeginDrawing = raylib.BeginDrawing
+EndDrawing = raylib.EndDrawing
+BeginMode2D = raylib.BeginMode2D
+EndMode2D = raylib.EndMode2D
+BeginMode3D = raylib.BeginMode3D
+EndMode3D = raylib.EndMode3D
+BeginTextureMode = raylib.BeginTextureMode
+EndTextureMode = raylib.EndTextureMode
+BeginShaderMode = raylib.BeginShaderMode
+EndShaderMode = raylib.EndShaderMode
+BeginBlendMode = raylib.BeginBlendMode
+EndBlendMode = raylib.EndBlendMode
+BeginScissorMode = raylib.BeginScissorMode
+EndScissorMode = raylib.EndScissorMode
+BeginVrStereoMode = raylib.BeginVrStereoMode
+EndVrStereoMode = raylib.EndVrStereoMode
+LoadVrStereoConfig = raylib.LoadVrStereoConfig
+UnloadVrStereoConfig = raylib.UnloadVrStereoConfig
+LoadShader = raylib.LoadShader
+LoadShaderFromMemory = raylib.LoadShaderFromMemory
+IsShaderReady = raylib.IsShaderReady
+GetShaderLocation = raylib.GetShaderLocation
+GetShaderLocationAttrib = raylib.GetShaderLocationAttrib
+SetShaderValue = raylib.SetShaderValue
+SetShaderValueV = raylib.SetShaderValueV
+SetShaderValueMatrix = raylib.SetShaderValueMatrix
+SetShaderValueTexture = raylib.SetShaderValueTexture
+UnloadShader = raylib.UnloadShader
+GetMouseRay = raylib.GetMouseRay
+GetCameraMatrix = raylib.GetCameraMatrix
+GetCameraMatrix2D = raylib.GetCameraMatrix2D
+GetWorldToScreen = raylib.GetWorldToScreen
+GetScreenToWorld2D = raylib.GetScreenToWorld2D
+GetWorldToScreenEx = raylib.GetWorldToScreenEx
+GetWorldToScreen2D = raylib.GetWorldToScreen2D
+SetTargetFPS = raylib.SetTargetFPS
+GetFPS = raylib.GetFPS
+GetFrameTime = raylib.GetFrameTime
+GetTime = raylib.GetTime
+GetRandomValue = raylib.GetRandomValue
+SetRandomSeed = raylib.SetRandomSeed
+TakeScreenshot = raylib.TakeScreenshot
+SetConfigFlags = raylib.SetConfigFlags
+TraceLog = raylib.TraceLog
+SetTraceLogLevel = raylib.SetTraceLogLevel
+MemAlloc = raylib.MemAlloc
+MemRealloc = raylib.MemRealloc
+MemFree = raylib.MemFree
+OpenURL = raylib.OpenURL
+SetTraceLogCallback = raylib.SetTraceLogCallback
+SetLoadFileDataCallback = raylib.SetLoadFileDataCallback
+SetSaveFileDataCallback = raylib.SetSaveFileDataCallback
+SetLoadFileTextCallback = raylib.SetLoadFileTextCallback
+SetSaveFileTextCallback = raylib.SetSaveFileTextCallback
+LoadFileData = raylib.LoadFileData
+UnloadFileData = raylib.UnloadFileData
+SaveFileData = raylib.SaveFileData
+ExportDataAsCode = raylib.ExportDataAsCode
+LoadFileText = raylib.LoadFileText
+UnloadFileText = raylib.UnloadFileText
+SaveFileText = raylib.SaveFileText
+FileExists = raylib.FileExists
+DirectoryExists = raylib.DirectoryExists
+IsFileExtension = raylib.IsFileExtension
+GetFileLength = raylib.GetFileLength
+GetFileExtension = raylib.GetFileExtension
+GetFileName = raylib.GetFileName
+GetFileNameWithoutExt = raylib.GetFileNameWithoutExt
+GetDirectoryPath = raylib.GetDirectoryPath
+GetPrevDirectoryPath = raylib.GetPrevDirectoryPath
+GetWorkingDirectory = raylib.GetWorkingDirectory
+GetApplicationDirectory = raylib.GetApplicationDirectory
+ChangeDirectory = raylib.ChangeDirectory
+IsPathFile = raylib.IsPathFile
+LoadDirectoryFiles = raylib.LoadDirectoryFiles
+LoadDirectoryFilesEx = raylib.LoadDirectoryFilesEx
+UnloadDirectoryFiles = raylib.UnloadDirectoryFiles
+IsFileDropped = raylib.IsFileDropped
+LoadDroppedFiles = raylib.LoadDroppedFiles
+UnloadDroppedFiles = raylib.UnloadDroppedFiles
+GetFileModTime = raylib.GetFileModTime
+CompressData = raylib.CompressData
+DecompressData = raylib.DecompressData
+EncodeDataBase64 = raylib.EncodeDataBase64
+DecodeDataBase64 = raylib.DecodeDataBase64
+IsKeyPressed = raylib.IsKeyPressed
+IsKeyDown = raylib.IsKeyDown
+IsKeyReleased = raylib.IsKeyReleased
+IsKeyUp = raylib.IsKeyUp
+SetExitKey = raylib.SetExitKey
+GetKeyPressed = raylib.GetKeyPressed
+GetCharPressed = raylib.GetCharPressed
+IsGamepadAvailable = raylib.IsGamepadAvailable
+GetGamepadName = raylib.GetGamepadName
+IsGamepadButtonPressed = raylib.IsGamepadButtonPressed
+IsGamepadButtonDown = raylib.IsGamepadButtonDown
+IsGamepadButtonReleased = raylib.IsGamepadButtonReleased
+IsGamepadButtonUp = raylib.IsGamepadButtonUp
+GetGamepadButtonPressed = raylib.GetGamepadButtonPressed
+GetGamepadAxisCount = raylib.GetGamepadAxisCount
+GetGamepadAxisMovement = raylib.GetGamepadAxisMovement
+SetGamepadMappings = raylib.SetGamepadMappings
+IsMouseButtonPressed = raylib.IsMouseButtonPressed
+IsMouseButtonDown = raylib.IsMouseButtonDown
+IsMouseButtonReleased = raylib.IsMouseButtonReleased
+IsMouseButtonUp = raylib.IsMouseButtonUp
+GetMouseX = raylib.GetMouseX
+GetMouseY = raylib.GetMouseY
+GetMousePosition = raylib.GetMousePosition
+GetMouseDelta = raylib.GetMouseDelta
+SetMousePosition = raylib.SetMousePosition
+SetMouseOffset = raylib.SetMouseOffset
+SetMouseScale = raylib.SetMouseScale
+GetMouseWheelMove = raylib.GetMouseWheelMove
+GetMouseWheelMoveV = raylib.GetMouseWheelMoveV
+SetMouseCursor = raylib.SetMouseCursor
+GetTouchX = raylib.GetTouchX
+GetTouchY = raylib.GetTouchY
+GetTouchPosition = raylib.GetTouchPosition
+GetTouchPointId = raylib.GetTouchPointId
+GetTouchPointCount = raylib.GetTouchPointCount
+SetGesturesEnabled = raylib.SetGesturesEnabled
+IsGestureDetected = raylib.IsGestureDetected
+GetGestureDetected = raylib.GetGestureDetected
+GetGestureHoldDuration = raylib.GetGestureHoldDuration
+GetGestureDragVector = raylib.GetGestureDragVector
+GetGestureDragAngle = raylib.GetGestureDragAngle
+GetGesturePinchVector = raylib.GetGesturePinchVector
+GetGesturePinchAngle = raylib.GetGesturePinchAngle
+UpdateCamera = raylib.UpdateCamera
+UpdateCameraPro = raylib.UpdateCameraPro
+SetShapesTexture = raylib.SetShapesTexture
+DrawPixel = raylib.DrawPixel
+DrawPixelV = raylib.DrawPixelV
+DrawLine = raylib.DrawLine
+DrawLineV = raylib.DrawLineV
+DrawLineEx = raylib.DrawLineEx
+DrawLineBezier = raylib.DrawLineBezier
+DrawLineBezierQuad = raylib.DrawLineBezierQuad
+DrawLineBezierCubic = raylib.DrawLineBezierCubic
+DrawLineStrip = raylib.DrawLineStrip
+DrawCircle = raylib.DrawCircle
+DrawCircleSector = raylib.DrawCircleSector
+DrawCircleSectorLines = raylib.DrawCircleSectorLines
+DrawCircleGradient = raylib.DrawCircleGradient
+DrawCircleV = raylib.DrawCircleV
+DrawCircleLines = raylib.DrawCircleLines
+DrawEllipse = raylib.DrawEllipse
+DrawEllipseLines = raylib.DrawEllipseLines
+DrawRing = raylib.DrawRing
+DrawRingLines = raylib.DrawRingLines
+DrawRectangle = raylib.DrawRectangle
+DrawRectangleV = raylib.DrawRectangleV
+DrawRectangleRec = raylib.DrawRectangleRec
+DrawRectanglePro = raylib.DrawRectanglePro
+DrawRectangleGradientV = raylib.DrawRectangleGradientV
+DrawRectangleGradientH = raylib.DrawRectangleGradientH
+DrawRectangleGradientEx = raylib.DrawRectangleGradientEx
+DrawRectangleLines = raylib.DrawRectangleLines
+DrawRectangleLinesEx = raylib.DrawRectangleLinesEx
+DrawRectangleRounded = raylib.DrawRectangleRounded
+DrawRectangleRoundedLines = raylib.DrawRectangleRoundedLines
+DrawTriangle = raylib.DrawTriangle
+DrawTriangleLines = raylib.DrawTriangleLines
+DrawTriangleFan = raylib.DrawTriangleFan
+DrawTriangleStrip = raylib.DrawTriangleStrip
+DrawPoly = raylib.DrawPoly
+DrawPolyLines = raylib.DrawPolyLines
+DrawPolyLinesEx = raylib.DrawPolyLinesEx
+CheckCollisionRecs = raylib.CheckCollisionRecs
+CheckCollisionCircles = raylib.CheckCollisionCircles
+CheckCollisionCircleRec = raylib.CheckCollisionCircleRec
+CheckCollisionPointRec = raylib.CheckCollisionPointRec
+CheckCollisionPointCircle = raylib.CheckCollisionPointCircle
+CheckCollisionPointTriangle = raylib.CheckCollisionPointTriangle
+CheckCollisionPointPoly = raylib.CheckCollisionPointPoly
+CheckCollisionLines = raylib.CheckCollisionLines
+CheckCollisionPointLine = raylib.CheckCollisionPointLine
+GetCollisionRec = raylib.GetCollisionRec
+LoadImage = raylib.LoadImage
+LoadImageRaw = raylib.LoadImageRaw
+LoadImageAnim = raylib.LoadImageAnim
+LoadImageFromMemory = raylib.LoadImageFromMemory
+LoadImageFromTexture = raylib.LoadImageFromTexture
+LoadImageFromScreen = raylib.LoadImageFromScreen
+IsImageReady = raylib.IsImageReady
+UnloadImage = raylib.UnloadImage
+ExportImage = raylib.ExportImage
+ExportImageAsCode = raylib.ExportImageAsCode
+GenImageColor = raylib.GenImageColor
+GenImageGradientLinear = raylib.GenImageGradientLinear
+GenImageGradientRadial = raylib.GenImageGradientRadial
+GenImageGradientSquare = raylib.GenImageGradientSquare
+GenImageChecked = raylib.GenImageChecked
+GenImageWhiteNoise = raylib.GenImageWhiteNoise
+GenImagePerlinNoise = raylib.GenImagePerlinNoise
+GenImageCellular = raylib.GenImageCellular
+GenImageText = raylib.GenImageText
+ImageCopy = raylib.ImageCopy
+ImageFromImage = raylib.ImageFromImage
+ImageText = raylib.ImageText
+ImageTextEx = raylib.ImageTextEx
+ImageFormat = raylib.ImageFormat
+ImageToPOT = raylib.ImageToPOT
+ImageCrop = raylib.ImageCrop
+ImageAlphaCrop = raylib.ImageAlphaCrop
+ImageAlphaClear = raylib.ImageAlphaClear
+ImageAlphaMask = raylib.ImageAlphaMask
+ImageAlphaPremultiply = raylib.ImageAlphaPremultiply
+ImageBlurGaussian = raylib.ImageBlurGaussian
+ImageResize = raylib.ImageResize
+ImageResizeNN = raylib.ImageResizeNN
+ImageResizeCanvas = raylib.ImageResizeCanvas
+ImageMipmaps = raylib.ImageMipmaps
+ImageDither = raylib.ImageDither
+ImageFlipVertical = raylib.ImageFlipVertical
+ImageFlipHorizontal = raylib.ImageFlipHorizontal
+ImageRotate = raylib.ImageRotate
+ImageRotateCW = raylib.ImageRotateCW
+ImageRotateCCW = raylib.ImageRotateCCW
+ImageColorTint = raylib.ImageColorTint
+ImageColorInvert = raylib.ImageColorInvert
+ImageColorGrayscale = raylib.ImageColorGrayscale
+ImageColorContrast = raylib.ImageColorContrast
+ImageColorBrightness = raylib.ImageColorBrightness
+ImageColorReplace = raylib.ImageColorReplace
+LoadImageColors = raylib.LoadImageColors
+LoadImagePalette = raylib.LoadImagePalette
+UnloadImageColors = raylib.UnloadImageColors
+UnloadImagePalette = raylib.UnloadImagePalette
+GetImageAlphaBorder = raylib.GetImageAlphaBorder
+GetImageColor = raylib.GetImageColor
+ImageClearBackground = raylib.ImageClearBackground
+ImageDrawPixel = raylib.ImageDrawPixel
+ImageDrawPixelV = raylib.ImageDrawPixelV
+ImageDrawLine = raylib.ImageDrawLine
+ImageDrawLineV = raylib.ImageDrawLineV
+ImageDrawCircle = raylib.ImageDrawCircle
+ImageDrawCircleV = raylib.ImageDrawCircleV
+ImageDrawCircleLines = raylib.ImageDrawCircleLines
+ImageDrawCircleLinesV = raylib.ImageDrawCircleLinesV
+ImageDrawRectangle = raylib.ImageDrawRectangle
+ImageDrawRectangleV = raylib.ImageDrawRectangleV
+ImageDrawRectangleRec = raylib.ImageDrawRectangleRec
+ImageDrawRectangleLines = raylib.ImageDrawRectangleLines
+ImageDraw = raylib.ImageDraw
+ImageDrawText = raylib.ImageDrawText
+ImageDrawTextEx = raylib.ImageDrawTextEx
+LoadTexture = raylib.LoadTexture
+LoadTextureFromImage = raylib.LoadTextureFromImage
+LoadTextureCubemap = raylib.LoadTextureCubemap
+LoadRenderTexture = raylib.LoadRenderTexture
+IsTextureReady = raylib.IsTextureReady
+UnloadTexture = raylib.UnloadTexture
+IsRenderTextureReady = raylib.IsRenderTextureReady
+UnloadRenderTexture = raylib.UnloadRenderTexture
+UpdateTexture = raylib.UpdateTexture
+UpdateTextureRec = raylib.UpdateTextureRec
+GenTextureMipmaps = raylib.GenTextureMipmaps
+SetTextureFilter = raylib.SetTextureFilter
+SetTextureWrap = raylib.SetTextureWrap
+DrawTexture = raylib.DrawTexture
+DrawTextureV = raylib.DrawTextureV
+DrawTextureEx = raylib.DrawTextureEx
+DrawTextureRec = raylib.DrawTextureRec
+DrawTexturePro = raylib.DrawTexturePro
+DrawTextureNPatch = raylib.DrawTextureNPatch
+Fade = raylib.Fade
+ColorToInt = raylib.ColorToInt
+ColorNormalize = raylib.ColorNormalize
+ColorFromNormalized = raylib.ColorFromNormalized
+ColorToHSV = raylib.ColorToHSV
+ColorFromHSV = raylib.ColorFromHSV
+ColorTint = raylib.ColorTint
+ColorBrightness = raylib.ColorBrightness
+ColorContrast = raylib.ColorContrast
+ColorAlpha = raylib.ColorAlpha
+ColorAlphaBlend = raylib.ColorAlphaBlend
+GetColor = raylib.GetColor
+GetPixelColor = raylib.GetPixelColor
+SetPixelColor = raylib.SetPixelColor
+GetPixelDataSize = raylib.GetPixelDataSize
+GetFontDefault = raylib.GetFontDefault
+LoadFont = raylib.LoadFont
+LoadFontEx = raylib.LoadFontEx
+LoadFontFromImage = raylib.LoadFontFromImage
+LoadFontFromMemory = raylib.LoadFontFromMemory
+IsFontReady = raylib.IsFontReady
+LoadFontData = raylib.LoadFontData
+GenImageFontAtlas = raylib.GenImageFontAtlas
+UnloadFontData = raylib.UnloadFontData
+UnloadFont = raylib.UnloadFont
+ExportFontAsCode = raylib.ExportFontAsCode
+DrawFPS = raylib.DrawFPS
+DrawText = raylib.DrawText
+DrawTextEx = raylib.DrawTextEx
+DrawTextPro = raylib.DrawTextPro
+DrawTextCodepoint = raylib.DrawTextCodepoint
+DrawTextCodepoints = raylib.DrawTextCodepoints
+MeasureText = raylib.MeasureText
+MeasureTextEx = raylib.MeasureTextEx
+GetGlyphIndex = raylib.GetGlyphIndex
+GetGlyphInfo = raylib.GetGlyphInfo
+GetGlyphAtlasRec = raylib.GetGlyphAtlasRec
+LoadUTF8 = raylib.LoadUTF8
+UnloadUTF8 = raylib.UnloadUTF8
+LoadCodepoints = raylib.LoadCodepoints
+UnloadCodepoints = raylib.UnloadCodepoints
+GetCodepointCount = raylib.GetCodepointCount
+GetCodepoint = raylib.GetCodepoint
+GetCodepointNext = raylib.GetCodepointNext
+GetCodepointPrevious = raylib.GetCodepointPrevious
+CodepointToUTF8 = raylib.CodepointToUTF8
+TextCopy = raylib.TextCopy
+TextIsEqual = raylib.TextIsEqual
+TextLength = raylib.TextLength
+TextFormat = raylib.TextFormat
+TextSubtext = raylib.TextSubtext
+TextReplace = raylib.TextReplace
+TextInsert = raylib.TextInsert
+TextJoin = raylib.TextJoin
+TextSplit = raylib.TextSplit
+TextAppend = raylib.TextAppend
+TextFindIndex = raylib.TextFindIndex
+TextToUpper = raylib.TextToUpper
+TextToLower = raylib.TextToLower
+TextToPascal = raylib.TextToPascal
+TextToInteger = raylib.TextToInteger
+DrawLine3D = raylib.DrawLine3D
+DrawPoint3D = raylib.DrawPoint3D
+DrawCircle3D = raylib.DrawCircle3D
+DrawTriangle3D = raylib.DrawTriangle3D
+DrawTriangleStrip3D = raylib.DrawTriangleStrip3D
+DrawCube = raylib.DrawCube
+DrawCubeV = raylib.DrawCubeV
+DrawCubeWires = raylib.DrawCubeWires
+DrawCubeWiresV = raylib.DrawCubeWiresV
+DrawSphere = raylib.DrawSphere
+DrawSphereEx = raylib.DrawSphereEx
+DrawSphereWires = raylib.DrawSphereWires
+DrawCylinder = raylib.DrawCylinder
+DrawCylinderEx = raylib.DrawCylinderEx
+DrawCylinderWires = raylib.DrawCylinderWires
+DrawCylinderWiresEx = raylib.DrawCylinderWiresEx
+DrawCapsule = raylib.DrawCapsule
+DrawCapsuleWires = raylib.DrawCapsuleWires
+DrawPlane = raylib.DrawPlane
+DrawRay = raylib.DrawRay
+DrawGrid = raylib.DrawGrid
+LoadModel = raylib.LoadModel
+LoadModelFromMesh = raylib.LoadModelFromMesh
+IsModelReady = raylib.IsModelReady
+UnloadModel = raylib.UnloadModel
+GetModelBoundingBox = raylib.GetModelBoundingBox
+DrawModel = raylib.DrawModel
+DrawModelEx = raylib.DrawModelEx
+DrawModelWires = raylib.DrawModelWires
+DrawModelWiresEx = raylib.DrawModelWiresEx
+DrawBoundingBox = raylib.DrawBoundingBox
+DrawBillboard = raylib.DrawBillboard
+DrawBillboardRec = raylib.DrawBillboardRec
+DrawBillboardPro = raylib.DrawBillboardPro
+UploadMesh = raylib.UploadMesh
+UpdateMeshBuffer = raylib.UpdateMeshBuffer
+UnloadMesh = raylib.UnloadMesh
+DrawMesh = raylib.DrawMesh
+DrawMeshInstanced = raylib.DrawMeshInstanced
+ExportMesh = raylib.ExportMesh
+GetMeshBoundingBox = raylib.GetMeshBoundingBox
+GenMeshTangents = raylib.GenMeshTangents
+GenMeshPoly = raylib.GenMeshPoly
+GenMeshPlane = raylib.GenMeshPlane
+GenMeshCube = raylib.GenMeshCube
+GenMeshSphere = raylib.GenMeshSphere
+GenMeshHemiSphere = raylib.GenMeshHemiSphere
+GenMeshCylinder = raylib.GenMeshCylinder
+GenMeshCone = raylib.GenMeshCone
+GenMeshTorus = raylib.GenMeshTorus
+GenMeshKnot = raylib.GenMeshKnot
+GenMeshHeightmap = raylib.GenMeshHeightmap
+GenMeshCubicmap = raylib.GenMeshCubicmap
+LoadMaterials = raylib.LoadMaterials
+LoadMaterialDefault = raylib.LoadMaterialDefault
+IsMaterialReady = raylib.IsMaterialReady
+UnloadMaterial = raylib.UnloadMaterial
+SetMaterialTexture = raylib.SetMaterialTexture
+SetModelMeshMaterial = raylib.SetModelMeshMaterial
+LoadModelAnimations = raylib.LoadModelAnimations
+UpdateModelAnimation = raylib.UpdateModelAnimation
+UnloadModelAnimation = raylib.UnloadModelAnimation
+UnloadModelAnimations = raylib.UnloadModelAnimations
+IsModelAnimationValid = raylib.IsModelAnimationValid
+CheckCollisionSpheres = raylib.CheckCollisionSpheres
+CheckCollisionBoxes = raylib.CheckCollisionBoxes
+CheckCollisionBoxSphere = raylib.CheckCollisionBoxSphere
+GetRayCollisionSphere = raylib.GetRayCollisionSphere
+GetRayCollisionBox = raylib.GetRayCollisionBox
+GetRayCollisionMesh = raylib.GetRayCollisionMesh
+GetRayCollisionTriangle = raylib.GetRayCollisionTriangle
+GetRayCollisionQuad = raylib.GetRayCollisionQuad
+InitAudioDevice = raylib.InitAudioDevice
+CloseAudioDevice = raylib.CloseAudioDevice
+IsAudioDeviceReady = raylib.IsAudioDeviceReady
+SetMasterVolume = raylib.SetMasterVolume
+LoadWave = raylib.LoadWave
+LoadWaveFromMemory = raylib.LoadWaveFromMemory
+IsWaveReady = raylib.IsWaveReady
+LoadSound = raylib.LoadSound
+LoadSoundFromWave = raylib.LoadSoundFromWave
+IsSoundReady = raylib.IsSoundReady
+UpdateSound = raylib.UpdateSound
+UnloadWave = raylib.UnloadWave
+UnloadSound = raylib.UnloadSound
+ExportWave = raylib.ExportWave
+ExportWaveAsCode = raylib.ExportWaveAsCode
+PlaySound = raylib.PlaySound
+StopSound = raylib.StopSound
+PauseSound = raylib.PauseSound
+ResumeSound = raylib.ResumeSound
+IsSoundPlaying = raylib.IsSoundPlaying
+SetSoundVolume = raylib.SetSoundVolume
+SetSoundPitch = raylib.SetSoundPitch
+SetSoundPan = raylib.SetSoundPan
+WaveCopy = raylib.WaveCopy
+WaveCrop = raylib.WaveCrop
+WaveFormat = raylib.WaveFormat
+LoadWaveSamples = raylib.LoadWaveSamples
+UnloadWaveSamples = raylib.UnloadWaveSamples
+LoadMusicStream = raylib.LoadMusicStream
+LoadMusicStreamFromMemory = raylib.LoadMusicStreamFromMemory
+IsMusicReady = raylib.IsMusicReady
+UnloadMusicStream = raylib.UnloadMusicStream
+PlayMusicStream = raylib.PlayMusicStream
+IsMusicStreamPlaying = raylib.IsMusicStreamPlaying
+UpdateMusicStream = raylib.UpdateMusicStream
+StopMusicStream = raylib.StopMusicStream
+PauseMusicStream = raylib.PauseMusicStream
+ResumeMusicStream = raylib.ResumeMusicStream
+SeekMusicStream = raylib.SeekMusicStream
+SetMusicVolume = raylib.SetMusicVolume
+SetMusicPitch = raylib.SetMusicPitch
+SetMusicPan = raylib.SetMusicPan
+GetMusicTimeLength = raylib.GetMusicTimeLength
+GetMusicTimePlayed = raylib.GetMusicTimePlayed
+LoadAudioStream = raylib.LoadAudioStream
+IsAudioStreamReady = raylib.IsAudioStreamReady
+UnloadAudioStream = raylib.UnloadAudioStream
+UpdateAudioStream = raylib.UpdateAudioStream
+IsAudioStreamProcessed = raylib.IsAudioStreamProcessed
+PlayAudioStream = raylib.PlayAudioStream
+PauseAudioStream = raylib.PauseAudioStream
+ResumeAudioStream = raylib.ResumeAudioStream
+IsAudioStreamPlaying = raylib.IsAudioStreamPlaying
+StopAudioStream = raylib.StopAudioStream
+SetAudioStreamVolume = raylib.SetAudioStreamVolume
+SetAudioStreamPitch = raylib.SetAudioStreamPitch
+SetAudioStreamPan = raylib.SetAudioStreamPan
+SetAudioStreamBufferSizeDefault = raylib.SetAudioStreamBufferSizeDefault
+SetAudioStreamCallback = raylib.SetAudioStreamCallback
+AttachAudioStreamProcessor = raylib.AttachAudioStreamProcessor
+DetachAudioStreamProcessor = raylib.DetachAudioStreamProcessor
+AttachAudioMixedProcessor = raylib.AttachAudioMixedProcessor
+DetachAudioMixedProcessor = raylib.DetachAudioMixedProcessor
   await InitGame()
 }, UpdateGame)`)
     f(raylib_run, this.canvas)
