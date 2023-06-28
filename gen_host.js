@@ -211,7 +211,7 @@ function mapTypeToJs (type) {
 let code = `
 const wasmBinary = new Uint8Array([${(await readFile('build/raylib_wasm.wasm')).join(',')}])
 
-const importLocation = document.location.toString()
+const importLocation = document?.location?.toString()
 
 ${(await readFile('build/raylib_wasm.js', 'utf8')).replace('export default Module;', '').replace(/import\.meta\.url/g, 'importLocation')}
 
@@ -365,7 +365,7 @@ if (typeof UpdateGame === 'undefined') {
 let ${exposed.join(',')}
 
 runGame(canvas, async raylib => {
-  ${exposed.map(f => `${f} = raylib.${f}`).join('\n')}
+  ${exposed.map(f => `${f} = raylib.${f}`).join('\n  ')}
   await InitGame()
 }, UpdateGame)\`)
     f(raylib_run, this.canvas)
