@@ -5,6 +5,9 @@ import { readFile, writeFile } from 'fs/promises'
 
 let { defines, structs, aliases, enums, callbacks, functions } = await fetch('https://raw.githubusercontent.com/raysan5/raylib/master/parser/output/raylib_api.json').then(r => r.json())
 
+// I use this to create eh build line (to cut down on unused exports)
+// console.log(functions.map(f => `_${f.name}`).join(','))
+
 // these are args that represent files that should be pre-loaded first
 const fileFuncArgs = {
   // I am not pre-loading for these, so you will have to raylib.addFile first before using these functions
@@ -215,7 +218,6 @@ function raylib_run(canvas, userInit, userUpdate) {
   const raylib = {}
   Module({canvas, wasmBinary}).then(mod => {
     raylib.module = mod
-  
 `
 
 for (const s of structs) {
@@ -340,6 +342,7 @@ class RaylibComponent extends HTMLElement {
     this.shadow = this.attachShadow({ mode: 'open' })
     this.canvas = document.createElement('canvas')
     this.shadow.appendChild(this.canvas)
+    this.style.display = 'none'
   }
   connectedCallback() {
     const userCode = this.textContent
@@ -360,9 +363,9 @@ runGame(canvas, async raylib => {
   await InitGame()
 }, UpdateGame)\`)
     f(raylib_run, this.canvas)
+    this.style.display = 'block'
   }
 }
-
 
 if (typeof document !== 'undefined') {
   document.addEventListener('DOMContentLoaded', () => {

@@ -21,14 +21,6 @@ canvas {
   image-rendering: crisp-edges;
   object-fit: contain;
 }
-canvas.landscape {
-  height: 100vh;
-  max-width: 100vw;
-}
-canvas.portrait {
-  width: 100vw;
-  max-height: 100vh;
-}
 
 #output {
   width: 100vw;
@@ -60,3 +52,4 @@ a {
 li {
   text-align: left;
 }
+

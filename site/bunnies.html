@@ -14,9 +14,7 @@ const bunnies = []
 const MAX_BUNNIES = 50000
 const MAX_BATCH_ELEMENTS = 8192
 
-const InitGame = async (raylib) => {
-  // since there is only one raylib, let's just globalize it
-  raylib.globalize()
+const InitGame = async () => {
   InitWindow(640, 480)
   texBunny = await LoadTexture('assets/wabbit_alpha.png')
 }

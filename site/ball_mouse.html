@@ -11,10 +11,7 @@
 let ballPosition
 let ballColor
 
-const InitGame = async (raylib) => {
-  // since there is only one raylib, let's just globalize it
-  raylib.globalize()
-
+const InitGame = async () => {
   const screenWidth = 800
   const screenHeight = 450
   InitWindow(screenWidth, screenHeight)
