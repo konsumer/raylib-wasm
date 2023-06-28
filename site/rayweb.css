@@ -53,3 +53,7 @@ li {
   text-align: left;
 }
 
+/* this disables the flash of unstyle source */
+raylib-game {
+  display:none;
+}
