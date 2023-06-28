@@ -4875,8 +4875,6 @@ if (typeof document !== 'undefined') {
 }
 
 
-export raylib_run
+
+export { raylib_run, RaylibComponent, Module, wasmBinary }
 export default raylib_run
-export RaylibComponent
-export Module
-export wasmBinary
