@@ -206,15 +206,18 @@ function mapTypeToJs (type) {
 let code = `
 const wasmBinary = new Uint8Array([${(await readFile('build/raylib_wasm.wasm')).join(',')}])
 
-const importLocation = ''
+const importLocation = document.location.toString()
 
 ${(await readFile('build/raylib_wasm.js', 'utf8')).replace('export default Module;', '').replace(/import\.meta\.url/g, 'importLocation')}
 
 // run this function before calling anything
 function raylib_run(canvas, userInit, userUpdate) {
   const raylib = {}
-
+  Module({canvas, wasmBinary}).then(mod => {
+    raylib.module = mod
+  
 `
+
 for (const s of structs) {
   const size = s.fields.reduce((a, c) => a + getSize(c.type), 0)
   code += `  // ${s.description}
@@ -235,11 +238,6 @@ for (const e of enums) {
   }
   code += '\n\n'
 }
-
-code += `
-  const mod = Module({canvas, wasmBinary})
-  raylib.module = mod
-`
 
 for (const c of defines.filter(c => c.type === 'COLOR')) {
   code += `\n  raylib.${c.name} = ${c.value.replace(/CLITERAL\(Color\){ ([0-9]+), ([0-9]+), ([0-9]+), ([0-9]+) }/, 'new raylib.Color({r: $1, g: $2, b: $3, a: $4})')} // ${c.description}`
@@ -331,6 +329,8 @@ code += `
     }
   }
 
+})
+
   return raylib
 }
 
@@ -342,17 +342,7 @@ class RaylibComponent extends HTMLElement {
     this.shadow.appendChild(this.canvas)
   }
   connectedCallback() {
-    console.log('code', this.innerHTML)
-  }
-}
-
-window.customElements.define('raylib-game', RaylibComponent)
-
-`
-
-/*
- connectedCallback() {
-    const userCode = this.innerHTML
+    const userCode = this.textContent
     const f = new Function(['runGame', 'canvas'], userCode + '\\n' + \`
 if (typeof InitGame === 'undefined') {
   console.error('Make sure to add InitGame() to your raylib-game.')
@@ -371,13 +361,22 @@ runGame(canvas, async raylib => {
 }, UpdateGame)\`)
     f(raylib_run, this.canvas)
   }
-  */
+}
+
+
+if (typeof document !== 'undefined') {
+  document.addEventListener('DOMContentLoaded', () => {
+    window.customElements.define('raylib-game', RaylibComponent)
+  })
+}
+
+`
 
 // regular web JS
 await writeFile('site/raylib.js', code)
 
 // ES6 web module
-await writeFile('site/raylib.module.js', code.replace("const importLocation = ''", 'const importLocation = import.meta.url') + `
+await writeFile('site/raylib.module.js', code.replace("const importLocation = document.location.toString()", 'const importLocation = import.meta.url') + `
 export raylib_run
 export default raylib_run
 export RaylibComponent

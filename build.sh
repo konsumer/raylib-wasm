@@ -11,7 +11,7 @@ if [ ! -d "include" ];then
 	rm -rf raylib-4.5.0_webassembly raylib-4.5.0_webassembly.zip
 fi
 
-emcc raylib.c lib/libraylib.a -o build/raylib_wasm.js -I include --no-entry -DPLATFORM_WEB -Oz \
+emcc raylib.c lib/libraylib.a -o build/raylib_wasm.js -I include --no-entry -DPLATFORM_WEB -Os \
 	-sLINKABLE=1 \
 	-sEXPORT_ALL=1 \
 	-sMODULARIZE=1 \
