@@ -1,0 +1,14 @@
+body {
+  background: black;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+#demo-select {
+ position: absolute;
+ top: 10px;
+ left: 10px;
+}

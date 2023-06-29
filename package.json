@@ -5,16 +5,15 @@
   "version": "0.0.0",
   "description": "Make raylib games in JS for the web",
   "scripts": {
-    "start": "npx -y live-server site",
-    "build:wasm": "docker run -it --rm -v $(pwd):/src -v /tmp/emscripten-cache:/emsdk/upstream/emscripten/cache/ -u $(id -u):$(id -g) emscripten/emsdk ./build.sh",
-    "build:interface": "node gen_host.js",
-    "deploy": "npx -y surge site raylib.surge.sh",
-    "build": "npm run build:wasm && npm run build:interface"
+    "start": "npx -y vite",
+    "build:wasm": "docker run -it --rm -v $(pwd):/src -v /tmp/emscripten-cache:/emsdk/upstream/emscripten/cache/ -u $(id -u):$(id -g) emscripten/emsdk ./tools/build.sh",
+    "build:interface": "node tools/gen_host.js",
+    "build:demo": "npx -y vite build",
+    "deploy": "npx -y surge dist raylib.surge.sh",
+    "predeploy": "npm run build",
+    "build": "npm run build:wasm && npm run build:interface && npm run build:demo"
   },
   "keywords": [],
   "author": "David Konsumer <konsumer@jetboystudio.com>",
-  "license": "MIT",
-  "devDependencies": {
-    "binaryen": "^113.0.0"
-  }
+  "license": "MIT"
 }

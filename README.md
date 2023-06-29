@@ -9,7 +9,7 @@ npm start
 
 It live-reloads, so it can be a great way to prototype some raylib code, even for other languages/platforms.
 
-You can include [raylib.js](site/raylib.js) in your project to get started. Have a look at [basic.html](site/basic.html) to see how to use it.
+You can include [raylib.js](raylib.js) in your project to get started. Have a look at [core_basic_window](public/examples/core/core_basic_window) to see how to use it.
 
 You can also use it directly in [a codepen](https://codepen.io/konsumer/pen/NWEdxZq?editors=1000) for quick demos and such.
 
@@ -24,14 +24,14 @@ npm run build
 It is also provided via this CDN link:
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/konsumer/raylib-wasm@main/site/raylib.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/konsumer/raylib-wasm@main/raylib.js"></script>
 ```
 
 If you prefer to not use web-components, for some reason, you can also do this:
 
 ```html
 <script type="module">
-import raylib_run from 'https://cdn.jsdelivr.net/gh/konsumer/raylib-wasm@main/site/raylib.module.js'
+import raylib_run from 'https://cdn.jsdelivr.net/gh/konsumer/raylib-wasm@main/raylib.module.js'
 
 function InitGame(raylib) {
   raylib.globalize()

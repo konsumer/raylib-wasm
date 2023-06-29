@@ -1,0 +1,157 @@
+<html>
+  <head>
+    <title>Raylib Wasm</title>
+    <link rel="stylesheet" type="text/css" href="src/demo.css" />
+  </head>
+  <body>
+    <raylib-game id="raylib" fill src='/examples/welcome.js'></raylib-game>
+    <select id="demo-select">
+      <option value="welcome">Welcome</option>
+      <optgroup label="Core">
+        <option value="core/core_2d_camera">2D Camera</option>
+        <option value="core/core_2d_camera_mouse_zoom">2D Camera - Mouse Zoom</option>
+<!--         <option value="core/core_2d_camera_platformer">core/core_2d_camera_platformer</option>
+        <option value="core/core_3d_camera_first_person">core/core_3d_camera_first_person</option>
+        <option value="core/core_3d_camera_free">core/core_3d_camera_free</option>
+        <option value="core/core_3d_camera_mode">core/core_3d_camera_mode</option>
+        <option value="core/core_3d_picking">core/core_3d_picking</option>
+        <option value="core/core_basic_screen_manager">core/core_basic_screen_manager</option>
+        <option value="core/core_basic_window">Basic Window</option>
+        <option value="core/core_custom_frame_control">core/core_custom_frame_control</option>
+        <option value="core/core_custom_logging">core/core_custom_logging</option>
+        <option value="core/core_drop_files">core/core_drop_files</option>
+        <option value="core/core_input_gamepad">core/core_input_gamepad</option>
+        <option value="core/core_input_gestures">core/core_input_gestures</option>
+        <option value="core/core_input_keys">core/core_input_keys</option>
+        <option value="core/core_input_mouse">core/core_input_mouse</option>
+        <option value="core/core_input_mouse_wheel">core/core_input_mouse_wheel</option>
+        <option value="core/core_input_multitouch">core/core_input_multitouch</option>
+        <option value="core/core_loading_thread">core/core_loading_thread</option>
+        <option value="core/core_random_values">core/core_random_values</option>
+        <option value="core/core_scissor_test">core/core_scissor_test</option>
+        <option value="core/core_smooth_pixelperfect">core/core_smooth_pixelperfect</option>
+        <option value="core/core_split_screen">core/core_split_screen</option>
+        <option value="core/core_storage_values">core/core_storage_values</option>
+        <option value="core/core_vr_simulator">core/core_vr_simulator</option>
+        <option value="core/core_window_flags">core/core_window_flags</option>
+        <option value="core/core_window_letterbox">core/core_window_letterbox</option>
+        <option value="core/core_window_should_close">core/core_window_should_close</option>
+        <option value="core/core_world_screen">core/core_world_screen</option> -->
+      </optgroup>
+      <optgroup label="Textures">
+<!--         <option value="textures/textures_background_scrolling">Background Scrolling</option>
+        <option value="textures/textures_blend_modes">Blend Modes</option> -->
+
+        <option value="textures/textures_bunnymark">Bunny Mark</option>
+        
+        <!-- <option value="textures/textures_draw_tiled">Draw Tiled</option>
+        <option value="textures/textures_fog_of_war">Fog of War</option>
+        <option value="textures/textures_gif_player">Gif Player</option>
+        <option value="textures/textures_image_drawing">Image Drawing</option>
+        <option value="textures/textures_image_generation">textures/textures_image_generation</option>
+        <option value="textures/textures_image_loading">textures/textures_image_loading</option>
+        <option value="textures/textures_image_processing">textures/textures_image_processing</option>
+        <option value="textures/textures_image_rotate">textures/textures_image_rotate</option>
+        <option value="textures/textures_image_text">textures/textures_image_text</option>
+        <option value="textures/textures_logo_raylib">textures/textures_logo_raylib</option>
+        <option value="textures/textures_mouse_painting">textures/textures_mouse_painting</option>
+        <option value="textures/textures_npatch_drawing">textures/textures_npatch_drawing</option>
+        <option value="textures/textures_particles_blending">textures/textures_particles_blending</option>
+        <option value="textures/textures_polygon">textures/textures_polygon</option>
+        <option value="textures/textures_raw_data">textures/textures_raw_data</option>
+        <option value="textures/textures_sprite_anim">textures/textures_sprite_anim</option>
+        <option value="textures/textures_sprite_button">textures/textures_sprite_button</option>
+        <option value="textures/textures_sprite_explosion">textures/textures_sprite_explosion</option>
+        <option value="textures/textures_srcrec_dstrec">textures/textures_srcrec_dstrec</option>
+        <option value="textures/textures_textured_curve">textures/textures_textured_curve</option>
+        <option value="textures/textures_to_image">textures/textures_to_image</option> -->
+      </optgroup>
+      <optgroup label="Audio">
+<!--         <option value="audio/audio_mixed_processor">audio/audio_mixed_processor</option>
+        <option value="audio/audio_module_playing">audio/audio_module_playing</option>
+        <option value="audio/audio_music_stream">audio/audio_music_stream</option>
+        <option value="audio/audio_raw_stream">audio/audio_raw_stream</option>
+        <option value="audio/audio_sound_loading">audio/audio_sound_loading</option>
+        <option value="audio/audio_stream_effects">audio/audio_stream_effects</option> -->
+      </optgroup>
+      <optgroup label="Models">
+<!--         <option value="models/models_animation">models/models_animation</option>
+        <option value="models/models_billboard">models/models_billboard</option>
+        <option value="models/models_box_collisions">models/models_box_collisions</option>
+        <option value="models/models_cubicmap">models/models_cubicmap</option>
+        <option value="models/models_draw_cube_texture">models/models_draw_cube_texture</option>
+        <option value="models/models_first_person_maze">models/models_first_person_maze</option>
+        <option value="models/models_geometric_shapes">models/models_geometric_shapes</option>
+        <option value="models/models_heightmap">models/models_heightmap</option>
+        <option value="models/models_loading">models/models_loading</option>
+        <option value="models/models_loading_gltf">models/models_loading_gltf</option>
+        <option value="models/models_loading_m3d">models/models_loading_m3d</option>
+        <option value="models/models_loading_vox">models/models_loading_vox</option>
+        <option value="models/models_mesh_generation">models/models_mesh_generation</option>
+        <option value="models/models_mesh_picking">models/models_mesh_picking</option>
+        <option value="models/models_orthographic_projection">models/models_orthographic_projection</option>
+        <option value="models/models_rlgl_solar_system">models/models_rlgl_solar_system</option>
+        <option value="models/models_skybox">models/models_skybox</option>
+        <option value="models/models_waving_cubes">models/models_waving_cubes</option>
+        <option value="models/models_yaw_pitch_roll">models/models_yaw_pitch_roll</option> -->
+      </optgroup>
+      <optgroup label="Shaders">
+<!--         <option value="shaders/shaders_basic_lighting">shaders/shaders_basic_lighting</option>
+        <option value="shaders/shaders_custom_uniform">shaders/shaders_custom_uniform</option>
+        <option value="shaders/shaders_eratosthenes">shaders/shaders_eratosthenes</option>
+        <option value="shaders/shaders_fog">shaders/shaders_fog</option>
+        <option value="shaders/shaders_hot_reloading">shaders/shaders_hot_reloading</option>
+        <option value="shaders/shaders_hybrid_render">shaders/shaders_hybrid_render</option>
+        <option value="shaders/shaders_julia_set">shaders/shaders_julia_set</option>
+        <option value="shaders/shaders_lightmap">shaders/shaders_lightmap</option>
+        <option value="shaders/shaders_mesh_instancing">shaders/shaders_mesh_instancing</option>
+        <option value="shaders/shaders_model_shader">shaders/shaders_model_shader</option>
+        <option value="shaders/shaders_multi_sample2d">shaders/shaders_multi_sample2d</option>
+        <option value="shaders/shaders_palette_switch">shaders/shaders_palette_switch</option>
+        <option value="shaders/shaders_postprocessing">shaders/shaders_postprocessing</option>
+        <option value="shaders/shaders_raymarching">shaders/shaders_raymarching</option>
+        <option value="shaders/shaders_shapes_textures">shaders/shaders_shapes_textures</option>
+        <option value="shaders/shaders_simple_mask">shaders/shaders_simple_mask</option>
+        <option value="shaders/shaders_spotlight">shaders/shaders_spotlight</option>
+        <option value="shaders/shaders_texture_drawing">shaders/shaders_texture_drawing</option>
+        <option value="shaders/shaders_texture_outline">shaders/shaders_texture_outline</option>
+        <option value="shaders/shaders_texture_waves">shaders/shaders_texture_waves</option>
+        <option value="shaders/shaders_write_depth">shaders/shaders_write_depth</option> -->
+      </optgroup>
+      <optgroup label="Shapes">
+ <!--        <option value="shapes/shapes_basic_shapes">shapes/shapes_basic_shapes</option>
+        <option value="shapes/shapes_bouncing_ball">shapes/shapes_bouncing_ball</option>
+        <option value="shapes/shapes_collision_area">shapes/shapes_collision_area</option>
+        <option value="shapes/shapes_colors_palette">shapes/shapes_colors_palette</option>
+        <option value="shapes/shapes_draw_circle_sector">shapes/shapes_draw_circle_sector</option>
+        <option value="shapes/shapes_draw_rectangle_rounded">shapes/shapes_draw_rectangle_rounded</option>
+        <option value="shapes/shapes_draw_ring">shapes/shapes_draw_ring</option>
+        <option value="shapes/shapes_easings_ball_anim">shapes/shapes_easings_ball_anim</option>
+        <option value="shapes/shapes_easings_box_anim">shapes/shapes_easings_box_anim</option>
+        <option value="shapes/shapes_easings_rectangle_array">shapes/shapes_easings_rectangle_array</option>
+        <option value="shapes/shapes_following_eyes">shapes/shapes_following_eyes</option>
+        <option value="shapes/shapes_lines_bezier">shapes/shapes_lines_bezier</option>
+        <option value="shapes/shapes_logo_raylib">shapes/shapes_logo_raylib</option>
+        <option value="shapes/shapes_logo_raylib_anim">shapes/shapes_logo_raylib_anim</option>
+        <option value="shapes/shapes_rectangle_scaling">shapes/shapes_rectangle_scaling</option>
+        <option value="shapes/shapes_top_down_lights">shapes/shapes_top_down_lights</option> -->
+      </optgroup>
+      <optgroup label="Text">
+<!--         <option value="text/text_codepoints_loading">text/text_codepoints_loading</option>
+        <option value="text/text_draw_3d">text/text_draw_3d</option>
+        <option value="text/text_font_filters">text/text_font_filters</option>
+        <option value="text/text_font_loading">text/text_font_loading</option>
+        <option value="text/text_font_sdf">text/text_font_sdf</option>
+        <option value="text/text_font_spritefont">text/text_font_spritefont</option>
+        <option value="text/text_format_text">text/text_format_text</option>
+        <option value="text/text_input_box">text/text_input_box</option>
+        <option value="text/text_raylib_fonts">text/text_raylib_fonts</option>
+        <option value="text/text_rectangle_bounds">text/text_rectangle_bounds</option>
+        <option value="text/text_unicode">text/text_unicode</option>
+        <option value="text/text_writing_anim">text/text_writing_anim</option> -->
+      </optgroup>
+    </select>
+  </body>
+  <script src="raylib.js"></script>
+  <script src="src/demo.js"></script>
+</html>
