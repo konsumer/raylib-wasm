@@ -494,7 +494,7 @@ async function raylib_run(canvas, userInit, userUpdate) {
 
   
     get texture () {
-      return mod.getValue(this._address + 4, '*')
+      return new raylib.Texture({}, mod.getValue(this._address + 4, '*'))
     }
     set texture (texture) {
       mod.setValue(this._address + 4, texture, '*')
@@ -502,7 +502,7 @@ async function raylib_run(canvas, userInit, userUpdate) {
 
   
     get depth () {
-      return mod.getValue(this._address + 24, '*')
+      return new raylib.Texture({}, mod.getValue(this._address + 24, '*'))
     }
     set depth (depth) {
       mod.setValue(this._address + 24, depth, '*')
@@ -524,7 +524,7 @@ async function raylib_run(canvas, userInit, userUpdate) {
     }
     
     get source () {
-      return mod.getValue(this._address + 0, '*')
+      return new raylib.Rectangle({}, mod.getValue(this._address + 0, '*'))
     }
     set source (source) {
       mod.setValue(this._address + 0, source, '*')
@@ -617,7 +617,7 @@ async function raylib_run(canvas, userInit, userUpdate) {
 
   
     get image () {
-      return mod.getValue(this._address + 16, '*')
+      return new raylib.Image({}, mod.getValue(this._address + 16, '*'))
     }
     set image (image) {
       mod.setValue(this._address + 16, image, '*')
@@ -663,7 +663,7 @@ async function raylib_run(canvas, userInit, userUpdate) {
 
   
     get texture () {
-      return mod.getValue(this._address + 12, '*')
+      return new raylib.Texture2D({}, mod.getValue(this._address + 12, '*'))
     }
     set texture (texture) {
       mod.setValue(this._address + 12, texture, '*')
@@ -700,7 +700,7 @@ async function raylib_run(canvas, userInit, userUpdate) {
     }
     
     get position () {
-      return mod.getValue(this._address + 0, '*')
+      return new raylib.Vector3({}, mod.getValue(this._address + 0, '*'))
     }
     set position (position) {
       mod.setValue(this._address + 0, position, '*')
@@ -708,7 +708,7 @@ async function raylib_run(canvas, userInit, userUpdate) {
 
   
     get target () {
-      return mod.getValue(this._address + 12, '*')
+      return new raylib.Vector3({}, mod.getValue(this._address + 12, '*'))
     }
     set target (target) {
       mod.setValue(this._address + 12, target, '*')
@@ -716,7 +716,7 @@ async function raylib_run(canvas, userInit, userUpdate) {
 
   
     get up () {
-      return mod.getValue(this._address + 24, '*')
+      return new raylib.Vector3({}, mod.getValue(this._address + 24, '*'))
     }
     set up (up) {
       mod.setValue(this._address + 24, up, '*')
@@ -752,7 +752,7 @@ async function raylib_run(canvas, userInit, userUpdate) {
     }
     
     get offset () {
-      return mod.getValue(this._address + 0, '*')
+      return new raylib.Vector2({}, mod.getValue(this._address + 0, '*'))
     }
     set offset (offset) {
       mod.setValue(this._address + 0, offset, '*')
@@ -760,7 +760,7 @@ async function raylib_run(canvas, userInit, userUpdate) {
 
   
     get target () {
-      return mod.getValue(this._address + 8, '*')
+      return new raylib.Vector2({}, mod.getValue(this._address + 8, '*'))
     }
     set target (target) {
       mod.setValue(this._address + 8, target, '*')
@@ -964,7 +964,7 @@ async function raylib_run(canvas, userInit, userUpdate) {
     }
     
     get texture () {
-      return mod.getValue(this._address + 0, '*')
+      return new raylib.Texture2D({}, mod.getValue(this._address + 0, '*'))
     }
     set texture (texture) {
       mod.setValue(this._address + 0, texture, '*')
@@ -972,7 +972,7 @@ async function raylib_run(canvas, userInit, userUpdate) {
 
   
     get color () {
-      return mod.getValue(this._address + 20, '*')
+      return new raylib.Color({}, mod.getValue(this._address + 20, '*'))
     }
     set color (color) {
       mod.setValue(this._address + 20, color, '*')
@@ -999,7 +999,7 @@ async function raylib_run(canvas, userInit, userUpdate) {
     }
     
     get shader () {
-      return mod.getValue(this._address + 0, '*')
+      return new raylib.Shader({}, mod.getValue(this._address + 0, '*'))
     }
     set shader (shader) {
       mod.setValue(this._address + 0, shader, '*')
@@ -1034,7 +1034,7 @@ async function raylib_run(canvas, userInit, userUpdate) {
     }
     
     get translation () {
-      return mod.getValue(this._address + 0, '*')
+      return new raylib.Vector3({}, mod.getValue(this._address + 0, '*'))
     }
     set translation (translation) {
       mod.setValue(this._address + 0, translation, '*')
@@ -1042,7 +1042,7 @@ async function raylib_run(canvas, userInit, userUpdate) {
 
   
     get rotation () {
-      return mod.getValue(this._address + 12, '*')
+      return new raylib.Quaternion({}, mod.getValue(this._address + 12, '*'))
     }
     set rotation (rotation) {
       mod.setValue(this._address + 12, rotation, '*')
@@ -1050,7 +1050,7 @@ async function raylib_run(canvas, userInit, userUpdate) {
 
   
     get scale () {
-      return mod.getValue(this._address + 28, '*')
+      return new raylib.Vector3({}, mod.getValue(this._address + 28, '*'))
     }
     set scale (scale) {
       mod.setValue(this._address + 28, scale, '*')
@@ -1101,7 +1101,7 @@ async function raylib_run(canvas, userInit, userUpdate) {
     }
     
     get transform () {
-      return mod.getValue(this._address + 0, '*')
+      return new raylib.Matrix({}, mod.getValue(this._address + 0, '*'))
     }
     set transform (transform) {
       mod.setValue(this._address + 0, transform, '*')
@@ -1236,7 +1236,7 @@ async function raylib_run(canvas, userInit, userUpdate) {
     }
     
     get position () {
-      return mod.getValue(this._address + 0, '*')
+      return new raylib.Vector3({}, mod.getValue(this._address + 0, '*'))
     }
     set position (position) {
       mod.setValue(this._address + 0, position, '*')
@@ -1244,7 +1244,7 @@ async function raylib_run(canvas, userInit, userUpdate) {
 
   
     get direction () {
-      return mod.getValue(this._address + 12, '*')
+      return new raylib.Vector3({}, mod.getValue(this._address + 12, '*'))
     }
     set direction (direction) {
       mod.setValue(this._address + 12, direction, '*')
@@ -1280,7 +1280,7 @@ async function raylib_run(canvas, userInit, userUpdate) {
 
   
     get point () {
-      return mod.getValue(this._address + 5, '*')
+      return new raylib.Vector3({}, mod.getValue(this._address + 5, '*'))
     }
     set point (point) {
       mod.setValue(this._address + 5, point, '*')
@@ -1288,7 +1288,7 @@ async function raylib_run(canvas, userInit, userUpdate) {
 
   
     get normal () {
-      return mod.getValue(this._address + 17, '*')
+      return new raylib.Vector3({}, mod.getValue(this._address + 17, '*'))
     }
     set normal (normal) {
       mod.setValue(this._address + 17, normal, '*')
@@ -1306,7 +1306,7 @@ async function raylib_run(canvas, userInit, userUpdate) {
     }
     
     get min () {
-      return mod.getValue(this._address + 0, '*')
+      return new raylib.Vector3({}, mod.getValue(this._address + 0, '*'))
     }
     set min (min) {
       mod.setValue(this._address + 0, min, '*')
@@ -1314,7 +1314,7 @@ async function raylib_run(canvas, userInit, userUpdate) {
 
   
     get max () {
-      return mod.getValue(this._address + 12, '*')
+      return new raylib.Vector3({}, mod.getValue(this._address + 12, '*'))
     }
     set max (max) {
       mod.setValue(this._address + 12, max, '*')
@@ -1438,7 +1438,7 @@ async function raylib_run(canvas, userInit, userUpdate) {
     }
     
     get stream () {
-      return mod.getValue(this._address + 0, '*')
+      return new raylib.AudioStream({}, mod.getValue(this._address + 0, '*'))
     }
     set stream (stream) {
       mod.setValue(this._address + 0, stream, '*')
@@ -1467,7 +1467,7 @@ async function raylib_run(canvas, userInit, userUpdate) {
     }
     
     get stream () {
-      return mod.getValue(this._address + 0, '*')
+      return new raylib.AudioStream({}, mod.getValue(this._address + 0, '*'))
     }
     set stream (stream) {
       mod.setValue(this._address + 0, stream, '*')
@@ -1889,7 +1889,7 @@ async function raylib_run(canvas, userInit, userUpdate) {
 
   
     get texture () {
-      return mod.getValue(this._address + 4, '*')
+      return new raylib.Texture({}, mod.getValue(this._address + 4, '*'))
     }
     set texture (texture) {
       mod.setValue(this._address + 4, texture, '*')
@@ -1897,7 +1897,7 @@ async function raylib_run(canvas, userInit, userUpdate) {
 
   
     get depth () {
-      return mod.getValue(this._address + 24, '*')
+      return new raylib.Texture({}, mod.getValue(this._address + 24, '*'))
     }
     set depth (depth) {
       mod.setValue(this._address + 24, depth, '*')
@@ -1918,7 +1918,7 @@ async function raylib_run(canvas, userInit, userUpdate) {
     }
     
     get position () {
-      return mod.getValue(this._address + 0, '*')
+      return new raylib.Vector3({}, mod.getValue(this._address + 0, '*'))
     }
     set position (position) {
       mod.setValue(this._address + 0, position, '*')
@@ -1926,7 +1926,7 @@ async function raylib_run(canvas, userInit, userUpdate) {
 
   
     get target () {
-      return mod.getValue(this._address + 12, '*')
+      return new raylib.Vector3({}, mod.getValue(this._address + 12, '*'))
     }
     set target (target) {
       mod.setValue(this._address + 12, target, '*')
@@ -1934,7 +1934,7 @@ async function raylib_run(canvas, userInit, userUpdate) {
 
   
     get up () {
-      return mod.getValue(this._address + 24, '*')
+      return new raylib.Vector3({}, mod.getValue(this._address + 24, '*'))
     }
     set up (up) {
       mod.setValue(this._address + 24, up, '*')

@@ -26,7 +26,7 @@ const InitGame = async () => {
     spacing += buildings[i].dim.width
   }
   
-  camera = new Camera({
+  camera = new Camera2D({
     target: new Vector2({ x: player.x + 20, y: player.y + 20 }),
     offset: new Vector2({ x: screenWidth / 2, y: screenHeight / 2 }),
     rotation: 0,

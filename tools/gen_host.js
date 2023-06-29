@@ -114,6 +114,9 @@ const valGetter = (name, type) => {
   if (type === 'string') {
     return `mod.UTF8ToString(${name})`
   }
+  if (mappedStructs[type]) {
+    return `new raylib.${type}({}, mod.getValue(${name}, '*'))`
+  }
   return `mod.getValue(${name}, '${mapType(type)}')`
 }
 const valSetter = (name, valueName, type) => {
