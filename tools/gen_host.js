@@ -129,6 +129,9 @@ const valSetter = (name, valueName, type) => {
   if (type === 'string') {
     return `mod.stringToUTF8(${name}, ${valueName})`
   }
+  if (mappedStructs[type]) {
+    return `mod.setValue(${name}, ${valueName}._address, '*')`
+  }
   return `mod.setValue(${name}, ${valueName}, '${mapType(type)}')`
 }
 
@@ -411,7 +414,7 @@ canvas {
 
       runGame(canvas, async raylib => {
         ${exposed.map(f => `${f} = raylib.${f}`).join('\n  ')}
-        await InitGame()
+        await InitGame(raylib)
       }, UpdateGame)
     \`)
     f(raylib_run, this.canvas)

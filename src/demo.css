@@ -1,6 +1,10 @@
+html, body {
+  margin:0;
+  height: 100vh;
+}
+
 body {
   background: black;
-  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
