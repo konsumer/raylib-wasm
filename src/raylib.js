@@ -4615,6 +4615,7 @@ canvas {
 </style>
 `
     this.shadow.appendChild(this.canvas)
+    this.start(this.getAttribute('src'))
   }
   
   onResize() {
@@ -4643,6 +4644,7 @@ canvas {
     if (src) {
       userCode = await fetch(src).then(r => r.text())
     }
+    
     const f = new Function(['runGame', 'canvas'], userCode + '\n' + `
       if (typeof InitGame === 'undefined') {
         console.error('Make sure to add InitGame() to your raylib-game.')
@@ -5535,9 +5537,5 @@ canvas {
   }
 }
 
-if (typeof document !== 'undefined') {
-  document.addEventListener('DOMContentLoaded', () => {
-    window.customElements.define('raylib-game', RaylibComponent)
-  })
-}
+window.customElements.define('raylib-game', RaylibComponent)
 
