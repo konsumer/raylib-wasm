@@ -13,7 +13,7 @@ if [ ! -d "src/include" ];then
 	cd ..
 fi
 
-emcc src/raylib.c src/lib/libraylib.a -o build/raylib_wasm.js -I src/include --no-entry -DPLATFORM_WEB -Os \
+emcc src/raylib.c src/lib/libraylib.a -o build/raylib.js -I src/include --no-entry -DPLATFORM_WEB -Os \
 	-sEXPORT_KEEPALIVE=1 \
 	-sEXPORT_ES6=1 \
 	-sALLOW_MEMORY_GROWTH=1 \

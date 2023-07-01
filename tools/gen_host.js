@@ -221,9 +221,9 @@ function mapTypeToJs (type) {
 }
 
 let code = `
-const importLocation = document?.location?.toString()
+import Module from '../build/raylib.js'
 
-${(await readFile('build/raylib_wasm.js', 'utf8')).replace('export default Module;', '').replace(/import\.meta\.url/g, 'importLocation')}
+const importLocation = document?.location?.toString()
 
 // run this function before calling anything
 async function raylib_run(canvas, userInit, userUpdate) {
@@ -455,11 +455,11 @@ if (typeof document !== 'undefined') {
 `
 
 // regular web JS
-await writeFile('raylib.js', code)
+await writeFile('src/raylib.js', code)
 
-// ES6 web module
-await writeFile('raylib.module.js', code + `
+// // ES6 web module
+// await writeFile('public/raylib.module.js', code + `
 
-export { raylib_run, RaylibComponent, Module, wasmBinary }
-export default raylib_run
-`)
+// export { raylib_run, RaylibComponent, Module, wasmBinary }
+// export default raylib_run
+// `)
