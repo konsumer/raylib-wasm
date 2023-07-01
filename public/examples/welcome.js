@@ -9,6 +9,7 @@ const InitGame = async () => {
     zoom: 0
   })
   console.log(c.offset.x) // incorrect, 0 but should be 5
+  console.log(c)
 }
 
 const UpdateGame = (ts) => {

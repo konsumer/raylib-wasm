@@ -178,14 +178,18 @@ function outputGetters (struct) {
   return struct.fields.map(field => {
     const size = getSize(field.type)
 
-    const out = `
-    get ${field.name} () {
-      return ${valGetter(`this._address + ${offsetSize}`, field.type)}
-    }
-    set ${field.name} (${field.name}) {
-      ${valSetter(`this._address + ${offsetSize}`, field.name, field.type)}
-    }
+    let out = ''
+
+    if (!mappedStructs[field.type.replace(' ', '').replace('*', '')]) {
+      out = `
+      get ${field.name} () {
+        return ${valGetter(`this._address + ${offsetSize}`, field.type)}
+      }
+      set ${field.name} (${field.name}) {
+        ${valSetter(`this._address + ${offsetSize}`, field.name, field.type)}
+      }
 `
+    }
     offsetSize += size
     return out
   }).join('\n  ')
@@ -235,7 +239,21 @@ for (const s of structs) {
     constructor(init = {}, _address) {
       this._size = ${size}
       this._address = _address || mod._malloc(this._size)
-      ${s.fields.map(f => `this.${f.name} = init.${f.name} || ${defaultValue(f.type)}`).join('\n      ')}
+`
+      //${s.fields.map(f => `this.${f.name} = init.${f.name} || ${defaultValue(f.type)}`).join('\n      ')}
+
+    let offset = 0
+    for (const f of s.fields) {
+      const t = mappedStructs[f.type.replace(' ', '').replace('*', '')]
+      if (!t) {
+        code += `\n      this.${f.name} = init.${f.name} || ${defaultValue(f.type)}`
+      } else {
+        code += `\n      this.offset = new raylib.${t.name}(init.${f.name} || {}, this._address + ${offset})`
+      }
+      offset += getSize(f.type)
+    }
+    
+    code += `
     }
     ${outputGetters(s)}
   }\n\n`
