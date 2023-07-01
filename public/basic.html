@@ -1,0 +1,15 @@
+<script type="module" src="https://raylib.surge.sh/raylib.js"></script>
+
+<raylib-game>
+const InitGame = async () => {
+  InitWindow(800, 450)
+}
+
+const UpdateGame = (ts) => {
+  BeginDrawing()
+  ClearBackground(RAYWHITE)
+  DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
+  DrawFPS(10, 10)
+  EndDrawing()
+}
+</raylib-game>
