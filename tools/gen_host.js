@@ -221,6 +221,8 @@ function mapTypeToJs (type) {
 }
 
 let code = `
+const wasmBinary = new Uint8Array([${(await readFile('build/raylib.wasm')).join(',')}])
+
 import Module from '../build/raylib.js'
 
 const importLocation = document?.location?.toString()
@@ -228,7 +230,7 @@ const importLocation = document?.location?.toString()
 // run this function before calling anything
 async function raylib_run(canvas, userInit, userUpdate) {
   const raylib = {}
-  const mod = await Module({canvas})
+  const mod = await Module({canvas, wasmBinary})
 `
 
 for (const s of structs) {
