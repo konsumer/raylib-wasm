@@ -490,8 +490,8 @@ async function raylib_run(canvas, userInit, userUpdate) {
       this._address = _address || mod._malloc(this._size)
 
       this.id = init.id || 0
-      this.offset = new raylib.Texture(init.texture || {}, this._address + 4)
-      this.offset = new raylib.Texture(init.depth || {}, this._address + 24)
+      this.texture = new raylib.Texture(init.texture || {}, this._address + 4)
+      this.depth = new raylib.Texture(init.depth || {}, this._address + 24)
     }
     
       get id () {
@@ -511,7 +511,7 @@ async function raylib_run(canvas, userInit, userUpdate) {
       this._size = 36
       this._address = _address || mod._malloc(this._size)
 
-      this.offset = new raylib.Rectangle(init.source || {}, this._address + 0)
+      this.source = new raylib.Rectangle(init.source || {}, this._address + 0)
       this.left = init.left || 0
       this.top = init.top || 0
       this.right = init.right || 0
@@ -571,7 +571,7 @@ async function raylib_run(canvas, userInit, userUpdate) {
       this.offsetX = init.offsetX || 0
       this.offsetY = init.offsetY || 0
       this.advanceX = init.advanceX || 0
-      this.offset = new raylib.Image(init.image || {}, this._address + 16)
+      this.image = new raylib.Image(init.image || {}, this._address + 16)
     }
     
       get value () {
@@ -617,9 +617,9 @@ async function raylib_run(canvas, userInit, userUpdate) {
       this.baseSize = init.baseSize || 0
       this.glyphCount = init.glyphCount || 0
       this.glyphPadding = init.glyphPadding || 0
-      this.offset = new raylib.Texture2D(init.texture || {}, this._address + 12)
-      this.offset = new raylib.Rectangle(init.recs || {}, this._address + 32)
-      this.offset = new raylib.GlyphInfo(init.glyphs || {}, this._address + 36)
+      this.texture = new raylib.Texture2D(init.texture || {}, this._address + 12)
+      this.recs = new raylib.Rectangle(init.recs || {}, this._address + 32)
+      this.glyphs = new raylib.GlyphInfo(init.glyphs || {}, this._address + 36)
     }
     
       get baseSize () {
@@ -656,9 +656,9 @@ async function raylib_run(canvas, userInit, userUpdate) {
       this._size = 44
       this._address = _address || mod._malloc(this._size)
 
-      this.offset = new raylib.Vector3(init.position || {}, this._address + 0)
-      this.offset = new raylib.Vector3(init.target || {}, this._address + 12)
-      this.offset = new raylib.Vector3(init.up || {}, this._address + 24)
+      this.position = new raylib.Vector3(init.position || {}, this._address + 0)
+      this.target = new raylib.Vector3(init.target || {}, this._address + 12)
+      this.up = new raylib.Vector3(init.up || {}, this._address + 24)
       this.fovy = init.fovy || 0
       this.projection = init.projection || 0
     }
@@ -690,7 +690,7 @@ async function raylib_run(canvas, userInit, userUpdate) {
       this._address = _address || mod._malloc(this._size)
 
       this.offset = new raylib.Vector2(init.offset || {}, this._address + 0)
-      this.offset = new raylib.Vector2(init.target || {}, this._address + 8)
+      this.target = new raylib.Vector2(init.target || {}, this._address + 8)
       this.rotation = init.rotation || 0
       this.zoom = init.zoom || 0
     }
@@ -891,8 +891,8 @@ async function raylib_run(canvas, userInit, userUpdate) {
       this._size = 28
       this._address = _address || mod._malloc(this._size)
 
-      this.offset = new raylib.Texture2D(init.texture || {}, this._address + 0)
-      this.offset = new raylib.Color(init.color || {}, this._address + 20)
+      this.texture = new raylib.Texture2D(init.texture || {}, this._address + 0)
+      this.color = new raylib.Color(init.color || {}, this._address + 20)
       this.value = init.value || 0
     }
     
@@ -913,8 +913,8 @@ async function raylib_run(canvas, userInit, userUpdate) {
       this._size = 28
       this._address = _address || mod._malloc(this._size)
 
-      this.offset = new raylib.Shader(init.shader || {}, this._address + 0)
-      this.offset = new raylib.MaterialMap(init.maps || {}, this._address + 8)
+      this.shader = new raylib.Shader(init.shader || {}, this._address + 0)
+      this.maps = new raylib.MaterialMap(init.maps || {}, this._address + 8)
       this.params = init.params || [0, 0, 0, 0]
     }
     
@@ -935,9 +935,9 @@ async function raylib_run(canvas, userInit, userUpdate) {
       this._size = 40
       this._address = _address || mod._malloc(this._size)
 
-      this.offset = new raylib.Vector3(init.translation || {}, this._address + 0)
-      this.offset = new raylib.Quaternion(init.rotation || {}, this._address + 12)
-      this.offset = new raylib.Vector3(init.scale || {}, this._address + 28)
+      this.translation = new raylib.Vector3(init.translation || {}, this._address + 0)
+      this.rotation = new raylib.Quaternion(init.rotation || {}, this._address + 12)
+      this.scale = new raylib.Vector3(init.scale || {}, this._address + 28)
     }
     
   
@@ -977,15 +977,15 @@ async function raylib_run(canvas, userInit, userUpdate) {
       this._size = 96
       this._address = _address || mod._malloc(this._size)
 
-      this.offset = new raylib.Matrix(init.transform || {}, this._address + 0)
+      this.transform = new raylib.Matrix(init.transform || {}, this._address + 0)
       this.meshCount = init.meshCount || 0
       this.materialCount = init.materialCount || 0
-      this.offset = new raylib.Mesh(init.meshes || {}, this._address + 72)
-      this.offset = new raylib.Material(init.materials || {}, this._address + 76)
+      this.meshes = new raylib.Mesh(init.meshes || {}, this._address + 72)
+      this.materials = new raylib.Material(init.materials || {}, this._address + 76)
       this.meshMaterial = init.meshMaterial || 0
       this.boneCount = init.boneCount || 0
-      this.offset = new raylib.BoneInfo(init.bones || {}, this._address + 88)
-      this.offset = new raylib.Transform(init.bindPose || {}, this._address + 92)
+      this.bones = new raylib.BoneInfo(init.bones || {}, this._address + 88)
+      this.bindPose = new raylib.Transform(init.bindPose || {}, this._address + 92)
     }
     
   
@@ -1034,7 +1034,7 @@ async function raylib_run(canvas, userInit, userUpdate) {
 
       this.boneCount = init.boneCount || 0
       this.frameCount = init.frameCount || 0
-      this.offset = new raylib.BoneInfo(init.bones || {}, this._address + 8)
+      this.bones = new raylib.BoneInfo(init.bones || {}, this._address + 8)
       this.framePoses = init.framePoses || new raylib.Transform()
       this.name = init.name || [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     }
@@ -1079,8 +1079,8 @@ async function raylib_run(canvas, userInit, userUpdate) {
       this._size = 24
       this._address = _address || mod._malloc(this._size)
 
-      this.offset = new raylib.Vector3(init.position || {}, this._address + 0)
-      this.offset = new raylib.Vector3(init.direction || {}, this._address + 12)
+      this.position = new raylib.Vector3(init.position || {}, this._address + 0)
+      this.direction = new raylib.Vector3(init.direction || {}, this._address + 12)
     }
     
   
@@ -1094,8 +1094,8 @@ async function raylib_run(canvas, userInit, userUpdate) {
 
       this.hit = init.hit || 0
       this.distance = init.distance || 0
-      this.offset = new raylib.Vector3(init.point || {}, this._address + 5)
-      this.offset = new raylib.Vector3(init.normal || {}, this._address + 17)
+      this.point = new raylib.Vector3(init.point || {}, this._address + 5)
+      this.normal = new raylib.Vector3(init.normal || {}, this._address + 17)
     }
     
       get hit () {
@@ -1123,8 +1123,8 @@ async function raylib_run(canvas, userInit, userUpdate) {
       this._size = 24
       this._address = _address || mod._malloc(this._size)
 
-      this.offset = new raylib.Vector3(init.min || {}, this._address + 0)
-      this.offset = new raylib.Vector3(init.max || {}, this._address + 12)
+      this.min = new raylib.Vector3(init.min || {}, this._address + 0)
+      this.max = new raylib.Vector3(init.max || {}, this._address + 12)
     }
     
   
@@ -1244,7 +1244,7 @@ async function raylib_run(canvas, userInit, userUpdate) {
       this._size = 24
       this._address = _address || mod._malloc(this._size)
 
-      this.offset = new raylib.AudioStream(init.stream || {}, this._address + 0)
+      this.stream = new raylib.AudioStream(init.stream || {}, this._address + 0)
       this.frameCount = init.frameCount || 0
     }
     
@@ -1264,7 +1264,7 @@ async function raylib_run(canvas, userInit, userUpdate) {
       this._size = 33
       this._address = _address || mod._malloc(this._size)
 
-      this.offset = new raylib.AudioStream(init.stream || {}, this._address + 0)
+      this.stream = new raylib.AudioStream(init.stream || {}, this._address + 0)
       this.frameCount = init.frameCount || 0
       this.looping = init.looping || 0
       this.ctxType = init.ctxType || 0
@@ -1681,8 +1681,8 @@ async function raylib_run(canvas, userInit, userUpdate) {
       this._address = _address || mod._malloc(this._size)
 
       this.id = init.id || 0
-      this.offset = new raylib.Texture(init.texture || {}, this._address + 4)
-      this.offset = new raylib.Texture(init.depth || {}, this._address + 24)
+      this.texture = new raylib.Texture(init.texture || {}, this._address + 4)
+      this.depth = new raylib.Texture(init.depth || {}, this._address + 24)
     }
     
       get id () {
@@ -1702,9 +1702,9 @@ async function raylib_run(canvas, userInit, userUpdate) {
       this._size = 44
       this._address = _address || mod._malloc(this._size)
 
-      this.offset = new raylib.Vector3(init.position || {}, this._address + 0)
-      this.offset = new raylib.Vector3(init.target || {}, this._address + 12)
-      this.offset = new raylib.Vector3(init.up || {}, this._address + 24)
+      this.position = new raylib.Vector3(init.position || {}, this._address + 0)
+      this.target = new raylib.Vector3(init.target || {}, this._address + 12)
+      this.up = new raylib.Vector3(init.up || {}, this._address + 24)
       this.fovy = init.fovy || 0
       this.projection = init.projection || 0
     }

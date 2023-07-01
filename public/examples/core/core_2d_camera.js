@@ -10,8 +10,6 @@ const InitGame = async () => {
 
   player = new Rectangle({ x: 400, y: 280, width: 40, height: 40 })
 
-  console.log('player', player)
-
   let spacing = 0
 
   for (const i in buildings) {
@@ -29,24 +27,12 @@ const InitGame = async () => {
     spacing += buildings[i].dim.width
   }
 
-  console.log('buildings', buildings)
-
-  const offset = new Vector2({ x: screenWidth / 2, y: screenHeight / 2 })
-
-  console.log('offset', offset)
-
-  const target = new Vector2({ x: player.x + 20, y: player.y + 20 })
-
-  console.log('target', target)
-
   camera = new Camera2D({
-    target,
-    offset,
+    target: { x: player.x + 20, y: player.y + 20 },
+    offset: { x: screenWidth / 2, y: screenHeight / 2 },
     rotation: 0,
     zoom: 1
   })
-
-  console.log('camera', camera)
 }
 
 const UpdateGame = (ts) => {
@@ -56,7 +42,8 @@ const UpdateGame = (ts) => {
     player.x -= 2
   }
 
-  camera.target = new Vector2({ x: player.x + 20, y: player.y + 20 })
+  camera.target.x = player.x + 20
+  camera.target.y = player.y + 20
 
   if (IsKeyDown(KEY_A)) {
     camera.rotation--

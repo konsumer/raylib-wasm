@@ -240,7 +240,6 @@ for (const s of structs) {
       this._size = ${size}
       this._address = _address || mod._malloc(this._size)
 `
-      //${s.fields.map(f => `this.${f.name} = init.${f.name} || ${defaultValue(f.type)}`).join('\n      ')}
 
     let offset = 0
     for (const f of s.fields) {
@@ -248,7 +247,7 @@ for (const s of structs) {
       if (!t) {
         code += `\n      this.${f.name} = init.${f.name} || ${defaultValue(f.type)}`
       } else {
-        code += `\n      this.offset = new raylib.${t.name}(init.${f.name} || {}, this._address + ${offset})`
+        code += `\n      this.${f.name} = new raylib.${t.name}(init.${f.name} || {}, this._address + ${offset})`
       }
       offset += getSize(f.type)
     }
