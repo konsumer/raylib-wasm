@@ -389,6 +389,7 @@ canvas {
 </style>
 \`
     this.shadow.appendChild(this.canvas)
+    this.start(this.getAttribute('src'))
   }
   
   onResize() {
