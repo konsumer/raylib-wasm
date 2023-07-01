@@ -745,25 +745,18 @@ async function raylib_run(canvas, userInit, userUpdate) {
     constructor(init = {}, _address) {
       this._size = 24
       this._address = _address || mod._malloc(this._size)
-      this.offset = init.offset || new raylib.Vector2()
-      this.target = init.target || new raylib.Vector2()
+      this.offset = new raylib.Vector2({}, this._address + 0)
+      if (init.offset) {
+        this.offset.x = init.offset.x
+        this.offset.y = init.offset.y
+      }
+      this.target = new raylib.Vector2({}, this._address + 8)
+      if (init.target) {
+        this.target.x = init.target.x
+        this.target.y = init.target.y
+      }
       this.rotation = init.rotation || 0
       this.zoom = init.zoom || 0
-    }
-    
-    get offset () {
-      return new raylib.Vector2({}, mod.getValue(this._address + 0, '*'))
-    }
-    set offset (offset) {
-      mod.setValue(this._address + 0, offset._address, '*')
-    }
-
-  
-    get target () {
-      return new raylib.Vector2({}, mod.getValue(this._address + 8, '*'))
-    }
-    set target (target) {
-      mod.setValue(this._address + 8, target._address, '*')
     }
 
   
