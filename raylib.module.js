@@ -950,15 +950,15 @@ async function raylib_run(canvas, userInit, userUpdate) {
       this._size = 36
       this._address = _address || mod._malloc(this._size)
 
-      this.name = init.name || [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+      this.name = init.name || ''
       this.parent = init.parent || 0
     }
     
       get name () {
-        return mod.getValue(this._address + 0, '*')
+        return mod.UTF8ToString(this._address + 0)
       }
       set name (name) {
-        mod.setValue(this._address + 0, name, '*')
+        mod.stringToUTF8(this._address + 0, name)
       }
 
   
@@ -1036,7 +1036,7 @@ async function raylib_run(canvas, userInit, userUpdate) {
       this.frameCount = init.frameCount || 0
       this.bones = new raylib.BoneInfo(init.bones || {}, this._address + 8)
       this.framePoses = init.framePoses || new raylib.Transform()
-      this.name = init.name || [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+      this.name = init.name || ''
     }
     
       get boneCount () {
@@ -1065,10 +1065,10 @@ async function raylib_run(canvas, userInit, userUpdate) {
 
   
       get name () {
-        return mod.getValue(this._address + 16, '*')
+        return mod.UTF8ToString(this._address + 16)
       }
       set name (name) {
-        mod.setValue(this._address + 16, name, '*')
+        mod.stringToUTF8(this._address + 16, name)
       }
 
   }

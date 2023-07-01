@@ -64,6 +64,10 @@ functions = functions.filter(f => !f.description.includes('only PLATFORM_DESKTOP
 
 // generate a default-value for a type
 function defaultValue (type) {
+  if (type === 'string' || type.match(/char *\[([0-9]+)\]/) || type === 'char*' || type === 'const char*' || type === 'char *' || type === 'const char *') {
+    return "''"
+  }
+
   // array-types
   const a = type.match(/([a-zA-Z 0-9]+) *\[([0-9]+)\]/)
   if (a) {
@@ -75,9 +79,7 @@ function defaultValue (type) {
     return `new raylib.${type.replace(/\*/g, '').replace(/ /g, '')}()`
   }
 
-  if (type === 'string' || type === 'char*' || type === 'const char*') {
-    return "''"
-  }
+
 
   return 0
 }
@@ -105,14 +107,14 @@ const mapType = type => {
   return type
 }
 const valGetter = (name, type) => {
+  if (type === 'string' || type.match(/char *\[([0-9]+)\]/) || type === 'char*' || type === 'const char*' || type === 'char *' || type === 'const char *') {
+    return `mod.UTF8ToString(${name})`
+  }
   if (type === 'u8' || type === 'unsigned char') {
     return `mod.HEAPU8[${name}]`
   }
   if (type === 'u32' || type === 'unsigned int') {
     return `mod.HEAPU32[${name}]`
-  }
-  if (type === 'string') {
-    return `mod.UTF8ToString(${name})`
   }
   if (mappedStructs[type]) {
     return `new raylib.${type}({}, mod.getValue(${name}, '*'))`
@@ -126,7 +128,7 @@ const valSetter = (name, valueName, type) => {
   if (type === 'u32' || type === 'unsigned int') {
     return `mod.HEAPU32[${name}] = ${valueName}`
   }
-  if (type === 'string') {
+  if (type === 'string' || type.match(/char *\[([0-9]+)\]/) || type === 'char*' || type === 'const char*' || type === 'char *' || type === 'const char *') {
     return `mod.stringToUTF8(${name}, ${valueName})`
   }
   if (mappedStructs[type]) {
