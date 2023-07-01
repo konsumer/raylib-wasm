@@ -11,7 +11,7 @@
     "build:demo": "npx -y vite build",
     "deploy": "npx -y surge dist raylib.surge.sh",
     "predeploy": "npm run build",
-    "build": "npm run build:wasm && npm run build:interface && npm run build:demo && cp build/raylib_wasm.wasm ."
+    "build": "npm run build:wasm && npm run build:interface && npm run build:demo"
   },
   "keywords": [],
   "author": "David Konsumer <konsumer@jetboystudio.com>",
