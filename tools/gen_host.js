@@ -9,7 +9,7 @@ let { defines, structs, aliases, enums, callbacks, functions } = await fetch('ht
 
 
 
-for (const k of ['rlgl', 'raymath']) { // add more like reasings,raygui,raymath,rmem,rres
+for (const k of ['rlgl', 'raymath', 'raygui', 'reasings']) { // add more like rmem,rres
   const a = api[k]
   // defines = [...defines, ...a.defines]
   // structs = [...structs, ...a.structs]
@@ -22,7 +22,7 @@ for (const k of ['rlgl', 'raymath']) { // add more like reasings,raygui,raymath,
 
 
 // I use this to create eh build line (to cut down on unused exports)
-console.log(`-sEXPORTED_FUNCTIONS=_malloc,_free,${functions.map(f => `_${f.name}`).join(',')}`)
+console.log(`-sEXPORTED_FUNCTIONS=_malloc,_free,${functions.map(f => `_${f.name}`).filter(f => !['_GuiTextBoxMulti', '_rlDisableStatePointer', '_rlEnableStatePointer'].includes(f)).join(',')}`)
 
 
 const exposed = ['free', 'addFile', 'globalize', 'mod']

@@ -1,6 +1,7 @@
 node_modules
 .DS_Store
 *.zip
-src/raylib/
+/src/raylib/
+/src/raygui/
 /build/
 /dist/
