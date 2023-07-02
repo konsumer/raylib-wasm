@@ -8,7 +8,7 @@ let { defines, structs, aliases, enums, callbacks, functions } = await fetch('ht
 // I use this to create eh build line (to cut down on unused exports)
 // console.log(functions.map(f => `_${f.name}`).join(','))
 
-const exposed = ['free', 'addFile', 'globalize']
+const exposed = ['free', 'addFile', 'globalize', 'mod']
 
 // these are args that represent files that should be pre-loaded first
 const fileFuncArgs = {
@@ -231,6 +231,7 @@ const importLocation = document?.location?.toString()
 async function raylib_run(canvas, userInit, userUpdate) {
   const raylib = {}
   const mod = await Module({canvas, wasmBinary})
+  raylib.mod = mod
 `
 
 for (const s of structs) {
