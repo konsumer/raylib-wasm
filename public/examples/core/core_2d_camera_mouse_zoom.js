@@ -4,7 +4,7 @@ let camera
 
 const InitGame = async () => {
   InitWindow(screenWidth, screenHeight)
-  camera = new Camera()
+  camera = new Camera2D()
   camera.zoom = 1
 }
 
@@ -17,6 +17,7 @@ const UpdateGame = (ts) => {
   const wheel = GetMouseWheelMove()
   if (wheel != 0) {
     const mouseWorldPos = GetScreenToWorld2D(GetMousePosition(), camera)
+    console.log(camera, GetMousePosition(), GetScreenToWorld2D(GetMousePosition(), camera))
     camera.offset = GetMousePosition()
     camera.target = mouseWorldPos
     const zoomIncrement = 0.125
@@ -36,5 +37,6 @@ const UpdateGame = (ts) => {
       rlPopMatrix()
       DrawCircle(100, 100, 50, YELLOW)
     EndMode2D()
+    DrawFPS(10,10)
   EndDrawing()
 }
