@@ -3,10 +3,27 @@
 
 import { readFile, writeFile } from 'fs/promises'
 
+import api from '@raylib/api'
+
 let { defines, structs, aliases, enums, callbacks, functions } = await fetch('https://raw.githubusercontent.com/raysan5/raylib/master/parser/output/raylib_api.json').then(r => r.json())
 
+
+
+for (const k of ['rlgl', 'raymath']) { // add more like reasings,raygui,raymath,rmem,rres
+  const a = api[k]
+  // defines = [...defines, ...a.defines]
+  // structs = [...structs, ...a.structs]
+  // aliases = [...structs, ...a.structs]
+  enums = [...enums, ...a.enums]
+  // callbacks = [...callbacks, ...a.callbacks]
+  functions = [...functions, ...a.functions]
+}
+
+
+
 // I use this to create eh build line (to cut down on unused exports)
-// console.log(functions.map(f => `_${f.name}`).join(','))
+console.log(`-sEXPORTED_FUNCTIONS=_malloc,_free,${functions.map(f => `_${f.name}`).join(',')}`)
+
 
 const exposed = ['free', 'addFile', 'globalize', 'mod']
 
