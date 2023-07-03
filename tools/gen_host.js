@@ -7,8 +7,6 @@ import api from '@raylib/api'
 
 let { defines, structs, aliases, enums, callbacks, functions } = await fetch('https://raw.githubusercontent.com/raysan5/raylib/master/parser/output/raylib_api.json').then(r => r.json())
 
-
-
 for (const k of ['rlgl', 'raymath', 'raygui', 'reasings']) { // add more like rmem,rres
   const a = api[k]
   // defines = [...defines, ...a.defines]
@@ -19,6 +17,39 @@ for (const k of ['rlgl', 'raymath', 'raygui', 'reasings']) { // add more like rm
   functions = [...functions, ...a.functions]
 }
 
+functions.push({
+  name: 'DrawTextBoxed',
+  description: 'Utility from original examples for word-wrapping some text',
+  returnType: 'void',
+  params: [
+    { type: 'Font', name: 'font' },
+    { type: 'const char *', name: 'text' },
+    { type: 'Rectangle', name: 'rec' },
+    { type: 'float', name: 'fontSize' },
+    { type: 'float', name: 'spacing' },
+    { type: 'bool', name: 'wordWrap' },
+    { type: 'Color', name: 'tint' },
+  ]
+})
+
+functions.push({
+  name: 'DrawTextBoxedSelectable',
+  description: 'Utility from original examples for word-wrapping some text, and allowing you to show selection',
+  returnType: 'void',
+  params: [
+    { type: 'Font', name: 'font' },
+    { type: 'const char *', name: 'text' },
+    { type: 'Rectangle', name: 'rec' },
+    { type: 'float', name: 'fontSize' },
+    { type: 'float', name: 'spacing' },
+    { type: 'bool', name: 'wordWrap' },
+    { type: 'Color', name: 'tint' },
+    { type: 'int', name: 'selectStart' },
+    { type: 'int', name: 'selectLength' },
+    { type: 'Color', name: 'selectTint' },
+    { type: 'Color', name: 'selectBackTint' },
+  ]
+})
 
 
 // I use this to create eh build line (to cut down on unused exports)
@@ -216,7 +247,7 @@ function outputGetters (struct) {
 
 // for functions, map input/output type to JS-ish param (for cwrap/ccall auto-conversion)
 function mapTypeToJs (type) {
-  if (type === 'const char *') {
+  if (type === 'const char *' || type === 'char *') {
     return "'string'"
   }
   if (type.includes('*')) {
@@ -249,6 +280,11 @@ async function raylib_run(canvas, userInit, userUpdate) {
   const raylib = {}
   const mod = await Module({canvas, wasmBinary})
   raylib.mod = mod
+
+  // lets you register things for GC deletion
+  raylib.gc = new FinalizationRegistry((address) => {
+    mod._free(address)
+  })
 `
 
 for (const s of structs) {
@@ -259,6 +295,7 @@ for (const s of structs) {
     constructor(init = {}, _address) {
       this._size = ${size}
       this._address = _address || mod._malloc(this._size)
+      raylib.gc.register(this, this._address)
 `
 
     let offset = 0
@@ -325,7 +362,7 @@ for (const { name, description, returnType, params = [] } of functions) {
 
 `
   } else {
-    code += `const _${name} = mod.cwrap('${name}', 'void', [${callParamTypes.join(', ')}])\n  `
+    code += `const _${name} = mod.cwrap('${name}', ${mapTypeToJs(returnType)}, [${callParamTypes.join(', ')}])\n  `
 
     if (fileFuncArgs[name]) {
       code += `raylib.${name} = async (${wasmParams.join(', ')}) => {\n  `

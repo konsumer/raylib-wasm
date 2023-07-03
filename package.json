@@ -17,6 +17,7 @@
   "author": "David Konsumer <konsumer@jetboystudio.com>",
   "license": "MIT",
   "devDependencies": {
-    "@raylib/api": "^4.5.0"
+    "@raylib/api": "^4.5.0",
+    "standard": "^17.1.0"
   }
 }

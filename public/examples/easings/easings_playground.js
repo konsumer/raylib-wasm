@@ -1,3 +1,4 @@
+
 const InitGame = async () => {
   InitWindow(400, 450)
 }
@@ -5,7 +6,6 @@ const InitGame = async () => {
 const UpdateGame = (ts) => {
   BeginDrawing()
   ClearBackground(BLACK)
-  DrawText("Raylib WASM", 10, 120, 62, GREEN)
-  DrawText("Choose your demo from the selector!", 15, 214, 20, BLUE)
+  DrawText("Sorry, demo not implemented yet.", 15, 214, 20, RAYWHITE)
   EndDrawing()
 }
