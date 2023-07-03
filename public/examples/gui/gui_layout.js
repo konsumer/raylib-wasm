@@ -111,6 +111,7 @@ const InitGame = async () => {
 
 const UpdateGame = (ts) => {
   BeginDrawing()
+  ClearBackground(BLACK)
   DrawLayout(layout)
   EndDrawing()
 }
