@@ -2,59 +2,9 @@
 // it will be hand-edited after
 
 import { readFile, writeFile } from 'fs/promises'
-
-import api from '@raylib/api'
-
-let { defines, structs, aliases, enums, callbacks, functions } = await fetch('https://raw.githubusercontent.com/raysan5/raylib/master/parser/output/raylib_api.json').then(r => r.json())
-
-for (const k of ['rlgl', 'raymath', 'raygui', 'reasings']) { // add more like rmem,rres
-  const a = api[k]
-  // defines = [...defines, ...a.defines]
-  // structs = [...structs, ...a.structs]
-  // aliases = [...structs, ...a.structs]
-  enums = [...enums, ...a.enums]
-  // callbacks = [...callbacks, ...a.callbacks]
-  functions = [...functions, ...a.functions]
-}
-
-functions.push({
-  name: 'DrawTextBoxed',
-  description: 'Utility from original examples for word-wrapping some text',
-  returnType: 'void',
-  params: [
-    { type: 'Font', name: 'font' },
-    { type: 'const char *', name: 'text' },
-    { type: 'Rectangle', name: 'rec' },
-    { type: 'float', name: 'fontSize' },
-    { type: 'float', name: 'spacing' },
-    { type: 'bool', name: 'wordWrap' },
-    { type: 'Color', name: 'tint' },
-  ]
-})
-
-functions.push({
-  name: 'DrawTextBoxedSelectable',
-  description: 'Utility from original examples for word-wrapping some text, and allowing you to show selection',
-  returnType: 'void',
-  params: [
-    { type: 'Font', name: 'font' },
-    { type: 'const char *', name: 'text' },
-    { type: 'Rectangle', name: 'rec' },
-    { type: 'float', name: 'fontSize' },
-    { type: 'float', name: 'spacing' },
-    { type: 'bool', name: 'wordWrap' },
-    { type: 'Color', name: 'tint' },
-    { type: 'int', name: 'selectStart' },
-    { type: 'int', name: 'selectLength' },
-    { type: 'Color', name: 'selectTint' },
-    { type: 'Color', name: 'selectBackTint' },
-  ]
-})
-
+import { defines, structs, aliases, enums, callbacks, functions, mappedStructs } from './api.js'
 
 // I use this to create eh build line (to cut down on unused exports)
-console.log(`-sEXPORTED_FUNCTIONS=_malloc,_free,${functions.map(f => `_${f.name}`).filter(f => !['_GuiTextBoxMulti', '_rlDisableStatePointer', '_rlEnableStatePointer'].includes(f)).join(',')}`)
-
 
 const exposed = ['free', 'addFile', 'globalize', 'mod']
 
@@ -96,20 +46,6 @@ const fileFuncRet = {
   TakeScreenshot: ['fileName']
 }
 
-// add type-aliases & a keyed list for lookup
-const mappedStructs = structs.reduce((a, c) => ({ ...a, [c.name]: c }), {})
-for (const { type, name, description } of aliases) {
-  mappedStructs[name] = {
-    ...mappedStructs[type],
-    description,
-    name
-  }
-}
-structs = Object.values(mappedStructs)
-
-// strip desktop-only stuff
-functions = functions.filter(f => !f.description.includes('only PLATFORM_DESKTOP'))
-
 // generate a default-value for a type
 function defaultValue (type) {
   if (type === 'string' || type.match(/char *\[([0-9]+)\]/) || type === 'char*' || type === 'const char*' || type === 'char *' || type === 'const char *') {
@@ -126,8 +62,6 @@ function defaultValue (type) {
   if (type.match(/^[A-Z]/)) {
     return `new raylib.${type.replace(/\*/g, '').replace(/ /g, '')}()`
   }
-
-
 
   return 0
 }
@@ -280,14 +214,10 @@ async function raylib_run(canvas, userInit, userUpdate) {
   const raylib = {}
   const mod = await Module({canvas, wasmBinary})
   raylib.mod = mod
-
-  // lets you register things for GC deletion
-  raylib.gc = new FinalizationRegistry((address) => {
-    mod._free(address)
-  })
 `
 
 for (const s of structs) {
+  s.fields = s.fields || []
   exposed.push(s.name)
   const size = s.fields.reduce((a, c) => a + getSize(c.type), 0)
   code += `  // ${s.description}
@@ -295,7 +225,6 @@ for (const s of structs) {
     constructor(init = {}, _address) {
       this._size = ${size}
       this._address = _address || mod._malloc(this._size)
-      raylib.gc.register(this, this._address)
 `
 
     let offset = 0

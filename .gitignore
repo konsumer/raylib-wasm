@@ -3,5 +3,6 @@ node_modules
 *.zip
 /src/raylib/
 /src/raygui/
+/src/reasings/
 /build/
 /dist/
