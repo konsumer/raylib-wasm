@@ -4,10 +4,16 @@ html, body {
 }
 
 body {
+  font-family: sans-serif;
+  color: white;
   background: black;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+a {
+  color: inherit;
 }
 
 
@@ -15,4 +21,10 @@ body {
  position: absolute;
  top: 10px;
  left: 10px;
+}
+
+#source {
+ position: absolute;
+ top: 10px;
+ right: 10px;
 }

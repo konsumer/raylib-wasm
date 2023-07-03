@@ -3,11 +3,18 @@
 
 const dselect = document.getElementById('demo-select')
 const r = document.getElementById('raylib')
+const s = document.getElementById('source')
 
 dselect.addEventListener("change", () => {
   document.location.hash = `#${dselect.value}`
 })
 
-addEventListener("hashchange", (event) => r.setAttribute('src', `/examples/${document.location.hash.slice(1) || 'welcome'}.js`))
+addEventListener("hashchange", (event) => {
+  const h = `/examples/${document.location.hash.slice(1) || 'welcome'}.js`
+  r.setAttribute('src', h)
+  s.setAttribute('href', h)
+})
+const h = `/examples/${document.location.hash.slice(1) || 'welcome'}.js`
 dselect.value = document.location.hash.slice(1) || 'welcome'
-r.setAttribute('src', `/examples/${document.location.hash.slice(1) || 'welcome'}.js`)
+r.setAttribute('src', h)
+s.setAttribute('href', h)
