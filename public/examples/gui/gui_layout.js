@@ -1,5 +1,32 @@
 let layout
 
+const controls = {
+    GUI_WINDOWBOX       : 0,  // GuiWindowBox
+    GUI_GROUPBOX        : 1,  // 
+    GUI_LINE            : 2,  // 
+    GUI_PANEL           : 3,  // 
+    GUI_LABEL           : 4,  // 
+    GUI_BUTTON          : 5,  // GuiButton
+    GUI_LABELBUTTON     : 6,  // 
+    GUI_CHECKBOX        : 7,  // 
+    GUI_TOGGLE          : 8,  // GuiToggle
+    GUI_TOGGLEGROUP     : 9,  // 
+    GUI_COMBOBOX        : 10, // 
+    GUI_DROPDOWNBOX     : 11, // 
+    GUI_TEXTBOX         : 12, // 
+    GUI_TEXTBOXMULTI    : 13, // 
+    GUI_VALUEBOX        : 14, // 
+    GUI_SPINNER         : 15, // 
+    GUI_SLIDER          : 16, // GuiSlider
+    GUI_SLIDERBAR       : 17, // GuiSliderBar
+    GUI_PROGRESSBAR     : 18, // GuiProgressBar
+    GUI_STATUSBAR       : 19, // 
+    GUI_SCROLLPANEL     : 20, // 
+    GUI_LISTVIEW        : 21, // GuiListView
+    GUI_COLORPICKER     : 22, // 
+    GUI_DUMMYREC        : 23  // 
+}
+
 // these 2 functions might eventually be built into raylib-wasm
 async function LoadLayout(filename) {
   const text = await LoadFileText(filename)
@@ -36,33 +63,29 @@ async function LoadLayout(filename) {
       const elID = parseInt(m[2])
       state[name] = {}
 
-      if (elID === 0) { // GuiWindowBox
-        state[name].active = true
-      }
-
-      if (elID === 5) { // GuiButton
-        state[name].pressed = false
-      }
-
-      if (elID === 8) { // GuiToggle
-        state[name].active = false
-      }
-
-      if (elID === 16) { // GuiSlider
-        state[name].value = 0
-      }
-
-      if (elID === 17) { // GuiSliderBar
-        state[name].value = 0
-      }
-
-      if (elID === 18) { // GuiProgressBar
-        state[name].value = 0
-      }
-
-      if (elID === 21) { // GuiListView
-        state[name].active = 0
-        state[name].scrollIndex = 0
+      switch(elID) {
+        case controls.GUI_WINDOWBOX:
+          state[name].active = true
+          break
+        case controls.GUI_BUTTON:
+          state[name].pressed = false
+          break
+        case controls.GUI_TOGGLE:
+          state[name].active = false
+          break
+        case controls.GUI_SLIDER:
+          state[name].value = 0
+          break
+        case controls.GUI_SLIDERBAR:
+          state[name].value = 0
+          break
+        case controls.GUI_PROGRESSBAR:
+          state[name].value = 0
+          break
+        case controls.GUI_LISTVIEW:
+          state[name].active = 0
+          state[name].scrollIndex = 0
+          break
       }
 
       controls[m[3]] = {
@@ -79,26 +102,28 @@ async function LoadLayout(filename) {
 
 function DrawLayout({ref, controls, state}) {
   for (const {name, elID, rect, text} of Object.values(controls)) {
-    if (elID === 0) {
-      state[name].active = !GuiWindowBox(rect, text)
-    }
-    if (elID === 5) {
-      state[name].pressed = GuiButton(rect, text) 
-    }
-    if (elID === 8) {
-      state[name].active = GuiToggle(rect, text, state[name].active)
-    }
-    if (elID === 16) {
-      state[name].value = GuiSlider(rect, 0, 0, state[name].value, 0, 100)
-    }
-    if (elID === 17) {
-      state[name].value = GuiSliderBar(rect, 0, 0, state[name].value, 0, 100)
-    }
-    if (elID === 18) {
-      state[name].value = GuiProgressBar(rect, 0, 0, state[name].value, 0, 1)
-    }
-    if (elID === 21) {
-      state[name].active = GuiListView(rect, text, state[name].scrollIndex, state[name].active)
+    switch(elID) {
+      case controls.GUI_WINDOWBOX:
+        state[name].active = !GuiWindowBox(rect, text)
+        break
+      case controls.GUI_BUTTON:
+        state[name].pressed = GuiButton(rect, text) 
+        break
+      case controls.GUI_TOGGLE:
+        state[name].active = GuiToggle(rect, text, state[name].active)
+        break
+      case controls.GUI_SLIDER:
+        state[name].value = GuiSlider(rect, 0, 0, state[name].value, 0, 100)
+        break
+      case controls.GUI_SLIDERBAR:
+        state[name].value = GuiSliderBar(rect, 0, 0, state[name].value, 0, 100)
+        break
+      case controls.GUI_PROGRESSBAR:
+        state[name].value = GuiProgressBar(rect, 0, 0, state[name].value, 0, 1)
+        break
+      case controls.GUI_LISTVIEW:
+        state[name].active = GuiListView(rect, text, state[name].scrollIndex, state[name].active)
+        break
     }
   }
 }

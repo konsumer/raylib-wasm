@@ -1,11 +1,11 @@
 
 const InitGame = async () => {
-  InitWindow(400, 450)
+  InitWindow(400, 230)
 }
 
 const UpdateGame = (ts) => {
   BeginDrawing()
-  ClearBackground(BLACK)
-  DrawText("Sorry, demo not implemented yet.", 15, 214, 20, RAYWHITE)
+  ClearBackground(BLUE)
+  DrawText("Sorry, demo not implemented yet.", 30, 100, 20, RAYWHITE)
   EndDrawing()
 }
