@@ -1,31 +1,15 @@
-/*******************************************************************************************
-*
-*   raylib [core] example - custom frame control
-*
-*   NOTE: WARNING: This is an example for advance users willing to have full control over
-*   the frame processes. By default, EndDrawing() calls the following processes:
-*       1. Draw remaining batch data: rlDrawRenderBatchActive()
-*       2. SwapScreenBuffer()
-*       3. Frame time control: WaitTime()
-*       4. PollInputEvents()
-*
-*   To avoid steps 2, 3 and 4, flag SUPPORT_CUSTOM_FRAME_CONTROL can be enabled in
-*   config.h (it requires recompiling raylib). This way those steps are up to the user.
-*
-*   Note that enabling this flag invalidates some functions:
-*       - GetFrameTime()
-*       - SetTargetFPS()
-*       - GetFPS()
-*
-*   Example originally created with raylib 4.0, last time updated with raylib 4.0
-*
-*   Example licensed under an unmodified zlib/libpng license, which is an OSI-certified,
-*   BSD-like license that allows static linking with closed source software
-*
-*   Copyright (c) 2021-2023 Ramon Santamaria (@raysan5)
-*
-********************************************************************************************/
+const InitGame = async () => {
+  InitWindow(400, 250)
+}
 
+const UpdateGame = (ts) => {
+  BeginDrawing()
+  ClearBackground(BLACK)
+  DrawText("Sorry, this demo is not ported, yet.", 15, 110, 20, RAYWHITE)
+  EndDrawing()
+}
+
+/*
 #include "raylib.h"
 
 //------------------------------------------------------------------------------------
@@ -128,3 +112,4 @@ int main(void)
 
     return 0;
 }
+*/

@@ -1,18 +1,15 @@
-/*******************************************************************************************
-*
-*   raylib [audio] example - Raw audio streaming
-*
-*   Example originally created with raylib 1.6, last time updated with raylib 4.2
-*
-*   Example created by Ramon Santamaria (@raysan5) and reviewed by James Hofmann (@triplefox)
-*
-*   Example licensed under an unmodified zlib/libpng license, which is an OSI-certified,
-*   BSD-like license that allows static linking with closed source software
-*
-*   Copyright (c) 2015-2023 Ramon Santamaria (@raysan5) and James Hofmann (@triplefox)
-*
-********************************************************************************************/
+const InitGame = async () => {
+  InitWindow(400, 250)
+}
 
+const UpdateGame = (ts) => {
+  BeginDrawing()
+  ClearBackground(BLACK)
+  DrawText("Sorry, this demo is not ported, yet.", 15, 110, 20, RAYWHITE)
+  EndDrawing()
+}
+
+/*
 #include "raylib.h"
 
 #include <stdlib.h>         // Required for: malloc(), free()
@@ -83,17 +80,6 @@ int main(void)
     // Position read in to determine next frequency
     Vector2 mousePosition = { -100.0f, -100.0f };
 
-    /*
-    // Cycles per second (hz)
-    float frequency = 440.0f;
-
-    // Previous value, used to test if sine needs to be rewritten, and to smoothly modulate frequency
-    float oldFrequency = 1.0f;
-
-    // Cursor to read and copy the samples of the sine wave buffer
-    int readCursor = 0;
-    */
-
     // Computed size in samples of the sine wave
     int waveLength = 1;
 
@@ -146,36 +132,6 @@ int main(void)
             oldFrequency = frequency;
         }
 
-        /*
-        // Refill audio stream if required
-        if (IsAudioStreamProcessed(stream))
-        {
-            // Synthesize a buffer that is exactly the requested size
-            int writeCursor = 0;
-
-            while (writeCursor < MAX_SAMPLES_PER_UPDATE)
-            {
-                // Start by trying to write the whole chunk at once
-                int writeLength = MAX_SAMPLES_PER_UPDATE-writeCursor;
-
-                // Limit to the maximum readable size
-                int readLength = waveLength-readCursor;
-
-                if (writeLength > readLength) writeLength = readLength;
-
-                // Write the slice
-                memcpy(writeBuf + writeCursor, data + readCursor, writeLength*sizeof(short));
-
-                // Update cursors and loop audio
-                readCursor = (readCursor + writeLength) % waveLength;
-
-                writeCursor += writeLength;
-            }
-
-            // Copy finished frame to audio stream
-            UpdateAudioStream(stream, writeBuf, MAX_SAMPLES_PER_UPDATE);
-        }
-        */
         //----------------------------------------------------------------------------------
 
         // Draw
@@ -213,3 +169,4 @@ int main(void)
 
     return 0;
 }
+*/

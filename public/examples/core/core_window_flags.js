@@ -1,16 +1,15 @@
-/*******************************************************************************************
-*
-*   raylib [core] example - window flags
-*
-*   Example originally created with raylib 3.5, last time updated with raylib 3.5
-*
-*   Example licensed under an unmodified zlib/libpng license, which is an OSI-certified,
-*   BSD-like license that allows static linking with closed source software
-*
-*   Copyright (c) 2020-2023 Ramon Santamaria (@raysan5)
-*
-********************************************************************************************/
+const InitGame = async () => {
+  InitWindow(400, 250)
+}
 
+const UpdateGame = (ts) => {
+  BeginDrawing()
+  ClearBackground(BLACK)
+  DrawText("Sorry, this demo is not ported, yet.", 15, 110, 20, RAYWHITE)
+  EndDrawing()
+}
+
+/*
 #include "raylib.h"
 
 //------------------------------------------------------------------------------------
@@ -22,23 +21,6 @@ int main(void)
     //---------------------------------------------------------
     const int screenWidth = 800;
     const int screenHeight = 450;
-
-    // Possible window flags
-    /*
-    FLAG_VSYNC_HINT
-    FLAG_FULLSCREEN_MODE    -> not working properly -> wrong scaling!
-    FLAG_WINDOW_RESIZABLE
-    FLAG_WINDOW_UNDECORATED
-    FLAG_WINDOW_TRANSPARENT
-    FLAG_WINDOW_HIDDEN
-    FLAG_WINDOW_MINIMIZED   -> Not supported on window creation
-    FLAG_WINDOW_MAXIMIZED   -> Not supported on window creation
-    FLAG_WINDOW_UNFOCUSED
-    FLAG_WINDOW_TOPMOST
-    FLAG_WINDOW_HIGHDPI     -> errors after minimize-resize, fb size is recalculated
-    FLAG_WINDOW_ALWAYS_RUN
-    FLAG_MSAA_4X_HINT
-    */
 
     // Set configuration flags for window creation
     //SetConfigFlags(FLAG_VSYNC_HINT | FLAG_MSAA_4X_HINT | FLAG_WINDOW_HIGHDPI);
@@ -193,4 +175,4 @@ int main(void)
     //----------------------------------------------------------
 
     return 0;
-}
+} */

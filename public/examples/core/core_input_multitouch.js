@@ -1,18 +1,15 @@
-/*******************************************************************************************
-*
-*   raylib [core] example - Input multitouch
-*
-*   Example originally created with raylib 2.1, last time updated with raylib 2.5
-*
-*   Example contributed by Berni (@Berni8k) and reviewed by Ramon Santamaria (@raysan5)
-*
-*   Example licensed under an unmodified zlib/libpng license, which is an OSI-certified,
-*   BSD-like license that allows static linking with closed source software
-*
-*   Copyright (c) 2019-2023 Berni (@Berni8k) and Ramon Santamaria (@raysan5)
-*
-********************************************************************************************/
+const InitGame = async () => {
+  InitWindow(400, 250)
+}
 
+const UpdateGame = (ts) => {
+  BeginDrawing()
+  ClearBackground(BLACK)
+  DrawText("Sorry, this demo is not ported, yet.", 15, 110, 20, RAYWHITE)
+  EndDrawing()
+}
+
+/*
 #include "raylib.h"
 
 #define MAX_TOUCH_POINTS 10
@@ -77,3 +74,4 @@ int main(void)
 
     return 0;
 }
+*/

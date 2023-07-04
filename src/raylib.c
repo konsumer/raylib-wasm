@@ -9,6 +9,7 @@
 #include "raymath.h"
 #include "raygui.h"
 #include "reasings.h"
+#include "rcamera.h"
 
 
 // These are really handy for wordwrap, and are available in raylib/examples/text/text_rectangle_bounds.c

@@ -1,18 +1,14 @@
-/*******************************************************************************************
-*
-*   raylib [models] example - Show the difference between perspective and orthographic projection
-*
-*   Example originally created with raylib 2.0, last time updated with raylib 3.7
-*
-*   Example contributed by Max Danielsson (@autious) and reviewed by Ramon Santamaria (@raysan5)
-*
-*   Example licensed under an unmodified zlib/libpng license, which is an OSI-certified,
-*   BSD-like license that allows static linking with closed source software
-*
-*   Copyright (c) 2018-2023 Max Danielsson (@autious) and Ramon Santamaria (@raysan5)
-*
-********************************************************************************************/
+const InitGame = async () => {
+  InitWindow(400, 250)
+}
 
+const UpdateGame = (ts) => {
+  BeginDrawing()
+  ClearBackground(BLACK)
+  DrawText("Sorry, this demo is not ported, yet.", 15, 110, 20, RAYWHITE)
+  EndDrawing()
+}
+/*
 #include "raylib.h"
 
 #define FOVY_PERSPECTIVE    45.0f
@@ -100,3 +96,4 @@ int main(void)
 
     return 0;
 }
+*/

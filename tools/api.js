@@ -17,6 +17,7 @@ for (const a of [
   'raymath',
   'reasings',
   'rlgl',
+  'rcamera',
   // 'rmem',
   // 'rres'
 ]) {

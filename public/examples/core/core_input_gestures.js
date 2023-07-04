@@ -1,16 +1,15 @@
-/*******************************************************************************************
-*
-*   raylib [core] example - Input Gestures Detection
-*
-*   Example originally created with raylib 1.4, last time updated with raylib 4.2
-*
-*   Example licensed under an unmodified zlib/libpng license, which is an OSI-certified,
-*   BSD-like license that allows static linking with closed source software
-*
-*   Copyright (c) 2016-2023 Ramon Santamaria (@raysan5)
-*
-********************************************************************************************/
+const InitGame = async () => {
+  InitWindow(400, 250)
+}
 
+const UpdateGame = (ts) => {
+  BeginDrawing()
+  ClearBackground(BLACK)
+  DrawText("Sorry, this demo is not ported, yet.", 15, 110, 20, RAYWHITE)
+  EndDrawing()
+}
+
+/*
 #include "raylib.h"
 
 #define MAX_GESTURE_STRINGS   20
@@ -117,3 +116,4 @@ int main(void)
     CloseWindow();        // Close window and OpenGL context
     //--------------------------------------------------------------------------------------
 }
+*/

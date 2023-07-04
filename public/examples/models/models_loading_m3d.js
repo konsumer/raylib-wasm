@@ -1,22 +1,15 @@
-/*******************************************************************************************
-*
-*   raylib [models] example - Load models M3D
-*
-*   Example originally created with raylib 4.5, last time updated with raylib 4.5
-*
-*   Example contributed by bzt (@bztsrc) and reviewed by Ramon Santamaria (@raysan5)
-*
-*   NOTES:
-*     - Model3D (M3D) fileformat specs: https://gitlab.com/bztsrc/model3d
-*     - Bender M3D exported: https://gitlab.com/bztsrc/model3d/-/tree/master/blender
-*
-*   Example licensed under an unmodified zlib/libpng license, which is an OSI-certified,
-*   BSD-like license that allows static linking with closed source software
-*
-*   Copyright (c) 2022-2023 bzt (@bztsrc)
-*
-********************************************************************************************/
+const InitGame = async () => {
+  InitWindow(400, 250)
+}
 
+const UpdateGame = (ts) => {
+  BeginDrawing()
+  ClearBackground(BLACK)
+  DrawText("Sorry, this demo is not ported, yet.", 15, 110, 20, RAYWHITE)
+  EndDrawing()
+}
+
+/*
 #include "raylib.h"
 
 //------------------------------------------------------------------------------------
@@ -171,3 +164,4 @@ int main(void)
 
     return 0;
 }
+*/

@@ -1,16 +1,15 @@
-/*******************************************************************************************
-*
-*   raylib [core] examples - Mouse wheel input
-*
-*   Example originally created with raylib 1.1, last time updated with raylib 1.3
-*
-*   Example licensed under an unmodified zlib/libpng license, which is an OSI-certified,
-*   BSD-like license that allows static linking with closed source software
-*
-*   Copyright (c) 2014-2023 Ramon Santamaria (@raysan5)
-*
-********************************************************************************************/
+const InitGame = async () => {
+  InitWindow(400, 250)
+}
 
+const UpdateGame = (ts) => {
+  BeginDrawing()
+  ClearBackground(BLACK)
+  DrawText("Sorry, this demo is not ported, yet.", 15, 110, 20, RAYWHITE)
+  EndDrawing()
+}
+
+/*
 #include "raylib.h"
 
 //------------------------------------------------------------------------------------
@@ -61,3 +60,4 @@ int main(void)
 
     return 0;
 }
+*/

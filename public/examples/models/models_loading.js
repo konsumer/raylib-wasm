@@ -1,29 +1,15 @@
-/*******************************************************************************************
-*
-*   raylib [models] example - Models loading
-*
-*   NOTE: raylib supports multiple models file formats:
-*
-*     - OBJ  > Text file format. Must include vertex position-texcoords-normals information,
-*              if files references some .mtl materials file, it will be loaded (or try to).
-*     - GLTF > Text/binary file format. Includes lot of information and it could
-*              also reference external files, raylib will try loading mesh and materials data.
-*     - IQM  > Binary file format. Includes mesh vertex data but also animation data,
-*              raylib can load .iqm animations.
-*     - VOX  > Binary file format. MagikaVoxel mesh format:
-*              https://github.com/ephtracy/voxel-model/blob/master/MagicaVoxel-file-format-vox.txt
-*     - M3D  > Binary file format. Model 3D format:
-*              https://bztsrc.gitlab.io/model3d
-*
-*   Example originally created with raylib 2.0, last time updated with raylib 4.2
-*
-*   Example licensed under an unmodified zlib/libpng license, which is an OSI-certified,
-*   BSD-like license that allows static linking with closed source software
-*
-*   Copyright (c) 2014-2023 Ramon Santamaria (@raysan5)
-*
-********************************************************************************************/
+const InitGame = async () => {
+  InitWindow(400, 250)
+}
 
+const UpdateGame = (ts) => {
+  BeginDrawing()
+  ClearBackground(BLACK)
+  DrawText("Sorry, this demo is not ported, yet.", 15, 110, 20, RAYWHITE)
+  EndDrawing()
+}
+
+/*
 #include "raylib.h"
 
 //------------------------------------------------------------------------------------
@@ -151,3 +137,4 @@ int main(void)
 
     return 0;
 }
+*/

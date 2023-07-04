@@ -2,7 +2,7 @@
 
 # this is intended to run inside emscripten/emsdk docker
 
-mkdir -p build
+mkdir -p build tools/api/
 
 # rm -rf src/raylib
 if [ ! -d "src/raylib" ];then
@@ -26,16 +26,16 @@ if [ ! -d "src/reasings" ];then
 fi
 
 # build JSON, ala RobLoach/raylib-api technique
-if [ ! -d "tools/api" ];then
-	make -C src/raylib/parser
-	./src/raylib/parser/raylib_parser -i src/raylib/src/raylib.h -o tools/api/raylib.json -f JSON -d RLAPI
-	./src/raylib/parser/raylib_parser -i src/raylib/src/raymath.h -o tools/api/raymath.json -f JSON -d RMAPI
-	./src/raylib/parser/raylib_parser -i src/raylib/src/rlgl.h -o tools/api/rlgl.json -f JSON -d RLAPI -t "RLGL IMPLEMENTATION"
-	./src/raylib/parser/raylib_parser -i src/raygui/src/raygui.h -o tools/api/raygui.json -f JSON -d RAYGUIAPI -t "RAYGUI IMPLEMENTATION"
-	./src/raylib/parser/raylib_parser -i src/reasings/src/reasings.h -o tools/api/reasings.json -f JSON -d EASEDEF
-	# ./src/raylib/parser/raylib_parser -i src/rmem/src/rmem.h -o tools/api/rmem.json -f JSON -d RMEMAPI -t "RMEM IMPLEMENTATION"
-	# ./src/raylib/parser/raylib_parser -i src/rres/src/rres.h -o tools/api/rres.json -f JSON -d RRESAPI -t "RRES IMPLEMENTATION"
-fi
+make -C src/raylib/parser
+./src/raylib/parser/raylib_parser -i src/raylib/src/raylib.h -o tools/api/raylib.json -f JSON -d RLAPI
+./src/raylib/parser/raylib_parser -i src/raylib/src/rcamera.h -o tools/api/rcamera.json -f JSON -d RLAPI
+./src/raylib/parser/raylib_parser -i src/raylib/src/raymath.h -o tools/api/raymath.json -f JSON -d RMAPI
+./src/raylib/parser/raylib_parser -i src/raylib/src/rlgl.h -o tools/api/rlgl.json -f JSON -d RLAPI -t "RLGL IMPLEMENTATION"
+./src/raylib/parser/raylib_parser -i src/raygui/src/raygui.h -o tools/api/raygui.json -f JSON -d RAYGUIAPI -t "RAYGUI IMPLEMENTATION"
+./src/raylib/parser/raylib_parser -i src/reasings/src/reasings.h -o tools/api/reasings.json -f JSON -d EASEDEF
+# ./src/raylib/parser/raylib_parser -i src/rmem/src/rmem.h -o tools/api/rmem.json -f JSON -d RMEMAPI -t "RMEM IMPLEMENTATION"
+# ./src/raylib/parser/raylib_parser -i src/rres/src/rres.h -o tools/api/rres.json -f JSON -d RRESAPI -t "RRES IMPLEMENTATION"
+
 
 if [ ! -d "src/raylib/build" ];then
 	cd src/raylib

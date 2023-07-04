@@ -1,19 +1,15 @@
-/*******************************************************************************************
-*
-*   raylib [core] example - smooth pixel-perfect camera
-*
-*   Example originally created with raylib 3.7, last time updated with raylib 4.0
-*   
-*   Example contributed by Giancamillo Alessandroni (@NotManyIdeasDev) and
-*   reviewed by Ramon Santamaria (@raysan5)
-*
-*   Example licensed under an unmodified zlib/libpng license, which is an OSI-certified,
-*   BSD-like license that allows static linking with closed source software
-*
-*   Copyright (c) 2021-2023 Giancamillo Alessandroni (@NotManyIdeasDev) and Ramon Santamaria (@raysan5)
-*
-********************************************************************************************/
+const InitGame = async () => {
+  InitWindow(400, 250)
+}
 
+const UpdateGame = (ts) => {
+  BeginDrawing()
+  ClearBackground(BLACK)
+  DrawText("Sorry, this demo is not ported, yet.", 15, 110, 20, RAYWHITE)
+  EndDrawing()
+}
+
+/*
 #include "raylib.h"
 
 #include <math.h>       // Required for: sinf(), cosf()
@@ -119,4 +115,4 @@ int main(void)
     //--------------------------------------------------------------------------------------
 
     return 0;
-}
+}*/

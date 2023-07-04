@@ -1,18 +1,15 @@
-/*******************************************************************************************
-*
-*   raylib [core] example - Scissor test
-*
-*   Example originally created with raylib 2.5, last time updated with raylib 3.0
-*
-*   Example contributed by Chris Dill (@MysteriousSpace) and reviewed by Ramon Santamaria (@raysan5)
-*
-*   Example licensed under an unmodified zlib/libpng license, which is an OSI-certified,
-*   BSD-like license that allows static linking with closed source software
-*
-*   Copyright (c) 2019-2023 Chris Dill (@MysteriousSpace)
-*
-********************************************************************************************/
+const InitGame = async () => {
+  InitWindow(400, 250)
+}
 
+const UpdateGame = (ts) => {
+  BeginDrawing()
+  ClearBackground(BLACK)
+  DrawText("Sorry, this demo is not ported, yet.", 15, 110, 20, RAYWHITE)
+  EndDrawing()
+}
+
+/*
 #include "raylib.h"
 
 //------------------------------------------------------------------------------------
@@ -73,4 +70,4 @@ int main(void)
     //--------------------------------------------------------------------------------------
 
     return 0;
-}
+}*/

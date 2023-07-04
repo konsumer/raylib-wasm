@@ -1,22 +1,15 @@
-/*******************************************************************************************
-*
-*   raylib [core] example - Gamepad input
-*
-*   NOTE: This example requires a Gamepad connected to the system
-*         raylib is configured to work with the following gamepads:
-*                - Xbox 360 Controller (Xbox 360, Xbox One)
-*                - PLAYSTATION(R)3 Controller
-*         Check raylib.h for buttons configuration
-*
-*   Example originally created with raylib 1.1, last time updated with raylib 4.2
-*
-*   Example licensed under an unmodified zlib/libpng license, which is an OSI-certified,
-*   BSD-like license that allows static linking with closed source software
-*
-*   Copyright (c) 2013-2023 Ramon Santamaria (@raysan5)
-*
-********************************************************************************************/
+const InitGame = async () => {
+  InitWindow(400, 250)
+}
 
+const UpdateGame = (ts) => {
+  BeginDrawing()
+  ClearBackground(BLACK)
+  DrawText("Sorry, this demo is not ported, yet.", 15, 110, 20, RAYWHITE)
+  EndDrawing()
+}
+
+/*
 #include "raylib.h"
 
 // NOTE: Gamepad name ID depends on drivers and OS
@@ -212,3 +205,4 @@ int main(void)
 
     return 0;
 }
+*/

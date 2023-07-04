@@ -1,16 +1,15 @@
-/*******************************************************************************************
-*
-*   raylib example - procedural mesh generation
-*
-*   Example originally created with raylib 1.8, last time updated with raylib 4.0
-*
-*   Example licensed under an unmodified zlib/libpng license, which is an OSI-certified,
-*   BSD-like license that allows static linking with closed source software
-*
-*   Copyright (c) 2017-2023 Ramon Santamaria (@raysan5)
-*
-********************************************************************************************/
+const InitGame = async () => {
+  InitWindow(400, 250)
+}
 
+const UpdateGame = (ts) => {
+  BeginDrawing()
+  ClearBackground(BLACK)
+  DrawText("Sorry, this demo is not ported, yet.", 15, 110, 20, RAYWHITE)
+  EndDrawing()
+}
+
+/*
 #include "raylib.h"
 
 #define NUM_MODELS  9               // Parametric 3d shapes to generate
@@ -188,3 +187,4 @@ static Mesh GenMeshCustom(void)
 
     return mesh;
 }
+*/

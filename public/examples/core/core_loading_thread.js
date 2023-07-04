@@ -1,18 +1,15 @@
-/*******************************************************************************************
-*
-*   raylib [core] example - loading thread
-*
-*   NOTE: This example requires linking with pthreads library on MinGW, 
-*   it can be accomplished passing -static parameter to compiler
-*
-*   Example originally created with raylib 2.5, last time updated with raylib 3.0
-*
-*   Example licensed under an unmodified zlib/libpng license, which is an OSI-certified,
-*
-*   Copyright (c) 2014-2023 Ramon Santamaria (@raysan5)
-*
-********************************************************************************************/
+const InitGame = async () => {
+  InitWindow(400, 250)
+}
 
+const UpdateGame = (ts) => {
+  BeginDrawing()
+  ClearBackground(BLACK)
+  DrawText("Sorry, this demo is not ported, yet.", 15, 110, 20, RAYWHITE)
+  EndDrawing()
+}
+
+/*
 #include "raylib.h"
 
 // WARNING: This example does not build on Windows with MSVC compiler
@@ -154,3 +151,4 @@ static void *LoadDataThread(void *arg)
 
     return NULL;
 }
+*/
