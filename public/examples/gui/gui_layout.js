@@ -1,6 +1,6 @@
 let layout
 
-const controls = {
+const controlIDs = {
     GUI_WINDOWBOX       : 0,  // GuiWindowBox
     GUI_GROUPBOX        : 1,  // 
     GUI_LINE            : 2,  // 
@@ -64,25 +64,25 @@ async function LoadLayout(filename) {
       state[name] = {}
 
       switch(elID) {
-        case controls.GUI_WINDOWBOX:
+        case controlIDs.GUI_WINDOWBOX:
           state[name].active = true
           break
-        case controls.GUI_BUTTON:
+        case controlIDs.GUI_BUTTON:
           state[name].pressed = false
           break
-        case controls.GUI_TOGGLE:
+        case controlIDs.GUI_TOGGLE:
           state[name].active = false
           break
-        case controls.GUI_SLIDER:
+        case controlIDs.GUI_SLIDER:
           state[name].value = 0
           break
-        case controls.GUI_SLIDERBAR:
+        case controlIDs.GUI_SLIDERBAR:
           state[name].value = 0
           break
-        case controls.GUI_PROGRESSBAR:
+        case controlIDs.GUI_PROGRESSBAR:
           state[name].value = 0
           break
-        case controls.GUI_LISTVIEW:
+        case controlIDs.GUI_LISTVIEW:
           state[name].active = 0
           state[name].scrollIndex = 0
           break
@@ -103,25 +103,25 @@ async function LoadLayout(filename) {
 function DrawLayout({ref, controls, state}) {
   for (const {name, elID, rect, text} of Object.values(controls)) {
     switch(elID) {
-      case controls.GUI_WINDOWBOX:
+      case controlIDs.GUI_WINDOWBOX:
         state[name].active = !GuiWindowBox(rect, text)
         break
-      case controls.GUI_BUTTON:
+      case controlIDs.GUI_BUTTON:
         state[name].pressed = GuiButton(rect, text) 
         break
-      case controls.GUI_TOGGLE:
+      case controlIDs.GUI_TOGGLE:
         state[name].active = GuiToggle(rect, text, state[name].active)
         break
-      case controls.GUI_SLIDER:
+      case controlIDs.GUI_SLIDER:
         state[name].value = GuiSlider(rect, 0, 0, state[name].value, 0, 100)
         break
-      case controls.GUI_SLIDERBAR:
+      case controlIDs.GUI_SLIDERBAR:
         state[name].value = GuiSliderBar(rect, 0, 0, state[name].value, 0, 100)
         break
-      case controls.GUI_PROGRESSBAR:
+      case controlIDs.GUI_PROGRESSBAR:
         state[name].value = GuiProgressBar(rect, 0, 0, state[name].value, 0, 1)
         break
-      case controls.GUI_LISTVIEW:
+      case controlIDs.GUI_LISTVIEW:
         state[name].active = GuiListView(rect, text, state[name].scrollIndex, state[name].active)
         break
     }
@@ -130,8 +130,8 @@ function DrawLayout({ref, controls, state}) {
 
 
 const InitGame = async () => {
-  layout = await LoadLayout('examples/gui/resources/audio_player.rgl')
   InitWindow(400, 450)
+  layout = await LoadLayout('examples/gui/resources/audio_player.rgl')
 }
 
 const UpdateGame = (ts) => {
