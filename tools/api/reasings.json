@@ -15,7 +15,7 @@
     {
       "name": "EASEDEF",
       "type": "UNKNOWN",
-      "value": "EMSCRIPTEN_KEEPALIVE",
+      "value": "static inline",
       "description": ""
     },
     {

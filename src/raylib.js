@@ -7237,6 +7237,8 @@ canvas {
 `
     this.shadow.appendChild(this.canvas)
     this.start(this.getAttribute('src'))
+
+    this.canvas.addEventListener('contextmenu', e => e.preventDefault())
   }
   
   onResize() {
