@@ -1,240 +1,210 @@
+// PONG example
+// this example uses classes as game states & objects, just for fun
+
 const screenWidth = 800
 const screenHeight = 450
+const caliber = 20
 
-let currentScreen = 'TITLE'
-const framesCounter = 0
-const gamestates = {
-  TITLE: {
-    update () {
-      if (IsKeyPressed(KEY_ENTER) || IsGestureDetected(GESTURE_TAP)) {
-        currentScreen = 'GAMEPLAY'
-      }
-    },
-
-    draw () {
-      ClearBackground(BLACK)
-      DrawText('PONG', 120, 20, 120, GRAY)
-      DrawText('Based on Atari PONG', 120, 140, 60, GRAY)
-      DrawText('Programmed with Raylib by Angel G. Cuartero, ported to raylib-wasm by David Konsumer', 120, 220, 20, GRAY)
-      DrawText('Player 1: Q, A', 120, 390, 20, GRAY)
-      DrawText('Player 2: I, J', 120, 420, 20, GRAY)
-      DrawText('Press ENTER to PLAY', 120, 450, 20, GRAY)
-      DrawText('Press ESCAPE to QUIT', 120, 480, 20, GRAY)
-    }
-  },
-
-  GAMEPLAY: {
-    update () {
-    },
-    draw () {
-    }
-  },
-
-  ENDING: {
-    update () {
-    },
-    draw () {
-    }
-  }
-}
+let state
 
 async function InitGame () {
   InitWindow(screenWidth, screenHeight)
+  // state = new GameStateTitle()
+  state = new GameStatePlay()
+
 }
 
 function UpdateGame (ts) {
-  gamestates[currentScreen].update()
+  state.update()
   BeginDrawing()
-  gamestates[currentScreen].draw()
+  state.draw()
   EndDrawing()
 }
 
-/*
-#define CALIBER 12
-
-// User-defined types.
-typedef enum GameScreen { TITLE = 0, GAMEPLAY, ENDING } GameScreen;
-typedef enum Direction { UP = 0, DOWN } Direction;
-
-// Global variables. They are global indeed.
-Rectangle screen, playableBorder, top, bottom, ball, leftRacket, rightRacket;
-int rightScore = 0, leftScore = 0, scoreWidth, winner;
-
-// Prototypes.
-void InitializeElements(void);
-void ServeBall(void);
-void MoveBall(void);
-void MoveRacket(Rectangle *pRacket, Direction pDir);
-
-// Initialize window and primary game elements.
-// --------------------------------------------
-void InitializeElements(void)
-{
-    InitWindow(0, 0, "Pong");
-    // Calculate size, position and inner limits of window.
-    screen = (Rectangle){0, 0, GetScreenWidth()/2, GetScreenHeight()/2};
-    playableBorder = (Rectangle){CALIBER, CALIBER, screen.width - (2*CALIBER) , screen.height - (2*CALIBER)};
-    top = (Rectangle) {screen.x, screen.y, playableBorder.width, playableBorder.y};
-    bottom = (Rectangle) {screen.x, playableBorder.height+CALIBER, screen.width, screen.y};
-    SetWindowPosition(screen.width/2, screen.height/2);
-    SetWindowSize(screen.width, screen.height);
-    SetTargetFPS(60);
-
-    // Initialize elements.
-    ball = (Rectangle) {5*CALIBER, playableBorder.height, CALIBER, CALIBER};
-    leftRacket = (Rectangle) {playableBorder.x + CALIBER, playableBorder.height/2, CALIBER, 5*CALIBER};
-    rightRacket = (Rectangle) {playableBorder.width - CALIBER, playableBorder.height/2, CALIBER, 5*CALIBER};
-    scoreWidth = MeasureText("00", 60);
+// base-class for all game-states
+class GameState {
+  update() {}
+  draw() {}
 }
 
-// Manage ball movement.
-// ---------------------
-void MoveBall(void)
-{
-    static int xx = CALIBER/2;
-    static int yy = CALIBER/2;
+class GameStateTitle extends GameState {
+  update() {
+    if (IsKeyPressed(KEY_ENTER) || IsGestureDetected(GESTURE_TAP)) {
+      state = new GameStatePlay()
+    }
+  }
 
-    // Check collision with rackets and ball has not surpassed rackets.
-    if ((CheckCollisionRecs(ball, leftRacket) && ball.x < leftRacket.x + leftRacket.width) ||
-        (CheckCollisionRecs(ball, rightRacket) && ball.x > rightRacket.x - rightRacket.width))
-        xx = -xx;
-    else
-        if (CheckCollisionRecs(ball, top) || CheckCollisionRecs(ball, bottom))
-            yy = -yy;
-        else
-        {
-            // Score.
-            if (ball.x < screen.x)
-            {
-                ++rightScore;
-                ServeBall();
-            }
-            else if (ball.x > screen.width)
-            {
-                ++leftScore;
-                ServeBall();
-            }
-        }
-
-    // Move ball.
-    ball.x += xx;
-    ball.y += yy;
+  draw() {
+    ClearBackground(BLACK)
+    DrawText('PONG', 120, 20, 120, GRAY)
+    DrawText('Player 1: Q, A', 120, 370, 20, GRAY)
+    DrawText('Player 2: I, J', 120, 400, 20, GRAY)
+    DrawText('Press ENTER to PLAY', 120, 430, 20, GRAY)
+  }
 }
 
-// Manage racket movement.
-// -----------------------
-void MoveRacket(Rectangle *pRacket, Direction pDir)
-{
-    int step = (pDir == UP)? -CALIBER/2: CALIBER/2;
+class GameStatePlay extends GameState {
+  constructor() {
+    super()
+    this.player1 = new Player(caliber)
+    this.player2 = new Player(screenWidth - (caliber * 2))
 
-    if ((CheckCollisionRecs(top, *pRacket) && pDir == UP) ||
-        (CheckCollisionRecs(bottom, *pRacket) && pDir == DOWN))
-            return;
-    pRacket->y += step;
-}
-
-// Serve ball after scoring.
-// -------------------------
-void ServeBall(void)
-{
-    ball.x = playableBorder.width/2;
-    ball.y = GetRandomValue(playableBorder.y + 10, playableBorder.height);
-}
-
-// Start game.
-// -----------
-int main(void)
-{
-    GameScreen currentScreen = TITLE;
-    InitializeElements();
-
-    // Main loop.
-    while (!WindowShouldClose()) // Check ESC key.
-    {
-        // Updating.
-        switch(currentScreen)
-        {
-            case TITLE:
-            {
-                if (IsKeyPressed(KEY_ENTER) || IsGestureDetected(GESTURE_TAP))
-                    currentScreen = GAMEPLAY;
-            } break;
-            case GAMEPLAY:
-            {
-                MoveBall();
-
-                // Check racket keys.
-                if (IsKeyDown(KEY_Q))
-                    MoveRacket(&leftRacket, UP);
-                else if (IsKeyDown(KEY_A))
-                    MoveRacket(&leftRacket, DOWN);
-
-                if (IsKeyDown(KEY_I))
-                    MoveRacket(&rightRacket, UP);
-                else if (IsKeyDown(KEY_J))
-                    MoveRacket(&rightRacket, DOWN);
-
-                if ((leftScore >= 11) || (rightScore >= 11))
-                {
-                    if (abs(leftScore - rightScore) < 2)
-                        break;
-                    winner = (leftScore > rightScore)? 1 : 2;
-                    rightScore = leftScore = 0; // Reset Score.
-                    currentScreen = ENDING;
-                }
-            } break;
-            case ENDING:
-            {
-                if (IsKeyPressed(KEY_ENTER) || IsGestureDetected(GESTURE_TAP))
-                    currentScreen = GAMEPLAY;
-            } break;
-            default: break;
-        }
-
-        // Rendering.
-        BeginDrawing();
-        switch(currentScreen)
-        {
-            case TITLE:
-            {
-                ClearBackground(BLACK);
-                DrawText("PONG", 120, 20, 120, GRAY);
-                DrawText("Based on Atari PONG", 120, 140, 60, GRAY);
-                DrawText("Programmed with Raylib by Angel G. Cuartero", 120, 220, 20, GRAY);
-                DrawText("Player 1: Q, A", 120, 390, 20, GRAY);
-                DrawText("Player 2: I, J", 120, 420, 20, GRAY);
-                DrawText("Press ENTER to PLAY", 120, 450, 20, GRAY);
-                DrawText("Press ESCAPE to QUIT", 120, 480, 20, GRAY);
-
-            } break;
-            case GAMEPLAY:
-            {
-                // Draw court.
-                DrawRectangle(screen.x, screen.y, screen.width, screen.height, GRAY);
-                DrawRectangle(screen.x, playableBorder.y, screen.width, playableBorder.height, BLACK);
-                DrawRectangle((screen.width/2) - 5, playableBorder.y, CALIBER, playableBorder.height, GRAY);
-                // Draw score.
-                DrawText(FormatText("%02d", leftScore), (screen.width/2) - 50 - scoreWidth, 50, 60, GRAY);
-                DrawText(FormatText("%02d", rightScore), (screen.width/2) + 50, 50, 60, GRAY);
-                // Draw ball.
-                DrawRectangle(ball.x, ball.y, ball.width, ball.height, WHITE);
-                // Draw rackets.
-                DrawRectangle(leftRacket.x, leftRacket.y, leftRacket.width, leftRacket.height, WHITE);
-                DrawRectangle(rightRacket.x, rightRacket.y, rightRacket.width, rightRacket.height, WHITE);
-            } break;
-            case ENDING:
-            {
-                ClearBackground(BLACK);
-                DrawText(FormatText("Winner is Player %d", winner), 120 , 50, 60, GRAY);
-                DrawText("Press ENTER to PLAY AGAIN", 120, 420, 20, GRAY);
-                DrawText("Press ESCAPE to QUIT", 120, 450, 20, GRAY);
-            } break;
-            default: break;
-            }
-        EndDrawing();
+    this.walls = {
+      n: new Rectangle({x: caliber, y: caliber*1.5, width: screenWidth-(caliber*2), height: caliber }),
+      s: new Rectangle({x: caliber, y: screenHeight-caliber, width: screenWidth-(caliber*2), height: caliber }),
+      w: new Rectangle({x: 0, y: caliber*1.5, width: caliber, height: screenHeight }),
+      e: new Rectangle({x: screenWidth-caliber, y: caliber*1.5, width: caliber, height: screenHeight })
     }
 
-    CloseWindow();
-    return 0;
+    this.ball = new Ball(this.walls)
+    this.ball.serve()
+  }
+
+  update() {
+    if (IsKeyDown(KEY_Q)) {
+      this.player1.moveUp()
+    } else if (IsKeyDown(KEY_A)) {
+      this.player1.moveDown()
+    }
+
+    if (IsKeyDown(KEY_I)) {
+      this.player2.moveUp()
+    } else if (IsKeyDown(KEY_J)) {
+      this.player2.moveDown()
+    }
+
+    // are collision broke?
+
+    if (CheckCollisionRecs(this.walls.e, this.ball)) {
+      this.player1.score++
+      this.ball.serve()
+    }
+    if (CheckCollisionRecs(this.walls.w, this.ball)) {
+      this.player2.score++
+      this.ball.serve()
+    }
+
+    if (CheckCollisionRecs(this.walls.n, this.ball) || CheckCollisionRecs(this.walls.s, this.ball)) {
+      this.ball.bounceWall()
+    }
+
+    if (CheckCollisionRecs(this.player1, this.ball) || CheckCollisionRecs(this.player2, this.ball)) {
+      this.ball.bouncePaddle()
+    }
+
+    if (this.player1.score > 10 || this.player2.score > 10) {
+      state = new GameStateEnd(this.player1.score > this.player2.score ? 1 : 2)
+    }
+  }
+
+  draw() {
+    ClearBackground(BLACK)
+    this.player1.draw()
+    this.player2.draw()
+    this.ball.draw()
+  }
 }
-*/
+
+class GameStateEnd extends GameState {
+  constructor(winner) {
+    super()
+    this.winner = winner
+  }
+
+  update(){
+    if (IsKeyPressed(KEY_ENTER) || IsGestureDetected(GESTURE_TAP)){
+      state = new GameStatePlay()
+    }
+  }
+
+  draw() {
+    ClearBackground(BLACK)
+    DrawText(`Winner is Player ${this.winner}`, 120 , 50, 60, GRAY)
+    DrawText("Press ENTER to PLAY AGAIN", 120, 420, 20, GRAY)
+    DrawText("Press ESCAPE to QUIT", 120, 450, 20, GRAY)
+  }
+}
+
+// these are used to represent objects in GameStatePlay
+
+class Thing {
+  constructor(init) {
+    this.rect = new Rectangle(init)
+  }
+  
+  // like `extends`, but Rectangle is not initially defined
+  get x(){ return this.rect.x }
+  get y(){ return this.rect.y }
+  get width(){ return this.rect.width }
+  get height(){ return this.rect.height }
+  set x(x){ return this.rect.x = x }
+  set y(y){ return this.rect.y = y }
+  set width(width){ return this.rect.width = width }
+  set height(height){ return this.rect.height = height }
+}
+
+class Ball extends Thing {
+  constructor(walls){
+    super({
+      x: screenWidth / 2,
+      y: (screenHeight / 2) - caliber,
+      width:caliber,
+      height: caliber * 2
+    })
+
+    this.walls = walls
+    this.velX = caliber/4
+    this.velY = caliber/4
+  }
+
+  bounceWall(){
+    console.log('bounce wall')
+    this.velY = this.velY * -1
+  }
+
+  bouncePaddle(){
+    console.log('bounce paddle')
+    this.velX = this.velX * -1
+  }
+
+  serve(){
+    this.x = (screenWidth/2) - (caliber/2)
+    this.y = GetRandomValue(this.walls.w.y + caliber, this.walls.w.height - this.height)
+  }
+
+  draw() {
+    this.x += this.velX
+    this.y += this.velY
+    DrawRectangle(this.x, this.y, this.width, this.height, WHITE)
+  }
+}
+
+class Player extends Thing {
+  constructor(x) {
+    super({
+      x,
+      y: caliber * 2.5,
+      width: caliber,
+      height: caliber * 6
+    })
+    this.score = 0
+    this.speed = 10
+  }
+
+  moveUp() {
+    if (this.y > (caliber * 2.5)) {
+      this.y -= this.speed
+    }
+  }
+
+  moveDown() {
+    if (this.y < (screenHeight - this.height - caliber)) {
+      this.y += this.speed
+    }
+  }
+
+  draw() {
+    DrawRectangle(this.x, this.y, this.width, this.height, WHITE)
+    DrawText(this.score.toString().padStart(2, '0'), this.x, 10, 20, GRAY)
+  }
+}
