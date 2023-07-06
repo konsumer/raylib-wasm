@@ -60,6 +60,7 @@ const UpdateGame = (ts) => {
   }
 
   BeginDrawing()
+  ClearBackground(BLACK)
   BeginMode3D(camera);
 
   if (collision.hit){
