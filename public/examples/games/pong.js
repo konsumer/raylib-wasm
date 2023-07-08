@@ -21,12 +21,16 @@ const InitGame = async () => {
   cpu.score = 0
 }
 
+let f = 0
 const UpdateGame = (ts) => {
   if(checkCollision(ply.x, b.x, ply.y, b.y, ply.width, ply.height, b.r) || checkCollision(cpu.x, b.x, cpu.y, b.y, cpu.width,cpu.height,b.r)) {
     b.bx = -1 * b.bx
   }
 
-  cpu.y = b.y
+  // CPU player follows paddle, but misses sometimes
+  if (f++ % 10 === 0) {
+    cpu.y = b.y
+  }
 
   b.x += b.bx
   b.y += b.by
