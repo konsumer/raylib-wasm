@@ -1,35 +1,24 @@
 <style>
 body {
   font-family: sans-serif;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  color: white;
+  background: rgb(20, 20, 20);
 }
 textarea {
   width: 100%;
 }
 button {
-  margin: 10px 0;
   display: none;
+  cursor: pointer;
 }
 raylib-game {
   display: none;
 }
-#wait {
-  margin-top: 10px;
-}
 </style>
-
-<textarea id="code" rows="10">
-def init():
-  InitWindow(800, 450)
-
-def update():
-  BeginDrawing()
-  ClearBackground(RAYWHITE)
-  DrawText("Congrats! You created your first python window!", 190, 200, 20, LIGHTGRAY)
-  DrawFPS(10, 10)
-  EndDrawing()
-</textarea>
-<button id="run">RUN</button>
-<div id="wait">Please wait...</div>
 
 <script type=module src="https://raylib.surge.sh/raylib.js"></script>
 <script src="https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js"></script>
@@ -54,6 +43,12 @@ const InitGame = async (raylib) => {
     pyodide.globals.set('InitWindow', () => console.log('InitWindow can only run once, ignoring.'))
   }
 
+  document.addEventListener('keypress', e => {
+    if (e.key === 'Enter' && e.ctrlKey) {
+      go()
+    }
+  })
+
   const update = () => {
     if (code) {
       pyodide.runPython(`update()`)
@@ -68,4 +63,18 @@ const InitGame = async (raylib) => {
 
 const UpdateGame = (ts) => {}
 </raylib-game>
+
+<textarea id="code" rows="10">
+def init():
+  InitWindow(800, 450)
+
+def update():
+  BeginDrawing()
+  ClearBackground(RAYWHITE)
+  DrawText("Congrats! You created your first python window!", 150, 200, 20, LIGHTGRAY)
+  DrawFPS(10, 10)
+  EndDrawing()
+</textarea>
+<button id="run">RUN (Ctrl-ENTER)</button>
+<div id="wait">Please wait...</div>
 
