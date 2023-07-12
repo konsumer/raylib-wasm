@@ -1,4 +1,23 @@
-<textarea id="code" style="width: 100%; margin-bottom: 10px" rows="10">
+<style>
+body {
+  font-family: sans-serif;
+}
+textarea {
+  width: 100%;
+}
+button {
+  margin: 10px 0;
+  display: none;
+}
+raylib-game {
+  display: none;
+}
+#wait {
+  margin-top: 10px;
+}
+</style>
+
+<textarea id="code" rows="10">
 def init():
   InitWindow(800, 450)
 
@@ -10,6 +29,7 @@ def update():
   EndDrawing()
 </textarea>
 <button id="run">RUN</button>
+<div id="wait">Please wait...</div>
 
 <script type=module src="https://raylib.surge.sh/raylib.js"></script>
 <script src="https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js"></script>
@@ -26,6 +46,12 @@ const InitGame = async (raylib) => {
   function go() {
     code = document.getElementById('code').value
     pyodide.runPython(`${code}\ninit()`)
+
+    document.getElementById('run').style.display = 'block'
+    document.getElementById('wait').style.display = 'none'
+
+    // InitWindow cannot be run twice
+    pyodide.globals.set('InitWindow', () => console.log('InitWindow can only run once, ignoring.'))
   }
 
   const update = () => {
