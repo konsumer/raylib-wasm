@@ -9,7 +9,7 @@ npm start
 
 It live-reloads, so it can be a great way to prototype some raylib code, even for other languages/platforms.
 
-You can include [raylib.js](raylib.js) in your project to get started. Have a look at [basic.html](public/basic.html) to see how to use it.
+You can include [raylib.js](https://raylib.surge.sh/raylib.js) in your project to get started. Have a look at [basic.html](public/basic.html) to see how to use it.
 
 You can also use it directly in [a codepen](https://codepen.io/konsumer/pen/NWEdxZq?editors=1000) for quick demos and such.
 
