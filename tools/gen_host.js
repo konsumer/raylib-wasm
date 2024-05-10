@@ -205,7 +205,7 @@ function mapTypeToJs (type) {
 let code = `
 const wasmBinary = new Uint8Array([${(await readFile('build/raylib.wasm')).join(',')}])
 
-import Module from '../build/raylib.js'
+import Module from './raylib_emscripten.js'
 
 const importLocation = document?.location?.toString()
 
@@ -227,18 +227,18 @@ for (const s of structs) {
       this._address = _address || mod._malloc(this._size)
 `
 
-    let offset = 0
-    for (const f of s.fields) {
-      const t = mappedStructs[f.type.replace(' ', '').replace('*', '')]
-      if (!t) {
-        code += `\n      this.${f.name} = init.${f.name} || ${defaultValue(f.type)}`
-      } else {
-        code += `\n      this.${f.name} = new raylib.${t.name}(init.${f.name} || {}, this._address + ${offset})`
-      }
-      offset += getSize(f.type)
+  let offset = 0
+  for (const f of s.fields) {
+    const t = mappedStructs[f.type.replace(' ', '').replace('*', '')]
+    if (!t) {
+      code += `\n      this.${f.name} = init.${f.name} || ${defaultValue(f.type)}`
+    } else {
+      code += `\n      this.${f.name} = new raylib.${t.name}(init.${f.name} || {}, this._address + ${offset})`
     }
-    
-    code += `
+    offset += getSize(f.type)
+  }
+
+  code += `
     }
     ${outputGetters(s)}
   }\n\n`

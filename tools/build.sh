@@ -7,14 +7,14 @@ mkdir -p build tools/api/
 # rm -rf src/raylib
 if [ ! -d "src/raylib" ];then
 	cd src
-	git clone --branch master --depth 1 https://github.com/raysan5/raylib.git
+	git clone --branch  4.6-dev  --depth 1 https://github.com/raysan5/raylib.git
 	cd ..
 fi
 
 # rm -rf src/raygui
 if [ ! -d "src/raygui" ];then
 	cd src/
-	git clone --branch master --depth 1 https://github.com/raysan5/raygui.git
+	git clone --branch 4.0 --depth 1 https://github.com/raysan5/raygui.git
 	cd ..
 fi
 
@@ -51,4 +51,6 @@ emcc src/raylib.c src/raylib/build/raylib/libraylib.a -o build/raylib.js -I src/
 	-sUSE_GLFW=3 \
 	-sEXPORTED_RUNTIME_METHODS=cwrap,allocateUTF8,stringToUTF8,UTF8ToString,FS,setValue,getValue \
 	-sENVIRONMENT=web \
-	$(node tools/get_exports.js)
+	$(node ./tools/get_exports.js)
+
+cp build/raylib.js src/raylib_emscripten.js

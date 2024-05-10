@@ -1009,6 +1009,36 @@
       ]
     },
     {
+      "name": "Vector3Project",
+      "description": "",
+      "returnType": "Vector3",
+      "params": [
+        {
+          "type": "Vector3",
+          "name": "v1"
+        },
+        {
+          "type": "Vector3",
+          "name": "v2"
+        }
+      ]
+    },
+    {
+      "name": "Vector3Reject",
+      "description": "",
+      "returnType": "Vector3",
+      "params": [
+        {
+          "type": "Vector3",
+          "name": "v1"
+        },
+        {
+          "type": "Vector3",
+          "name": "v2"
+        }
+      ]
+    },
+    {
       "name": "Vector3OrthoNormalize",
       "description": "",
       "returnType": "void",
@@ -1512,7 +1542,7 @@
       "params": [
         {
           "type": "double",
-          "name": "fovy"
+          "name": "fovY"
         },
         {
           "type": "double",
@@ -1520,11 +1550,11 @@
         },
         {
           "type": "double",
-          "name": "near"
+          "name": "nearPlane"
         },
         {
           "type": "double",
-          "name": "far"
+          "name": "farPlane"
         }
       ]
     },
@@ -1551,11 +1581,11 @@
         },
         {
           "type": "double",
-          "name": "near"
+          "name": "nearPlane"
         },
         {
           "type": "double",
-          "name": "far"
+          "name": "farPlane"
         }
       ]
     },
