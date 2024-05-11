@@ -9,10 +9,19 @@ export default class RaylibComponent extends HTMLElement {
     this.style.display = 'none'
     this.shadow = this.attachShadow({ mode: 'open' })
     this.canvas = document.createElement('canvas')
+
     window.addEventListener('resize', this.onResize.bind(this))
+
     this.shadow.innerHTML = `
 <style>
-
+canvas.landscape {
+  height: 100vh;
+  max-width: 100vw;
+}
+canvas.portrait {
+  width: 100vw;
+  max-height: 100vh;
+}
 canvas {
   image-rendering: -moz-crisp-edges;
   image-rendering: -webkit-crisp-edges;
@@ -30,9 +39,12 @@ canvas {
   }
 
   onResize () {
+    // for soem reason this is modifying theee attributes, not just the class, so I need to put it back
+    const d = [this.canvas.width, this.canvas.height]
     if (this.fill) {
-      const { clientWidth, clientHeight } = document.body
-      this.canvas.className = clientWidth > clientHeight ? 'landscape' : 'portrait'
+      this.canvas.className = (this.parentElement.clientWidth > this.parentElement.clientHeight) ? 'landscape' : 'portrait'
+    } else {
+      this.canvas.className = ''
     }
   }
 
@@ -43,7 +55,6 @@ canvas {
   attributeChangedCallback (name, oldValue, newValue) {
     if (name === 'fill') {
       this.fill = typeof newValue !== 'undefined'
-      this.onResize()
     }
     if (name === 'src') {
       this.start(newValue)
@@ -57,7 +68,8 @@ canvas {
     }
     raylib_run_string(this.canvas, userCode)
 
-    console.log('game loaded')
+    // cannot call this right away or it will act weird for some reason
+    setTimeout(() => this.onResize(), 10)
 
     // game is loaded so show myself
     this.style.display = 'block'

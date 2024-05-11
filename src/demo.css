@@ -1,29 +1,29 @@
-html, body {
-  margin:0;
-  height: 100vh;
+html,body {
+    margin: 0;
+    height: 100vh
 }
 
 body {
-  font-family: sans-serif;
-  color: white;
-  background: black;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    font-family: sans-serif;
+    color: #fff;
+    background: black;
+    display: flex;
+    justify-content: center;
+    align-items: center
 }
 
 a {
-  color: inherit;
+    color: inherit
 }
 
 #demo-select {
- position: absolute;
- top: 10px;
- left: 10px;
+    position: absolute;
+    top: 10px;
+    left: 10px
 }
 
 #source {
- position: absolute;
- top: 10px;
- right: 10px;
+    position: absolute;
+    top: 10px;
+    right: 10px
 }
