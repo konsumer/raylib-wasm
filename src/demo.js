@@ -5,11 +5,11 @@ const dselect = document.getElementById('demo-select')
 const r = document.getElementById('raylib')
 const s = document.getElementById('source')
 
-dselect.addEventListener("change", () => {
+dselect.addEventListener('change', () => {
   document.location.hash = `#${dselect.value}`
 })
 
-addEventListener("hashchange", (event) => {
+window.addEventListener('hashchange', (event) => {
   const h = `/examples/${document.location.hash.slice(1) || 'welcome'}.js`
   r.setAttribute('src', h)
   s.setAttribute('href', h)

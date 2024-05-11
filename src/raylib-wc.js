@@ -39,13 +39,12 @@ canvas {
   }
 
   onResize () {
-    // for soem reason this is modifying theee attributes, not just the class, so I need to put it back
-    const d = [this.canvas.width, this.canvas.height]
-    if (this.fill) {
-      this.canvas.className = (this.parentElement.clientWidth > this.parentElement.clientHeight) ? 'landscape' : 'portrait'
-    } else {
-      this.canvas.className = ''
-    }
+    // fill seems busted, for some reason it's modifying canvas height/width attributes instead of just the class
+    // if (this.fill) {
+    //   this.canvas.className = (this.parentElement.clientWidth > this.parentElement.clientHeight) ? 'landscape' : 'portrait'
+    // } else {
+    //   this.canvas.className = ''
+    // }
   }
 
   static get observedAttributes () {
@@ -55,6 +54,7 @@ canvas {
   attributeChangedCallback (name, oldValue, newValue) {
     if (name === 'fill') {
       this.fill = typeof newValue !== 'undefined'
+      this.onResize()
     }
     if (name === 'src') {
       this.start(newValue)
@@ -67,9 +67,6 @@ canvas {
       userCode = await fetch(src).then(r => r.text())
     }
     raylib_run_string(this.canvas, userCode)
-
-    // cannot call this right away or it will act weird for some reason
-    setTimeout(() => this.onResize(), 10)
 
     // game is loaded so show myself
     this.style.display = 'block'
