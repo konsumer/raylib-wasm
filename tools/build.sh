@@ -25,6 +25,34 @@ if [ ! -d "src/reasings" ];then
 	cd ..
 fi
 
+# rm -rf src/rmem
+if [ ! -d "src/rmem" ];then
+	cd src
+	git clone --branch main --depth 1 https://github.com/raylib-extras/rmem.git
+	cd ..
+fi
+
+# rm -rf src/rres
+if [ ! -d "src/rres" ];then
+	cd src
+	git clone --branch master --depth 1 https://github.com/raysan5/rres.git
+	cd ..
+fi
+
+# rm -rf src/raudio
+if [ ! -d "src/raudio" ];then
+	cd src
+	git clone --branch master --depth 1 https://github.com/raysan5/raudio.git
+	cd ..
+fi
+
+# rm -rf src/Physac
+if [ ! -d "src/Physac" ];then
+	cd src
+	git clone --branch master --depth 1 https://github.com/victorfisac/Physac.git
+	cd ..
+fi
+
 # build JSON, ala RobLoach/raylib-api technique
 make -C src/raylib/parser
 ./src/raylib/parser/raylib_parser -i src/raylib/src/raylib.h -o tools/api/raylib.json -f JSON -d RLAPI
@@ -33,8 +61,10 @@ make -C src/raylib/parser
 ./src/raylib/parser/raylib_parser -i src/raylib/src/rlgl.h -o tools/api/rlgl.json -f JSON -d RLAPI -t "RLGL IMPLEMENTATION"
 ./src/raylib/parser/raylib_parser -i src/raygui/src/raygui.h -o tools/api/raygui.json -f JSON -d RAYGUIAPI -t "RAYGUI IMPLEMENTATION"
 ./src/raylib/parser/raylib_parser -i src/reasings/src/reasings.h -o tools/api/reasings.json -f JSON -d EASEDEF
-# ./src/raylib/parser/raylib_parser -i src/rmem/src/rmem.h -o tools/api/rmem.json -f JSON -d RMEMAPI -t "RMEM IMPLEMENTATION"
-# ./src/raylib/parser/raylib_parser -i src/rres/src/rres.h -o tools/api/rres.json -f JSON -d RRESAPI -t "RRES IMPLEMENTATION"
+./src/raylib/parser/raylib_parser -i src/rmem/src/rmem.h -o tools/api/rmem.json -f JSON -d RMEMAPI -t "RMEM IMPLEMENTATION"
+./src/raylib/parser/raylib_parser -i src/rres/src/rres.h -o tools/api/rres.json -f JSON -d RRESAPI -t "RRES IMPLEMENTATION"
+./src/raylib/parser/raylib_parser -i src/raudio/src/raudio.h -o tools/api/raudio.json -f JSON -t "RAUDIO IMPLEMENTATION"
+./src/raylib/parser/raylib_parser -i src/Physac/src/physac.h -o tools/api/physac.json -f JSON -d PHYSACDEF -t "PHYSAC IMPLEMENTATION"
 
 
 if [ ! -d "src/raylib/build" ];then
