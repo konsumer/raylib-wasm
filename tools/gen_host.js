@@ -4,7 +4,7 @@
 import { readFile, writeFile } from 'fs/promises'
 import { defines, structs, aliases, enums, callbacks, functions, mappedStructs } from './api.js'
 
-// I use this to create eh build line (to cut down on unused exports)
+// I use this to create the build line (to cut down on unused exports)
 
 const exposed = ['free', 'addFile', 'globalize', 'mod']
 
@@ -206,6 +206,7 @@ let code = `
 const wasmBinary = new Uint8Array([${(await readFile('build/raylib.wasm')).join(',')}])
 
 import Module from './raylib_emscripten.js'
+import RaylibComponent from './raylib-wc.js'
 
 const importLocation = document?.location?.toString()
 
@@ -348,107 +349,31 @@ code += `
   return raylib
 }
 
-class RaylibComponent extends HTMLElement {
-  constructor () {
-    super()
-    this.shadow = this.attachShadow({ mode: 'open' })
-    this.canvas = document.createElement('canvas')
-    this.style.display = 'none'
-    window.addEventListener('resize', this.onResize.bind(this))
-    this.shadow.innerHTML = \`
-<style>
-canvas.landscape {
-  height: 100vh;
-  max-width: 100vw;
-}
-canvas.portrait {
-  width: 100vw;
-  max-height: 100vh;
-}
-canvas {
-  image-rendering: -moz-crisp-edges;
-  image-rendering: -webkit-crisp-edges;
-  image-rendering: pixelated;
-  image-rendering: crisp-edges;
-  object-fit: contain;
-}
-</style>
-\`
-    this.shadow.appendChild(this.canvas)
-    this.start(this.getAttribute('src'))
-
-    this.canvas.addEventListener('contextmenu', e => e.preventDefault())
-  }
-  
-  onResize() {
-    if (this.fill){
-      const { clientWidth, clientHeight } = document.body
-      this.canvas.className = clientWidth > clientHeight ? 'landscape' : 'portrait'
+function raylib_run_string(canvas, userCode) {
+  const f = new Function(['runGame', 'canvas'], userCode + '\\n' + \`
+    if (typeof InitGame === 'undefined') {
+      console.error('Make sure to add InitGame() to your raylib-game.')
+      return
     }
-  }
-  
-  static get observedAttributes() {
-    return ['src', 'fill']
-  }
-  
-  attributeChangedCallback(name, oldValue, newValue) {
-    if (name === 'fill') {
-      this.fill = typeof newValue !== 'undefined'
-      this.onResize()
+    if (typeof UpdateGame === 'undefined') {
+      console.error('Make sure to add UpdateGame() to your raylib-game.')
+      return
     }
-    if (name ==='src') {
-      this.start(newValue)
-    }
-  }
 
-  async start(src) {
-    let userCode = this.textContent
-    if (src) {
-      userCode = await fetch(src).then(r => r.text())
-    }
-    const f = new Function(['runGame', 'canvas'], userCode + '\\n' + \`
-      if (typeof InitGame === 'undefined') {
-        console.error('Make sure to add InitGame() to your raylib-game.')
-        return
-      }
-      if (typeof UpdateGame === 'undefined') {
-        console.error('Make sure to add UpdateGame() to your raylib-game.')
-        return
-      }
+    let ${exposed.join(',')}
 
-      let ${exposed.join(',')}
-
-      runGame(canvas, async raylib => {
-        ${exposed.map(f => `${f} = raylib.${f}`).join('\n  ')}
-        await InitGame(raylib)
-      }, UpdateGame)
-    \`)
-    f(raylib_run, this.canvas)
-    this.style.display = 'block'
-  }
-  
-  connectedCallback() {
-    var observer = new MutationObserver((mutations) => {
-      this.start(this.src)
-    })
-    observer.observe(this, { childList: true })
-  }
+    runGame(canvas, async raylib => {
+      ${exposed.map(f => `${f} = raylib.${f}`).join('\n  ')}
+      await InitGame(raylib)
+    }, UpdateGame)
+  \`)
+  f(raylib_run, canvas)
 }
 
-if (typeof document !== 'undefined') {
-  document.addEventListener('DOMContentLoaded', () => {
-    window.customElements.define('raylib-game', RaylibComponent)
-  })
-}
+export { raylib_run_string, raylib_run, RaylibComponent, Module, wasmBinary }
+export default raylib_run
 
 `
 
 // regular web JS
 await writeFile('src/raylib.js', code)
-
-// // ES6 web module
-// await writeFile('public/raylib.module.js', code + `
-
-// export { raylib_run, RaylibComponent, Module, wasmBinary }
-// export default raylib_run
-// `)
