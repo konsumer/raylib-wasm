@@ -308,6 +308,7 @@ exposed.push('UniformFloat')
 exposed.push('UniformVector2')
 exposed.push('UniformVector3')
 exposed.push('UniformVector4')
+exposed.push('UniformColor')
 exposed.push('UniformInt')
 
 code += `
@@ -429,6 +430,50 @@ code += `
     }
     
     set w (v) {
+      this._val.w = v
+      raylib.SetShaderValue(this._shader, this._loc, this._val, raylib.SHADER_UNIFORM_VEC4)
+    }
+  }
+
+  raylib.UniformColor = class UniformColor {
+    constructor(shader, name, address) {
+      this._shader = shader
+      this._val = new raylib.Vector4({}, address)
+      this._loc = raylib.GetShaderLocation(shader, name)
+    }
+
+    get r () {
+      return this._val.x
+    }
+    
+    set r (v) {
+      this._val.x = v
+      raylib.SetShaderValue(this._shader, this._loc, this._val, raylib.SHADER_UNIFORM_VEC4)
+    }
+
+    get g () {
+      return this._val.y
+    }
+    
+    set g (v) {
+      this._val.y = v
+      raylib.SetShaderValue(this._shader, this._loc, this._val, raylib.SHADER_UNIFORM_VEC4)
+    }
+
+    get b () {
+      return this._val.z
+    }
+    
+    set b (v) {
+      this._val.z = v
+      raylib.SetShaderValue(this._shader, this._loc, this._val, raylib.SHADER_UNIFORM_VEC4)
+    }
+
+    get a () {
+      return this._val.w
+    }
+    
+    set a (v) {
       this._val.w = v
       raylib.SetShaderValue(this._shader, this._loc, this._val, raylib.SHADER_UNIFORM_VEC4)
     }

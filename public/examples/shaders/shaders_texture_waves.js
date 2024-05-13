@@ -8,8 +8,6 @@ let shader
 let waves
 
 const InitGame = async () => {
-  // TODO: more uniform types, put them in lib
-
   InitWindow(screenWidth, screenHeight, "raylib [shaders] example - texture waves")
   texture = await LoadTexture("/examples/shaders/resources/space.png")
   

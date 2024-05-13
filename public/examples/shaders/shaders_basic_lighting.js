@@ -7,7 +7,6 @@ let camera
 let shader
 let model
 let cube
-let vec0
 let lights
 
 // eventually I might do this as a more generic uniform-handler, but this works for now
@@ -19,61 +18,17 @@ let lightsCount = 0
 
 class Light {
   constructor(type, position, target, color, shader){
-    this.enabledLoc = GetShaderLocation(shader, `lights[${lightsCount}].enabled`)
-    this.typeLoc = GetShaderLocation(shader, `lights[${lightsCount}].type`)
-    this.positionLoc = GetShaderLocation(shader, `lights[${lightsCount}].position`)
-    this.targetLoc = GetShaderLocation(shader, `lights[${lightsCount}].target`)
-    this.colorLoc = GetShaderLocation(shader, `lights[${lightsCount}].color`)
-    this.shader = shader
-    this.position = position
-    this.target = target
-    this.color = color
-    this.type = type
-    this.enabled = true
+    this.position = new UniformVector3(shader, 'position', position._address)
+    this.target = new UniformVector3(shader, 'target', target._address)
 
-    lightsCount++
-  }
+    const c = new Vector4({ x:color.r, y:color.g, z:color.b, w:color.a })
+    this.color = new UniformColor(shader, 'color', c._address)
+    
+    this.type = new UniformInt(shader, 'type')
+    this.type.value = type
 
-  set enabled (val) {
-    mod.setValue(this.shader.locs + this.enabledLoc, val ? 1 : 0, 'i32')
-    SetShaderValue(this.shader, this.enabledLoc, this.shader.locs + this.enabledLoc, SHADER_UNIFORM_INT)
-  }
-
-  get enabled() {
-    return !!mod.getValue(this.shader.locs + this.enabledLoc, 'i32')
-  }
-
-  set type (val) {
-    mod.setValue(this.typeLoc, val, 'i32')
-    SetShaderValue(this.shader, this.typeLoc, this.shader.locs + this.typeLoc, SHADER_UNIFORM_INT)
-  }
-
-  get type() {
-    return mod.getValue(this.shader.locs + this.typeLoc, 'i32')
-  }
-
-  set position (val) {
-    SetShaderValue(this.shader, this.positionLoc, val._address, SHADER_UNIFORM_VEC3)
-  }
-
-  get position() {
-    return new Vector3({}, this.shader.locs + this.positionLoc)
-  }
-
-  set target (val) {
-    SetShaderValue(this.shader, this.targetLoc, val._address, SHADER_UNIFORM_VEC3)
-  }
-
-  get target() {
-    return new Vector3({}, this.shader.locs + this.targetLoc)
-  }
-
-  set color (val) {
-    SetShaderValue(this.shader, this.colorLoc, val._address, SHADER_UNIFORM_VEC4)
-  }
-
-  get color() {
-    return new Color({}, this.shader.locs + this.colorLoc)
+    this.enabled = new UniformInt(shader, 'enabled')
+    this.enabled.value = 1
   }
 }
 
@@ -83,7 +38,6 @@ const InitGame = async () => {
   SetConfigFlags(FLAG_MSAA_4X_HINT)
   InitWindow(screenWidth, screenHeight, "raylib [shaders] example - basic lighting")
   camera = new Camera()
-  vec0 = Vector3Zero()
   
   camera.position.x = 2
   camera.position.y = 4
@@ -108,27 +62,25 @@ const InitGame = async () => {
   cube = LoadModelFromMesh(GenMeshCube(2.0, 4.0, 2.0))
 
   lights = [
-    new Light(LIGHT_POINT, new Vector3({x: -2, y: 1, z: -2 }), vec0, YELLOW, shader),
-    new Light(LIGHT_POINT, new Vector3({x: 2, y: 1, z: 2 }), vec0, RED, shader),
-    new Light(LIGHT_POINT, new Vector3({x: -2, y: 1, z: 2 }), vec0, GREEN, shader),
-    new Light(LIGHT_POINT, new Vector3({x: 2, y: 1, z: -2 }), vec0, BLUE, shader)
+    new Light(LIGHT_POINT, new Vector3({x: -2, y: 1, z: -2 }), Vector3Zero(), YELLOW, shader),
+    new Light(LIGHT_POINT, new Vector3({x: 2, y: 1, z: 2 }), Vector3Zero(), RED, shader),
+    new Light(LIGHT_POINT, new Vector3({x: -2, y: 1, z: 2 }), Vector3Zero(), GREEN, shader),
+    new Light(LIGHT_POINT, new Vector3({x: 2, y: 1, z: -2 }), Vector3Zero(), BLUE, shader)
   ]
 
-  model.materials.shader = shader
-  cube.materials.shader = shader
+  // I think this is issue: it's not connecting the lights to materials
+  model.materials.shader._address = shader._address
+  cube.materials.shader._address = shader._address
 
-  // these don't seem to have correct settings
   console.log(lights)
-
-  console.log(mod)
 }
 
 const UpdateGame = (ts) => {
   BeginDrawing()
   ClearBackground(RAYWHITE)
   BeginMode3D(camera)
-  DrawModel(model, vec0, 1, WHITE)
-  DrawModel(cube, vec0, 1, WHITE)
+  DrawModel(model, Vector3Zero(), 1, WHITE)
+  DrawModel(cube, Vector3Zero(), 1, WHITE)
 
   for (const light of lights) {
     if (light.enabled) {
