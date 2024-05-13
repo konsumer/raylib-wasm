@@ -4,5 +4,10 @@ node_modules
 /src/raylib/
 /src/raygui/
 /src/reasings/
+/src/Physac/
+/src/raudio/
+/src/rmem/
+/src/rres/
 /build/
 /dist/
+

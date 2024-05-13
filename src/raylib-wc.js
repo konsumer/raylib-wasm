@@ -32,7 +32,6 @@ canvas {
 </style>
 `
     this.shadow.appendChild(this.canvas)
-    this.start(this.getAttribute('src'))
 
     // this makes right-click work better in raylib
     this.canvas.addEventListener('contextmenu', e => e.preventDefault())
@@ -57,7 +56,8 @@ canvas {
       this.onResize()
     }
     if (name === 'src') {
-      this.start(newValue)
+      this.src = newValue
+      this.start(this.src)
     }
   }
 
@@ -70,13 +70,6 @@ canvas {
 
     // game is loaded so show myself
     this.style.display = 'block'
-  }
-
-  connectedCallback () {
-    const observer = new MutationObserver((mutations) => {
-      this.start(this.src)
-    })
-    observer.observe(this, { childList: true })
   }
 }
 

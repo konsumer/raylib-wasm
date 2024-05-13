@@ -114,7 +114,13 @@ const InitGame = async () => {
     new Light(LIGHT_POINT, new Vector3({x: 2, y: 1, z: -2 }), vec0, BLUE, shader)
   ]
 
+  model.materials.shader = shader
+  cube.materials.shader = shader
+
+  // these don't seem to have correct settings
   console.log(lights)
+
+  console.log(mod)
 }
 
 const UpdateGame = (ts) => {

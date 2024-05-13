@@ -505,6 +505,18 @@
       "description": "GL_BLEND_COLOR"
     },
     {
+      "name": "RL_READ_FRAMEBUFFER",
+      "type": "INT",
+      "value": 36008,
+      "description": "GL_READ_FRAMEBUFFER"
+    },
+    {
+      "name": "RL_DRAW_FRAMEBUFFER",
+      "type": "INT",
+      "value": 36009,
+      "description": "GL_DRAW_FRAMEBUFFER"
+    },
+    {
       "name": "RL_MATRIX_TYPE",
       "type": "GUARD",
       "value": "",
@@ -1924,6 +1936,11 @@
       "returnType": "void"
     },
     {
+      "name": "rlGetActiveFramebuffer",
+      "description": "Get the currently active render texture (fbo), 0 for default framebuffer",
+      "returnType": "unsigned int"
+    },
+    {
       "name": "rlActiveDrawBuffers",
       "description": "Activate multiple draw color buffers",
       "returnType": "void",
@@ -1931,6 +1948,64 @@
         {
           "type": "int",
           "name": "count"
+        }
+      ]
+    },
+    {
+      "name": "rlBlitFramebuffer",
+      "description": "Blit active framebuffer to main framebuffer",
+      "returnType": "void",
+      "params": [
+        {
+          "type": "int",
+          "name": "srcX"
+        },
+        {
+          "type": "int",
+          "name": "srcY"
+        },
+        {
+          "type": "int",
+          "name": "srcWidth"
+        },
+        {
+          "type": "int",
+          "name": "srcHeight"
+        },
+        {
+          "type": "int",
+          "name": "dstX"
+        },
+        {
+          "type": "int",
+          "name": "dstY"
+        },
+        {
+          "type": "int",
+          "name": "dstWidth"
+        },
+        {
+          "type": "int",
+          "name": "dstHeight"
+        },
+        {
+          "type": "int",
+          "name": "bufferMask"
+        }
+      ]
+    },
+    {
+      "name": "rlBindFramebuffer",
+      "description": "Bind framebuffer (FBO)",
+      "returnType": "void",
+      "params": [
+        {
+          "type": "unsigned int",
+          "name": "target"
+        },
+        {
+          "type": "unsigned int",
+          "name": "framebuffer"
         }
       ]
     },
@@ -1973,6 +2048,29 @@
       "name": "rlDisableBackfaceCulling",
       "description": "Disable backface culling",
       "returnType": "void"
+    },
+    {
+      "name": "rlColorMask",
+      "description": "Color mask control",
+      "returnType": "void",
+      "params": [
+        {
+          "type": "bool",
+          "name": "r"
+        },
+        {
+          "type": "bool",
+          "name": "g"
+        },
+        {
+          "type": "bool",
+          "name": "b"
+        },
+        {
+          "type": "bool",
+          "name": "a"
+        }
+      ]
     },
     {
       "name": "rlSetCullFace",
@@ -2024,8 +2122,13 @@
       "returnType": "void"
     },
     {
+      "name": "rlEnablePointMode",
+      "description": "Enable point mode",
+      "returnType": "void"
+    },
+    {
       "name": "rlDisableWireMode",
-      "description": "Disable wire mode",
+      "description": "Disable wire mode ( and point ) maybe rename",
       "returnType": "void"
     },
     {
@@ -2328,7 +2431,7 @@
     },
     {
       "name": "rlLoadVertexBuffer",
-      "description": "Load a vertex buffer attribute",
+      "description": "Load a vertex buffer object",
       "returnType": "unsigned int",
       "params": [
         {
@@ -2347,7 +2450,7 @@
     },
     {
       "name": "rlLoadVertexBufferElement",
-      "description": "Load a new attributes element buffer",
+      "description": "Load vertex buffer elements object",
       "returnType": "unsigned int",
       "params": [
         {
@@ -2366,7 +2469,7 @@
     },
     {
       "name": "rlUpdateVertexBuffer",
-      "description": "Update GPU buffer with new data",
+      "description": "Update vertex buffer object data on GPU buffer",
       "returnType": "void",
       "params": [
         {
@@ -2389,7 +2492,7 @@
     },
     {
       "name": "rlUpdateVertexBufferElements",
-      "description": "Update vertex buffer elements with new data",
+      "description": "Update vertex buffer elements data on GPU buffer",
       "returnType": "void",
       "params": [
         {
@@ -2412,7 +2515,7 @@
     },
     {
       "name": "rlUnloadVertexArray",
-      "description": "",
+      "description": "Unload vertex array (vao)",
       "returnType": "void",
       "params": [
         {
@@ -2423,7 +2526,7 @@
     },
     {
       "name": "rlUnloadVertexBuffer",
-      "description": "",
+      "description": "Unload vertex buffer object",
       "returnType": "void",
       "params": [
         {
@@ -2434,7 +2537,7 @@
     },
     {
       "name": "rlSetVertexAttribute",
-      "description": "",
+      "description": "Set vertex attribute data configuration",
       "returnType": "void",
       "params": [
         {
@@ -2465,7 +2568,7 @@
     },
     {
       "name": "rlSetVertexAttributeDivisor",
-      "description": "",
+      "description": "Set vertex attribute data divisor",
       "returnType": "void",
       "params": [
         {
@@ -2480,7 +2583,7 @@
     },
     {
       "name": "rlSetVertexAttributeDefault",
-      "description": "Set vertex attribute default value",
+      "description": "Set vertex attribute default value, when attribute to provided",
       "returnType": "void",
       "params": [
         {
@@ -2503,7 +2606,7 @@
     },
     {
       "name": "rlDrawVertexArray",
-      "description": "",
+      "description": "Draw vertex array (currently active vao)",
       "returnType": "void",
       "params": [
         {
@@ -2518,7 +2621,7 @@
     },
     {
       "name": "rlDrawVertexArrayElements",
-      "description": "",
+      "description": "Draw vertex array elements",
       "returnType": "void",
       "params": [
         {
@@ -2537,7 +2640,7 @@
     },
     {
       "name": "rlDrawVertexArrayInstanced",
-      "description": "",
+      "description": "Draw vertex array (currently active vao) with instancing",
       "returnType": "void",
       "params": [
         {
@@ -2556,7 +2659,7 @@
     },
     {
       "name": "rlDrawVertexArrayElementsInstanced",
-      "description": "",
+      "description": "Draw vertex array elements with instancing",
       "returnType": "void",
       "params": [
         {
@@ -2579,7 +2682,7 @@
     },
     {
       "name": "rlLoadTexture",
-      "description": "Load texture in GPU",
+      "description": "Load texture data",
       "returnType": "unsigned int",
       "params": [
         {
@@ -2625,7 +2728,7 @@
     },
     {
       "name": "rlLoadTextureCubemap",
-      "description": "Load texture cubemap",
+      "description": "Load texture cubemap data",
       "returnType": "unsigned int",
       "params": [
         {
@@ -2644,7 +2747,7 @@
     },
     {
       "name": "rlUpdateTexture",
-      "description": "Update GPU texture with new data",
+      "description": "Update texture with new data on GPU",
       "returnType": "void",
       "params": [
         {
@@ -2790,17 +2893,7 @@
     {
       "name": "rlLoadFramebuffer",
       "description": "Load an empty framebuffer",
-      "returnType": "unsigned int",
-      "params": [
-        {
-          "type": "int",
-          "name": "width"
-        },
-        {
-          "type": "int",
-          "name": "height"
-        }
-      ]
+      "returnType": "unsigned int"
     },
     {
       "name": "rlFramebufferAttach",

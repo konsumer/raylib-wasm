@@ -2,7 +2,7 @@
 // and hashes trigger the demo
 
 const dselect = document.getElementById('demo-select')
-const r = document.getElementById('raylib')
+const r = document.getElementById('raylibRunner')
 const s = document.getElementById('source')
 
 dselect.addEventListener('change', () => {

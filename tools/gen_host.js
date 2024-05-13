@@ -304,7 +304,154 @@ for (const { name, description, returnType, params = [] } of functions) {
   }
 }
 
+exposed.push('UniformFloat')
+exposed.push('UniformVector2')
+exposed.push('UniformVector3')
+exposed.push('UniformVector4')
+exposed.push('UniformInt')
+
 code += `
+  raylib.UniformFloat = class UniformFloat {
+    constructor(shader, name, address) {
+      this._shader = shader
+      this._size = 4
+      this._address = address || mod._malloc(this._size)
+      this._loc = raylib.GetShaderLocation(shader, name)
+    }
+
+    get value () {
+      return mod.HEAPF32[this._address / 4]
+    }
+
+    set value (v) {
+      mod.HEAPF32[this._address / 4] = v
+      raylib.SetShaderValue(this._shader, this._loc, this, raylib.SHADER_UNIFORM_FLOAT)
+    }
+  }
+
+  raylib.UniformVector2 = class UniformVector2 {
+    constructor(shader, name, address) {
+      this._shader = shader
+      this._val = new raylib.Vector2({}, address)
+      this._loc = raylib.GetShaderLocation(shader, name)
+    }
+
+    get x () {
+      return this._val.x
+    }
+    
+    set x (v) {
+      this._val.x = v
+      raylib.SetShaderValue(this._shader, this._loc, this._val, raylib.SHADER_UNIFORM_VEC2)
+    }
+
+    get y () {
+      return this._val.y
+    }
+    
+    set y (v) {
+      this._val.y = v
+      raylib.SetShaderValue(this._shader, this._loc, this._val, raylib.SHADER_UNIFORM_VEC2)
+    }
+  }
+
+  raylib.UniformVector3 = class UniformVector3 {
+    constructor(shader, name, address) {
+      this._shader = shader
+      this._val = new raylib.Vector3({}, address)
+      this._loc = raylib.GetShaderLocation(shader, name)
+    }
+
+    get x () {
+      return this._val.x
+    }
+    
+    set x (v) {
+      this._val.x = v
+      raylib.SetShaderValue(this._shader, this._loc, this._val, raylib.SHADER_UNIFORM_VEC3)
+    }
+
+    get y () {
+      return this._val.y
+    }
+    
+    set y (v) {
+      this._val.y = v
+      raylib.SetShaderValue(this._shader, this._loc, this._val, raylib.SHADER_UNIFORM_VEC3)
+    }
+
+    get z () {
+      return this._val.z
+    }
+    
+    set y (v) {
+      this._val.z = v
+      raylib.SetShaderValue(this._shader, this._loc, this._val, raylib.SHADER_UNIFORM_VEC3)
+    }
+  }
+
+  raylib.UniformVector4 = class UniformVector4 {
+    constructor(shader, name, address) {
+      this._shader = shader
+      this._val = new raylib.Vector4({}, address)
+      this._loc = raylib.GetShaderLocation(shader, name)
+    }
+
+    get x () {
+      return this._val.x
+    }
+    
+    set x (v) {
+      this._val.x = v
+      raylib.SetShaderValue(this._shader, this._loc, this._val, raylib.SHADER_UNIFORM_VEC4)
+    }
+
+    get y () {
+      return this._val.y
+    }
+    
+    set y (v) {
+      this._val.y = v
+      raylib.SetShaderValue(this._shader, this._loc, this._val, raylib.SHADER_UNIFORM_VEC4)
+    }
+
+    get z () {
+      return this._val.z
+    }
+    
+    set y (v) {
+      this._val.z = v
+      raylib.SetShaderValue(this._shader, this._loc, this._val, raylib.SHADER_UNIFORM_VEC4)
+    }
+
+    get w () {
+      return this._val.w
+    }
+    
+    set w (v) {
+      this._val.w = v
+      raylib.SetShaderValue(this._shader, this._loc, this._val, raylib.SHADER_UNIFORM_VEC4)
+    }
+  }
+
+  raylib.UniformInt = class UniformInt {
+    constructor(shader, name, address) {
+      this._shader = shader
+      this._size = 4
+      this._address = address || mod._malloc(this._size)
+      this._loc = raylib.GetShaderLocation(shader, name)
+    }
+
+    get value () {
+      return mod.HEAP32[this._address / 4]
+    }
+
+    set value (v) {
+      mod.HEAP32[this._address / 4] = v
+      raylib.SetShaderValue(this._shader, this._loc, this, raylib.SHADER_UNIFORM_INT)
+    }
+  }
+
   // insert remote file in WASM filesystem
   raylib.addFile = async (filename, target) => {
     if (!target) {

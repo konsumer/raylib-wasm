@@ -1,0 +1,174 @@
+{
+  "defines": [
+    {
+      "name": "RAUDIO_H",
+      "type": "GUARD",
+      "value": "",
+      "description": ""
+    },
+    {
+      "name": "RAUDIO_STANDALONE",
+      "type": "GUARD",
+      "value": "",
+      "description": ""
+    },
+    {
+      "name": "RL_MALLOC(sz)",
+      "type": "MACRO",
+      "value": "malloc(sz)",
+      "description": ""
+    },
+    {
+      "name": "RL_CALLOC(n,sz)",
+      "type": "MACRO",
+      "value": "calloc(n,sz)",
+      "description": ""
+    },
+    {
+      "name": "RL_FREE(p)",
+      "type": "MACRO",
+      "value": "free(p)",
+      "description": ""
+    },
+    {
+      "name": "RL_BOOL_TYPE",
+      "type": "GUARD",
+      "value": "",
+      "description": ""
+    }
+  ],
+  "structs": [
+    {
+      "name": "Wave",
+      "description": "Wave, audio wave data",
+      "fields": [
+        {
+          "type": "unsigned int",
+          "name": "frameCount",
+          "description": "Total number of frames (considering channels)"
+        },
+        {
+          "type": "unsigned int",
+          "name": "sampleRate",
+          "description": "Frequency (samples per second)"
+        },
+        {
+          "type": "unsigned int",
+          "name": "sampleSize",
+          "description": "Bit depth (bits per sample): 8, 16, 32 (24 not supported)"
+        },
+        {
+          "type": "unsigned int",
+          "name": "channels",
+          "description": "Number of channels (1-mono, 2-stereo, ...)"
+        },
+        {
+          "type": "void *",
+          "name": "data",
+          "description": "Buffer data pointer"
+        }
+      ]
+    },
+    {
+      "name": "AudioStream",
+      "description": "AudioStream, custom audio stream",
+      "fields": [
+        {
+          "type": "rAudioBuffer *",
+          "name": "buffer",
+          "description": "Pointer to internal data used by the audio system"
+        },
+        {
+          "type": "rAudioProcessor *",
+          "name": "processor",
+          "description": "Pointer to internal data processor, useful for audio effects"
+        },
+        {
+          "type": "unsigned int",
+          "name": "sampleRate",
+          "description": "Frequency (samples per second)"
+        },
+        {
+          "type": "unsigned int",
+          "name": "sampleSize",
+          "description": "Bit depth (bits per sample): 8, 16, 32 (24 not supported)"
+        },
+        {
+          "type": "unsigned int",
+          "name": "channels",
+          "description": "Number of channels (1-mono, 2-stereo, ...)"
+        }
+      ]
+    },
+    {
+      "name": "Sound",
+      "description": "Sound",
+      "fields": [
+        {
+          "type": "AudioStream",
+          "name": "stream",
+          "description": "Audio stream"
+        },
+        {
+          "type": "unsigned int",
+          "name": "frameCount",
+          "description": "Total number of frames (considering channels)"
+        }
+      ]
+    },
+    {
+      "name": "Music",
+      "description": "Music, audio stream, anything longer than ~10 seconds should be streamed",
+      "fields": [
+        {
+          "type": "AudioStream",
+          "name": "stream",
+          "description": "Audio stream"
+        },
+        {
+          "type": "unsigned int",
+          "name": "frameCount",
+          "description": "Total number of frames (considering channels)"
+        },
+        {
+          "type": "bool",
+          "name": "looping",
+          "description": "Music looping enable"
+        },
+        {
+          "type": "int",
+          "name": "ctxType",
+          "description": "Type of music context (audio filetype)"
+        },
+        {
+          "type": "void *",
+          "name": "ctxData",
+          "description": "Audio context data, depends on type"
+        }
+      ]
+    }
+  ],
+  "aliases": [
+  ],
+  "enums": [
+  ],
+  "callbacks": [
+    {
+      "name": "AudioCallback",
+      "description": "",
+      "returnType": "void",
+      "params": [
+        {
+          "type": "void *",
+          "name": "bufferData"
+        },
+        {
+          "type": "unsigned int",
+          "name": "frames"
+        }
+      ]
+    }
+  ],
+  "functions": [
+  ]
+}
