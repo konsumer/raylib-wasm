@@ -8,6 +8,7 @@ let shader
 let model
 let cube
 let vec0
+let lights
 
 // eventually I might do this as a more generic uniform-handler, but this works for now
 
@@ -24,55 +25,55 @@ class Light {
     this.targetLoc = GetShaderLocation(shader, `lights[${lightsCount}].target`)
     this.colorLoc = GetShaderLocation(shader, `lights[${lightsCount}].color`)
     this.shader = shader
-    this.type = type
     this.position = position
     this.target = target
     this.color = color
+    this.type = type
     this.enabled = true
 
     lightsCount++
   }
 
   set enabled (val) {
-    mod.setValue(this.typeLoc, val ? 1 : 0, 'i32')
-    SetShaderValue(this.shader, this.enabledLoc, this.enabledLoc, SHADER_UNIFORM_INT)
+    mod.setValue(this.shader.locs + this.enabledLoc, val ? 1 : 0, 'i32')
+    SetShaderValue(this.shader, this.enabledLoc, this.shader.locs + this.enabledLoc, SHADER_UNIFORM_INT)
   }
 
   get enabled() {
-    return !!mod.getValue(this.enabledLoc, 'i32')
+    return !!mod.getValue(this.shader.locs + this.enabledLoc, 'i32')
   }
 
   set type (val) {
     mod.setValue(this.typeLoc, val, 'i32')
-    SetShaderValue(this.shader, this.typeLoc,this.typeLoc, SHADER_UNIFORM_INT)
+    SetShaderValue(this.shader, this.typeLoc, this.shader.locs + this.typeLoc, SHADER_UNIFORM_INT)
   }
 
   get type() {
-    return mod.getValue(this.typeLoc, 'i32')
+    return mod.getValue(this.shader.locs + this.typeLoc, 'i32')
   }
 
   set position (val) {
-    SetShaderValue(this.shader, this.positionLoc, val._address, SHADER_UNIFORM_INT)
+    SetShaderValue(this.shader, this.positionLoc, val._address, SHADER_UNIFORM_VEC3)
   }
 
   get position() {
-    return new Vector3({}, this.positionLoc)
+    return new Vector3({}, this.shader.locs + this.positionLoc)
   }
 
   set target (val) {
-    SetShaderValue(this.shader, this.targetLoc, val._address, SHADER_UNIFORM_INT)
+    SetShaderValue(this.shader, this.targetLoc, val._address, SHADER_UNIFORM_VEC3)
   }
 
   get target() {
-    return new Vector3({}, this.targetLoc)
+    return new Vector3({}, this.shader.locs + this.targetLoc)
   }
 
   set color (val) {
-    SetShaderValue(this.shader, this.colorLoc, val._address, SHADER_UNIFORM_INT)
+    SetShaderValue(this.shader, this.colorLoc, val._address, SHADER_UNIFORM_VEC4)
   }
 
   get color() {
-    return new Color({}, this.colorLoc)
+    return new Color({}, this.shader.locs + this.colorLoc)
   }
 }
 
@@ -106,9 +107,14 @@ const InitGame = async () => {
   model = LoadModelFromMesh(GenMeshPlane(10.0, 10.0, 3, 3))
   cube = LoadModelFromMesh(GenMeshCube(2.0, 4.0, 2.0))
 
-  const lights = [
-    new Light(LIGHT_POINT, new Vector3({x: -2, y: 1, z: -2 }), vec0, YELLOW, shader)
+  lights = [
+    new Light(LIGHT_POINT, new Vector3({x: -2, y: 1, z: -2 }), vec0, YELLOW, shader),
+    new Light(LIGHT_POINT, new Vector3({x: 2, y: 1, z: 2 }), vec0, RED, shader),
+    new Light(LIGHT_POINT, new Vector3({x: -2, y: 1, z: 2 }), vec0, GREEN, shader),
+    new Light(LIGHT_POINT, new Vector3({x: 2, y: 1, z: -2 }), vec0, BLUE, shader)
   ]
+
+  console.log(lights)
 }
 
 const UpdateGame = (ts) => {
@@ -118,7 +124,13 @@ const UpdateGame = (ts) => {
   DrawModel(model, vec0, 1, WHITE)
   DrawModel(cube, vec0, 1, WHITE)
 
-  // TODO: loop over lights
+  for (const light of lights) {
+    if (light.enabled) {
+      DrawSphereEx(light.position, 0.2, 8, 8, light.color)
+    } else {
+      DrawSphereWires(light.position, 0.2, 8, 8, ColorAlpha(light.color, 0.3))
+    }
+  }
 
   DrawGrid(10, 1)
   EndMode3D()
