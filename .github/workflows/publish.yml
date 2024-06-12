@@ -24,7 +24,7 @@ jobs:
         with:
           cache: 'npm'
       - name: Build Site
-        run: npm ci && npm run build
+        run: npm ci && npm run build:demo
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
