@@ -9,13 +9,13 @@
     {
       "name": "RAYLIB_VERSION_MAJOR",
       "type": "INT",
-      "value": 5,
+      "value": 4,
       "description": ""
     },
     {
       "name": "RAYLIB_VERSION_MINOR",
       "type": "INT",
-      "value": 1,
+      "value": 6,
       "description": ""
     },
     {
@@ -27,7 +27,7 @@
     {
       "name": "RAYLIB_VERSION",
       "type": "STRING",
-      "value": "5.1-dev",
+      "value": "4.6-dev",
       "description": ""
     },
     {
@@ -335,12 +335,6 @@
       "type": "UNKNOWN",
       "value": "SHADER_LOC_MAP_METALNESS",
       "description": ""
-    },
-    {
-      "name": "GetMouseRay",
-      "type": "UNKNOWN",
-      "value": "GetScreenToWorldRay",
-      "description": "Compatibility hack for previous raylib versions"
     }
   ],
   "structs": [
@@ -1239,6 +1233,11 @@
         },
         {
           "type": "float",
+          "name": "vScreenCenter",
+          "description": "Screen center in meters"
+        },
+        {
+          "type": "float",
           "name": "eyeToScreenDistance",
           "description": "Distance between eye and display in meters"
         },
@@ -1328,48 +1327,6 @@
           "type": "char **",
           "name": "paths",
           "description": "Filepaths entries"
-        }
-      ]
-    },
-    {
-      "name": "AutomationEvent",
-      "description": "Automation event",
-      "fields": [
-        {
-          "type": "unsigned int",
-          "name": "frame",
-          "description": "Event frame"
-        },
-        {
-          "type": "unsigned int",
-          "name": "type",
-          "description": "Event type (AutomationEventType)"
-        },
-        {
-          "type": "int[4]",
-          "name": "params",
-          "description": "Event parameters (if required)"
-        }
-      ]
-    },
-    {
-      "name": "AutomationEventList",
-      "description": "Automation event list",
-      "fields": [
-        {
-          "type": "unsigned int",
-          "name": "capacity",
-          "description": "Events max entries (MAX_AUTOMATION_EVENTS)"
-        },
-        {
-          "type": "unsigned int",
-          "name": "count",
-          "description": "Events entries count"
-        },
-        {
-          "type": "AutomationEvent *",
-          "name": "events",
-          "description": "Events entries"
         }
       ]
     }
@@ -2075,7 +2032,7 @@
         },
         {
           "name": "KEY_MENU",
-          "value": 5,
+          "value": 82,
           "description": "Key: Android menu button"
         },
         {
@@ -2229,7 +2186,7 @@
         {
           "name": "GAMEPAD_BUTTON_RIGHT_FACE_RIGHT",
           "value": 6,
-          "description": "Gamepad right button right (i.e. PS3: Circle, Xbox: B)"
+          "description": "Gamepad right button right (i.e. PS3: Square, Xbox: X)"
         },
         {
           "name": "GAMEPAD_BUTTON_RIGHT_FACE_DOWN",
@@ -2239,7 +2196,7 @@
         {
           "name": "GAMEPAD_BUTTON_RIGHT_FACE_LEFT",
           "value": 8,
-          "description": "Gamepad right button left (i.e. PS3: Square, Xbox: X)"
+          "description": "Gamepad right button left (i.e. PS3: Circle, Xbox: B)"
         },
         {
           "name": "GAMEPAD_BUTTON_LEFT_TRIGGER_1",
@@ -3511,6 +3468,27 @@
       "returnType": "void"
     },
     {
+      "name": "SwapScreenBuffer",
+      "description": "Swap back buffer with front buffer (screen drawing)",
+      "returnType": "void"
+    },
+    {
+      "name": "PollInputEvents",
+      "description": "Register all input events",
+      "returnType": "void"
+    },
+    {
+      "name": "WaitTime",
+      "description": "Wait for some time (halt program execution)",
+      "returnType": "void",
+      "params": [
+        {
+          "type": "double",
+          "name": "seconds"
+        }
+      ]
+    },
+    {
       "name": "ShowCursor",
       "description": "Shows cursor",
       "returnType": "void"
@@ -3878,13 +3856,13 @@
       ]
     },
     {
-      "name": "GetScreenToWorldRay",
-      "description": "Get a ray trace from screen position (i.e mouse)",
+      "name": "GetMouseRay",
+      "description": "Get a ray trace from mouse position",
       "returnType": "Ray",
       "params": [
         {
           "type": "Vector2",
-          "name": "position"
+          "name": "mousePosition"
         },
         {
           "type": "Camera",
@@ -3893,25 +3871,24 @@
       ]
     },
     {
-      "name": "GetScreenToWorldRayEx",
-      "description": "Get a ray trace from screen position (i.e mouse) in a viewport",
-      "returnType": "Ray",
+      "name": "GetCameraMatrix",
+      "description": "Get camera transform matrix (view matrix)",
+      "returnType": "Matrix",
       "params": [
-        {
-          "type": "Vector2",
-          "name": "position"
-        },
         {
           "type": "Camera",
           "name": "camera"
-        },
+        }
+      ]
+    },
+    {
+      "name": "GetCameraMatrix2D",
+      "description": "Get camera 2d transform matrix",
+      "returnType": "Matrix",
+      "params": [
         {
-          "type": "int",
-          "name": "width"
-        },
-        {
-          "type": "int",
-          "name": "height"
+          "type": "Camera2D",
+          "name": "camera"
         }
       ]
     },
@@ -3926,6 +3903,21 @@
         },
         {
           "type": "Camera",
+          "name": "camera"
+        }
+      ]
+    },
+    {
+      "name": "GetScreenToWorld2D",
+      "description": "Get the world space position for a 2d camera screen space position",
+      "returnType": "Vector2",
+      "params": [
+        {
+          "type": "Vector2",
+          "name": "position"
+        },
+        {
+          "type": "Camera2D",
           "name": "camera"
         }
       ]
@@ -3969,43 +3961,6 @@
       ]
     },
     {
-      "name": "GetScreenToWorld2D",
-      "description": "Get the world space position for a 2d camera screen space position",
-      "returnType": "Vector2",
-      "params": [
-        {
-          "type": "Vector2",
-          "name": "position"
-        },
-        {
-          "type": "Camera2D",
-          "name": "camera"
-        }
-      ]
-    },
-    {
-      "name": "GetCameraMatrix",
-      "description": "Get camera transform matrix (view matrix)",
-      "returnType": "Matrix",
-      "params": [
-        {
-          "type": "Camera",
-          "name": "camera"
-        }
-      ]
-    },
-    {
-      "name": "GetCameraMatrix2D",
-      "description": "Get camera 2d transform matrix",
-      "returnType": "Matrix",
-      "params": [
-        {
-          "type": "Camera2D",
-          "name": "camera"
-        }
-      ]
-    },
-    {
       "name": "SetTargetFPS",
       "description": "Set target FPS (maximum)",
       "returnType": "void",
@@ -4017,6 +3972,11 @@
       ]
     },
     {
+      "name": "GetFPS",
+      "description": "Get current FPS",
+      "returnType": "int"
+    },
+    {
       "name": "GetFrameTime",
       "description": "Get time in seconds for last frame drawn (delta time)",
       "returnType": "float"
@@ -4025,43 +3985,6 @@
       "name": "GetTime",
       "description": "Get elapsed time in seconds since InitWindow()",
       "returnType": "double"
-    },
-    {
-      "name": "GetFPS",
-      "description": "Get current FPS",
-      "returnType": "int"
-    },
-    {
-      "name": "SwapScreenBuffer",
-      "description": "Swap back buffer with front buffer (screen drawing)",
-      "returnType": "void"
-    },
-    {
-      "name": "PollInputEvents",
-      "description": "Register all input events",
-      "returnType": "void"
-    },
-    {
-      "name": "WaitTime",
-      "description": "Wait for some time (halt program execution)",
-      "returnType": "void",
-      "params": [
-        {
-          "type": "double",
-          "name": "seconds"
-        }
-      ]
-    },
-    {
-      "name": "SetRandomSeed",
-      "description": "Set the seed for the random number generator",
-      "returnType": "void",
-      "params": [
-        {
-          "type": "unsigned int",
-          "name": "seed"
-        }
-      ]
     },
     {
       "name": "GetRandomValue",
@@ -4079,32 +4002,13 @@
       ]
     },
     {
-      "name": "LoadRandomSequence",
-      "description": "Load random values sequence, no values repeated",
-      "returnType": "int *",
-      "params": [
-        {
-          "type": "unsigned int",
-          "name": "count"
-        },
-        {
-          "type": "int",
-          "name": "min"
-        },
-        {
-          "type": "int",
-          "name": "max"
-        }
-      ]
-    },
-    {
-      "name": "UnloadRandomSequence",
-      "description": "Unload random values sequence",
+      "name": "SetRandomSeed",
+      "description": "Set the seed for the random number generator",
       "returnType": "void",
       "params": [
         {
-          "type": "int *",
-          "name": "sequence"
+          "type": "unsigned int",
+          "name": "seed"
         }
       ]
     },
@@ -4127,17 +4031,6 @@
         {
           "type": "unsigned int",
           "name": "flags"
-        }
-      ]
-    },
-    {
-      "name": "OpenURL",
-      "description": "Open URL with default system browser (if available)",
-      "returnType": "void",
-      "params": [
-        {
-          "type": "const char *",
-          "name": "url"
         }
       ]
     },
@@ -4205,6 +4098,17 @@
         {
           "type": "void *",
           "name": "ptr"
+        }
+      ]
+    },
+    {
+      "name": "OpenURL",
+      "description": "Open URL with default system browser (if available)",
+      "returnType": "void",
+      "params": [
+        {
+          "type": "const char *",
+          "name": "url"
         }
       ]
     },
@@ -4645,86 +4549,6 @@
       ]
     },
     {
-      "name": "LoadAutomationEventList",
-      "description": "Load automation events list from file, NULL for empty list, capacity = MAX_AUTOMATION_EVENTS",
-      "returnType": "AutomationEventList",
-      "params": [
-        {
-          "type": "const char *",
-          "name": "fileName"
-        }
-      ]
-    },
-    {
-      "name": "UnloadAutomationEventList",
-      "description": "Unload automation events list from file",
-      "returnType": "void",
-      "params": [
-        {
-          "type": "AutomationEventList",
-          "name": "list"
-        }
-      ]
-    },
-    {
-      "name": "ExportAutomationEventList",
-      "description": "Export automation events list as text file",
-      "returnType": "bool",
-      "params": [
-        {
-          "type": "AutomationEventList",
-          "name": "list"
-        },
-        {
-          "type": "const char *",
-          "name": "fileName"
-        }
-      ]
-    },
-    {
-      "name": "SetAutomationEventList",
-      "description": "Set automation event list to record to",
-      "returnType": "void",
-      "params": [
-        {
-          "type": "AutomationEventList *",
-          "name": "list"
-        }
-      ]
-    },
-    {
-      "name": "SetAutomationEventBaseFrame",
-      "description": "Set automation event internal base frame to start recording",
-      "returnType": "void",
-      "params": [
-        {
-          "type": "int",
-          "name": "frame"
-        }
-      ]
-    },
-    {
-      "name": "StartAutomationEventRecording",
-      "description": "Start recording automation events (AutomationEventList must be set)",
-      "returnType": "void"
-    },
-    {
-      "name": "StopAutomationEventRecording",
-      "description": "Stop recording automation events",
-      "returnType": "void"
-    },
-    {
-      "name": "PlayAutomationEvent",
-      "description": "Play a recorded automation event",
-      "returnType": "void",
-      "params": [
-        {
-          "type": "AutomationEvent",
-          "name": "event"
-        }
-      ]
-    },
-    {
       "name": "IsKeyPressed",
       "description": "Check if a key has been pressed once",
       "returnType": "bool",
@@ -4780,16 +4604,6 @@
       ]
     },
     {
-      "name": "GetKeyPressed",
-      "description": "Get key pressed (keycode), call it multiple times for keys queued, returns 0 when the queue is empty",
-      "returnType": "int"
-    },
-    {
-      "name": "GetCharPressed",
-      "description": "Get char pressed (unicode), call it multiple times for chars queued, returns 0 when the queue is empty",
-      "returnType": "int"
-    },
-    {
       "name": "SetExitKey",
       "description": "Set a custom key to exit program (default is ESC)",
       "returnType": "void",
@@ -4799,6 +4613,16 @@
           "name": "key"
         }
       ]
+    },
+    {
+      "name": "GetKeyPressed",
+      "description": "Get key pressed (keycode), call it multiple times for keys queued, returns 0 when the queue is empty",
+      "returnType": "int"
+    },
+    {
+      "name": "GetCharPressed",
+      "description": "Get char pressed (unicode), call it multiple times for chars queued, returns 0 when the queue is empty",
+      "returnType": "int"
     },
     {
       "name": "IsGamepadAvailable",
@@ -4921,25 +4745,6 @@
         {
           "type": "const char *",
           "name": "mappings"
-        }
-      ]
-    },
-    {
-      "name": "SetGamepadVibration",
-      "description": "Set gamepad vibration for both motors",
-      "returnType": "void",
-      "params": [
-        {
-          "type": "int",
-          "name": "gamepad"
-        },
-        {
-          "type": "float",
-          "name": "leftMotor"
-        },
-        {
-          "type": "float",
-          "name": "rightMotor"
         }
       ]
     },
@@ -5216,16 +5021,6 @@
       ]
     },
     {
-      "name": "GetShapesTexture",
-      "description": "Get texture that is used for shapes drawing",
-      "returnType": "Texture2D"
-    },
-    {
-      "name": "GetShapesTextureRectangle",
-      "description": "Get texture source rectangle that is used for shapes drawing",
-      "returnType": "Rectangle"
-    },
-    {
       "name": "DrawPixel",
       "description": "Draw a pixel",
       "returnType": "void",
@@ -5288,7 +5083,7 @@
     },
     {
       "name": "DrawLineV",
-      "description": "Draw a line (using gl lines)",
+      "description": "Draw a line (Vector version)",
       "returnType": "void",
       "params": [
         {
@@ -5307,7 +5102,7 @@
     },
     {
       "name": "DrawLineEx",
-      "description": "Draw a line (using triangles/quads)",
+      "description": "Draw a line defining thickness",
       "returnType": "void",
       "params": [
         {
@@ -5317,6 +5112,133 @@
         {
           "type": "Vector2",
           "name": "endPos"
+        },
+        {
+          "type": "float",
+          "name": "thick"
+        },
+        {
+          "type": "Color",
+          "name": "color"
+        }
+      ]
+    },
+    {
+      "name": "DrawLineBezier",
+      "description": "Draw a line using cubic-bezier curves in-out",
+      "returnType": "void",
+      "params": [
+        {
+          "type": "Vector2",
+          "name": "startPos"
+        },
+        {
+          "type": "Vector2",
+          "name": "endPos"
+        },
+        {
+          "type": "float",
+          "name": "thick"
+        },
+        {
+          "type": "Color",
+          "name": "color"
+        }
+      ]
+    },
+    {
+      "name": "DrawLineBezierQuad",
+      "description": "Draw line using quadratic bezier curves with a control point",
+      "returnType": "void",
+      "params": [
+        {
+          "type": "Vector2",
+          "name": "startPos"
+        },
+        {
+          "type": "Vector2",
+          "name": "endPos"
+        },
+        {
+          "type": "Vector2",
+          "name": "controlPos"
+        },
+        {
+          "type": "float",
+          "name": "thick"
+        },
+        {
+          "type": "Color",
+          "name": "color"
+        }
+      ]
+    },
+    {
+      "name": "DrawLineBezierCubic",
+      "description": "Draw line using cubic bezier curves with 2 control points",
+      "returnType": "void",
+      "params": [
+        {
+          "type": "Vector2",
+          "name": "startPos"
+        },
+        {
+          "type": "Vector2",
+          "name": "endPos"
+        },
+        {
+          "type": "Vector2",
+          "name": "startControlPos"
+        },
+        {
+          "type": "Vector2",
+          "name": "endControlPos"
+        },
+        {
+          "type": "float",
+          "name": "thick"
+        },
+        {
+          "type": "Color",
+          "name": "color"
+        }
+      ]
+    },
+    {
+      "name": "DrawLineBSpline",
+      "description": "Draw a B-Spline line, minimum 4 points",
+      "returnType": "void",
+      "params": [
+        {
+          "type": "Vector2 *",
+          "name": "points"
+        },
+        {
+          "type": "int",
+          "name": "pointCount"
+        },
+        {
+          "type": "float",
+          "name": "thick"
+        },
+        {
+          "type": "Color",
+          "name": "color"
+        }
+      ]
+    },
+    {
+      "name": "DrawLineCatmullRom",
+      "description": "Draw a Catmull Rom spline line, minimum 4 points",
+      "returnType": "void",
+      "params": [
+        {
+          "type": "Vector2 *",
+          "name": "points"
+        },
+        {
+          "type": "int",
+          "name": "pointCount"
         },
         {
           "type": "float",
@@ -5330,7 +5252,7 @@
     },
     {
       "name": "DrawLineStrip",
-      "description": "Draw lines sequence (using gl lines)",
+      "description": "Draw lines sequence",
       "returnType": "void",
       "params": [
         {
@@ -5340,29 +5262,6 @@
         {
           "type": "int",
           "name": "pointCount"
-        },
-        {
-          "type": "Color",
-          "name": "color"
-        }
-      ]
-    },
-    {
-      "name": "DrawLineBezier",
-      "description": "Draw line segment cubic-bezier in-out interpolation",
-      "returnType": "void",
-      "params": [
-        {
-          "type": "Vector2",
-          "name": "startPos"
-        },
-        {
-          "type": "Vector2",
-          "name": "endPos"
-        },
-        {
-          "type": "float",
-          "name": "thick"
         },
         {
           "type": "Color",
@@ -5513,25 +5412,6 @@
         {
           "type": "int",
           "name": "centerY"
-        },
-        {
-          "type": "float",
-          "name": "radius"
-        },
-        {
-          "type": "Color",
-          "name": "color"
-        }
-      ]
-    },
-    {
-      "name": "DrawCircleLinesV",
-      "description": "Draw circle outline (Vector version)",
-      "returnType": "void",
-      "params": [
-        {
-          "type": "Vector2",
-          "name": "center"
         },
         {
           "type": "float",
@@ -6106,387 +5986,6 @@
       ]
     },
     {
-      "name": "DrawSplineLinear",
-      "description": "Draw spline: Linear, minimum 2 points",
-      "returnType": "void",
-      "params": [
-        {
-          "type": "Vector2 *",
-          "name": "points"
-        },
-        {
-          "type": "int",
-          "name": "pointCount"
-        },
-        {
-          "type": "float",
-          "name": "thick"
-        },
-        {
-          "type": "Color",
-          "name": "color"
-        }
-      ]
-    },
-    {
-      "name": "DrawSplineBasis",
-      "description": "Draw spline: B-Spline, minimum 4 points",
-      "returnType": "void",
-      "params": [
-        {
-          "type": "Vector2 *",
-          "name": "points"
-        },
-        {
-          "type": "int",
-          "name": "pointCount"
-        },
-        {
-          "type": "float",
-          "name": "thick"
-        },
-        {
-          "type": "Color",
-          "name": "color"
-        }
-      ]
-    },
-    {
-      "name": "DrawSplineCatmullRom",
-      "description": "Draw spline: Catmull-Rom, minimum 4 points",
-      "returnType": "void",
-      "params": [
-        {
-          "type": "Vector2 *",
-          "name": "points"
-        },
-        {
-          "type": "int",
-          "name": "pointCount"
-        },
-        {
-          "type": "float",
-          "name": "thick"
-        },
-        {
-          "type": "Color",
-          "name": "color"
-        }
-      ]
-    },
-    {
-      "name": "DrawSplineBezierQuadratic",
-      "description": "Draw spline: Quadratic Bezier, minimum 3 points (1 control point): [p1, c2, p3, c4...]",
-      "returnType": "void",
-      "params": [
-        {
-          "type": "Vector2 *",
-          "name": "points"
-        },
-        {
-          "type": "int",
-          "name": "pointCount"
-        },
-        {
-          "type": "float",
-          "name": "thick"
-        },
-        {
-          "type": "Color",
-          "name": "color"
-        }
-      ]
-    },
-    {
-      "name": "DrawSplineBezierCubic",
-      "description": "Draw spline: Cubic Bezier, minimum 4 points (2 control points): [p1, c2, c3, p4, c5, c6...]",
-      "returnType": "void",
-      "params": [
-        {
-          "type": "Vector2 *",
-          "name": "points"
-        },
-        {
-          "type": "int",
-          "name": "pointCount"
-        },
-        {
-          "type": "float",
-          "name": "thick"
-        },
-        {
-          "type": "Color",
-          "name": "color"
-        }
-      ]
-    },
-    {
-      "name": "DrawSplineSegmentLinear",
-      "description": "Draw spline segment: Linear, 2 points",
-      "returnType": "void",
-      "params": [
-        {
-          "type": "Vector2",
-          "name": "p1"
-        },
-        {
-          "type": "Vector2",
-          "name": "p2"
-        },
-        {
-          "type": "float",
-          "name": "thick"
-        },
-        {
-          "type": "Color",
-          "name": "color"
-        }
-      ]
-    },
-    {
-      "name": "DrawSplineSegmentBasis",
-      "description": "Draw spline segment: B-Spline, 4 points",
-      "returnType": "void",
-      "params": [
-        {
-          "type": "Vector2",
-          "name": "p1"
-        },
-        {
-          "type": "Vector2",
-          "name": "p2"
-        },
-        {
-          "type": "Vector2",
-          "name": "p3"
-        },
-        {
-          "type": "Vector2",
-          "name": "p4"
-        },
-        {
-          "type": "float",
-          "name": "thick"
-        },
-        {
-          "type": "Color",
-          "name": "color"
-        }
-      ]
-    },
-    {
-      "name": "DrawSplineSegmentCatmullRom",
-      "description": "Draw spline segment: Catmull-Rom, 4 points",
-      "returnType": "void",
-      "params": [
-        {
-          "type": "Vector2",
-          "name": "p1"
-        },
-        {
-          "type": "Vector2",
-          "name": "p2"
-        },
-        {
-          "type": "Vector2",
-          "name": "p3"
-        },
-        {
-          "type": "Vector2",
-          "name": "p4"
-        },
-        {
-          "type": "float",
-          "name": "thick"
-        },
-        {
-          "type": "Color",
-          "name": "color"
-        }
-      ]
-    },
-    {
-      "name": "DrawSplineSegmentBezierQuadratic",
-      "description": "Draw spline segment: Quadratic Bezier, 2 points, 1 control point",
-      "returnType": "void",
-      "params": [
-        {
-          "type": "Vector2",
-          "name": "p1"
-        },
-        {
-          "type": "Vector2",
-          "name": "c2"
-        },
-        {
-          "type": "Vector2",
-          "name": "p3"
-        },
-        {
-          "type": "float",
-          "name": "thick"
-        },
-        {
-          "type": "Color",
-          "name": "color"
-        }
-      ]
-    },
-    {
-      "name": "DrawSplineSegmentBezierCubic",
-      "description": "Draw spline segment: Cubic Bezier, 2 points, 2 control points",
-      "returnType": "void",
-      "params": [
-        {
-          "type": "Vector2",
-          "name": "p1"
-        },
-        {
-          "type": "Vector2",
-          "name": "c2"
-        },
-        {
-          "type": "Vector2",
-          "name": "c3"
-        },
-        {
-          "type": "Vector2",
-          "name": "p4"
-        },
-        {
-          "type": "float",
-          "name": "thick"
-        },
-        {
-          "type": "Color",
-          "name": "color"
-        }
-      ]
-    },
-    {
-      "name": "GetSplinePointLinear",
-      "description": "Get (evaluate) spline point: Linear",
-      "returnType": "Vector2",
-      "params": [
-        {
-          "type": "Vector2",
-          "name": "startPos"
-        },
-        {
-          "type": "Vector2",
-          "name": "endPos"
-        },
-        {
-          "type": "float",
-          "name": "t"
-        }
-      ]
-    },
-    {
-      "name": "GetSplinePointBasis",
-      "description": "Get (evaluate) spline point: B-Spline",
-      "returnType": "Vector2",
-      "params": [
-        {
-          "type": "Vector2",
-          "name": "p1"
-        },
-        {
-          "type": "Vector2",
-          "name": "p2"
-        },
-        {
-          "type": "Vector2",
-          "name": "p3"
-        },
-        {
-          "type": "Vector2",
-          "name": "p4"
-        },
-        {
-          "type": "float",
-          "name": "t"
-        }
-      ]
-    },
-    {
-      "name": "GetSplinePointCatmullRom",
-      "description": "Get (evaluate) spline point: Catmull-Rom",
-      "returnType": "Vector2",
-      "params": [
-        {
-          "type": "Vector2",
-          "name": "p1"
-        },
-        {
-          "type": "Vector2",
-          "name": "p2"
-        },
-        {
-          "type": "Vector2",
-          "name": "p3"
-        },
-        {
-          "type": "Vector2",
-          "name": "p4"
-        },
-        {
-          "type": "float",
-          "name": "t"
-        }
-      ]
-    },
-    {
-      "name": "GetSplinePointBezierQuad",
-      "description": "Get (evaluate) spline point: Quadratic Bezier",
-      "returnType": "Vector2",
-      "params": [
-        {
-          "type": "Vector2",
-          "name": "p1"
-        },
-        {
-          "type": "Vector2",
-          "name": "c2"
-        },
-        {
-          "type": "Vector2",
-          "name": "p3"
-        },
-        {
-          "type": "float",
-          "name": "t"
-        }
-      ]
-    },
-    {
-      "name": "GetSplinePointBezierCubic",
-      "description": "Get (evaluate) spline point: Cubic Bezier",
-      "returnType": "Vector2",
-      "params": [
-        {
-          "type": "Vector2",
-          "name": "p1"
-        },
-        {
-          "type": "Vector2",
-          "name": "c2"
-        },
-        {
-          "type": "Vector2",
-          "name": "c3"
-        },
-        {
-          "type": "Vector2",
-          "name": "p4"
-        },
-        {
-          "type": "float",
-          "name": "t"
-        }
-      ]
-    },
-    {
       "name": "CheckCollisionRecs",
       "description": "Check collision between two rectangles",
       "returnType": "bool",
@@ -6749,29 +6248,6 @@
         {
           "type": "const char *",
           "name": "fileName"
-        },
-        {
-          "type": "int *",
-          "name": "frames"
-        }
-      ]
-    },
-    {
-      "name": "LoadImageAnimFromMemory",
-      "description": "Load image sequence from memory buffer",
-      "returnType": "Image",
-      "params": [
-        {
-          "type": "const char *",
-          "name": "fileType"
-        },
-        {
-          "type": "const unsigned char *",
-          "name": "fileData"
-        },
-        {
-          "type": "int",
-          "name": "dataSize"
         },
         {
           "type": "int *",
@@ -7289,25 +6765,6 @@
         {
           "type": "int",
           "name": "blurSize"
-        }
-      ]
-    },
-    {
-      "name": "ImageKernelConvolution",
-      "description": "Apply Custom Square image convolution kernel",
-      "returnType": "void",
-      "params": [
-        {
-          "type": "Image *",
-          "name": "image"
-        },
-        {
-          "type": "float*",
-          "name": "kernel"
-        },
-        {
-          "type": "int",
-          "name": "kernelSize"
         }
       ]
     },
@@ -8375,21 +7832,6 @@
       ]
     },
     {
-      "name": "ColorIsEqual",
-      "description": "Check if two colors are equal",
-      "returnType": "bool",
-      "params": [
-        {
-          "type": "Color",
-          "name": "col1"
-        },
-        {
-          "type": "Color",
-          "name": "col2"
-        }
-      ]
-    },
-    {
       "name": "Fade",
       "description": "Get color with alpha applied, alpha goes from 0.0f to 1.0f",
       "returnType": "Color",
@@ -8406,7 +7848,7 @@
     },
     {
       "name": "ColorToInt",
-      "description": "Get hexadecimal value for a Color (0xRRGGBBAA)",
+      "description": "Get hexadecimal value for a Color",
       "returnType": "int",
       "params": [
         {
@@ -9285,7 +8727,7 @@
       "returnType": "char *",
       "params": [
         {
-          "type": "const char *",
+          "type": "char *",
           "name": "text"
         },
         {
@@ -9426,17 +8868,6 @@
       "name": "TextToInteger",
       "description": "Get integer value from text (negative values not supported)",
       "returnType": "int",
-      "params": [
-        {
-          "type": "const char *",
-          "name": "text"
-        }
-      ]
-    },
-    {
-      "name": "TextToFloat",
-      "description": "Get float value from text (negative values not supported)",
-      "returnType": "float",
       "params": [
         {
           "type": "const char *",
@@ -10322,6 +9753,21 @@
       ]
     },
     {
+      "name": "ExportMesh",
+      "description": "Export mesh data to file, returns true on success",
+      "returnType": "bool",
+      "params": [
+        {
+          "type": "Mesh",
+          "name": "mesh"
+        },
+        {
+          "type": "const char *",
+          "name": "fileName"
+        }
+      ]
+    },
+    {
       "name": "GetMeshBoundingBox",
       "description": "Compute mesh bounding box limits",
       "returnType": "BoundingBox",
@@ -10340,36 +9786,6 @@
         {
           "type": "Mesh *",
           "name": "mesh"
-        }
-      ]
-    },
-    {
-      "name": "ExportMesh",
-      "description": "Export mesh data to file, returns true on success",
-      "returnType": "bool",
-      "params": [
-        {
-          "type": "Mesh",
-          "name": "mesh"
-        },
-        {
-          "type": "const char *",
-          "name": "fileName"
-        }
-      ]
-    },
-    {
-      "name": "ExportMeshAsCode",
-      "description": "Export mesh as code file (.h) defining multiple arrays of vertex attributes",
-      "returnType": "bool",
-      "params": [
-        {
-          "type": "Mesh",
-          "name": "mesh"
-        },
-        {
-          "type": "const char *",
-          "name": "fileName"
         }
       ]
     },
@@ -10922,11 +10338,6 @@
           "name": "volume"
         }
       ]
-    },
-    {
-      "name": "GetMasterVolume",
-      "description": "Get master volume (listener)",
-      "returnType": "float"
     },
     {
       "name": "LoadWave",
@@ -11669,7 +11080,7 @@
     },
     {
       "name": "AttachAudioStreamProcessor",
-      "description": "Attach audio stream processor to stream, receives the samples as 'float'",
+      "description": "Attach audio stream processor to stream, receives the samples as <float>s",
       "returnType": "void",
       "params": [
         {
@@ -11699,7 +11110,7 @@
     },
     {
       "name": "AttachAudioMixedProcessor",
-      "description": "Attach audio stream processor to the entire audio pipeline, receives the samples as 'float'",
+      "description": "Attach audio stream processor to the entire audio pipeline, receives the samples as <float>s",
       "returnType": "void",
       "params": [
         {

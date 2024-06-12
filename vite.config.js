@@ -2,10 +2,10 @@ export default {
   build: {
     rollupOptions: {
       input: {
-        demo: 'src/demo.js',
+        // demo: 'src/demo.js',
         raylib: 'src/raylib.js',
-        'raylib-wc': 'src/raylib-wc.js',
-        raylib_emscripten: 'src/raylib_emscripten.js',
+        // 'raylib-wc': 'src/raylib-wc.js',
+        // raylib_emscripten: 'src/raylib_emscripten.js',
         'index.html': 'index.html'
       },
       output: {
