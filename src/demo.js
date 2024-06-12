@@ -10,11 +10,11 @@ dselect.addEventListener('change', () => {
 })
 
 window.addEventListener('hashchange', (event) => {
-  const h = `/examples/${document.location.hash.slice(1) || 'welcome'}.js`
+  const h = `examples/${document.location.hash.slice(1) || 'welcome'}.js`
   r.setAttribute('src', h)
   s.setAttribute('href', h)
 })
-const h = `/examples/${document.location.hash.slice(1) || 'welcome'}.js`
+const h = `examples/${document.location.hash.slice(1) || 'welcome'}.js`
 dselect.value = document.location.hash.slice(1) || 'welcome'
 r.setAttribute('src', h)
 s.setAttribute('href', h)
