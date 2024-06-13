@@ -4,7 +4,7 @@ const InitGame = async () => {
   InitWindow(1000, 667)
 
   // manually add a file at a speciifc fake location
-  await addFile('/cat-reading-book.jpg', 'cat.jpg')
+  await addFile('./cat-reading-book.jpg', 'cat.jpg')
   cat = await LoadTexture('cat.jpg', true)
 }
 
