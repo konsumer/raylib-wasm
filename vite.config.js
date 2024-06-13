@@ -1,4 +1,7 @@
+import arraybuffer from 'vite-plugin-arraybuffer'
+
 export default {
+  plugins: [arraybuffer()],
   base: './',
   build: {
     rollupOptions: {

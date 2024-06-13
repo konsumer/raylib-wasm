@@ -203,10 +203,9 @@ function mapTypeToJs (type) {
 }
 
 let code = `
-const wasmBinary = new Uint8Array([${(await readFile('build/raylib.wasm')).join(',')}])
-
+import wasmBinary from './raylib.wasm?arraybuffer'
 import Module from './raylib_emscripten.js'
-import RaylibComponent from './raylib-wc.js'
+import RaylibComponent from './raylib_wc.js'
 
 const importLocation = document?.location?.toString()
 

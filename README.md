@@ -12,9 +12,11 @@ It is also provided via this CDN link:
 <script type="module" src="https://konsumer.js.org/raylib-wasm/raylib.js"></script>
 ```
 
+You can also install for a bundler with `npm i raylib-wasm`
+
 ### development
 
-You probably do not need to do this step. Here is how I created the wasm/wrapper. Only do this, if you are actually working on the library:
+You probably do not need to do this. Here is how I created the wasm/wrapper. Only do this, if you are actually working on the library:
 
 ```
 # build each part from scratch

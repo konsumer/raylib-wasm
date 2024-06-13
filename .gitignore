@@ -1,13 +1,7 @@
 node_modules
 .DS_Store
 *.zip
-/src/raylib/
-/src/raygui/
-/src/reasings/
-/src/Physac/
-/src/raudio/
-/src/rmem/
-/src/rres/
+/vendor/
 /build/
 /dist/
 
