@@ -1,10 +1,10 @@
-let  cat
+let cat
 
 const InitGame = async () => {
-  InitWindow(600, 400)
-  
+  InitWindow(1000, 667)
+
   // manually add a file at a speciifc fake location
-  await addFile('https://placekitten.com/600/400', 'cat.jpg')
+  await addFile('/cat-reading-book.jpg', 'cat.jpg')
   cat = await LoadTexture('cat.jpg', true)
 }
 
