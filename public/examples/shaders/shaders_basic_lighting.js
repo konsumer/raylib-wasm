@@ -14,16 +14,16 @@ let lights
 const LIGHT_DIRECTIONAL = 0
 const LIGHT_POINT = 1
 
-let lightsCount = 0
+const lightsCount = 0
 
 class Light {
-  constructor(type, position, target, color, shader){
+  constructor (type, position, target, color, shader) {
     this.position = new UniformVector3(shader, 'position', position._address)
     this.target = new UniformVector3(shader, 'target', target._address)
 
-    const c = new Vector4({ x:color.r, y:color.g, z:color.b, w:color.a })
+    const c = new Vector4({ x: color.r, y: color.g, z: color.b, w: color.a })
     this.color = new UniformColor(shader, 'color', c._address)
-    
+
     this.type = new UniformInt(shader, 'type')
     this.type.value = type
 
@@ -32,13 +32,11 @@ class Light {
   }
 }
 
-
-
 const InitGame = async () => {
   SetConfigFlags(FLAG_MSAA_4X_HINT)
-  InitWindow(screenWidth, screenHeight, "raylib [shaders] example - basic lighting")
+  InitWindow(screenWidth, screenHeight, 'raylib [shaders] example - basic lighting')
   camera = new Camera()
-  
+
   camera.position.x = 2
   camera.position.y = 4
   camera.position.z = 6
@@ -54,18 +52,18 @@ const InitGame = async () => {
   camera.fovy = 45
   camera.projection = CAMERA_PERSPECTIVE
 
-  await addFile(`/examples/shaders/resources/shaders/glsl${GLSL_VERSION}/lighting.vs`, 'lighting.vs')
-  await addFile(`/examples/shaders/resources/shaders/glsl${GLSL_VERSION}/lighting.fs`, 'lighting.fs')
+  await addFile(`./examples/shaders/resources/shaders/glsl${GLSL_VERSION}/lighting.vs`, 'lighting.vs')
+  await addFile(`./examples/shaders/resources/shaders/glsl${GLSL_VERSION}/lighting.fs`, 'lighting.fs')
   shader = await LoadShader('lighting.vs', 'lighting.fs')
 
   model = LoadModelFromMesh(GenMeshPlane(10.0, 10.0, 3, 3))
   cube = LoadModelFromMesh(GenMeshCube(2.0, 4.0, 2.0))
 
   lights = [
-    new Light(LIGHT_POINT, new Vector3({x: -2, y: 1, z: -2 }), Vector3Zero(), YELLOW, shader),
-    new Light(LIGHT_POINT, new Vector3({x: 2, y: 1, z: 2 }), Vector3Zero(), RED, shader),
-    new Light(LIGHT_POINT, new Vector3({x: -2, y: 1, z: 2 }), Vector3Zero(), GREEN, shader),
-    new Light(LIGHT_POINT, new Vector3({x: 2, y: 1, z: -2 }), Vector3Zero(), BLUE, shader)
+    new Light(LIGHT_POINT, new Vector3({ x: -2, y: 1, z: -2 }), Vector3Zero(), YELLOW, shader),
+    new Light(LIGHT_POINT, new Vector3({ x: 2, y: 1, z: 2 }), Vector3Zero(), RED, shader),
+    new Light(LIGHT_POINT, new Vector3({ x: -2, y: 1, z: 2 }), Vector3Zero(), GREEN, shader),
+    new Light(LIGHT_POINT, new Vector3({ x: 2, y: 1, z: -2 }), Vector3Zero(), BLUE, shader)
   ]
 
   // I think this is issue: it's not connecting the lights to materials
@@ -93,6 +91,6 @@ const UpdateGame = (ts) => {
   DrawGrid(10, 1)
   EndMode3D()
   DrawFPS(10, 10)
-  DrawText("Use keys [Y][R][G][B] to toggle lights", 10, 40, 20, DARKGRAY)
+  DrawText('Use keys [Y][R][G][B] to toggle lights', 10, 40, 20, DARKGRAY)
   EndDrawing()
 }

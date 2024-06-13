@@ -8,13 +8,13 @@ let shader
 let waves
 
 const InitGame = async () => {
-  InitWindow(screenWidth, screenHeight, "raylib [shaders] example - texture waves")
-  texture = await LoadTexture("/examples/shaders/resources/space.png")
-  
+  InitWindow(screenWidth, screenHeight, 'raylib [shaders] example - texture waves')
+  texture = await LoadTexture('./examples/shaders/resources/space.png')
+
   // TODO: file-load is not setup for LoadShader
-  await addFile(`/examples/shaders/resources/shaders/glsl${GLSL_VERSION}/wave.fs`, 'wave.fs')
+  await addFile(`./examples/shaders/resources/shaders/glsl${GLSL_VERSION}/wave.fs`, 'wave.fs')
   shader = LoadShader(0, 'wave.fs')
-  
+
   waves = {
     size: new UniformVector2(shader, 'size'),
     seconds: new UniformFloat(shader, 'secondes'),
