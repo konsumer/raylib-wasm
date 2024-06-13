@@ -203,14 +203,19 @@ function mapTypeToJs (type) {
 }
 
 let code = `
-import wasmBinary from './raylib.wasm?arraybuffer'
 import Module from './raylib_emscripten.js'
 import RaylibComponent from './raylib_wc.js'
+
+const wasmBinary = new Uint8Array([${(await readFile('src/raylib.wasm')).join(',')}])
+
+document.addEventListener('DOMContentLoaded', () => {
+  window.customElements.define('raylib-game', RaylibComponent)
+})
 
 const importLocation = document?.location?.toString()
 
 // run this function before calling anything
-async function raylib_run(canvas, userInit, userUpdate) {
+export async function raylib_run(canvas, userInit, userUpdate) {
   const raylib = {}
   const mod = await Module({canvas, wasmBinary})
   raylib.mod = mod
@@ -540,7 +545,7 @@ code += `
   return raylib
 }
 
-function raylib_run_string(canvas, userCode) {
+export function raylib_run_string(canvas, userCode) {
   const f = new Function(['runGame', 'canvas'], userCode + '\\n' + \`
     if (typeof InitGame === 'undefined') {
       console.error('Make sure to add InitGame() to your raylib-game.')
@@ -561,7 +566,7 @@ function raylib_run_string(canvas, userCode) {
   f(raylib_run, canvas)
 }
 
-export { raylib_run_string, raylib_run, RaylibComponent, Module, wasmBinary }
+export { RaylibComponent, Module, wasmBinary }
 export default raylib_run
 
 `

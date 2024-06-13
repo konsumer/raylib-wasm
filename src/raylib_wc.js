@@ -35,6 +35,8 @@ canvas {
 
     // this makes right-click work better in raylib
     this.canvas.addEventListener('contextmenu', e => e.preventDefault())
+
+    this.start(this.src)
   }
 
   onResize () {
@@ -62,6 +64,7 @@ canvas {
   }
 
   async start (src) {
+    console.log('wc')
     let userCode = this.textContent
     if (src) {
       userCode = await fetch(src).then(r => r.text())
@@ -71,10 +74,4 @@ canvas {
     // game is loaded so show myself
     this.style.display = 'block'
   }
-}
-
-if (typeof document !== 'undefined') {
-  document.addEventListener('DOMContentLoaded', () => {
-    window.customElements.define('raylib-game', RaylibComponent)
-  })
 }
