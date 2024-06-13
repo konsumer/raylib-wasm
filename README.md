@@ -2,13 +2,6 @@ This is the start of some ideas about making raylib games in JS for the web. It 
 
 ### usage
 
-```
-# run local development web-server
-npm start
-```
-
-It live-reloads, so it can be a great way to prototype some raylib code, even for other languages/platforms.
-
 You can include [raylib.js](https://konsumer.js.org/raylib-wasm/raylib.js) in your project to get started. Have a look at [basic.html](public/basic.html) to see how to use it.
 
 You can also use it directly in [a codepen](https://codepen.io/konsumer/pen/NWEdxZq?editors=1000) for quick demos and such.
@@ -21,8 +14,13 @@ It is also provided via this CDN link:
 
 ### development
 
-This is not needed for regular use, but here is how I created the wasm/wrapper, which requires docker:
+You probably do not need to do this step. Here is how I created the wasm/wrapper. Only do this, if you are actually working on the library:
 
 ```
+# build each part from scratch
 npm run build
+
+# run local development web-server
+npm start
 ```
+
