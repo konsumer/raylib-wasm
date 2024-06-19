@@ -16,7 +16,7 @@ const InitGame = async () => {
     }
 
     set texture (t) {
-      SetShaderValueTexture(this._shader, this._loc, t.texture || t)
+      SetShaderValueTexture(this._shader, this._loc, t)
     }
   }
 
@@ -33,12 +33,12 @@ const InitGame = async () => {
   position = new Vector2({ x: 0, y: 0 })
 
   tex = new UniformTexture(shader, 'texture1')
-  tex.texture = texture
 }
 
 const UpdateGame = (ts) => {
   BeginTextureMode(target)
   DrawTextureRec(texture, source, position, WHITE)
+  tex.texture = target.texture
   EndTextureMode()
 
   BeginDrawing()
