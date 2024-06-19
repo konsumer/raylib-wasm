@@ -314,6 +314,7 @@ exposed.push('UniformVector3')
 exposed.push('UniformVector4')
 exposed.push('UniformColor')
 exposed.push('UniformInt')
+exposed.push('UniformTexture')
 
 code += `
   raylib.UniformFloat = class UniformFloat {
@@ -498,6 +499,17 @@ code += `
     set value (v) {
       mod.HEAP32[this._address / 4] = v
       raylib.SetShaderValue(this._shader, this._loc, this, raylib.SHADER_UNIFORM_INT)
+    }
+  }
+
+  raylib.UniformTexture = class UniformTexture {
+    constructor (shader, name, address) {
+      this._shader = shader
+      this._loc = raylib.GetShaderLocation(shader, name)
+    }
+
+    set texture (t) {
+      raylib.SetShaderValueTexture(this._shader, this._loc, t)
     }
   }
 

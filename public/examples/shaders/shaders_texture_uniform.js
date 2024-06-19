@@ -8,18 +8,6 @@ let position
 let tex
 
 const InitGame = async () => {
-  // this will eventually be part of lib
-  class UniformTexture {
-    constructor (shader, name, address) {
-      this._shader = shader
-      this._loc = GetShaderLocation(shader, name)
-    }
-
-    set texture (t) {
-      SetShaderValueTexture(this._shader, this._loc, t)
-    }
-  }
-
   InitWindow(800, 450)
   texture = await LoadTexture('examples/textures/resources/cat.png')
   target = LoadRenderTexture(texture.width, texture.height)
