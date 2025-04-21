@@ -64,10 +64,7 @@ Have a look at [python.html](docs/python.html) for an example.
 You probably do not need to do this. Here is how I created the wasm/wrapper. Only do this, if you are actually working on the library:
 
 ```
-# build each part from scratch
-npm run build
-
-# run local development web-server
+# build & run local development web-server
 npm start
 ```
 
