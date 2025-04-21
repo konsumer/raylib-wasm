@@ -10,7 +10,7 @@ Otherwsie you need to import the library from somewhere, like via CDN:
 <script type="module" src="https://konsumer.js.org/raylib-wasm/raylib/raylib.js"></script>
 ```
 
-or you can put [raylib/](raylib/) in your project and do this:
+or you can put [raylib/](docs/raylib/) in your project and do this:
 
 ```html
 <script type="module" src="raylib/raylib.js"></script>
