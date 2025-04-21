@@ -80,7 +80,7 @@ structs = Object.values(mappedStructs)
 
 // strip desktop-only stuff & bad names
 functions = functions.filter(f => {
-  return !['rlDisableStatePointer', 'rlEnableStatePointer'].includes(f.name) && !f.description.includes('only PLATFORM_DESKTOP')
+  return !['rlDisableStatePointer', 'rlEnableStatePointer', 'GetClipboardImage'].includes(f.name) && !f.description.includes('only PLATFORM_DESKTOP')
 })
 
 export { defines, structs, aliases, enums, callbacks, functions, mappedStructs }

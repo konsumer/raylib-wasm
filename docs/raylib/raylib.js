@@ -707,7 +707,7 @@ export async function raylib_run(canvas, userInit, userUpdate) {
   // Mesh, vertex data and vao/vbo
   raylib.Mesh = class Mesh {
     constructor(init = {}, _address) {
-      this._size = 60
+      this._size = 68
       this._address = _address || mod._malloc(this._size)
 
       this.vertexCount = init.vertexCount || 0
@@ -723,6 +723,8 @@ export async function raylib_run(canvas, userInit, userUpdate) {
       this.animNormals = init.animNormals || 0
       this.boneIds = init.boneIds || 0
       this.boneWeights = init.boneWeights || 0
+      this.boneMatrices = new raylib.Matrix(init.boneMatrices || {}, this._address + 52)
+      this.boneCount = init.boneCount || 0
       this.vaoId = init.vaoId || 0
       this.vboId = init.vboId || 0
     }
@@ -831,19 +833,28 @@ export async function raylib_run(canvas, userInit, userUpdate) {
       }
 
   
+  
+      get boneCount () {
+        return mod.getValue(this._address + 56, 'i32')
+      }
+      set boneCount (boneCount) {
+        mod.setValue(this._address + 56, boneCount, 'i32')
+      }
+
+  
       get vaoId () {
-        return mod.HEAPU32[this._address + 52]
+        return mod.HEAPU32[this._address + 60]
       }
       set vaoId (vaoId) {
-        mod.HEAPU32[this._address + 52] = vaoId
+        mod.HEAPU32[this._address + 60] = vaoId
       }
 
   
       get vboId () {
-        return mod.getValue(this._address + 56, '*')
+        return mod.getValue(this._address + 64, '*')
       }
       set vboId (vboId) {
-        mod.setValue(this._address + 56, vboId, '*')
+        mod.setValue(this._address + 64, vboId, '*')
       }
 
   }
@@ -1298,14 +1309,13 @@ export async function raylib_run(canvas, userInit, userUpdate) {
   // VrDeviceInfo, Head-Mounted-Display device parameters
   raylib.VrDeviceInfo = class VrDeviceInfo {
     constructor(init = {}, _address) {
-      this._size = 64
+      this._size = 60
       this._address = _address || mod._malloc(this._size)
 
       this.hResolution = init.hResolution || 0
       this.vResolution = init.vResolution || 0
       this.hScreenSize = init.hScreenSize || 0
       this.vScreenSize = init.vScreenSize || 0
-      this.vScreenCenter = init.vScreenCenter || 0
       this.eyeToScreenDistance = init.eyeToScreenDistance || 0
       this.lensSeparationDistance = init.lensSeparationDistance || 0
       this.interpupillaryDistance = init.interpupillaryDistance || 0
@@ -1345,51 +1355,43 @@ export async function raylib_run(canvas, userInit, userUpdate) {
       }
 
   
-      get vScreenCenter () {
+      get eyeToScreenDistance () {
         return mod.getValue(this._address + 16, 'float')
       }
-      set vScreenCenter (vScreenCenter) {
-        mod.setValue(this._address + 16, vScreenCenter, 'float')
-      }
-
-  
-      get eyeToScreenDistance () {
-        return mod.getValue(this._address + 20, 'float')
-      }
       set eyeToScreenDistance (eyeToScreenDistance) {
-        mod.setValue(this._address + 20, eyeToScreenDistance, 'float')
+        mod.setValue(this._address + 16, eyeToScreenDistance, 'float')
       }
 
   
       get lensSeparationDistance () {
-        return mod.getValue(this._address + 24, 'float')
+        return mod.getValue(this._address + 20, 'float')
       }
       set lensSeparationDistance (lensSeparationDistance) {
-        mod.setValue(this._address + 24, lensSeparationDistance, 'float')
+        mod.setValue(this._address + 20, lensSeparationDistance, 'float')
       }
 
   
       get interpupillaryDistance () {
-        return mod.getValue(this._address + 28, 'float')
+        return mod.getValue(this._address + 24, 'float')
       }
       set interpupillaryDistance (interpupillaryDistance) {
-        mod.setValue(this._address + 28, interpupillaryDistance, 'float')
+        mod.setValue(this._address + 24, interpupillaryDistance, 'float')
       }
 
   
       get lensDistortionValues () {
-        return mod.getValue(this._address + 32, '*')
+        return mod.getValue(this._address + 28, '*')
       }
       set lensDistortionValues (lensDistortionValues) {
-        mod.setValue(this._address + 32, lensDistortionValues, '*')
+        mod.setValue(this._address + 28, lensDistortionValues, '*')
       }
 
   
       get chromaAbCorrection () {
-        return mod.getValue(this._address + 48, '*')
+        return mod.getValue(this._address + 44, '*')
       }
       set chromaAbCorrection (chromaAbCorrection) {
-        mod.setValue(this._address + 48, chromaAbCorrection, '*')
+        mod.setValue(this._address + 44, chromaAbCorrection, '*')
       }
 
   }
@@ -1509,6 +1511,71 @@ export async function raylib_run(canvas, userInit, userUpdate) {
         mod.setValue(this._address + 8, paths, '*')
       }
 
+  }
+
+  // Automation event
+  raylib.AutomationEvent = class AutomationEvent {
+    constructor(init = {}, _address) {
+      this._size = 24
+      this._address = _address || mod._malloc(this._size)
+
+      this.frame = init.frame || 0
+      this.type = init.type || 0
+      this.params = init.params || [0, 0, 0, 0]
+    }
+    
+      get frame () {
+        return mod.HEAPU32[this._address + 0]
+      }
+      set frame (frame) {
+        mod.HEAPU32[this._address + 0] = frame
+      }
+
+  
+      get type () {
+        return mod.HEAPU32[this._address + 4]
+      }
+      set type (type) {
+        mod.HEAPU32[this._address + 4] = type
+      }
+
+  
+      get params () {
+        return mod.getValue(this._address + 8, '*')
+      }
+      set params (params) {
+        mod.setValue(this._address + 8, params, '*')
+      }
+
+  }
+
+  // Automation event list
+  raylib.AutomationEventList = class AutomationEventList {
+    constructor(init = {}, _address) {
+      this._size = 12
+      this._address = _address || mod._malloc(this._size)
+
+      this.capacity = init.capacity || 0
+      this.count = init.count || 0
+      this.events = new raylib.AutomationEvent(init.events || {}, this._address + 8)
+    }
+    
+      get capacity () {
+        return mod.HEAPU32[this._address + 0]
+      }
+      set capacity (capacity) {
+        mod.HEAPU32[this._address + 0] = capacity
+      }
+
+  
+      get count () {
+        return mod.HEAPU32[this._address + 4]
+      }
+      set count (count) {
+        mod.HEAPU32[this._address + 4] = count
+      }
+
+  
   }
 
   // Texture2D, same as Texture
@@ -1957,7 +2024,7 @@ export async function raylib_run(canvas, userInit, userUpdate) {
   raylib.KEY_KP_ENTER = 335 // Key: Keypad Enter
   raylib.KEY_KP_EQUAL = 336 // Key: Keypad =
   raylib.KEY_BACK = 4 // Key: Android back button
-  raylib.KEY_MENU = 82 // Key: Android menu button
+  raylib.KEY_MENU = 5 // Key: Android menu button
   raylib.KEY_VOLUME_UP = 24 // Key: Android volume up button
   raylib.KEY_VOLUME_DOWN = 25 // Key: Android volume down button
 
@@ -1993,12 +2060,12 @@ export async function raylib_run(canvas, userInit, userUpdate) {
   raylib.GAMEPAD_BUTTON_LEFT_FACE_DOWN = 3 // Gamepad left DPAD down button
   raylib.GAMEPAD_BUTTON_LEFT_FACE_LEFT = 4 // Gamepad left DPAD left button
   raylib.GAMEPAD_BUTTON_RIGHT_FACE_UP = 5 // Gamepad right button up (i.e. PS3: Triangle, Xbox: Y)
-  raylib.GAMEPAD_BUTTON_RIGHT_FACE_RIGHT = 6 // Gamepad right button right (i.e. PS3: Square, Xbox: X)
+  raylib.GAMEPAD_BUTTON_RIGHT_FACE_RIGHT = 6 // Gamepad right button right (i.e. PS3: Circle, Xbox: B)
   raylib.GAMEPAD_BUTTON_RIGHT_FACE_DOWN = 7 // Gamepad right button down (i.e. PS3: Cross, Xbox: A)
-  raylib.GAMEPAD_BUTTON_RIGHT_FACE_LEFT = 8 // Gamepad right button left (i.e. PS3: Circle, Xbox: B)
+  raylib.GAMEPAD_BUTTON_RIGHT_FACE_LEFT = 8 // Gamepad right button left (i.e. PS3: Square, Xbox: X)
   raylib.GAMEPAD_BUTTON_LEFT_TRIGGER_1 = 9 // Gamepad top/back trigger left (first), it could be a trailing button
   raylib.GAMEPAD_BUTTON_LEFT_TRIGGER_2 = 10 // Gamepad top/back trigger left (second), it could be a trailing button
-  raylib.GAMEPAD_BUTTON_RIGHT_TRIGGER_1 = 11 // Gamepad top/back trigger right (one), it could be a trailing button
+  raylib.GAMEPAD_BUTTON_RIGHT_TRIGGER_1 = 11 // Gamepad top/back trigger right (first), it could be a trailing button
   raylib.GAMEPAD_BUTTON_RIGHT_TRIGGER_2 = 12 // Gamepad top/back trigger right (second), it could be a trailing button
   raylib.GAMEPAD_BUTTON_MIDDLE_LEFT = 13 // Gamepad center buttons, left one (i.e. PS3: Select)
   raylib.GAMEPAD_BUTTON_MIDDLE = 14 // Gamepad center buttons, middle one (i.e. PS3: PS, Xbox: XBOX)
@@ -2057,6 +2124,9 @@ export async function raylib_run(canvas, userInit, userUpdate) {
   raylib.SHADER_LOC_MAP_IRRADIANCE = 23 // Shader location: samplerCube texture: irradiance
   raylib.SHADER_LOC_MAP_PREFILTER = 24 // Shader location: samplerCube texture: prefilter
   raylib.SHADER_LOC_MAP_BRDF = 25 // Shader location: sampler2d texture: brdf
+  raylib.SHADER_LOC_VERTEX_BONEIDS = 26 // Shader location: vertex attribute: boneIds
+  raylib.SHADER_LOC_VERTEX_BONEWEIGHTS = 27 // Shader location: vertex attribute: boneWeights
+  raylib.SHADER_LOC_BONE_MATRICES = 28 // Shader location: array of matrices uniform: boneMatrices
 
   // ENUM ShaderUniformDataType
   // Shader uniform data type
@@ -2127,7 +2197,6 @@ export async function raylib_run(canvas, userInit, userUpdate) {
   raylib.CUBEMAP_LAYOUT_LINE_HORIZONTAL = 2 // Layout is defined by a horizontal line with faces
   raylib.CUBEMAP_LAYOUT_CROSS_THREE_BY_FOUR = 3 // Layout is defined by a 3x4 cross with cubemap faces
   raylib.CUBEMAP_LAYOUT_CROSS_FOUR_BY_THREE = 4 // Layout is defined by a 4x3 cross with cubemap faces
-  raylib.CUBEMAP_LAYOUT_PANORAMA = 5 // Layout is defined by a panorama image (equirrectangular map)
 
   // ENUM FontType
   // Font type, defines generation method
@@ -2162,11 +2231,11 @@ export async function raylib_run(canvas, userInit, userUpdate) {
 
   // ENUM CameraMode
   // Camera system modes
-  raylib.CAMERA_CUSTOM = 0 // Custom camera
-  raylib.CAMERA_FREE = 1 // Free camera
-  raylib.CAMERA_ORBITAL = 2 // Orbital camera
-  raylib.CAMERA_FIRST_PERSON = 3 // First person camera
-  raylib.CAMERA_THIRD_PERSON = 4 // Third person camera
+  raylib.CAMERA_CUSTOM = 0 // Camera custom, controlled by user (UpdateCamera() does nothing)
+  raylib.CAMERA_FREE = 1 // Camera free mode
+  raylib.CAMERA_ORBITAL = 2 // Camera orbital, around target, zoom supported
+  raylib.CAMERA_FIRST_PERSON = 3 // Camera first person
+  raylib.CAMERA_THIRD_PERSON = 4 // Camera third person
 
   // ENUM CameraProjection
   // Camera projection
@@ -2618,6 +2687,22 @@ export async function raylib_run(canvas, userInit, userUpdate) {
   const _IsWindowFullscreen = mod.cwrap('IsWindowFullscreen', 'boolean', [])
   raylib.IsWindowFullscreen = () => _IsWindowFullscreen()
 
+  // Check if window is currently hidden: IsWindowHidden() => bool
+  const _IsWindowHidden = mod.cwrap('IsWindowHidden', 'boolean', [])
+  raylib.IsWindowHidden = () => _IsWindowHidden()
+
+  // Check if window is currently minimized: IsWindowMinimized() => bool
+  const _IsWindowMinimized = mod.cwrap('IsWindowMinimized', 'boolean', [])
+  raylib.IsWindowMinimized = () => _IsWindowMinimized()
+
+  // Check if window is currently maximized: IsWindowMaximized() => bool
+  const _IsWindowMaximized = mod.cwrap('IsWindowMaximized', 'boolean', [])
+  raylib.IsWindowMaximized = () => _IsWindowMaximized()
+
+  // Check if window is currently focused: IsWindowFocused() => bool
+  const _IsWindowFocused = mod.cwrap('IsWindowFocused', 'boolean', [])
+  raylib.IsWindowFocused = () => _IsWindowFocused()
+
   // Check if window has been resized last frame: IsWindowResized() => bool
   const _IsWindowResized = mod.cwrap('IsWindowResized', 'boolean', [])
   raylib.IsWindowResized = () => _IsWindowResized()
@@ -2626,9 +2711,49 @@ export async function raylib_run(canvas, userInit, userUpdate) {
   const _IsWindowState = mod.cwrap('IsWindowState', 'boolean', ['number'])
   raylib.IsWindowState = (flag) => _IsWindowState(flag)
 
+  // Set window configuration state using flags: SetWindowState(unsigned int) => void
+  const _SetWindowState = mod.cwrap('SetWindowState', 'pointer', ['number'])
+  raylib.SetWindowState = (flags) => _SetWindowState(flags)
+
   // Clear window configuration state flags: ClearWindowState(unsigned int) => void
   const _ClearWindowState = mod.cwrap('ClearWindowState', 'pointer', ['number'])
   raylib.ClearWindowState = (flags) => _ClearWindowState(flags)
+
+  // Toggle window state: fullscreen/windowed, resizes monitor to match window resolution: ToggleFullscreen() => void
+  const _ToggleFullscreen = mod.cwrap('ToggleFullscreen', 'pointer', [])
+  raylib.ToggleFullscreen = () => _ToggleFullscreen()
+
+  // Toggle window state: borderless windowed, resizes window to match monitor resolution: ToggleBorderlessWindowed() => void
+  const _ToggleBorderlessWindowed = mod.cwrap('ToggleBorderlessWindowed', 'pointer', [])
+  raylib.ToggleBorderlessWindowed = () => _ToggleBorderlessWindowed()
+
+  // Set window state: maximized, if resizable: MaximizeWindow() => void
+  const _MaximizeWindow = mod.cwrap('MaximizeWindow', 'pointer', [])
+  raylib.MaximizeWindow = () => _MaximizeWindow()
+
+  // Set window state: minimized, if resizable: MinimizeWindow() => void
+  const _MinimizeWindow = mod.cwrap('MinimizeWindow', 'pointer', [])
+  raylib.MinimizeWindow = () => _MinimizeWindow()
+
+  // Set window state: not minimized/maximized: RestoreWindow() => void
+  const _RestoreWindow = mod.cwrap('RestoreWindow', 'pointer', [])
+  raylib.RestoreWindow = () => _RestoreWindow()
+
+  // Set icon for window (single image, RGBA 32bit): SetWindowIcon(Image) => void
+  const _SetWindowIcon = mod.cwrap('SetWindowIcon', 'pointer', ['pointer'])
+  raylib.SetWindowIcon = (image) => _SetWindowIcon(image._address)
+
+  // Set icon for window (multiple images, RGBA 32bit): SetWindowIcons(Image *, int) => void
+  const _SetWindowIcons = mod.cwrap('SetWindowIcons', 'pointer', ['pointer', 'number'])
+  raylib.SetWindowIcons = (images, count) => _SetWindowIcons(images._address, count)
+
+  // Set title for window: SetWindowTitle(const char *) => void
+  const _SetWindowTitle = mod.cwrap('SetWindowTitle', 'pointer', ['string'])
+  raylib.SetWindowTitle = (title) => _SetWindowTitle(title)
+
+  // Set window position on screen: SetWindowPosition(int, int) => void
+  const _SetWindowPosition = mod.cwrap('SetWindowPosition', 'pointer', ['number', 'number'])
+  raylib.SetWindowPosition = (x, y) => _SetWindowPosition(x, y)
 
   // Set monitor for the current window: SetWindowMonitor(int) => void
   const _SetWindowMonitor = mod.cwrap('SetWindowMonitor', 'pointer', ['number'])
@@ -2645,6 +2770,14 @@ export async function raylib_run(canvas, userInit, userUpdate) {
   // Set window dimensions: SetWindowSize(int, int) => void
   const _SetWindowSize = mod.cwrap('SetWindowSize', 'pointer', ['number', 'number'])
   raylib.SetWindowSize = (width, height) => _SetWindowSize(width, height)
+
+  // Set window opacity [0.0f..1.0f]: SetWindowOpacity(float) => void
+  const _SetWindowOpacity = mod.cwrap('SetWindowOpacity', 'pointer', ['number'])
+  raylib.SetWindowOpacity = (opacity) => _SetWindowOpacity(opacity)
+
+  // Set window focused: SetWindowFocused() => void
+  const _SetWindowFocused = mod.cwrap('SetWindowFocused', 'pointer', [])
+  raylib.SetWindowFocused = () => _SetWindowFocused()
 
   // Get native window handle: GetWindowHandle() => void *
   const _GetWindowHandle = mod.cwrap('GetWindowHandle', 'pointer', [])
@@ -2670,7 +2803,7 @@ export async function raylib_run(canvas, userInit, userUpdate) {
   const _GetMonitorCount = mod.cwrap('GetMonitorCount', 'number', [])
   raylib.GetMonitorCount = () => _GetMonitorCount()
 
-  // Get current connected monitor: GetCurrentMonitor() => int
+  // Get current monitor where window is placed: GetCurrentMonitor() => int
   const _GetCurrentMonitor = mod.cwrap('GetCurrentMonitor', 'number', [])
   raylib.GetCurrentMonitor = () => _GetCurrentMonitor()
 
@@ -2737,18 +2870,6 @@ export async function raylib_run(canvas, userInit, userUpdate) {
   // Disable waiting for events on EndDrawing(), automatic events polling: DisableEventWaiting() => void
   const _DisableEventWaiting = mod.cwrap('DisableEventWaiting', 'pointer', [])
   raylib.DisableEventWaiting = () => _DisableEventWaiting()
-
-  // Swap back buffer with front buffer (screen drawing): SwapScreenBuffer() => void
-  const _SwapScreenBuffer = mod.cwrap('SwapScreenBuffer', 'pointer', [])
-  raylib.SwapScreenBuffer = () => _SwapScreenBuffer()
-
-  // Register all input events: PollInputEvents() => void
-  const _PollInputEvents = mod.cwrap('PollInputEvents', 'pointer', [])
-  raylib.PollInputEvents = () => _PollInputEvents()
-
-  // Wait for some time (halt program execution): WaitTime(double) => void
-  const _WaitTime = mod.cwrap('WaitTime', 'pointer', ['number'])
-  raylib.WaitTime = (seconds) => _WaitTime(seconds)
 
   // Shows cursor: ShowCursor() => void
   const _ShowCursor = mod.cwrap('ShowCursor', 'pointer', [])
@@ -2870,9 +2991,9 @@ export async function raylib_run(canvas, userInit, userUpdate) {
     return _ret
   }
 
-  // Check if a shader is ready: IsShaderReady(Shader) => bool
-  const _IsShaderReady = mod.cwrap('IsShaderReady', 'boolean', ['pointer'])
-  raylib.IsShaderReady = (shader) => _IsShaderReady(shader._address)
+  // Check if a shader is valid (loaded on GPU): IsShaderValid(Shader) => bool
+  const _IsShaderValid = mod.cwrap('IsShaderValid', 'boolean', ['pointer'])
+  raylib.IsShaderValid = (shader) => _IsShaderValid(shader._address)
 
   // Get shader uniform location: GetShaderLocation(Shader, const char *) => int
   const _GetShaderLocation = mod.cwrap('GetShaderLocation', 'number', ['pointer', 'string'])
@@ -2902,27 +3023,19 @@ export async function raylib_run(canvas, userInit, userUpdate) {
   const _UnloadShader = mod.cwrap('UnloadShader', 'pointer', ['pointer'])
   raylib.UnloadShader = (shader) => _UnloadShader(shader._address)
 
-  // Get a ray trace from mouse position: GetMouseRay(Vector2, Camera) => Ray
-  const _GetMouseRay = mod.cwrap('GetMouseRay', 'void', ['pointer', 'pointer', 'pointer'])
-  raylib.GetMouseRay = (mousePosition, camera) => {
+  // Get a ray trace from screen position (i.e mouse): GetScreenToWorldRay(Vector2, Camera) => Ray
+  const _GetScreenToWorldRay = mod.cwrap('GetScreenToWorldRay', 'void', ['pointer', 'pointer', 'pointer'])
+  raylib.GetScreenToWorldRay = (position, camera) => {
     const _ret = new raylib.Ray()
-    _GetMouseRay(_ret._address, mousePosition._address, camera._address)
+    _GetScreenToWorldRay(_ret._address, position._address, camera._address)
     return _ret
   }
 
-  // Get camera transform matrix (view matrix): GetCameraMatrix(Camera) => Matrix
-  const _GetCameraMatrix = mod.cwrap('GetCameraMatrix', 'void', ['pointer', 'pointer'])
-  raylib.GetCameraMatrix = (camera) => {
-    const _ret = new raylib.Matrix()
-    _GetCameraMatrix(_ret._address, camera._address)
-    return _ret
-  }
-
-  // Get camera 2d transform matrix: GetCameraMatrix2D(Camera2D) => Matrix
-  const _GetCameraMatrix2D = mod.cwrap('GetCameraMatrix2D', 'void', ['pointer', 'pointer'])
-  raylib.GetCameraMatrix2D = (camera) => {
-    const _ret = new raylib.Matrix()
-    _GetCameraMatrix2D(_ret._address, camera._address)
+  // Get a ray trace from screen position (i.e mouse) in a viewport: GetScreenToWorldRayEx(Vector2, Camera, int, int) => Ray
+  const _GetScreenToWorldRayEx = mod.cwrap('GetScreenToWorldRayEx', 'void', ['pointer', 'pointer', 'pointer', 'number', 'number'])
+  raylib.GetScreenToWorldRayEx = (position, camera, width, height) => {
+    const _ret = new raylib.Ray()
+    _GetScreenToWorldRayEx(_ret._address, position._address, camera._address, width, height)
     return _ret
   }
 
@@ -2931,14 +3044,6 @@ export async function raylib_run(canvas, userInit, userUpdate) {
   raylib.GetWorldToScreen = (position, camera) => {
     const _ret = new raylib.Vector2()
     _GetWorldToScreen(_ret._address, position._address, camera._address)
-    return _ret
-  }
-
-  // Get the world space position for a 2d camera screen space position: GetScreenToWorld2D(Vector2, Camera2D) => Vector2
-  const _GetScreenToWorld2D = mod.cwrap('GetScreenToWorld2D', 'void', ['pointer', 'pointer', 'pointer'])
-  raylib.GetScreenToWorld2D = (position, camera) => {
-    const _ret = new raylib.Vector2()
-    _GetScreenToWorld2D(_ret._address, position._address, camera._address)
     return _ret
   }
 
@@ -2958,13 +3063,33 @@ export async function raylib_run(canvas, userInit, userUpdate) {
     return _ret
   }
 
+  // Get the world space position for a 2d camera screen space position: GetScreenToWorld2D(Vector2, Camera2D) => Vector2
+  const _GetScreenToWorld2D = mod.cwrap('GetScreenToWorld2D', 'void', ['pointer', 'pointer', 'pointer'])
+  raylib.GetScreenToWorld2D = (position, camera) => {
+    const _ret = new raylib.Vector2()
+    _GetScreenToWorld2D(_ret._address, position._address, camera._address)
+    return _ret
+  }
+
+  // Get camera transform matrix (view matrix): GetCameraMatrix(Camera) => Matrix
+  const _GetCameraMatrix = mod.cwrap('GetCameraMatrix', 'void', ['pointer', 'pointer'])
+  raylib.GetCameraMatrix = (camera) => {
+    const _ret = new raylib.Matrix()
+    _GetCameraMatrix(_ret._address, camera._address)
+    return _ret
+  }
+
+  // Get camera 2d transform matrix: GetCameraMatrix2D(Camera2D) => Matrix
+  const _GetCameraMatrix2D = mod.cwrap('GetCameraMatrix2D', 'void', ['pointer', 'pointer'])
+  raylib.GetCameraMatrix2D = (camera) => {
+    const _ret = new raylib.Matrix()
+    _GetCameraMatrix2D(_ret._address, camera._address)
+    return _ret
+  }
+
   // Set target FPS (maximum): SetTargetFPS(int) => void
   const _SetTargetFPS = mod.cwrap('SetTargetFPS', 'pointer', ['number'])
   raylib.SetTargetFPS = (fps) => _SetTargetFPS(fps)
-
-  // Get current FPS: GetFPS() => int
-  const _GetFPS = mod.cwrap('GetFPS', 'number', [])
-  raylib.GetFPS = () => _GetFPS()
 
   // Get time in seconds for last frame drawn (delta time): GetFrameTime() => float
   const _GetFrameTime = mod.cwrap('GetFrameTime', 'number', [])
@@ -2974,13 +3099,37 @@ export async function raylib_run(canvas, userInit, userUpdate) {
   const _GetTime = mod.cwrap('GetTime', 'number', [])
   raylib.GetTime = () => _GetTime()
 
-  // Get a random value between min and max (both included): GetRandomValue(int, int) => int
-  const _GetRandomValue = mod.cwrap('GetRandomValue', 'number', ['number', 'number'])
-  raylib.GetRandomValue = (min, max) => _GetRandomValue(min, max)
+  // Get current FPS: GetFPS() => int
+  const _GetFPS = mod.cwrap('GetFPS', 'number', [])
+  raylib.GetFPS = () => _GetFPS()
+
+  // Swap back buffer with front buffer (screen drawing): SwapScreenBuffer() => void
+  const _SwapScreenBuffer = mod.cwrap('SwapScreenBuffer', 'pointer', [])
+  raylib.SwapScreenBuffer = () => _SwapScreenBuffer()
+
+  // Register all input events: PollInputEvents() => void
+  const _PollInputEvents = mod.cwrap('PollInputEvents', 'pointer', [])
+  raylib.PollInputEvents = () => _PollInputEvents()
+
+  // Wait for some time (halt program execution): WaitTime(double) => void
+  const _WaitTime = mod.cwrap('WaitTime', 'pointer', ['number'])
+  raylib.WaitTime = (seconds) => _WaitTime(seconds)
 
   // Set the seed for the random number generator: SetRandomSeed(unsigned int) => void
   const _SetRandomSeed = mod.cwrap('SetRandomSeed', 'pointer', ['number'])
   raylib.SetRandomSeed = (seed) => _SetRandomSeed(seed)
+
+  // Get a random value between min and max (both included): GetRandomValue(int, int) => int
+  const _GetRandomValue = mod.cwrap('GetRandomValue', 'number', ['number', 'number'])
+  raylib.GetRandomValue = (min, max) => _GetRandomValue(min, max)
+
+  // Load random values sequence, no values repeated: LoadRandomSequence(unsigned int, int, int) => int *
+  const _LoadRandomSequence = mod.cwrap('LoadRandomSequence', 'pointer', ['number', 'number', 'number'])
+  raylib.LoadRandomSequence = (count, min, max) => _LoadRandomSequence(count, min, max)
+
+  // Unload random values sequence: UnloadRandomSequence(int *) => void
+  const _UnloadRandomSequence = mod.cwrap('UnloadRandomSequence', 'pointer', ['pointer'])
+  raylib.UnloadRandomSequence = (sequence) => _UnloadRandomSequence(sequence._address)
 
   // Takes a screenshot of current screen (filename extension defines format): TakeScreenshot(const char *) => void
   const _TakeScreenshot = mod.cwrap('TakeScreenshot', 'pointer', ['string'])
@@ -2989,6 +3138,10 @@ export async function raylib_run(canvas, userInit, userUpdate) {
   // Setup init configuration flags (view FLAGS): SetConfigFlags(unsigned int) => void
   const _SetConfigFlags = mod.cwrap('SetConfigFlags', 'pointer', ['number'])
   raylib.SetConfigFlags = (flags) => _SetConfigFlags(flags)
+
+  // Open URL with default system browser (if available): OpenURL(const char *) => void
+  const _OpenURL = mod.cwrap('OpenURL', 'pointer', ['string'])
+  raylib.OpenURL = (url) => _OpenURL(url)
 
   // Show trace log messages (LOG_DEBUG, LOG_INFO, LOG_WARNING, LOG_ERROR...): TraceLog(int, const char *, ...) => void
   const _TraceLog = mod.cwrap('TraceLog', 'pointer', ['number', 'string', 'pointer'])
@@ -3009,10 +3162,6 @@ export async function raylib_run(canvas, userInit, userUpdate) {
   // Internal memory free: MemFree(void *) => void
   const _MemFree = mod.cwrap('MemFree', 'pointer', ['pointer'])
   raylib.MemFree = (ptr) => _MemFree(ptr._address)
-
-  // Open URL with default system browser (if available): OpenURL(const char *) => void
-  const _OpenURL = mod.cwrap('OpenURL', 'pointer', ['string'])
-  raylib.OpenURL = (url) => _OpenURL(url)
 
   // Set custom trace log: SetTraceLogCallback(TraceLogCallback) => void
   const _SetTraceLogCallback = mod.cwrap('SetTraceLogCallback', 'pointer', ['pointer'])
@@ -3112,6 +3261,10 @@ export async function raylib_run(canvas, userInit, userUpdate) {
   const _GetApplicationDirectory = mod.cwrap('GetApplicationDirectory', 'string', [])
   raylib.GetApplicationDirectory = () => _GetApplicationDirectory()
 
+  // Create directories (including full path requested), returns 0 on success: MakeDirectory(const char *) => int
+  const _MakeDirectory = mod.cwrap('MakeDirectory', 'number', ['string'])
+  raylib.MakeDirectory = (dirPath) => _MakeDirectory(dirPath)
+
   // Change working directory, return true on success: ChangeDirectory(const char *) => bool
   const _ChangeDirectory = mod.cwrap('ChangeDirectory', 'boolean', ['string'])
   raylib.ChangeDirectory = (dir) => _ChangeDirectory(dir)
@@ -3119,6 +3272,10 @@ export async function raylib_run(canvas, userInit, userUpdate) {
   // Check if a given path is a file or a directory: IsPathFile(const char *) => bool
   const _IsPathFile = mod.cwrap('IsPathFile', 'boolean', ['string'])
   raylib.IsPathFile = (path) => _IsPathFile(path)
+
+  // Check if fileName is valid for the platform/OS: IsFileNameValid(const char *) => bool
+  const _IsFileNameValid = mod.cwrap('IsFileNameValid', 'boolean', ['string'])
+  raylib.IsFileNameValid = (fileName) => _IsFileNameValid(fileName)
 
   // Load directory filepaths: LoadDirectoryFiles(const char *) => FilePathList
   const _LoadDirectoryFiles = mod.cwrap('LoadDirectoryFiles', 'void', ['pointer', 'string'])
@@ -3128,7 +3285,7 @@ export async function raylib_run(canvas, userInit, userUpdate) {
     return _ret
   }
 
-  // Load directory filepaths with extension filtering and recursive directory scan: LoadDirectoryFilesEx(const char *, const char *, bool) => FilePathList
+  // Load directory filepaths with extension filtering and recursive directory scan. Use 'DIR' in the filter string to include directories in the result: LoadDirectoryFilesEx(const char *, const char *, bool) => FilePathList
   const _LoadDirectoryFilesEx = mod.cwrap('LoadDirectoryFilesEx', 'void', ['pointer', 'string', 'string', 'boolean'])
   raylib.LoadDirectoryFilesEx = (basePath, filter, scanSubdirs) => {
     const _ret = new raylib.FilePathList()
@@ -3176,11 +3333,59 @@ export async function raylib_run(canvas, userInit, userUpdate) {
   const _DecodeDataBase64 = mod.cwrap('DecodeDataBase64', 'pointer', ['pointer', 'pointer'])
   raylib.DecodeDataBase64 = (data, outputSize) => _DecodeDataBase64(data._address, outputSize._address)
 
+  // Compute CRC32 hash code: ComputeCRC32(unsigned char *, int) => unsigned int
+  const _ComputeCRC32 = mod.cwrap('ComputeCRC32', 'number', ['pointer', 'number'])
+  raylib.ComputeCRC32 = (data, dataSize) => _ComputeCRC32(data._address, dataSize)
+
+  // Compute MD5 hash code, returns static int[4] (16 bytes): ComputeMD5(unsigned char *, int) => unsigned int *
+  const _ComputeMD5 = mod.cwrap('ComputeMD5', 'pointer', ['pointer', 'number'])
+  raylib.ComputeMD5 = (data, dataSize) => _ComputeMD5(data._address, dataSize)
+
+  // Compute SHA1 hash code, returns static int[5] (20 bytes): ComputeSHA1(unsigned char *, int) => unsigned int *
+  const _ComputeSHA1 = mod.cwrap('ComputeSHA1', 'pointer', ['pointer', 'number'])
+  raylib.ComputeSHA1 = (data, dataSize) => _ComputeSHA1(data._address, dataSize)
+
+  // Load automation events list from file, NULL for empty list, capacity = MAX_AUTOMATION_EVENTS: LoadAutomationEventList(const char *) => AutomationEventList
+  const _LoadAutomationEventList = mod.cwrap('LoadAutomationEventList', 'void', ['pointer', 'string'])
+  raylib.LoadAutomationEventList = (fileName) => {
+    const _ret = new raylib.AutomationEventList()
+    _LoadAutomationEventList(_ret._address, fileName)
+    return _ret
+  }
+
+  // Unload automation events list from file: UnloadAutomationEventList(AutomationEventList) => void
+  const _UnloadAutomationEventList = mod.cwrap('UnloadAutomationEventList', 'pointer', ['pointer'])
+  raylib.UnloadAutomationEventList = (list) => _UnloadAutomationEventList(list._address)
+
+  // Export automation events list as text file: ExportAutomationEventList(AutomationEventList, const char *) => bool
+  const _ExportAutomationEventList = mod.cwrap('ExportAutomationEventList', 'boolean', ['pointer', 'string'])
+  raylib.ExportAutomationEventList = (list, fileName) => _ExportAutomationEventList(list._address, fileName)
+
+  // Set automation event list to record to: SetAutomationEventList(AutomationEventList *) => void
+  const _SetAutomationEventList = mod.cwrap('SetAutomationEventList', 'pointer', ['pointer'])
+  raylib.SetAutomationEventList = (list) => _SetAutomationEventList(list._address)
+
+  // Set automation event internal base frame to start recording: SetAutomationEventBaseFrame(int) => void
+  const _SetAutomationEventBaseFrame = mod.cwrap('SetAutomationEventBaseFrame', 'pointer', ['number'])
+  raylib.SetAutomationEventBaseFrame = (frame) => _SetAutomationEventBaseFrame(frame)
+
+  // Start recording automation events (AutomationEventList must be set): StartAutomationEventRecording() => void
+  const _StartAutomationEventRecording = mod.cwrap('StartAutomationEventRecording', 'pointer', [])
+  raylib.StartAutomationEventRecording = () => _StartAutomationEventRecording()
+
+  // Stop recording automation events: StopAutomationEventRecording() => void
+  const _StopAutomationEventRecording = mod.cwrap('StopAutomationEventRecording', 'pointer', [])
+  raylib.StopAutomationEventRecording = () => _StopAutomationEventRecording()
+
+  // Play a recorded automation event: PlayAutomationEvent(AutomationEvent) => void
+  const _PlayAutomationEvent = mod.cwrap('PlayAutomationEvent', 'pointer', ['pointer'])
+  raylib.PlayAutomationEvent = (event) => _PlayAutomationEvent(event._address)
+
   // Check if a key has been pressed once: IsKeyPressed(int) => bool
   const _IsKeyPressed = mod.cwrap('IsKeyPressed', 'boolean', ['number'])
   raylib.IsKeyPressed = (key) => _IsKeyPressed(key)
 
-  // Check if a key has been pressed again (Only PLATFORM_DESKTOP): IsKeyPressedRepeat(int) => bool
+  // Check if a key has been pressed again: IsKeyPressedRepeat(int) => bool
   const _IsKeyPressedRepeat = mod.cwrap('IsKeyPressedRepeat', 'boolean', ['number'])
   raylib.IsKeyPressedRepeat = (key) => _IsKeyPressedRepeat(key)
 
@@ -3196,10 +3401,6 @@ export async function raylib_run(canvas, userInit, userUpdate) {
   const _IsKeyUp = mod.cwrap('IsKeyUp', 'boolean', ['number'])
   raylib.IsKeyUp = (key) => _IsKeyUp(key)
 
-  // Set a custom key to exit program (default is ESC): SetExitKey(int) => void
-  const _SetExitKey = mod.cwrap('SetExitKey', 'pointer', ['number'])
-  raylib.SetExitKey = (key) => _SetExitKey(key)
-
   // Get key pressed (keycode), call it multiple times for keys queued, returns 0 when the queue is empty: GetKeyPressed() => int
   const _GetKeyPressed = mod.cwrap('GetKeyPressed', 'number', [])
   raylib.GetKeyPressed = () => _GetKeyPressed()
@@ -3207,6 +3408,10 @@ export async function raylib_run(canvas, userInit, userUpdate) {
   // Get char pressed (unicode), call it multiple times for chars queued, returns 0 when the queue is empty: GetCharPressed() => int
   const _GetCharPressed = mod.cwrap('GetCharPressed', 'number', [])
   raylib.GetCharPressed = () => _GetCharPressed()
+
+  // Set a custom key to exit program (default is ESC): SetExitKey(int) => void
+  const _SetExitKey = mod.cwrap('SetExitKey', 'pointer', ['number'])
+  raylib.SetExitKey = (key) => _SetExitKey(key)
 
   // Check if a gamepad is available: IsGamepadAvailable(int) => bool
   const _IsGamepadAvailable = mod.cwrap('IsGamepadAvailable', 'boolean', ['number'])
@@ -3247,6 +3452,10 @@ export async function raylib_run(canvas, userInit, userUpdate) {
   // Set internal gamepad mappings (SDL_GameControllerDB): SetGamepadMappings(const char *) => int
   const _SetGamepadMappings = mod.cwrap('SetGamepadMappings', 'number', ['string'])
   raylib.SetGamepadMappings = (mappings) => _SetGamepadMappings(mappings)
+
+  // Set gamepad vibration for both motors (duration in seconds): SetGamepadVibration(int, float, float, float) => void
+  const _SetGamepadVibration = mod.cwrap('SetGamepadVibration', 'pointer', ['number', 'number', 'number', 'number'])
+  raylib.SetGamepadVibration = (gamepad, leftMotor, rightMotor, duration) => _SetGamepadVibration(gamepad, leftMotor, rightMotor, duration)
 
   // Check if a mouse button has been pressed once: IsMouseButtonPressed(int) => bool
   const _IsMouseButtonPressed = mod.cwrap('IsMouseButtonPressed', 'boolean', ['number'])
@@ -3352,7 +3561,7 @@ export async function raylib_run(canvas, userInit, userUpdate) {
   const _GetGestureDetected = mod.cwrap('GetGestureDetected', 'number', [])
   raylib.GetGestureDetected = () => _GetGestureDetected()
 
-  // Get gesture hold time in milliseconds: GetGestureHoldDuration() => float
+  // Get gesture hold time in seconds: GetGestureHoldDuration() => float
   const _GetGestureHoldDuration = mod.cwrap('GetGestureHoldDuration', 'number', [])
   raylib.GetGestureHoldDuration = () => _GetGestureHoldDuration()
 
@@ -3392,11 +3601,27 @@ export async function raylib_run(canvas, userInit, userUpdate) {
   const _SetShapesTexture = mod.cwrap('SetShapesTexture', 'pointer', ['pointer', 'pointer'])
   raylib.SetShapesTexture = (texture, source) => _SetShapesTexture(texture._address, source._address)
 
-  // Draw a pixel: DrawPixel(int, int, Color) => void
+  // Get texture that is used for shapes drawing: GetShapesTexture() => Texture2D
+  const _GetShapesTexture = mod.cwrap('GetShapesTexture', 'void', ['pointer'])
+  raylib.GetShapesTexture = () => {
+    const _ret = new raylib.Texture2D()
+    _GetShapesTexture(_ret._address)
+    return _ret
+  }
+
+  // Get texture source rectangle that is used for shapes drawing: GetShapesTextureRectangle() => Rectangle
+  const _GetShapesTextureRectangle = mod.cwrap('GetShapesTextureRectangle', 'void', ['pointer'])
+  raylib.GetShapesTextureRectangle = () => {
+    const _ret = new raylib.Rectangle()
+    _GetShapesTextureRectangle(_ret._address)
+    return _ret
+  }
+
+  // Draw a pixel using geometry [Can be slow, use with care]: DrawPixel(int, int, Color) => void
   const _DrawPixel = mod.cwrap('DrawPixel', 'pointer', ['number', 'number', 'pointer'])
   raylib.DrawPixel = (posX, posY, color) => _DrawPixel(posX, posY, color._address)
 
-  // Draw a pixel (Vector version): DrawPixelV(Vector2, Color) => void
+  // Draw a pixel using geometry (Vector version) [Can be slow, use with care]: DrawPixelV(Vector2, Color) => void
   const _DrawPixelV = mod.cwrap('DrawPixelV', 'pointer', ['pointer', 'pointer'])
   raylib.DrawPixelV = (position, color) => _DrawPixelV(position._address, color._address)
 
@@ -3404,37 +3629,21 @@ export async function raylib_run(canvas, userInit, userUpdate) {
   const _DrawLine = mod.cwrap('DrawLine', 'pointer', ['number', 'number', 'number', 'number', 'pointer'])
   raylib.DrawLine = (startPosX, startPosY, endPosX, endPosY, color) => _DrawLine(startPosX, startPosY, endPosX, endPosY, color._address)
 
-  // Draw a line (Vector version): DrawLineV(Vector2, Vector2, Color) => void
+  // Draw a line (using gl lines): DrawLineV(Vector2, Vector2, Color) => void
   const _DrawLineV = mod.cwrap('DrawLineV', 'pointer', ['pointer', 'pointer', 'pointer'])
   raylib.DrawLineV = (startPos, endPos, color) => _DrawLineV(startPos._address, endPos._address, color._address)
 
-  // Draw a line defining thickness: DrawLineEx(Vector2, Vector2, float, Color) => void
+  // Draw a line (using triangles/quads): DrawLineEx(Vector2, Vector2, float, Color) => void
   const _DrawLineEx = mod.cwrap('DrawLineEx', 'pointer', ['pointer', 'pointer', 'number', 'pointer'])
   raylib.DrawLineEx = (startPos, endPos, thick, color) => _DrawLineEx(startPos._address, endPos._address, thick, color._address)
 
-  // Draw a line using cubic-bezier curves in-out: DrawLineBezier(Vector2, Vector2, float, Color) => void
-  const _DrawLineBezier = mod.cwrap('DrawLineBezier', 'pointer', ['pointer', 'pointer', 'number', 'pointer'])
-  raylib.DrawLineBezier = (startPos, endPos, thick, color) => _DrawLineBezier(startPos._address, endPos._address, thick, color._address)
-
-  // Draw line using quadratic bezier curves with a control point: DrawLineBezierQuad(Vector2, Vector2, Vector2, float, Color) => void
-  const _DrawLineBezierQuad = mod.cwrap('DrawLineBezierQuad', 'pointer', ['pointer', 'pointer', 'pointer', 'number', 'pointer'])
-  raylib.DrawLineBezierQuad = (startPos, endPos, controlPos, thick, color) => _DrawLineBezierQuad(startPos._address, endPos._address, controlPos._address, thick, color._address)
-
-  // Draw line using cubic bezier curves with 2 control points: DrawLineBezierCubic(Vector2, Vector2, Vector2, Vector2, float, Color) => void
-  const _DrawLineBezierCubic = mod.cwrap('DrawLineBezierCubic', 'pointer', ['pointer', 'pointer', 'pointer', 'pointer', 'number', 'pointer'])
-  raylib.DrawLineBezierCubic = (startPos, endPos, startControlPos, endControlPos, thick, color) => _DrawLineBezierCubic(startPos._address, endPos._address, startControlPos._address, endControlPos._address, thick, color._address)
-
-  // Draw a B-Spline line, minimum 4 points: DrawLineBSpline(Vector2 *, int, float, Color) => void
-  const _DrawLineBSpline = mod.cwrap('DrawLineBSpline', 'pointer', ['pointer', 'number', 'number', 'pointer'])
-  raylib.DrawLineBSpline = (points, pointCount, thick, color) => _DrawLineBSpline(points._address, pointCount, thick, color._address)
-
-  // Draw a Catmull Rom spline line, minimum 4 points: DrawLineCatmullRom(Vector2 *, int, float, Color) => void
-  const _DrawLineCatmullRom = mod.cwrap('DrawLineCatmullRom', 'pointer', ['pointer', 'number', 'number', 'pointer'])
-  raylib.DrawLineCatmullRom = (points, pointCount, thick, color) => _DrawLineCatmullRom(points._address, pointCount, thick, color._address)
-
-  // Draw lines sequence: DrawLineStrip(Vector2 *, int, Color) => void
+  // Draw lines sequence (using gl lines): DrawLineStrip(const Vector2 *, int, Color) => void
   const _DrawLineStrip = mod.cwrap('DrawLineStrip', 'pointer', ['pointer', 'number', 'pointer'])
   raylib.DrawLineStrip = (points, pointCount, color) => _DrawLineStrip(points._address, pointCount, color._address)
+
+  // Draw line segment cubic-bezier in-out interpolation: DrawLineBezier(Vector2, Vector2, float, Color) => void
+  const _DrawLineBezier = mod.cwrap('DrawLineBezier', 'pointer', ['pointer', 'pointer', 'number', 'pointer'])
+  raylib.DrawLineBezier = (startPos, endPos, thick, color) => _DrawLineBezier(startPos._address, endPos._address, thick, color._address)
 
   // Draw a color-filled circle: DrawCircle(int, int, float, Color) => void
   const _DrawCircle = mod.cwrap('DrawCircle', 'pointer', ['number', 'number', 'number', 'pointer'])
@@ -3450,7 +3659,7 @@ export async function raylib_run(canvas, userInit, userUpdate) {
 
   // Draw a gradient-filled circle: DrawCircleGradient(int, int, float, Color, Color) => void
   const _DrawCircleGradient = mod.cwrap('DrawCircleGradient', 'pointer', ['number', 'number', 'number', 'pointer', 'pointer'])
-  raylib.DrawCircleGradient = (centerX, centerY, radius, color1, color2) => _DrawCircleGradient(centerX, centerY, radius, color1._address, color2._address)
+  raylib.DrawCircleGradient = (centerX, centerY, radius, inner, outer) => _DrawCircleGradient(centerX, centerY, radius, inner._address, outer._address)
 
   // Draw a color-filled circle (Vector version): DrawCircleV(Vector2, float, Color) => void
   const _DrawCircleV = mod.cwrap('DrawCircleV', 'pointer', ['pointer', 'number', 'pointer'])
@@ -3459,6 +3668,10 @@ export async function raylib_run(canvas, userInit, userUpdate) {
   // Draw circle outline: DrawCircleLines(int, int, float, Color) => void
   const _DrawCircleLines = mod.cwrap('DrawCircleLines', 'pointer', ['number', 'number', 'number', 'pointer'])
   raylib.DrawCircleLines = (centerX, centerY, radius, color) => _DrawCircleLines(centerX, centerY, radius, color._address)
+
+  // Draw circle outline (Vector version): DrawCircleLinesV(Vector2, float, Color) => void
+  const _DrawCircleLinesV = mod.cwrap('DrawCircleLinesV', 'pointer', ['pointer', 'number', 'pointer'])
+  raylib.DrawCircleLinesV = (center, radius, color) => _DrawCircleLinesV(center._address, radius, color._address)
 
   // Draw ellipse: DrawEllipse(int, int, float, float, Color) => void
   const _DrawEllipse = mod.cwrap('DrawEllipse', 'pointer', ['number', 'number', 'number', 'number', 'pointer'])
@@ -3494,15 +3707,15 @@ export async function raylib_run(canvas, userInit, userUpdate) {
 
   // Draw a vertical-gradient-filled rectangle: DrawRectangleGradientV(int, int, int, int, Color, Color) => void
   const _DrawRectangleGradientV = mod.cwrap('DrawRectangleGradientV', 'pointer', ['number', 'number', 'number', 'number', 'pointer', 'pointer'])
-  raylib.DrawRectangleGradientV = (posX, posY, width, height, color1, color2) => _DrawRectangleGradientV(posX, posY, width, height, color1._address, color2._address)
+  raylib.DrawRectangleGradientV = (posX, posY, width, height, top, bottom) => _DrawRectangleGradientV(posX, posY, width, height, top._address, bottom._address)
 
   // Draw a horizontal-gradient-filled rectangle: DrawRectangleGradientH(int, int, int, int, Color, Color) => void
   const _DrawRectangleGradientH = mod.cwrap('DrawRectangleGradientH', 'pointer', ['number', 'number', 'number', 'number', 'pointer', 'pointer'])
-  raylib.DrawRectangleGradientH = (posX, posY, width, height, color1, color2) => _DrawRectangleGradientH(posX, posY, width, height, color1._address, color2._address)
+  raylib.DrawRectangleGradientH = (posX, posY, width, height, left, right) => _DrawRectangleGradientH(posX, posY, width, height, left._address, right._address)
 
   // Draw a gradient-filled rectangle with custom vertex colors: DrawRectangleGradientEx(Rectangle, Color, Color, Color, Color) => void
   const _DrawRectangleGradientEx = mod.cwrap('DrawRectangleGradientEx', 'pointer', ['pointer', 'pointer', 'pointer', 'pointer', 'pointer'])
-  raylib.DrawRectangleGradientEx = (rec, col1, col2, col3, col4) => _DrawRectangleGradientEx(rec._address, col1._address, col2._address, col3._address, col4._address)
+  raylib.DrawRectangleGradientEx = (rec, topLeft, bottomLeft, topRight, bottomRight) => _DrawRectangleGradientEx(rec._address, topLeft._address, bottomLeft._address, topRight._address, bottomRight._address)
 
   // Draw rectangle outline: DrawRectangleLines(int, int, int, int, Color) => void
   const _DrawRectangleLines = mod.cwrap('DrawRectangleLines', 'pointer', ['number', 'number', 'number', 'number', 'pointer'])
@@ -3516,9 +3729,13 @@ export async function raylib_run(canvas, userInit, userUpdate) {
   const _DrawRectangleRounded = mod.cwrap('DrawRectangleRounded', 'pointer', ['pointer', 'number', 'number', 'pointer'])
   raylib.DrawRectangleRounded = (rec, roundness, segments, color) => _DrawRectangleRounded(rec._address, roundness, segments, color._address)
 
-  // Draw rectangle with rounded edges outline: DrawRectangleRoundedLines(Rectangle, float, int, float, Color) => void
-  const _DrawRectangleRoundedLines = mod.cwrap('DrawRectangleRoundedLines', 'pointer', ['pointer', 'number', 'number', 'number', 'pointer'])
-  raylib.DrawRectangleRoundedLines = (rec, roundness, segments, lineThick, color) => _DrawRectangleRoundedLines(rec._address, roundness, segments, lineThick, color._address)
+  // Draw rectangle lines with rounded edges: DrawRectangleRoundedLines(Rectangle, float, int, Color) => void
+  const _DrawRectangleRoundedLines = mod.cwrap('DrawRectangleRoundedLines', 'pointer', ['pointer', 'number', 'number', 'pointer'])
+  raylib.DrawRectangleRoundedLines = (rec, roundness, segments, color) => _DrawRectangleRoundedLines(rec._address, roundness, segments, color._address)
+
+  // Draw rectangle with rounded edges outline: DrawRectangleRoundedLinesEx(Rectangle, float, int, float, Color) => void
+  const _DrawRectangleRoundedLinesEx = mod.cwrap('DrawRectangleRoundedLinesEx', 'pointer', ['pointer', 'number', 'number', 'number', 'pointer'])
+  raylib.DrawRectangleRoundedLinesEx = (rec, roundness, segments, lineThick, color) => _DrawRectangleRoundedLinesEx(rec._address, roundness, segments, lineThick, color._address)
 
   // Draw a color-filled triangle (vertex in counter-clockwise order!): DrawTriangle(Vector2, Vector2, Vector2, Color) => void
   const _DrawTriangle = mod.cwrap('DrawTriangle', 'pointer', ['pointer', 'pointer', 'pointer', 'pointer'])
@@ -3528,11 +3745,11 @@ export async function raylib_run(canvas, userInit, userUpdate) {
   const _DrawTriangleLines = mod.cwrap('DrawTriangleLines', 'pointer', ['pointer', 'pointer', 'pointer', 'pointer'])
   raylib.DrawTriangleLines = (v1, v2, v3, color) => _DrawTriangleLines(v1._address, v2._address, v3._address, color._address)
 
-  // Draw a triangle fan defined by points (first vertex is the center): DrawTriangleFan(Vector2 *, int, Color) => void
+  // Draw a triangle fan defined by points (first vertex is the center): DrawTriangleFan(const Vector2 *, int, Color) => void
   const _DrawTriangleFan = mod.cwrap('DrawTriangleFan', 'pointer', ['pointer', 'number', 'pointer'])
   raylib.DrawTriangleFan = (points, pointCount, color) => _DrawTriangleFan(points._address, pointCount, color._address)
 
-  // Draw a triangle strip defined by points: DrawTriangleStrip(Vector2 *, int, Color) => void
+  // Draw a triangle strip defined by points: DrawTriangleStrip(const Vector2 *, int, Color) => void
   const _DrawTriangleStrip = mod.cwrap('DrawTriangleStrip', 'pointer', ['pointer', 'number', 'pointer'])
   raylib.DrawTriangleStrip = (points, pointCount, color) => _DrawTriangleStrip(points._address, pointCount, color._address)
 
@@ -3548,6 +3765,86 @@ export async function raylib_run(canvas, userInit, userUpdate) {
   const _DrawPolyLinesEx = mod.cwrap('DrawPolyLinesEx', 'pointer', ['pointer', 'number', 'number', 'number', 'number', 'pointer'])
   raylib.DrawPolyLinesEx = (center, sides, radius, rotation, lineThick, color) => _DrawPolyLinesEx(center._address, sides, radius, rotation, lineThick, color._address)
 
+  // Draw spline: Linear, minimum 2 points: DrawSplineLinear(const Vector2 *, int, float, Color) => void
+  const _DrawSplineLinear = mod.cwrap('DrawSplineLinear', 'pointer', ['pointer', 'number', 'number', 'pointer'])
+  raylib.DrawSplineLinear = (points, pointCount, thick, color) => _DrawSplineLinear(points._address, pointCount, thick, color._address)
+
+  // Draw spline: B-Spline, minimum 4 points: DrawSplineBasis(const Vector2 *, int, float, Color) => void
+  const _DrawSplineBasis = mod.cwrap('DrawSplineBasis', 'pointer', ['pointer', 'number', 'number', 'pointer'])
+  raylib.DrawSplineBasis = (points, pointCount, thick, color) => _DrawSplineBasis(points._address, pointCount, thick, color._address)
+
+  // Draw spline: Catmull-Rom, minimum 4 points: DrawSplineCatmullRom(const Vector2 *, int, float, Color) => void
+  const _DrawSplineCatmullRom = mod.cwrap('DrawSplineCatmullRom', 'pointer', ['pointer', 'number', 'number', 'pointer'])
+  raylib.DrawSplineCatmullRom = (points, pointCount, thick, color) => _DrawSplineCatmullRom(points._address, pointCount, thick, color._address)
+
+  // Draw spline: Quadratic Bezier, minimum 3 points (1 control point): [p1, c2, p3, c4...]: DrawSplineBezierQuadratic(const Vector2 *, int, float, Color) => void
+  const _DrawSplineBezierQuadratic = mod.cwrap('DrawSplineBezierQuadratic', 'pointer', ['pointer', 'number', 'number', 'pointer'])
+  raylib.DrawSplineBezierQuadratic = (points, pointCount, thick, color) => _DrawSplineBezierQuadratic(points._address, pointCount, thick, color._address)
+
+  // Draw spline: Cubic Bezier, minimum 4 points (2 control points): [p1, c2, c3, p4, c5, c6...]: DrawSplineBezierCubic(const Vector2 *, int, float, Color) => void
+  const _DrawSplineBezierCubic = mod.cwrap('DrawSplineBezierCubic', 'pointer', ['pointer', 'number', 'number', 'pointer'])
+  raylib.DrawSplineBezierCubic = (points, pointCount, thick, color) => _DrawSplineBezierCubic(points._address, pointCount, thick, color._address)
+
+  // Draw spline segment: Linear, 2 points: DrawSplineSegmentLinear(Vector2, Vector2, float, Color) => void
+  const _DrawSplineSegmentLinear = mod.cwrap('DrawSplineSegmentLinear', 'pointer', ['pointer', 'pointer', 'number', 'pointer'])
+  raylib.DrawSplineSegmentLinear = (p1, p2, thick, color) => _DrawSplineSegmentLinear(p1._address, p2._address, thick, color._address)
+
+  // Draw spline segment: B-Spline, 4 points: DrawSplineSegmentBasis(Vector2, Vector2, Vector2, Vector2, float, Color) => void
+  const _DrawSplineSegmentBasis = mod.cwrap('DrawSplineSegmentBasis', 'pointer', ['pointer', 'pointer', 'pointer', 'pointer', 'number', 'pointer'])
+  raylib.DrawSplineSegmentBasis = (p1, p2, p3, p4, thick, color) => _DrawSplineSegmentBasis(p1._address, p2._address, p3._address, p4._address, thick, color._address)
+
+  // Draw spline segment: Catmull-Rom, 4 points: DrawSplineSegmentCatmullRom(Vector2, Vector2, Vector2, Vector2, float, Color) => void
+  const _DrawSplineSegmentCatmullRom = mod.cwrap('DrawSplineSegmentCatmullRom', 'pointer', ['pointer', 'pointer', 'pointer', 'pointer', 'number', 'pointer'])
+  raylib.DrawSplineSegmentCatmullRom = (p1, p2, p3, p4, thick, color) => _DrawSplineSegmentCatmullRom(p1._address, p2._address, p3._address, p4._address, thick, color._address)
+
+  // Draw spline segment: Quadratic Bezier, 2 points, 1 control point: DrawSplineSegmentBezierQuadratic(Vector2, Vector2, Vector2, float, Color) => void
+  const _DrawSplineSegmentBezierQuadratic = mod.cwrap('DrawSplineSegmentBezierQuadratic', 'pointer', ['pointer', 'pointer', 'pointer', 'number', 'pointer'])
+  raylib.DrawSplineSegmentBezierQuadratic = (p1, c2, p3, thick, color) => _DrawSplineSegmentBezierQuadratic(p1._address, c2._address, p3._address, thick, color._address)
+
+  // Draw spline segment: Cubic Bezier, 2 points, 2 control points: DrawSplineSegmentBezierCubic(Vector2, Vector2, Vector2, Vector2, float, Color) => void
+  const _DrawSplineSegmentBezierCubic = mod.cwrap('DrawSplineSegmentBezierCubic', 'pointer', ['pointer', 'pointer', 'pointer', 'pointer', 'number', 'pointer'])
+  raylib.DrawSplineSegmentBezierCubic = (p1, c2, c3, p4, thick, color) => _DrawSplineSegmentBezierCubic(p1._address, c2._address, c3._address, p4._address, thick, color._address)
+
+  // Get (evaluate) spline point: Linear: GetSplinePointLinear(Vector2, Vector2, float) => Vector2
+  const _GetSplinePointLinear = mod.cwrap('GetSplinePointLinear', 'void', ['pointer', 'pointer', 'pointer', 'number'])
+  raylib.GetSplinePointLinear = (startPos, endPos, t) => {
+    const _ret = new raylib.Vector2()
+    _GetSplinePointLinear(_ret._address, startPos._address, endPos._address, t)
+    return _ret
+  }
+
+  // Get (evaluate) spline point: B-Spline: GetSplinePointBasis(Vector2, Vector2, Vector2, Vector2, float) => Vector2
+  const _GetSplinePointBasis = mod.cwrap('GetSplinePointBasis', 'void', ['pointer', 'pointer', 'pointer', 'pointer', 'pointer', 'number'])
+  raylib.GetSplinePointBasis = (p1, p2, p3, p4, t) => {
+    const _ret = new raylib.Vector2()
+    _GetSplinePointBasis(_ret._address, p1._address, p2._address, p3._address, p4._address, t)
+    return _ret
+  }
+
+  // Get (evaluate) spline point: Catmull-Rom: GetSplinePointCatmullRom(Vector2, Vector2, Vector2, Vector2, float) => Vector2
+  const _GetSplinePointCatmullRom = mod.cwrap('GetSplinePointCatmullRom', 'void', ['pointer', 'pointer', 'pointer', 'pointer', 'pointer', 'number'])
+  raylib.GetSplinePointCatmullRom = (p1, p2, p3, p4, t) => {
+    const _ret = new raylib.Vector2()
+    _GetSplinePointCatmullRom(_ret._address, p1._address, p2._address, p3._address, p4._address, t)
+    return _ret
+  }
+
+  // Get (evaluate) spline point: Quadratic Bezier: GetSplinePointBezierQuad(Vector2, Vector2, Vector2, float) => Vector2
+  const _GetSplinePointBezierQuad = mod.cwrap('GetSplinePointBezierQuad', 'void', ['pointer', 'pointer', 'pointer', 'pointer', 'number'])
+  raylib.GetSplinePointBezierQuad = (p1, c2, p3, t) => {
+    const _ret = new raylib.Vector2()
+    _GetSplinePointBezierQuad(_ret._address, p1._address, c2._address, p3._address, t)
+    return _ret
+  }
+
+  // Get (evaluate) spline point: Cubic Bezier: GetSplinePointBezierCubic(Vector2, Vector2, Vector2, Vector2, float) => Vector2
+  const _GetSplinePointBezierCubic = mod.cwrap('GetSplinePointBezierCubic', 'void', ['pointer', 'pointer', 'pointer', 'pointer', 'pointer', 'number'])
+  raylib.GetSplinePointBezierCubic = (p1, c2, c3, p4, t) => {
+    const _ret = new raylib.Vector2()
+    _GetSplinePointBezierCubic(_ret._address, p1._address, c2._address, c3._address, p4._address, t)
+    return _ret
+  }
+
   // Check collision between two rectangles: CheckCollisionRecs(Rectangle, Rectangle) => bool
   const _CheckCollisionRecs = mod.cwrap('CheckCollisionRecs', 'boolean', ['pointer', 'pointer'])
   raylib.CheckCollisionRecs = (rec1, rec2) => _CheckCollisionRecs(rec1._address, rec2._address)
@@ -3559,6 +3856,10 @@ export async function raylib_run(canvas, userInit, userUpdate) {
   // Check collision between circle and rectangle: CheckCollisionCircleRec(Vector2, float, Rectangle) => bool
   const _CheckCollisionCircleRec = mod.cwrap('CheckCollisionCircleRec', 'boolean', ['pointer', 'number', 'pointer'])
   raylib.CheckCollisionCircleRec = (center, radius, rec) => _CheckCollisionCircleRec(center._address, radius, rec._address)
+
+  // Check if circle collides with a line created betweeen two points [p1] and [p2]: CheckCollisionCircleLine(Vector2, float, Vector2, Vector2) => bool
+  const _CheckCollisionCircleLine = mod.cwrap('CheckCollisionCircleLine', 'boolean', ['pointer', 'number', 'pointer', 'pointer'])
+  raylib.CheckCollisionCircleLine = (center, radius, p1, p2) => _CheckCollisionCircleLine(center._address, radius, p1._address, p2._address)
 
   // Check if point is inside rectangle: CheckCollisionPointRec(Vector2, Rectangle) => bool
   const _CheckCollisionPointRec = mod.cwrap('CheckCollisionPointRec', 'boolean', ['pointer', 'pointer'])
@@ -3572,17 +3873,17 @@ export async function raylib_run(canvas, userInit, userUpdate) {
   const _CheckCollisionPointTriangle = mod.cwrap('CheckCollisionPointTriangle', 'boolean', ['pointer', 'pointer', 'pointer', 'pointer'])
   raylib.CheckCollisionPointTriangle = (point, p1, p2, p3) => _CheckCollisionPointTriangle(point._address, p1._address, p2._address, p3._address)
 
-  // Check if point is within a polygon described by array of vertices: CheckCollisionPointPoly(Vector2, Vector2 *, int) => bool
+  // Check if point belongs to line created between two points [p1] and [p2] with defined margin in pixels [threshold]: CheckCollisionPointLine(Vector2, Vector2, Vector2, int) => bool
+  const _CheckCollisionPointLine = mod.cwrap('CheckCollisionPointLine', 'boolean', ['pointer', 'pointer', 'pointer', 'number'])
+  raylib.CheckCollisionPointLine = (point, p1, p2, threshold) => _CheckCollisionPointLine(point._address, p1._address, p2._address, threshold)
+
+  // Check if point is within a polygon described by array of vertices: CheckCollisionPointPoly(Vector2, const Vector2 *, int) => bool
   const _CheckCollisionPointPoly = mod.cwrap('CheckCollisionPointPoly', 'boolean', ['pointer', 'pointer', 'number'])
   raylib.CheckCollisionPointPoly = (point, points, pointCount) => _CheckCollisionPointPoly(point._address, points._address, pointCount)
 
   // Check the collision between two lines defined by two points each, returns collision point by reference: CheckCollisionLines(Vector2, Vector2, Vector2, Vector2, Vector2 *) => bool
   const _CheckCollisionLines = mod.cwrap('CheckCollisionLines', 'boolean', ['pointer', 'pointer', 'pointer', 'pointer', 'pointer'])
   raylib.CheckCollisionLines = (startPos1, endPos1, startPos2, endPos2, collisionPoint) => _CheckCollisionLines(startPos1._address, endPos1._address, startPos2._address, endPos2._address, collisionPoint._address)
-
-  // Check if point belongs to line created between two points [p1] and [p2] with defined margin in pixels [threshold]: CheckCollisionPointLine(Vector2, Vector2, Vector2, int) => bool
-  const _CheckCollisionPointLine = mod.cwrap('CheckCollisionPointLine', 'boolean', ['pointer', 'pointer', 'pointer', 'number'])
-  raylib.CheckCollisionPointLine = (point, p1, p2, threshold) => _CheckCollisionPointLine(point._address, p1._address, p2._address, threshold)
 
   // Get collision rectangle for two rectangles collision: GetCollisionRec(Rectangle, Rectangle) => Rectangle
   const _GetCollisionRec = mod.cwrap('GetCollisionRec', 'void', ['pointer', 'pointer', 'pointer'])
@@ -3610,20 +3911,20 @@ export async function raylib_run(canvas, userInit, userUpdate) {
     return _ret
   }
 
-  // Load image from SVG file data or string with specified size: LoadImageSvg(const char *, int, int) => Image
-  const _LoadImageSvg = mod.cwrap('LoadImageSvg', 'void', ['pointer', 'string', 'number', 'number'])
-  raylib.LoadImageSvg = (fileNameOrString, width, height) => {
-    const _ret = new raylib.Image()
-    _LoadImageSvg(_ret._address, fileNameOrString, width, height)
-    return _ret
-  }
-
   // Load image sequence from file (frames appended to image.data): LoadImageAnim(const char *, int *) => Image
   const _LoadImageAnim = mod.cwrap('LoadImageAnim', 'void', ['pointer', 'string', 'pointer'])
   raylib.LoadImageAnim = async (fileName, frames, skipLoad) => {
     !skipLoad && await raylib.addFile(fileName)
     const _ret = new raylib.Image()
     _LoadImageAnim(_ret._address, fileName, frames._address)
+    return _ret
+  }
+
+  // Load image sequence from memory buffer: LoadImageAnimFromMemory(const char *, const unsigned char *, int, int *) => Image
+  const _LoadImageAnimFromMemory = mod.cwrap('LoadImageAnimFromMemory', 'void', ['pointer', 'string', 'pointer', 'number', 'pointer'])
+  raylib.LoadImageAnimFromMemory = (fileType, fileData, dataSize, frames) => {
+    const _ret = new raylib.Image()
+    _LoadImageAnimFromMemory(_ret._address, fileType, fileData._address, dataSize, frames._address)
     return _ret
   }
 
@@ -3651,9 +3952,9 @@ export async function raylib_run(canvas, userInit, userUpdate) {
     return _ret
   }
 
-  // Check if an image is ready: IsImageReady(Image) => bool
-  const _IsImageReady = mod.cwrap('IsImageReady', 'boolean', ['pointer'])
-  raylib.IsImageReady = (image) => _IsImageReady(image._address)
+  // Check if an image is valid (data and parameters): IsImageValid(Image) => bool
+  const _IsImageValid = mod.cwrap('IsImageValid', 'boolean', ['pointer'])
+  raylib.IsImageValid = (image) => _IsImageValid(image._address)
 
   // Unload image from CPU memory (RAM): UnloadImage(Image) => void
   const _UnloadImage = mod.cwrap('UnloadImage', 'pointer', ['pointer'])
@@ -3759,6 +4060,14 @@ export async function raylib_run(canvas, userInit, userUpdate) {
     return _ret
   }
 
+  // Create an image from a selected channel of another image (GRAYSCALE): ImageFromChannel(Image, int) => Image
+  const _ImageFromChannel = mod.cwrap('ImageFromChannel', 'void', ['pointer', 'pointer', 'number'])
+  raylib.ImageFromChannel = (image, selectedChannel) => {
+    const _ret = new raylib.Image()
+    _ImageFromChannel(_ret._address, image._address, selectedChannel)
+    return _ret
+  }
+
   // Create an image from text (default font): ImageText(const char *, int, Color) => Image
   const _ImageText = mod.cwrap('ImageText', 'void', ['pointer', 'string', 'number', 'pointer'])
   raylib.ImageText = (text, fontSize, color) => {
@@ -3806,6 +4115,10 @@ export async function raylib_run(canvas, userInit, userUpdate) {
   // Apply Gaussian blur using a box blur approximation: ImageBlurGaussian(Image *, int) => void
   const _ImageBlurGaussian = mod.cwrap('ImageBlurGaussian', 'pointer', ['pointer', 'number'])
   raylib.ImageBlurGaussian = (image, blurSize) => _ImageBlurGaussian(image._address, blurSize)
+
+  // Apply custom square convolution kernel to image: ImageKernelConvolution(Image *, const float *, int) => void
+  const _ImageKernelConvolution = mod.cwrap('ImageKernelConvolution', 'pointer', ['pointer', 'pointer', 'number'])
+  raylib.ImageKernelConvolution = (image, kernel, kernelSize) => _ImageKernelConvolution(image._address, kernel._address, kernelSize)
 
   // Resize image (Bicubic scaling algorithm): ImageResize(Image *, int, int) => void
   const _ImageResize = mod.cwrap('ImageResize', 'pointer', ['pointer', 'number', 'number'])
@@ -3931,6 +4244,10 @@ export async function raylib_run(canvas, userInit, userUpdate) {
   const _ImageDrawLineV = mod.cwrap('ImageDrawLineV', 'pointer', ['pointer', 'pointer', 'pointer', 'pointer'])
   raylib.ImageDrawLineV = (dst, start, end, color) => _ImageDrawLineV(dst._address, start._address, end._address, color._address)
 
+  // Draw a line defining thickness within an image: ImageDrawLineEx(Image *, Vector2, Vector2, int, Color) => void
+  const _ImageDrawLineEx = mod.cwrap('ImageDrawLineEx', 'pointer', ['pointer', 'pointer', 'pointer', 'number', 'pointer'])
+  raylib.ImageDrawLineEx = (dst, start, end, thick, color) => _ImageDrawLineEx(dst._address, start._address, end._address, thick, color._address)
+
   // Draw a filled circle within an image: ImageDrawCircle(Image *, int, int, int, Color) => void
   const _ImageDrawCircle = mod.cwrap('ImageDrawCircle', 'pointer', ['pointer', 'number', 'number', 'number', 'pointer'])
   raylib.ImageDrawCircle = (dst, centerX, centerY, radius, color) => _ImageDrawCircle(dst._address, centerX, centerY, radius, color._address)
@@ -3962,6 +4279,26 @@ export async function raylib_run(canvas, userInit, userUpdate) {
   // Draw rectangle lines within an image: ImageDrawRectangleLines(Image *, Rectangle, int, Color) => void
   const _ImageDrawRectangleLines = mod.cwrap('ImageDrawRectangleLines', 'pointer', ['pointer', 'pointer', 'number', 'pointer'])
   raylib.ImageDrawRectangleLines = (dst, rec, thick, color) => _ImageDrawRectangleLines(dst._address, rec._address, thick, color._address)
+
+  // Draw triangle within an image: ImageDrawTriangle(Image *, Vector2, Vector2, Vector2, Color) => void
+  const _ImageDrawTriangle = mod.cwrap('ImageDrawTriangle', 'pointer', ['pointer', 'pointer', 'pointer', 'pointer', 'pointer'])
+  raylib.ImageDrawTriangle = (dst, v1, v2, v3, color) => _ImageDrawTriangle(dst._address, v1._address, v2._address, v3._address, color._address)
+
+  // Draw triangle with interpolated colors within an image: ImageDrawTriangleEx(Image *, Vector2, Vector2, Vector2, Color, Color, Color) => void
+  const _ImageDrawTriangleEx = mod.cwrap('ImageDrawTriangleEx', 'pointer', ['pointer', 'pointer', 'pointer', 'pointer', 'pointer', 'pointer', 'pointer'])
+  raylib.ImageDrawTriangleEx = (dst, v1, v2, v3, c1, c2, c3) => _ImageDrawTriangleEx(dst._address, v1._address, v2._address, v3._address, c1._address, c2._address, c3._address)
+
+  // Draw triangle outline within an image: ImageDrawTriangleLines(Image *, Vector2, Vector2, Vector2, Color) => void
+  const _ImageDrawTriangleLines = mod.cwrap('ImageDrawTriangleLines', 'pointer', ['pointer', 'pointer', 'pointer', 'pointer', 'pointer'])
+  raylib.ImageDrawTriangleLines = (dst, v1, v2, v3, color) => _ImageDrawTriangleLines(dst._address, v1._address, v2._address, v3._address, color._address)
+
+  // Draw a triangle fan defined by points within an image (first vertex is the center): ImageDrawTriangleFan(Image *, Vector2 *, int, Color) => void
+  const _ImageDrawTriangleFan = mod.cwrap('ImageDrawTriangleFan', 'pointer', ['pointer', 'pointer', 'number', 'pointer'])
+  raylib.ImageDrawTriangleFan = (dst, points, pointCount, color) => _ImageDrawTriangleFan(dst._address, points._address, pointCount, color._address)
+
+  // Draw a triangle strip defined by points within an image: ImageDrawTriangleStrip(Image *, Vector2 *, int, Color) => void
+  const _ImageDrawTriangleStrip = mod.cwrap('ImageDrawTriangleStrip', 'pointer', ['pointer', 'pointer', 'number', 'pointer'])
+  raylib.ImageDrawTriangleStrip = (dst, points, pointCount, color) => _ImageDrawTriangleStrip(dst._address, points._address, pointCount, color._address)
 
   // Draw a source image within a destination image (tint applied to source): ImageDraw(Image *, Image, Rectangle, Rectangle, Color) => void
   const _ImageDraw = mod.cwrap('ImageDraw', 'pointer', ['pointer', 'pointer', 'pointer', 'pointer', 'pointer'])
@@ -4008,17 +4345,17 @@ export async function raylib_run(canvas, userInit, userUpdate) {
     return _ret
   }
 
-  // Check if a texture is ready: IsTextureReady(Texture2D) => bool
-  const _IsTextureReady = mod.cwrap('IsTextureReady', 'boolean', ['pointer'])
-  raylib.IsTextureReady = (texture) => _IsTextureReady(texture._address)
+  // Check if a texture is valid (loaded in GPU): IsTextureValid(Texture2D) => bool
+  const _IsTextureValid = mod.cwrap('IsTextureValid', 'boolean', ['pointer'])
+  raylib.IsTextureValid = (texture) => _IsTextureValid(texture._address)
 
   // Unload texture from GPU memory (VRAM): UnloadTexture(Texture2D) => void
   const _UnloadTexture = mod.cwrap('UnloadTexture', 'pointer', ['pointer'])
   raylib.UnloadTexture = (texture) => _UnloadTexture(texture._address)
 
-  // Check if a render texture is ready: IsRenderTextureReady(RenderTexture2D) => bool
-  const _IsRenderTextureReady = mod.cwrap('IsRenderTextureReady', 'boolean', ['pointer'])
-  raylib.IsRenderTextureReady = (target) => _IsRenderTextureReady(target._address)
+  // Check if a render texture is valid (loaded in GPU): IsRenderTextureValid(RenderTexture2D) => bool
+  const _IsRenderTextureValid = mod.cwrap('IsRenderTextureValid', 'boolean', ['pointer'])
+  raylib.IsRenderTextureValid = (target) => _IsRenderTextureValid(target._address)
 
   // Unload render texture from GPU memory (VRAM): UnloadRenderTexture(RenderTexture2D) => void
   const _UnloadRenderTexture = mod.cwrap('UnloadRenderTexture', 'pointer', ['pointer'])
@@ -4068,6 +4405,10 @@ export async function raylib_run(canvas, userInit, userUpdate) {
   const _DrawTextureNPatch = mod.cwrap('DrawTextureNPatch', 'pointer', ['pointer', 'pointer', 'pointer', 'pointer', 'number', 'pointer'])
   raylib.DrawTextureNPatch = (texture, nPatchInfo, dest, origin, rotation, tint) => _DrawTextureNPatch(texture._address, nPatchInfo._address, dest._address, origin._address, rotation, tint._address)
 
+  // Check if two colors are equal: ColorIsEqual(Color, Color) => bool
+  const _ColorIsEqual = mod.cwrap('ColorIsEqual', 'boolean', ['pointer', 'pointer'])
+  raylib.ColorIsEqual = (col1, col2) => _ColorIsEqual(col1._address, col2._address)
+
   // Get color with alpha applied, alpha goes from 0.0f to 1.0f: Fade(Color, float) => Color
   const _Fade = mod.cwrap('Fade', 'void', ['pointer', 'pointer', 'number'])
   raylib.Fade = (color, alpha) => {
@@ -4076,7 +4417,7 @@ export async function raylib_run(canvas, userInit, userUpdate) {
     return _ret
   }
 
-  // Get hexadecimal value for a Color: ColorToInt(Color) => int
+  // Get hexadecimal value for a Color (0xRRGGBBAA): ColorToInt(Color) => int
   const _ColorToInt = mod.cwrap('ColorToInt', 'number', ['pointer'])
   raylib.ColorToInt = (color) => _ColorToInt(color._address)
 
@@ -4152,6 +4493,14 @@ export async function raylib_run(canvas, userInit, userUpdate) {
     return _ret
   }
 
+  // Get color lerp interpolation between two colors, factor [0.0f..1.0f]: ColorLerp(Color, Color, float) => Color
+  const _ColorLerp = mod.cwrap('ColorLerp', 'void', ['pointer', 'pointer', 'pointer', 'number'])
+  raylib.ColorLerp = (color1, color2, factor) => {
+    const _ret = new raylib.Color()
+    _ColorLerp(_ret._address, color1._address, color2._address, factor)
+    return _ret
+  }
+
   // Get Color structure from hexadecimal value: GetColor(unsigned int) => Color
   const _GetColor = mod.cwrap('GetColor', 'void', ['pointer', 'number'])
   raylib.GetColor = (hexValue) => {
@@ -4193,7 +4542,7 @@ export async function raylib_run(canvas, userInit, userUpdate) {
     return _ret
   }
 
-  // Load font from file with extended parameters, use NULL for codepoints and 0 for codepointCount to load the default character setFont: LoadFontEx(const char *, int, int *, int) => Font
+  // Load font from file with extended parameters, use NULL for codepoints and 0 for codepointCount to load the default character set, font size is provided in pixels height: LoadFontEx(const char *, int, int *, int) => Font
   const _LoadFontEx = mod.cwrap('LoadFontEx', 'void', ['pointer', 'string', 'number', 'pointer', 'number'])
   raylib.LoadFontEx = async (fileName, fontSize, codepoints, codepointCount, skipLoad) => {
     !skipLoad && await raylib.addFile(fileName)
@@ -4218,9 +4567,9 @@ export async function raylib_run(canvas, userInit, userUpdate) {
     return _ret
   }
 
-  // Check if a font is ready: IsFontReady(Font) => bool
-  const _IsFontReady = mod.cwrap('IsFontReady', 'boolean', ['pointer'])
-  raylib.IsFontReady = (font) => _IsFontReady(font._address)
+  // Check if a font is valid (font data loaded, WARNING: GPU texture not checked): IsFontValid(Font) => bool
+  const _IsFontValid = mod.cwrap('IsFontValid', 'boolean', ['pointer'])
+  raylib.IsFontValid = (font) => _IsFontValid(font._address)
 
   // Load font data for further use: LoadFontData(const unsigned char *, int, int, int *, int, int) => GlyphInfo *
   const _LoadFontData = mod.cwrap('LoadFontData', 'void', ['pointer', 'pointer', 'number', 'number', 'pointer', 'number', 'number'])
@@ -4366,7 +4715,7 @@ export async function raylib_run(canvas, userInit, userUpdate) {
   const _TextSubtext = mod.cwrap('TextSubtext', 'string', ['string', 'number', 'number'])
   raylib.TextSubtext = (text, position, length) => _TextSubtext(text, position, length)
 
-  // Replace text string (WARNING: memory must be freed!): TextReplace(char *, const char *, const char *) => char *
+  // Replace text string (WARNING: memory must be freed!): TextReplace(const char *, const char *, const char *) => char *
   const _TextReplace = mod.cwrap('TextReplace', 'string', ['string', 'string', 'string'])
   raylib.TextReplace = (text, replace, by) => _TextReplace(text, replace, by)
 
@@ -4402,9 +4751,21 @@ export async function raylib_run(canvas, userInit, userUpdate) {
   const _TextToPascal = mod.cwrap('TextToPascal', 'string', ['string'])
   raylib.TextToPascal = (text) => _TextToPascal(text)
 
+  // Get Snake case notation version of provided string: TextToSnake(const char *) => const char *
+  const _TextToSnake = mod.cwrap('TextToSnake', 'string', ['string'])
+  raylib.TextToSnake = (text) => _TextToSnake(text)
+
+  // Get Camel case notation version of provided string: TextToCamel(const char *) => const char *
+  const _TextToCamel = mod.cwrap('TextToCamel', 'string', ['string'])
+  raylib.TextToCamel = (text) => _TextToCamel(text)
+
   // Get integer value from text (negative values not supported): TextToInteger(const char *) => int
   const _TextToInteger = mod.cwrap('TextToInteger', 'number', ['string'])
   raylib.TextToInteger = (text) => _TextToInteger(text)
+
+  // Get float value from text (negative values not supported): TextToFloat(const char *) => float
+  const _TextToFloat = mod.cwrap('TextToFloat', 'number', ['string'])
+  raylib.TextToFloat = (text) => _TextToFloat(text)
 
   // Draw a line in 3D world space: DrawLine3D(Vector3, Vector3, Color) => void
   const _DrawLine3D = mod.cwrap('DrawLine3D', 'pointer', ['pointer', 'pointer', 'pointer'])
@@ -4422,7 +4783,7 @@ export async function raylib_run(canvas, userInit, userUpdate) {
   const _DrawTriangle3D = mod.cwrap('DrawTriangle3D', 'pointer', ['pointer', 'pointer', 'pointer', 'pointer'])
   raylib.DrawTriangle3D = (v1, v2, v3, color) => _DrawTriangle3D(v1._address, v2._address, v3._address, color._address)
 
-  // Draw a triangle strip defined by points: DrawTriangleStrip3D(Vector3 *, int, Color) => void
+  // Draw a triangle strip defined by points: DrawTriangleStrip3D(const Vector3 *, int, Color) => void
   const _DrawTriangleStrip3D = mod.cwrap('DrawTriangleStrip3D', 'pointer', ['pointer', 'number', 'pointer'])
   raylib.DrawTriangleStrip3D = (points, pointCount, color) => _DrawTriangleStrip3D(points._address, pointCount, color._address)
 
@@ -4507,9 +4868,9 @@ export async function raylib_run(canvas, userInit, userUpdate) {
     return _ret
   }
 
-  // Check if a model is ready: IsModelReady(Model) => bool
-  const _IsModelReady = mod.cwrap('IsModelReady', 'boolean', ['pointer'])
-  raylib.IsModelReady = (model) => _IsModelReady(model._address)
+  // Check if a model is valid (loaded in GPU, VAO/VBOs): IsModelValid(Model) => bool
+  const _IsModelValid = mod.cwrap('IsModelValid', 'boolean', ['pointer'])
+  raylib.IsModelValid = (model) => _IsModelValid(model._address)
 
   // Unload model (including meshes) from memory (RAM and/or VRAM): UnloadModel(Model) => void
   const _UnloadModel = mod.cwrap('UnloadModel', 'pointer', ['pointer'])
@@ -4539,13 +4900,21 @@ export async function raylib_run(canvas, userInit, userUpdate) {
   const _DrawModelWiresEx = mod.cwrap('DrawModelWiresEx', 'pointer', ['pointer', 'pointer', 'pointer', 'number', 'pointer', 'pointer'])
   raylib.DrawModelWiresEx = (model, position, rotationAxis, rotationAngle, scale, tint) => _DrawModelWiresEx(model._address, position._address, rotationAxis._address, rotationAngle, scale._address, tint._address)
 
+  // Draw a model as points: DrawModelPoints(Model, Vector3, float, Color) => void
+  const _DrawModelPoints = mod.cwrap('DrawModelPoints', 'pointer', ['pointer', 'pointer', 'number', 'pointer'])
+  raylib.DrawModelPoints = (model, position, scale, tint) => _DrawModelPoints(model._address, position._address, scale, tint._address)
+
+  // Draw a model as points with extended parameters: DrawModelPointsEx(Model, Vector3, Vector3, float, Vector3, Color) => void
+  const _DrawModelPointsEx = mod.cwrap('DrawModelPointsEx', 'pointer', ['pointer', 'pointer', 'pointer', 'number', 'pointer', 'pointer'])
+  raylib.DrawModelPointsEx = (model, position, rotationAxis, rotationAngle, scale, tint) => _DrawModelPointsEx(model._address, position._address, rotationAxis._address, rotationAngle, scale._address, tint._address)
+
   // Draw bounding box (wires): DrawBoundingBox(BoundingBox, Color) => void
   const _DrawBoundingBox = mod.cwrap('DrawBoundingBox', 'pointer', ['pointer', 'pointer'])
   raylib.DrawBoundingBox = (box, color) => _DrawBoundingBox(box._address, color._address)
 
   // Draw a billboard texture: DrawBillboard(Camera, Texture2D, Vector3, float, Color) => void
   const _DrawBillboard = mod.cwrap('DrawBillboard', 'pointer', ['pointer', 'pointer', 'pointer', 'number', 'pointer'])
-  raylib.DrawBillboard = (camera, texture, position, size, tint) => _DrawBillboard(camera._address, texture._address, position._address, size, tint._address)
+  raylib.DrawBillboard = (camera, texture, position, scale, tint) => _DrawBillboard(camera._address, texture._address, position._address, scale, tint._address)
 
   // Draw a billboard texture defined by source: DrawBillboardRec(Camera, Texture2D, Rectangle, Vector3, Vector2, Color) => void
   const _DrawBillboardRec = mod.cwrap('DrawBillboardRec', 'pointer', ['pointer', 'pointer', 'pointer', 'pointer', 'pointer', 'pointer'])
@@ -4575,10 +4944,6 @@ export async function raylib_run(canvas, userInit, userUpdate) {
   const _DrawMeshInstanced = mod.cwrap('DrawMeshInstanced', 'pointer', ['pointer', 'pointer', 'pointer', 'number'])
   raylib.DrawMeshInstanced = (mesh, material, transforms, instances) => _DrawMeshInstanced(mesh._address, material._address, transforms._address, instances)
 
-  // Export mesh data to file, returns true on success: ExportMesh(Mesh, const char *) => bool
-  const _ExportMesh = mod.cwrap('ExportMesh', 'boolean', ['pointer', 'string'])
-  raylib.ExportMesh = (mesh, fileName) => _ExportMesh(mesh._address, fileName)
-
   // Compute mesh bounding box limits: GetMeshBoundingBox(Mesh) => BoundingBox
   const _GetMeshBoundingBox = mod.cwrap('GetMeshBoundingBox', 'void', ['pointer', 'pointer'])
   raylib.GetMeshBoundingBox = (mesh) => {
@@ -4590,6 +4955,14 @@ export async function raylib_run(canvas, userInit, userUpdate) {
   // Compute mesh tangents: GenMeshTangents(Mesh *) => void
   const _GenMeshTangents = mod.cwrap('GenMeshTangents', 'pointer', ['pointer'])
   raylib.GenMeshTangents = (mesh) => _GenMeshTangents(mesh._address)
+
+  // Export mesh data to file, returns true on success: ExportMesh(Mesh, const char *) => bool
+  const _ExportMesh = mod.cwrap('ExportMesh', 'boolean', ['pointer', 'string'])
+  raylib.ExportMesh = (mesh, fileName) => _ExportMesh(mesh._address, fileName)
+
+  // Export mesh as code file (.h) defining multiple arrays of vertex attributes: ExportMeshAsCode(Mesh, const char *) => bool
+  const _ExportMeshAsCode = mod.cwrap('ExportMeshAsCode', 'boolean', ['pointer', 'string'])
+  raylib.ExportMeshAsCode = (mesh, fileName) => _ExportMeshAsCode(mesh._address, fileName)
 
   // Generate polygonal mesh: GenMeshPoly(int, float) => Mesh
   const _GenMeshPoly = mod.cwrap('GenMeshPoly', 'void', ['pointer', 'number', 'number'])
@@ -4696,9 +5069,9 @@ export async function raylib_run(canvas, userInit, userUpdate) {
     return _ret
   }
 
-  // Check if a material is ready: IsMaterialReady(Material) => bool
-  const _IsMaterialReady = mod.cwrap('IsMaterialReady', 'boolean', ['pointer'])
-  raylib.IsMaterialReady = (material) => _IsMaterialReady(material._address)
+  // Check if a material is valid (shader assigned, map textures loaded in GPU): IsMaterialValid(Material) => bool
+  const _IsMaterialValid = mod.cwrap('IsMaterialValid', 'boolean', ['pointer'])
+  raylib.IsMaterialValid = (material) => _IsMaterialValid(material._address)
 
   // Unload material from GPU memory (VRAM): UnloadMaterial(Material) => void
   const _UnloadMaterial = mod.cwrap('UnloadMaterial', 'pointer', ['pointer'])
@@ -4721,9 +5094,13 @@ export async function raylib_run(canvas, userInit, userUpdate) {
     return _ret
   }
 
-  // Update model animation pose: UpdateModelAnimation(Model, ModelAnimation, int) => void
+  // Update model animation pose (CPU): UpdateModelAnimation(Model, ModelAnimation, int) => void
   const _UpdateModelAnimation = mod.cwrap('UpdateModelAnimation', 'pointer', ['pointer', 'pointer', 'number'])
   raylib.UpdateModelAnimation = (model, anim, frame) => _UpdateModelAnimation(model._address, anim._address, frame)
+
+  // Update model animation mesh bone matrices (GPU skinning): UpdateModelAnimationBones(Model, ModelAnimation, int) => void
+  const _UpdateModelAnimationBones = mod.cwrap('UpdateModelAnimationBones', 'pointer', ['pointer', 'pointer', 'number'])
+  raylib.UpdateModelAnimationBones = (model, anim, frame) => _UpdateModelAnimationBones(model._address, anim._address, frame)
 
   // Unload animation data: UnloadModelAnimation(ModelAnimation) => void
   const _UnloadModelAnimation = mod.cwrap('UnloadModelAnimation', 'pointer', ['pointer'])
@@ -4805,6 +5182,10 @@ export async function raylib_run(canvas, userInit, userUpdate) {
   const _SetMasterVolume = mod.cwrap('SetMasterVolume', 'pointer', ['number'])
   raylib.SetMasterVolume = (volume) => _SetMasterVolume(volume)
 
+  // Get master volume (listener): GetMasterVolume() => float
+  const _GetMasterVolume = mod.cwrap('GetMasterVolume', 'number', [])
+  raylib.GetMasterVolume = () => _GetMasterVolume()
+
   // Load wave data from file: LoadWave(const char *) => Wave
   const _LoadWave = mod.cwrap('LoadWave', 'void', ['pointer', 'string'])
   raylib.LoadWave = async (fileName, skipLoad) => {
@@ -4822,9 +5203,9 @@ export async function raylib_run(canvas, userInit, userUpdate) {
     return _ret
   }
 
-  // Checks if wave data is ready: IsWaveReady(Wave) => bool
-  const _IsWaveReady = mod.cwrap('IsWaveReady', 'boolean', ['pointer'])
-  raylib.IsWaveReady = (wave) => _IsWaveReady(wave._address)
+  // Checks if wave data is valid (data loaded and parameters): IsWaveValid(Wave) => bool
+  const _IsWaveValid = mod.cwrap('IsWaveValid', 'boolean', ['pointer'])
+  raylib.IsWaveValid = (wave) => _IsWaveValid(wave._address)
 
   // Load sound from file: LoadSound(const char *) => Sound
   const _LoadSound = mod.cwrap('LoadSound', 'void', ['pointer', 'string'])
@@ -4851,9 +5232,9 @@ export async function raylib_run(canvas, userInit, userUpdate) {
     return _ret
   }
 
-  // Checks if a sound is ready: IsSoundReady(Sound) => bool
-  const _IsSoundReady = mod.cwrap('IsSoundReady', 'boolean', ['pointer'])
-  raylib.IsSoundReady = (sound) => _IsSoundReady(sound._address)
+  // Checks if a sound is valid (data loaded and buffers initialized): IsSoundValid(Sound) => bool
+  const _IsSoundValid = mod.cwrap('IsSoundValid', 'boolean', ['pointer'])
+  raylib.IsSoundValid = (sound) => _IsSoundValid(sound._address)
 
   // Update sound buffer with new data: UpdateSound(Sound, const void *, int) => void
   const _UpdateSound = mod.cwrap('UpdateSound', 'pointer', ['pointer', 'pointer', 'number'])
@@ -4919,9 +5300,9 @@ export async function raylib_run(canvas, userInit, userUpdate) {
     return _ret
   }
 
-  // Crop a wave to defined samples range: WaveCrop(Wave *, int, int) => void
+  // Crop a wave to defined frames range: WaveCrop(Wave *, int, int) => void
   const _WaveCrop = mod.cwrap('WaveCrop', 'pointer', ['pointer', 'number', 'number'])
-  raylib.WaveCrop = (wave, initSample, finalSample) => _WaveCrop(wave._address, initSample, finalSample)
+  raylib.WaveCrop = (wave, initFrame, finalFrame) => _WaveCrop(wave._address, initFrame, finalFrame)
 
   // Convert wave data to desired format: WaveFormat(Wave *, int, int, int) => void
   const _WaveFormat = mod.cwrap('WaveFormat', 'pointer', ['pointer', 'number', 'number', 'number'])
@@ -4952,9 +5333,9 @@ export async function raylib_run(canvas, userInit, userUpdate) {
     return _ret
   }
 
-  // Checks if a music stream is ready: IsMusicReady(Music) => bool
-  const _IsMusicReady = mod.cwrap('IsMusicReady', 'boolean', ['pointer'])
-  raylib.IsMusicReady = (music) => _IsMusicReady(music._address)
+  // Checks if a music stream is valid (context and buffers initialized): IsMusicValid(Music) => bool
+  const _IsMusicValid = mod.cwrap('IsMusicValid', 'boolean', ['pointer'])
+  raylib.IsMusicValid = (music) => _IsMusicValid(music._address)
 
   // Unload music stream: UnloadMusicStream(Music) => void
   const _UnloadMusicStream = mod.cwrap('UnloadMusicStream', 'pointer', ['pointer'])
@@ -5016,9 +5397,9 @@ export async function raylib_run(canvas, userInit, userUpdate) {
     return _ret
   }
 
-  // Checks if an audio stream is ready: IsAudioStreamReady(AudioStream) => bool
-  const _IsAudioStreamReady = mod.cwrap('IsAudioStreamReady', 'boolean', ['pointer'])
-  raylib.IsAudioStreamReady = (stream) => _IsAudioStreamReady(stream._address)
+  // Checks if an audio stream is valid (buffers initialized): IsAudioStreamValid(AudioStream) => bool
+  const _IsAudioStreamValid = mod.cwrap('IsAudioStreamValid', 'boolean', ['pointer'])
+  raylib.IsAudioStreamValid = (stream) => _IsAudioStreamValid(stream._address)
 
   // Unload audio stream and free memory: UnloadAudioStream(AudioStream) => void
   const _UnloadAudioStream = mod.cwrap('UnloadAudioStream', 'pointer', ['pointer'])
@@ -5072,7 +5453,7 @@ export async function raylib_run(canvas, userInit, userUpdate) {
   const _SetAudioStreamCallback = mod.cwrap('SetAudioStreamCallback', 'pointer', ['pointer', 'pointer'])
   raylib.SetAudioStreamCallback = (stream, callback) => _SetAudioStreamCallback(stream._address, callback._address)
 
-  // Attach audio stream processor to stream, receives the samples as <float>s: AttachAudioStreamProcessor(AudioStream, AudioCallback) => void
+  // Attach audio stream processor to stream, receives the samples as 'float': AttachAudioStreamProcessor(AudioStream, AudioCallback) => void
   const _AttachAudioStreamProcessor = mod.cwrap('AttachAudioStreamProcessor', 'pointer', ['pointer', 'pointer'])
   raylib.AttachAudioStreamProcessor = (stream, processor) => _AttachAudioStreamProcessor(stream._address, processor._address)
 
@@ -5080,7 +5461,7 @@ export async function raylib_run(canvas, userInit, userUpdate) {
   const _DetachAudioStreamProcessor = mod.cwrap('DetachAudioStreamProcessor', 'pointer', ['pointer', 'pointer'])
   raylib.DetachAudioStreamProcessor = (stream, processor) => _DetachAudioStreamProcessor(stream._address, processor._address)
 
-  // Attach audio stream processor to the entire audio pipeline, receives the samples as <float>s: AttachAudioMixedProcessor(AudioCallback) => void
+  // Attach audio stream processor to the entire audio pipeline, receives the samples as 'float': AttachAudioMixedProcessor(AudioCallback) => void
   const _AttachAudioMixedProcessor = mod.cwrap('AttachAudioMixedProcessor', 'pointer', ['pointer'])
   raylib.AttachAudioMixedProcessor = (processor) => _AttachAudioMixedProcessor(processor._address)
 
@@ -5756,7 +6137,7 @@ export function raylib_run_string(canvas, userCode) {
       return
     }
 
-    let free,addFile,globalize,mod,Vector2,Vector3,Vector4,Matrix,Color,Rectangle,Image,Texture,RenderTexture,NPatchInfo,GlyphInfo,Font,Camera3D,Camera2D,Mesh,Shader,MaterialMap,Material,Transform,BoneInfo,Model,ModelAnimation,Ray,RayCollision,BoundingBox,Wave,AudioStream,Sound,Music,VrDeviceInfo,VrStereoConfig,FilePathList,Texture2D,GuiStyleProp,GuiTextStyle,Quaternion,TextureCubemap,RenderTexture2D,Camera,FLAG_VSYNC_HINT,FLAG_FULLSCREEN_MODE,FLAG_WINDOW_RESIZABLE,FLAG_WINDOW_UNDECORATED,FLAG_WINDOW_HIDDEN,FLAG_WINDOW_MINIMIZED,FLAG_WINDOW_MAXIMIZED,FLAG_WINDOW_UNFOCUSED,FLAG_WINDOW_TOPMOST,FLAG_WINDOW_ALWAYS_RUN,FLAG_WINDOW_TRANSPARENT,FLAG_WINDOW_HIGHDPI,FLAG_WINDOW_MOUSE_PASSTHROUGH,FLAG_BORDERLESS_WINDOWED_MODE,FLAG_MSAA_4X_HINT,FLAG_INTERLACED_HINT,LOG_ALL,LOG_TRACE,LOG_DEBUG,LOG_INFO,LOG_WARNING,LOG_ERROR,LOG_FATAL,LOG_NONE,KEY_NULL,KEY_APOSTROPHE,KEY_COMMA,KEY_MINUS,KEY_PERIOD,KEY_SLASH,KEY_ZERO,KEY_ONE,KEY_TWO,KEY_THREE,KEY_FOUR,KEY_FIVE,KEY_SIX,KEY_SEVEN,KEY_EIGHT,KEY_NINE,KEY_SEMICOLON,KEY_EQUAL,KEY_A,KEY_B,KEY_C,KEY_D,KEY_E,KEY_F,KEY_G,KEY_H,KEY_I,KEY_J,KEY_K,KEY_L,KEY_M,KEY_N,KEY_O,KEY_P,KEY_Q,KEY_R,KEY_S,KEY_T,KEY_U,KEY_V,KEY_W,KEY_X,KEY_Y,KEY_Z,KEY_LEFT_BRACKET,KEY_BACKSLASH,KEY_RIGHT_BRACKET,KEY_GRAVE,KEY_SPACE,KEY_ESCAPE,KEY_ENTER,KEY_TAB,KEY_BACKSPACE,KEY_INSERT,KEY_DELETE,KEY_RIGHT,KEY_LEFT,KEY_DOWN,KEY_UP,KEY_PAGE_UP,KEY_PAGE_DOWN,KEY_HOME,KEY_END,KEY_CAPS_LOCK,KEY_SCROLL_LOCK,KEY_NUM_LOCK,KEY_PRINT_SCREEN,KEY_PAUSE,KEY_F1,KEY_F2,KEY_F3,KEY_F4,KEY_F5,KEY_F6,KEY_F7,KEY_F8,KEY_F9,KEY_F10,KEY_F11,KEY_F12,KEY_LEFT_SHIFT,KEY_LEFT_CONTROL,KEY_LEFT_ALT,KEY_LEFT_SUPER,KEY_RIGHT_SHIFT,KEY_RIGHT_CONTROL,KEY_RIGHT_ALT,KEY_RIGHT_SUPER,KEY_KB_MENU,KEY_KP_0,KEY_KP_1,KEY_KP_2,KEY_KP_3,KEY_KP_4,KEY_KP_5,KEY_KP_6,KEY_KP_7,KEY_KP_8,KEY_KP_9,KEY_KP_DECIMAL,KEY_KP_DIVIDE,KEY_KP_MULTIPLY,KEY_KP_SUBTRACT,KEY_KP_ADD,KEY_KP_ENTER,KEY_KP_EQUAL,KEY_BACK,KEY_MENU,KEY_VOLUME_UP,KEY_VOLUME_DOWN,MOUSE_BUTTON_LEFT,MOUSE_BUTTON_RIGHT,MOUSE_BUTTON_MIDDLE,MOUSE_BUTTON_SIDE,MOUSE_BUTTON_EXTRA,MOUSE_BUTTON_FORWARD,MOUSE_BUTTON_BACK,MOUSE_CURSOR_DEFAULT,MOUSE_CURSOR_ARROW,MOUSE_CURSOR_IBEAM,MOUSE_CURSOR_CROSSHAIR,MOUSE_CURSOR_POINTING_HAND,MOUSE_CURSOR_RESIZE_EW,MOUSE_CURSOR_RESIZE_NS,MOUSE_CURSOR_RESIZE_NWSE,MOUSE_CURSOR_RESIZE_NESW,MOUSE_CURSOR_RESIZE_ALL,MOUSE_CURSOR_NOT_ALLOWED,GAMEPAD_BUTTON_UNKNOWN,GAMEPAD_BUTTON_LEFT_FACE_UP,GAMEPAD_BUTTON_LEFT_FACE_RIGHT,GAMEPAD_BUTTON_LEFT_FACE_DOWN,GAMEPAD_BUTTON_LEFT_FACE_LEFT,GAMEPAD_BUTTON_RIGHT_FACE_UP,GAMEPAD_BUTTON_RIGHT_FACE_RIGHT,GAMEPAD_BUTTON_RIGHT_FACE_DOWN,GAMEPAD_BUTTON_RIGHT_FACE_LEFT,GAMEPAD_BUTTON_LEFT_TRIGGER_1,GAMEPAD_BUTTON_LEFT_TRIGGER_2,GAMEPAD_BUTTON_RIGHT_TRIGGER_1,GAMEPAD_BUTTON_RIGHT_TRIGGER_2,GAMEPAD_BUTTON_MIDDLE_LEFT,GAMEPAD_BUTTON_MIDDLE,GAMEPAD_BUTTON_MIDDLE_RIGHT,GAMEPAD_BUTTON_LEFT_THUMB,GAMEPAD_BUTTON_RIGHT_THUMB,GAMEPAD_AXIS_LEFT_X,GAMEPAD_AXIS_LEFT_Y,GAMEPAD_AXIS_RIGHT_X,GAMEPAD_AXIS_RIGHT_Y,GAMEPAD_AXIS_LEFT_TRIGGER,GAMEPAD_AXIS_RIGHT_TRIGGER,MATERIAL_MAP_ALBEDO,MATERIAL_MAP_METALNESS,MATERIAL_MAP_NORMAL,MATERIAL_MAP_ROUGHNESS,MATERIAL_MAP_OCCLUSION,MATERIAL_MAP_EMISSION,MATERIAL_MAP_HEIGHT,MATERIAL_MAP_CUBEMAP,MATERIAL_MAP_IRRADIANCE,MATERIAL_MAP_PREFILTER,MATERIAL_MAP_BRDF,SHADER_LOC_VERTEX_POSITION,SHADER_LOC_VERTEX_TEXCOORD01,SHADER_LOC_VERTEX_TEXCOORD02,SHADER_LOC_VERTEX_NORMAL,SHADER_LOC_VERTEX_TANGENT,SHADER_LOC_VERTEX_COLOR,SHADER_LOC_MATRIX_MVP,SHADER_LOC_MATRIX_VIEW,SHADER_LOC_MATRIX_PROJECTION,SHADER_LOC_MATRIX_MODEL,SHADER_LOC_MATRIX_NORMAL,SHADER_LOC_VECTOR_VIEW,SHADER_LOC_COLOR_DIFFUSE,SHADER_LOC_COLOR_SPECULAR,SHADER_LOC_COLOR_AMBIENT,SHADER_LOC_MAP_ALBEDO,SHADER_LOC_MAP_METALNESS,SHADER_LOC_MAP_NORMAL,SHADER_LOC_MAP_ROUGHNESS,SHADER_LOC_MAP_OCCLUSION,SHADER_LOC_MAP_EMISSION,SHADER_LOC_MAP_HEIGHT,SHADER_LOC_MAP_CUBEMAP,SHADER_LOC_MAP_IRRADIANCE,SHADER_LOC_MAP_PREFILTER,SHADER_LOC_MAP_BRDF,SHADER_UNIFORM_FLOAT,SHADER_UNIFORM_VEC2,SHADER_UNIFORM_VEC3,SHADER_UNIFORM_VEC4,SHADER_UNIFORM_INT,SHADER_UNIFORM_IVEC2,SHADER_UNIFORM_IVEC3,SHADER_UNIFORM_IVEC4,SHADER_UNIFORM_SAMPLER2D,SHADER_ATTRIB_FLOAT,SHADER_ATTRIB_VEC2,SHADER_ATTRIB_VEC3,SHADER_ATTRIB_VEC4,PIXELFORMAT_UNCOMPRESSED_GRAYSCALE,PIXELFORMAT_UNCOMPRESSED_GRAY_ALPHA,PIXELFORMAT_UNCOMPRESSED_R5G6B5,PIXELFORMAT_UNCOMPRESSED_R8G8B8,PIXELFORMAT_UNCOMPRESSED_R5G5B5A1,PIXELFORMAT_UNCOMPRESSED_R4G4B4A4,PIXELFORMAT_UNCOMPRESSED_R8G8B8A8,PIXELFORMAT_UNCOMPRESSED_R32,PIXELFORMAT_UNCOMPRESSED_R32G32B32,PIXELFORMAT_UNCOMPRESSED_R32G32B32A32,PIXELFORMAT_UNCOMPRESSED_R16,PIXELFORMAT_UNCOMPRESSED_R16G16B16,PIXELFORMAT_UNCOMPRESSED_R16G16B16A16,PIXELFORMAT_COMPRESSED_DXT1_RGB,PIXELFORMAT_COMPRESSED_DXT1_RGBA,PIXELFORMAT_COMPRESSED_DXT3_RGBA,PIXELFORMAT_COMPRESSED_DXT5_RGBA,PIXELFORMAT_COMPRESSED_ETC1_RGB,PIXELFORMAT_COMPRESSED_ETC2_RGB,PIXELFORMAT_COMPRESSED_ETC2_EAC_RGBA,PIXELFORMAT_COMPRESSED_PVRT_RGB,PIXELFORMAT_COMPRESSED_PVRT_RGBA,PIXELFORMAT_COMPRESSED_ASTC_4x4_RGBA,PIXELFORMAT_COMPRESSED_ASTC_8x8_RGBA,TEXTURE_FILTER_POINT,TEXTURE_FILTER_BILINEAR,TEXTURE_FILTER_TRILINEAR,TEXTURE_FILTER_ANISOTROPIC_4X,TEXTURE_FILTER_ANISOTROPIC_8X,TEXTURE_FILTER_ANISOTROPIC_16X,TEXTURE_WRAP_REPEAT,TEXTURE_WRAP_CLAMP,TEXTURE_WRAP_MIRROR_REPEAT,TEXTURE_WRAP_MIRROR_CLAMP,CUBEMAP_LAYOUT_AUTO_DETECT,CUBEMAP_LAYOUT_LINE_VERTICAL,CUBEMAP_LAYOUT_LINE_HORIZONTAL,CUBEMAP_LAYOUT_CROSS_THREE_BY_FOUR,CUBEMAP_LAYOUT_CROSS_FOUR_BY_THREE,CUBEMAP_LAYOUT_PANORAMA,FONT_DEFAULT,FONT_BITMAP,FONT_SDF,BLEND_ALPHA,BLEND_ADDITIVE,BLEND_MULTIPLIED,BLEND_ADD_COLORS,BLEND_SUBTRACT_COLORS,BLEND_ALPHA_PREMULTIPLY,BLEND_CUSTOM,BLEND_CUSTOM_SEPARATE,GESTURE_NONE,GESTURE_TAP,GESTURE_DOUBLETAP,GESTURE_HOLD,GESTURE_DRAG,GESTURE_SWIPE_RIGHT,GESTURE_SWIPE_LEFT,GESTURE_SWIPE_UP,GESTURE_SWIPE_DOWN,GESTURE_PINCH_IN,GESTURE_PINCH_OUT,CAMERA_CUSTOM,CAMERA_FREE,CAMERA_ORBITAL,CAMERA_FIRST_PERSON,CAMERA_THIRD_PERSON,CAMERA_PERSPECTIVE,CAMERA_ORTHOGRAPHIC,NPATCH_NINE_PATCH,NPATCH_THREE_PATCH_VERTICAL,NPATCH_THREE_PATCH_HORIZONTAL,STATE_NORMAL,STATE_FOCUSED,STATE_PRESSED,STATE_DISABLED,TEXT_ALIGN_LEFT,TEXT_ALIGN_CENTER,TEXT_ALIGN_RIGHT,TEXT_ALIGN_TOP,TEXT_ALIGN_MIDDLE,TEXT_ALIGN_BOTTOM,TEXT_WRAP_NONE,TEXT_WRAP_CHAR,TEXT_WRAP_WORD,DEFAULT,LABEL,BUTTON,TOGGLE,SLIDER,PROGRESSBAR,CHECKBOX,COMBOBOX,DROPDOWNBOX,TEXTBOX,VALUEBOX,SPINNER,LISTVIEW,COLORPICKER,SCROLLBAR,STATUSBAR,BORDER_COLOR_NORMAL,BASE_COLOR_NORMAL,TEXT_COLOR_NORMAL,BORDER_COLOR_FOCUSED,BASE_COLOR_FOCUSED,TEXT_COLOR_FOCUSED,BORDER_COLOR_PRESSED,BASE_COLOR_PRESSED,TEXT_COLOR_PRESSED,BORDER_COLOR_DISABLED,BASE_COLOR_DISABLED,TEXT_COLOR_DISABLED,BORDER_WIDTH,TEXT_PADDING,TEXT_ALIGNMENT,TEXT_SIZE,TEXT_SPACING,LINE_COLOR,BACKGROUND_COLOR,TEXT_LINE_SPACING,TEXT_ALIGNMENT_VERTICAL,TEXT_WRAP_MODE,GROUP_PADDING,SLIDER_WIDTH,SLIDER_PADDING,PROGRESS_PADDING,ARROWS_SIZE,ARROWS_VISIBLE,SCROLL_SLIDER_PADDING,SCROLL_SLIDER_SIZE,SCROLL_PADDING,SCROLL_SPEED,CHECK_PADDING,COMBO_BUTTON_WIDTH,COMBO_BUTTON_SPACING,ARROW_PADDING,DROPDOWN_ITEMS_SPACING,TEXT_READONLY,SPIN_BUTTON_WIDTH,SPIN_BUTTON_SPACING,LIST_ITEMS_HEIGHT,LIST_ITEMS_SPACING,SCROLLBAR_WIDTH,SCROLLBAR_SIDE,COLOR_SELECTOR_SIZE,HUEBAR_WIDTH,HUEBAR_PADDING,HUEBAR_SELECTOR_HEIGHT,HUEBAR_SELECTOR_OVERFLOW,ICON_NONE,ICON_FOLDER_FILE_OPEN,ICON_FILE_SAVE_CLASSIC,ICON_FOLDER_OPEN,ICON_FOLDER_SAVE,ICON_FILE_OPEN,ICON_FILE_SAVE,ICON_FILE_EXPORT,ICON_FILE_ADD,ICON_FILE_DELETE,ICON_FILETYPE_TEXT,ICON_FILETYPE_AUDIO,ICON_FILETYPE_IMAGE,ICON_FILETYPE_PLAY,ICON_FILETYPE_VIDEO,ICON_FILETYPE_INFO,ICON_FILE_COPY,ICON_FILE_CUT,ICON_FILE_PASTE,ICON_CURSOR_HAND,ICON_CURSOR_POINTER,ICON_CURSOR_CLASSIC,ICON_PENCIL,ICON_PENCIL_BIG,ICON_BRUSH_CLASSIC,ICON_BRUSH_PAINTER,ICON_WATER_DROP,ICON_COLOR_PICKER,ICON_RUBBER,ICON_COLOR_BUCKET,ICON_TEXT_T,ICON_TEXT_A,ICON_SCALE,ICON_RESIZE,ICON_FILTER_POINT,ICON_FILTER_BILINEAR,ICON_CROP,ICON_CROP_ALPHA,ICON_SQUARE_TOGGLE,ICON_SYMMETRY,ICON_SYMMETRY_HORIZONTAL,ICON_SYMMETRY_VERTICAL,ICON_LENS,ICON_LENS_BIG,ICON_EYE_ON,ICON_EYE_OFF,ICON_FILTER_TOP,ICON_FILTER,ICON_TARGET_POINT,ICON_TARGET_SMALL,ICON_TARGET_BIG,ICON_TARGET_MOVE,ICON_CURSOR_MOVE,ICON_CURSOR_SCALE,ICON_CURSOR_SCALE_RIGHT,ICON_CURSOR_SCALE_LEFT,ICON_UNDO,ICON_REDO,ICON_REREDO,ICON_MUTATE,ICON_ROTATE,ICON_REPEAT,ICON_SHUFFLE,ICON_EMPTYBOX,ICON_TARGET,ICON_TARGET_SMALL_FILL,ICON_TARGET_BIG_FILL,ICON_TARGET_MOVE_FILL,ICON_CURSOR_MOVE_FILL,ICON_CURSOR_SCALE_FILL,ICON_CURSOR_SCALE_RIGHT_FILL,ICON_CURSOR_SCALE_LEFT_FILL,ICON_UNDO_FILL,ICON_REDO_FILL,ICON_REREDO_FILL,ICON_MUTATE_FILL,ICON_ROTATE_FILL,ICON_REPEAT_FILL,ICON_SHUFFLE_FILL,ICON_EMPTYBOX_SMALL,ICON_BOX,ICON_BOX_TOP,ICON_BOX_TOP_RIGHT,ICON_BOX_RIGHT,ICON_BOX_BOTTOM_RIGHT,ICON_BOX_BOTTOM,ICON_BOX_BOTTOM_LEFT,ICON_BOX_LEFT,ICON_BOX_TOP_LEFT,ICON_BOX_CENTER,ICON_BOX_CIRCLE_MASK,ICON_POT,ICON_ALPHA_MULTIPLY,ICON_ALPHA_CLEAR,ICON_DITHERING,ICON_MIPMAPS,ICON_BOX_GRID,ICON_GRID,ICON_BOX_CORNERS_SMALL,ICON_BOX_CORNERS_BIG,ICON_FOUR_BOXES,ICON_GRID_FILL,ICON_BOX_MULTISIZE,ICON_ZOOM_SMALL,ICON_ZOOM_MEDIUM,ICON_ZOOM_BIG,ICON_ZOOM_ALL,ICON_ZOOM_CENTER,ICON_BOX_DOTS_SMALL,ICON_BOX_DOTS_BIG,ICON_BOX_CONCENTRIC,ICON_BOX_GRID_BIG,ICON_OK_TICK,ICON_CROSS,ICON_ARROW_LEFT,ICON_ARROW_RIGHT,ICON_ARROW_DOWN,ICON_ARROW_UP,ICON_ARROW_LEFT_FILL,ICON_ARROW_RIGHT_FILL,ICON_ARROW_DOWN_FILL,ICON_ARROW_UP_FILL,ICON_AUDIO,ICON_FX,ICON_WAVE,ICON_WAVE_SINUS,ICON_WAVE_SQUARE,ICON_WAVE_TRIANGULAR,ICON_CROSS_SMALL,ICON_PLAYER_PREVIOUS,ICON_PLAYER_PLAY_BACK,ICON_PLAYER_PLAY,ICON_PLAYER_PAUSE,ICON_PLAYER_STOP,ICON_PLAYER_NEXT,ICON_PLAYER_RECORD,ICON_MAGNET,ICON_LOCK_CLOSE,ICON_LOCK_OPEN,ICON_CLOCK,ICON_TOOLS,ICON_GEAR,ICON_GEAR_BIG,ICON_BIN,ICON_HAND_POINTER,ICON_LASER,ICON_COIN,ICON_EXPLOSION,ICON_1UP,ICON_PLAYER,ICON_PLAYER_JUMP,ICON_KEY,ICON_DEMON,ICON_TEXT_POPUP,ICON_GEAR_EX,ICON_CRACK,ICON_CRACK_POINTS,ICON_STAR,ICON_DOOR,ICON_EXIT,ICON_MODE_2D,ICON_MODE_3D,ICON_CUBE,ICON_CUBE_FACE_TOP,ICON_CUBE_FACE_LEFT,ICON_CUBE_FACE_FRONT,ICON_CUBE_FACE_BOTTOM,ICON_CUBE_FACE_RIGHT,ICON_CUBE_FACE_BACK,ICON_CAMERA,ICON_SPECIAL,ICON_LINK_NET,ICON_LINK_BOXES,ICON_LINK_MULTI,ICON_LINK,ICON_LINK_BROKE,ICON_TEXT_NOTES,ICON_NOTEBOOK,ICON_SUITCASE,ICON_SUITCASE_ZIP,ICON_MAILBOX,ICON_MONITOR,ICON_PRINTER,ICON_PHOTO_CAMERA,ICON_PHOTO_CAMERA_FLASH,ICON_HOUSE,ICON_HEART,ICON_CORNER,ICON_VERTICAL_BARS,ICON_VERTICAL_BARS_FILL,ICON_LIFE_BARS,ICON_INFO,ICON_CROSSLINE,ICON_HELP,ICON_FILETYPE_ALPHA,ICON_FILETYPE_HOME,ICON_LAYERS_VISIBLE,ICON_LAYERS,ICON_WINDOW,ICON_HIDPI,ICON_FILETYPE_BINARY,ICON_HEX,ICON_SHIELD,ICON_FILE_NEW,ICON_FOLDER_ADD,ICON_ALARM,ICON_CPU,ICON_ROM,ICON_STEP_OVER,ICON_STEP_INTO,ICON_STEP_OUT,ICON_RESTART,ICON_BREAKPOINT_ON,ICON_BREAKPOINT_OFF,ICON_BURGER_MENU,ICON_CASE_SENSITIVE,ICON_REG_EXP,ICON_FOLDER,ICON_FILE,ICON_SAND_TIMER,ICON_220,ICON_221,ICON_222,ICON_223,ICON_224,ICON_225,ICON_226,ICON_227,ICON_228,ICON_229,ICON_230,ICON_231,ICON_232,ICON_233,ICON_234,ICON_235,ICON_236,ICON_237,ICON_238,ICON_239,ICON_240,ICON_241,ICON_242,ICON_243,ICON_244,ICON_245,ICON_246,ICON_247,ICON_248,ICON_249,ICON_250,ICON_251,ICON_252,ICON_253,ICON_254,ICON_255,LIGHTGRAY,GRAY,DARKGRAY,YELLOW,GOLD,ORANGE,PINK,RED,MAROON,GREEN,LIME,DARKGREEN,SKYBLUE,BLUE,DARKBLUE,PURPLE,VIOLET,DARKPURPLE,BEIGE,BROWN,DARKBROWN,WHITE,BLACK,BLANK,MAGENTA,RAYWHITE,InitWindow,CloseWindow,WindowShouldClose,IsWindowReady,IsWindowFullscreen,IsWindowResized,IsWindowState,ClearWindowState,SetWindowMonitor,SetWindowMinSize,SetWindowMaxSize,SetWindowSize,GetWindowHandle,GetScreenWidth,GetScreenHeight,GetRenderWidth,GetRenderHeight,GetMonitorCount,GetCurrentMonitor,GetMonitorPosition,GetMonitorWidth,GetMonitorHeight,GetMonitorPhysicalWidth,GetMonitorPhysicalHeight,GetMonitorRefreshRate,GetWindowPosition,GetWindowScaleDPI,GetMonitorName,SetClipboardText,GetClipboardText,EnableEventWaiting,DisableEventWaiting,SwapScreenBuffer,PollInputEvents,WaitTime,ShowCursor,HideCursor,IsCursorHidden,EnableCursor,DisableCursor,IsCursorOnScreen,ClearBackground,BeginDrawing,EndDrawing,BeginMode2D,EndMode2D,BeginMode3D,EndMode3D,BeginTextureMode,EndTextureMode,BeginShaderMode,EndShaderMode,BeginBlendMode,EndBlendMode,BeginScissorMode,EndScissorMode,BeginVrStereoMode,EndVrStereoMode,LoadVrStereoConfig,UnloadVrStereoConfig,LoadShader,LoadShaderFromMemory,IsShaderReady,GetShaderLocation,GetShaderLocationAttrib,SetShaderValue,SetShaderValueV,SetShaderValueMatrix,SetShaderValueTexture,UnloadShader,GetMouseRay,GetCameraMatrix,GetCameraMatrix2D,GetWorldToScreen,GetScreenToWorld2D,GetWorldToScreenEx,GetWorldToScreen2D,SetTargetFPS,GetFPS,GetFrameTime,GetTime,GetRandomValue,SetRandomSeed,TakeScreenshot,SetConfigFlags,TraceLog,SetTraceLogLevel,MemAlloc,MemRealloc,MemFree,OpenURL,SetTraceLogCallback,SetLoadFileDataCallback,SetSaveFileDataCallback,SetLoadFileTextCallback,SetSaveFileTextCallback,LoadFileData,UnloadFileData,SaveFileData,ExportDataAsCode,LoadFileText,UnloadFileText,SaveFileText,FileExists,DirectoryExists,IsFileExtension,GetFileLength,GetFileExtension,GetFileName,GetFileNameWithoutExt,GetDirectoryPath,GetPrevDirectoryPath,GetWorkingDirectory,GetApplicationDirectory,ChangeDirectory,IsPathFile,LoadDirectoryFiles,LoadDirectoryFilesEx,UnloadDirectoryFiles,IsFileDropped,LoadDroppedFiles,UnloadDroppedFiles,GetFileModTime,CompressData,DecompressData,EncodeDataBase64,DecodeDataBase64,IsKeyPressed,IsKeyPressedRepeat,IsKeyDown,IsKeyReleased,IsKeyUp,SetExitKey,GetKeyPressed,GetCharPressed,IsGamepadAvailable,GetGamepadName,IsGamepadButtonPressed,IsGamepadButtonDown,IsGamepadButtonReleased,IsGamepadButtonUp,GetGamepadButtonPressed,GetGamepadAxisCount,GetGamepadAxisMovement,SetGamepadMappings,IsMouseButtonPressed,IsMouseButtonDown,IsMouseButtonReleased,IsMouseButtonUp,GetMouseX,GetMouseY,GetMousePosition,GetMouseDelta,SetMousePosition,SetMouseOffset,SetMouseScale,GetMouseWheelMove,GetMouseWheelMoveV,SetMouseCursor,GetTouchX,GetTouchY,GetTouchPosition,GetTouchPointId,GetTouchPointCount,SetGesturesEnabled,IsGestureDetected,GetGestureDetected,GetGestureHoldDuration,GetGestureDragVector,GetGestureDragAngle,GetGesturePinchVector,GetGesturePinchAngle,UpdateCamera,UpdateCameraPro,SetShapesTexture,DrawPixel,DrawPixelV,DrawLine,DrawLineV,DrawLineEx,DrawLineBezier,DrawLineBezierQuad,DrawLineBezierCubic,DrawLineBSpline,DrawLineCatmullRom,DrawLineStrip,DrawCircle,DrawCircleSector,DrawCircleSectorLines,DrawCircleGradient,DrawCircleV,DrawCircleLines,DrawEllipse,DrawEllipseLines,DrawRing,DrawRingLines,DrawRectangle,DrawRectangleV,DrawRectangleRec,DrawRectanglePro,DrawRectangleGradientV,DrawRectangleGradientH,DrawRectangleGradientEx,DrawRectangleLines,DrawRectangleLinesEx,DrawRectangleRounded,DrawRectangleRoundedLines,DrawTriangle,DrawTriangleLines,DrawTriangleFan,DrawTriangleStrip,DrawPoly,DrawPolyLines,DrawPolyLinesEx,CheckCollisionRecs,CheckCollisionCircles,CheckCollisionCircleRec,CheckCollisionPointRec,CheckCollisionPointCircle,CheckCollisionPointTriangle,CheckCollisionPointPoly,CheckCollisionLines,CheckCollisionPointLine,GetCollisionRec,LoadImage,LoadImageRaw,LoadImageSvg,LoadImageAnim,LoadImageFromMemory,LoadImageFromTexture,LoadImageFromScreen,IsImageReady,UnloadImage,ExportImage,ExportImageToMemory,ExportImageAsCode,GenImageColor,GenImageGradientLinear,GenImageGradientRadial,GenImageGradientSquare,GenImageChecked,GenImageWhiteNoise,GenImagePerlinNoise,GenImageCellular,GenImageText,ImageCopy,ImageFromImage,ImageText,ImageTextEx,ImageFormat,ImageToPOT,ImageCrop,ImageAlphaCrop,ImageAlphaClear,ImageAlphaMask,ImageAlphaPremultiply,ImageBlurGaussian,ImageResize,ImageResizeNN,ImageResizeCanvas,ImageMipmaps,ImageDither,ImageFlipVertical,ImageFlipHorizontal,ImageRotate,ImageRotateCW,ImageRotateCCW,ImageColorTint,ImageColorInvert,ImageColorGrayscale,ImageColorContrast,ImageColorBrightness,ImageColorReplace,LoadImageColors,LoadImagePalette,UnloadImageColors,UnloadImagePalette,GetImageAlphaBorder,GetImageColor,ImageClearBackground,ImageDrawPixel,ImageDrawPixelV,ImageDrawLine,ImageDrawLineV,ImageDrawCircle,ImageDrawCircleV,ImageDrawCircleLines,ImageDrawCircleLinesV,ImageDrawRectangle,ImageDrawRectangleV,ImageDrawRectangleRec,ImageDrawRectangleLines,ImageDraw,ImageDrawText,ImageDrawTextEx,LoadTexture,LoadTextureFromImage,LoadTextureCubemap,LoadRenderTexture,IsTextureReady,UnloadTexture,IsRenderTextureReady,UnloadRenderTexture,UpdateTexture,UpdateTextureRec,GenTextureMipmaps,SetTextureFilter,SetTextureWrap,DrawTexture,DrawTextureV,DrawTextureEx,DrawTextureRec,DrawTexturePro,DrawTextureNPatch,Fade,ColorToInt,ColorNormalize,ColorFromNormalized,ColorToHSV,ColorFromHSV,ColorTint,ColorBrightness,ColorContrast,ColorAlpha,ColorAlphaBlend,GetColor,GetPixelColor,SetPixelColor,GetPixelDataSize,GetFontDefault,LoadFont,LoadFontEx,LoadFontFromImage,LoadFontFromMemory,IsFontReady,LoadFontData,GenImageFontAtlas,UnloadFontData,UnloadFont,ExportFontAsCode,DrawFPS,DrawText,DrawTextEx,DrawTextPro,DrawTextCodepoint,DrawTextCodepoints,SetTextLineSpacing,MeasureText,MeasureTextEx,GetGlyphIndex,GetGlyphInfo,GetGlyphAtlasRec,LoadUTF8,UnloadUTF8,LoadCodepoints,UnloadCodepoints,GetCodepointCount,GetCodepoint,GetCodepointNext,GetCodepointPrevious,CodepointToUTF8,TextCopy,TextIsEqual,TextLength,TextFormat,TextSubtext,TextReplace,TextInsert,TextJoin,TextSplit,TextAppend,TextFindIndex,TextToUpper,TextToLower,TextToPascal,TextToInteger,DrawLine3D,DrawPoint3D,DrawCircle3D,DrawTriangle3D,DrawTriangleStrip3D,DrawCube,DrawCubeV,DrawCubeWires,DrawCubeWiresV,DrawSphere,DrawSphereEx,DrawSphereWires,DrawCylinder,DrawCylinderEx,DrawCylinderWires,DrawCylinderWiresEx,DrawCapsule,DrawCapsuleWires,DrawPlane,DrawRay,DrawGrid,LoadModel,LoadModelFromMesh,IsModelReady,UnloadModel,GetModelBoundingBox,DrawModel,DrawModelEx,DrawModelWires,DrawModelWiresEx,DrawBoundingBox,DrawBillboard,DrawBillboardRec,DrawBillboardPro,UploadMesh,UpdateMeshBuffer,UnloadMesh,DrawMesh,DrawMeshInstanced,ExportMesh,GetMeshBoundingBox,GenMeshTangents,GenMeshPoly,GenMeshPlane,GenMeshCube,GenMeshSphere,GenMeshHemiSphere,GenMeshCylinder,GenMeshCone,GenMeshTorus,GenMeshKnot,GenMeshHeightmap,GenMeshCubicmap,LoadMaterials,LoadMaterialDefault,IsMaterialReady,UnloadMaterial,SetMaterialTexture,SetModelMeshMaterial,LoadModelAnimations,UpdateModelAnimation,UnloadModelAnimation,UnloadModelAnimations,IsModelAnimationValid,CheckCollisionSpheres,CheckCollisionBoxes,CheckCollisionBoxSphere,GetRayCollisionSphere,GetRayCollisionBox,GetRayCollisionMesh,GetRayCollisionTriangle,GetRayCollisionQuad,InitAudioDevice,CloseAudioDevice,IsAudioDeviceReady,SetMasterVolume,LoadWave,LoadWaveFromMemory,IsWaveReady,LoadSound,LoadSoundFromWave,LoadSoundAlias,IsSoundReady,UpdateSound,UnloadWave,UnloadSound,UnloadSoundAlias,ExportWave,ExportWaveAsCode,PlaySound,StopSound,PauseSound,ResumeSound,IsSoundPlaying,SetSoundVolume,SetSoundPitch,SetSoundPan,WaveCopy,WaveCrop,WaveFormat,LoadWaveSamples,UnloadWaveSamples,LoadMusicStream,LoadMusicStreamFromMemory,IsMusicReady,UnloadMusicStream,PlayMusicStream,IsMusicStreamPlaying,UpdateMusicStream,StopMusicStream,PauseMusicStream,ResumeMusicStream,SeekMusicStream,SetMusicVolume,SetMusicPitch,SetMusicPan,GetMusicTimeLength,GetMusicTimePlayed,LoadAudioStream,IsAudioStreamReady,UnloadAudioStream,UpdateAudioStream,IsAudioStreamProcessed,PlayAudioStream,PauseAudioStream,ResumeAudioStream,IsAudioStreamPlaying,StopAudioStream,SetAudioStreamVolume,SetAudioStreamPitch,SetAudioStreamPan,SetAudioStreamBufferSizeDefault,SetAudioStreamCallback,AttachAudioStreamProcessor,DetachAudioStreamProcessor,AttachAudioMixedProcessor,DetachAudioMixedProcessor,GuiEnable,GuiDisable,GuiLock,GuiUnlock,GuiIsLocked,GuiSetAlpha,GuiSetState,GuiGetState,GuiSetFont,GuiGetFont,GuiSetStyle,GuiGetStyle,GuiLoadStyle,GuiLoadStyleDefault,GuiEnableTooltip,GuiDisableTooltip,GuiSetTooltip,GuiIconText,GuiSetIconScale,GuiGetIcons,GuiLoadIcons,GuiDrawIcon,GuiWindowBox,GuiGroupBox,GuiLine,GuiPanel,GuiTabBar,GuiScrollPanel,GuiLabel,GuiButton,GuiLabelButton,GuiToggle,GuiToggleGroup,GuiToggleSlider,GuiCheckBox,GuiComboBox,GuiDropdownBox,GuiSpinner,GuiValueBox,GuiTextBox,GuiSlider,GuiSliderBar,GuiProgressBar,GuiStatusBar,GuiDummyRec,GuiGrid,GuiListView,GuiListViewEx,GuiMessageBox,GuiTextInputBox,GuiColorPicker,GuiColorPanel,GuiColorBarAlpha,GuiColorBarHue,GuiColorPickerHSV,GuiColorPanelHSV,EaseLinearNone,EaseLinearIn,EaseLinearOut,EaseLinearInOut,EaseSineIn,EaseSineOut,EaseSineInOut,EaseCircIn,EaseCircOut,EaseCircInOut,EaseCubicIn,EaseCubicOut,EaseCubicInOut,EaseQuadIn,EaseQuadOut,EaseQuadInOut,EaseExpoIn,EaseExpoOut,EaseExpoInOut,EaseBackIn,EaseBackOut,EaseBackInOut,EaseBounceOut,EaseBounceIn,EaseBounceInOut,EaseElasticIn,EaseElasticOut,EaseElasticInOut,GetCameraForward,GetCameraUp,GetCameraRight,CameraMoveForward,CameraMoveUp,CameraMoveRight,CameraMoveToTarget,CameraYaw,CameraPitch,CameraRoll,GetCameraViewMatrix,GetCameraProjectionMatrix,DrawTextBoxed,DrawTextBoxedSelectable,UniformFloat,UniformVector2,UniformVector3,UniformVector4,UniformColor,UniformInt,UniformTexture
+    let free,addFile,globalize,mod,Vector2,Vector3,Vector4,Matrix,Color,Rectangle,Image,Texture,RenderTexture,NPatchInfo,GlyphInfo,Font,Camera3D,Camera2D,Mesh,Shader,MaterialMap,Material,Transform,BoneInfo,Model,ModelAnimation,Ray,RayCollision,BoundingBox,Wave,AudioStream,Sound,Music,VrDeviceInfo,VrStereoConfig,FilePathList,AutomationEvent,AutomationEventList,Texture2D,GuiStyleProp,GuiTextStyle,Quaternion,TextureCubemap,RenderTexture2D,Camera,FLAG_VSYNC_HINT,FLAG_FULLSCREEN_MODE,FLAG_WINDOW_RESIZABLE,FLAG_WINDOW_UNDECORATED,FLAG_WINDOW_HIDDEN,FLAG_WINDOW_MINIMIZED,FLAG_WINDOW_MAXIMIZED,FLAG_WINDOW_UNFOCUSED,FLAG_WINDOW_TOPMOST,FLAG_WINDOW_ALWAYS_RUN,FLAG_WINDOW_TRANSPARENT,FLAG_WINDOW_HIGHDPI,FLAG_WINDOW_MOUSE_PASSTHROUGH,FLAG_BORDERLESS_WINDOWED_MODE,FLAG_MSAA_4X_HINT,FLAG_INTERLACED_HINT,LOG_ALL,LOG_TRACE,LOG_DEBUG,LOG_INFO,LOG_WARNING,LOG_ERROR,LOG_FATAL,LOG_NONE,KEY_NULL,KEY_APOSTROPHE,KEY_COMMA,KEY_MINUS,KEY_PERIOD,KEY_SLASH,KEY_ZERO,KEY_ONE,KEY_TWO,KEY_THREE,KEY_FOUR,KEY_FIVE,KEY_SIX,KEY_SEVEN,KEY_EIGHT,KEY_NINE,KEY_SEMICOLON,KEY_EQUAL,KEY_A,KEY_B,KEY_C,KEY_D,KEY_E,KEY_F,KEY_G,KEY_H,KEY_I,KEY_J,KEY_K,KEY_L,KEY_M,KEY_N,KEY_O,KEY_P,KEY_Q,KEY_R,KEY_S,KEY_T,KEY_U,KEY_V,KEY_W,KEY_X,KEY_Y,KEY_Z,KEY_LEFT_BRACKET,KEY_BACKSLASH,KEY_RIGHT_BRACKET,KEY_GRAVE,KEY_SPACE,KEY_ESCAPE,KEY_ENTER,KEY_TAB,KEY_BACKSPACE,KEY_INSERT,KEY_DELETE,KEY_RIGHT,KEY_LEFT,KEY_DOWN,KEY_UP,KEY_PAGE_UP,KEY_PAGE_DOWN,KEY_HOME,KEY_END,KEY_CAPS_LOCK,KEY_SCROLL_LOCK,KEY_NUM_LOCK,KEY_PRINT_SCREEN,KEY_PAUSE,KEY_F1,KEY_F2,KEY_F3,KEY_F4,KEY_F5,KEY_F6,KEY_F7,KEY_F8,KEY_F9,KEY_F10,KEY_F11,KEY_F12,KEY_LEFT_SHIFT,KEY_LEFT_CONTROL,KEY_LEFT_ALT,KEY_LEFT_SUPER,KEY_RIGHT_SHIFT,KEY_RIGHT_CONTROL,KEY_RIGHT_ALT,KEY_RIGHT_SUPER,KEY_KB_MENU,KEY_KP_0,KEY_KP_1,KEY_KP_2,KEY_KP_3,KEY_KP_4,KEY_KP_5,KEY_KP_6,KEY_KP_7,KEY_KP_8,KEY_KP_9,KEY_KP_DECIMAL,KEY_KP_DIVIDE,KEY_KP_MULTIPLY,KEY_KP_SUBTRACT,KEY_KP_ADD,KEY_KP_ENTER,KEY_KP_EQUAL,KEY_BACK,KEY_MENU,KEY_VOLUME_UP,KEY_VOLUME_DOWN,MOUSE_BUTTON_LEFT,MOUSE_BUTTON_RIGHT,MOUSE_BUTTON_MIDDLE,MOUSE_BUTTON_SIDE,MOUSE_BUTTON_EXTRA,MOUSE_BUTTON_FORWARD,MOUSE_BUTTON_BACK,MOUSE_CURSOR_DEFAULT,MOUSE_CURSOR_ARROW,MOUSE_CURSOR_IBEAM,MOUSE_CURSOR_CROSSHAIR,MOUSE_CURSOR_POINTING_HAND,MOUSE_CURSOR_RESIZE_EW,MOUSE_CURSOR_RESIZE_NS,MOUSE_CURSOR_RESIZE_NWSE,MOUSE_CURSOR_RESIZE_NESW,MOUSE_CURSOR_RESIZE_ALL,MOUSE_CURSOR_NOT_ALLOWED,GAMEPAD_BUTTON_UNKNOWN,GAMEPAD_BUTTON_LEFT_FACE_UP,GAMEPAD_BUTTON_LEFT_FACE_RIGHT,GAMEPAD_BUTTON_LEFT_FACE_DOWN,GAMEPAD_BUTTON_LEFT_FACE_LEFT,GAMEPAD_BUTTON_RIGHT_FACE_UP,GAMEPAD_BUTTON_RIGHT_FACE_RIGHT,GAMEPAD_BUTTON_RIGHT_FACE_DOWN,GAMEPAD_BUTTON_RIGHT_FACE_LEFT,GAMEPAD_BUTTON_LEFT_TRIGGER_1,GAMEPAD_BUTTON_LEFT_TRIGGER_2,GAMEPAD_BUTTON_RIGHT_TRIGGER_1,GAMEPAD_BUTTON_RIGHT_TRIGGER_2,GAMEPAD_BUTTON_MIDDLE_LEFT,GAMEPAD_BUTTON_MIDDLE,GAMEPAD_BUTTON_MIDDLE_RIGHT,GAMEPAD_BUTTON_LEFT_THUMB,GAMEPAD_BUTTON_RIGHT_THUMB,GAMEPAD_AXIS_LEFT_X,GAMEPAD_AXIS_LEFT_Y,GAMEPAD_AXIS_RIGHT_X,GAMEPAD_AXIS_RIGHT_Y,GAMEPAD_AXIS_LEFT_TRIGGER,GAMEPAD_AXIS_RIGHT_TRIGGER,MATERIAL_MAP_ALBEDO,MATERIAL_MAP_METALNESS,MATERIAL_MAP_NORMAL,MATERIAL_MAP_ROUGHNESS,MATERIAL_MAP_OCCLUSION,MATERIAL_MAP_EMISSION,MATERIAL_MAP_HEIGHT,MATERIAL_MAP_CUBEMAP,MATERIAL_MAP_IRRADIANCE,MATERIAL_MAP_PREFILTER,MATERIAL_MAP_BRDF,SHADER_LOC_VERTEX_POSITION,SHADER_LOC_VERTEX_TEXCOORD01,SHADER_LOC_VERTEX_TEXCOORD02,SHADER_LOC_VERTEX_NORMAL,SHADER_LOC_VERTEX_TANGENT,SHADER_LOC_VERTEX_COLOR,SHADER_LOC_MATRIX_MVP,SHADER_LOC_MATRIX_VIEW,SHADER_LOC_MATRIX_PROJECTION,SHADER_LOC_MATRIX_MODEL,SHADER_LOC_MATRIX_NORMAL,SHADER_LOC_VECTOR_VIEW,SHADER_LOC_COLOR_DIFFUSE,SHADER_LOC_COLOR_SPECULAR,SHADER_LOC_COLOR_AMBIENT,SHADER_LOC_MAP_ALBEDO,SHADER_LOC_MAP_METALNESS,SHADER_LOC_MAP_NORMAL,SHADER_LOC_MAP_ROUGHNESS,SHADER_LOC_MAP_OCCLUSION,SHADER_LOC_MAP_EMISSION,SHADER_LOC_MAP_HEIGHT,SHADER_LOC_MAP_CUBEMAP,SHADER_LOC_MAP_IRRADIANCE,SHADER_LOC_MAP_PREFILTER,SHADER_LOC_MAP_BRDF,SHADER_LOC_VERTEX_BONEIDS,SHADER_LOC_VERTEX_BONEWEIGHTS,SHADER_LOC_BONE_MATRICES,SHADER_UNIFORM_FLOAT,SHADER_UNIFORM_VEC2,SHADER_UNIFORM_VEC3,SHADER_UNIFORM_VEC4,SHADER_UNIFORM_INT,SHADER_UNIFORM_IVEC2,SHADER_UNIFORM_IVEC3,SHADER_UNIFORM_IVEC4,SHADER_UNIFORM_SAMPLER2D,SHADER_ATTRIB_FLOAT,SHADER_ATTRIB_VEC2,SHADER_ATTRIB_VEC3,SHADER_ATTRIB_VEC4,PIXELFORMAT_UNCOMPRESSED_GRAYSCALE,PIXELFORMAT_UNCOMPRESSED_GRAY_ALPHA,PIXELFORMAT_UNCOMPRESSED_R5G6B5,PIXELFORMAT_UNCOMPRESSED_R8G8B8,PIXELFORMAT_UNCOMPRESSED_R5G5B5A1,PIXELFORMAT_UNCOMPRESSED_R4G4B4A4,PIXELFORMAT_UNCOMPRESSED_R8G8B8A8,PIXELFORMAT_UNCOMPRESSED_R32,PIXELFORMAT_UNCOMPRESSED_R32G32B32,PIXELFORMAT_UNCOMPRESSED_R32G32B32A32,PIXELFORMAT_UNCOMPRESSED_R16,PIXELFORMAT_UNCOMPRESSED_R16G16B16,PIXELFORMAT_UNCOMPRESSED_R16G16B16A16,PIXELFORMAT_COMPRESSED_DXT1_RGB,PIXELFORMAT_COMPRESSED_DXT1_RGBA,PIXELFORMAT_COMPRESSED_DXT3_RGBA,PIXELFORMAT_COMPRESSED_DXT5_RGBA,PIXELFORMAT_COMPRESSED_ETC1_RGB,PIXELFORMAT_COMPRESSED_ETC2_RGB,PIXELFORMAT_COMPRESSED_ETC2_EAC_RGBA,PIXELFORMAT_COMPRESSED_PVRT_RGB,PIXELFORMAT_COMPRESSED_PVRT_RGBA,PIXELFORMAT_COMPRESSED_ASTC_4x4_RGBA,PIXELFORMAT_COMPRESSED_ASTC_8x8_RGBA,TEXTURE_FILTER_POINT,TEXTURE_FILTER_BILINEAR,TEXTURE_FILTER_TRILINEAR,TEXTURE_FILTER_ANISOTROPIC_4X,TEXTURE_FILTER_ANISOTROPIC_8X,TEXTURE_FILTER_ANISOTROPIC_16X,TEXTURE_WRAP_REPEAT,TEXTURE_WRAP_CLAMP,TEXTURE_WRAP_MIRROR_REPEAT,TEXTURE_WRAP_MIRROR_CLAMP,CUBEMAP_LAYOUT_AUTO_DETECT,CUBEMAP_LAYOUT_LINE_VERTICAL,CUBEMAP_LAYOUT_LINE_HORIZONTAL,CUBEMAP_LAYOUT_CROSS_THREE_BY_FOUR,CUBEMAP_LAYOUT_CROSS_FOUR_BY_THREE,FONT_DEFAULT,FONT_BITMAP,FONT_SDF,BLEND_ALPHA,BLEND_ADDITIVE,BLEND_MULTIPLIED,BLEND_ADD_COLORS,BLEND_SUBTRACT_COLORS,BLEND_ALPHA_PREMULTIPLY,BLEND_CUSTOM,BLEND_CUSTOM_SEPARATE,GESTURE_NONE,GESTURE_TAP,GESTURE_DOUBLETAP,GESTURE_HOLD,GESTURE_DRAG,GESTURE_SWIPE_RIGHT,GESTURE_SWIPE_LEFT,GESTURE_SWIPE_UP,GESTURE_SWIPE_DOWN,GESTURE_PINCH_IN,GESTURE_PINCH_OUT,CAMERA_CUSTOM,CAMERA_FREE,CAMERA_ORBITAL,CAMERA_FIRST_PERSON,CAMERA_THIRD_PERSON,CAMERA_PERSPECTIVE,CAMERA_ORTHOGRAPHIC,NPATCH_NINE_PATCH,NPATCH_THREE_PATCH_VERTICAL,NPATCH_THREE_PATCH_HORIZONTAL,STATE_NORMAL,STATE_FOCUSED,STATE_PRESSED,STATE_DISABLED,TEXT_ALIGN_LEFT,TEXT_ALIGN_CENTER,TEXT_ALIGN_RIGHT,TEXT_ALIGN_TOP,TEXT_ALIGN_MIDDLE,TEXT_ALIGN_BOTTOM,TEXT_WRAP_NONE,TEXT_WRAP_CHAR,TEXT_WRAP_WORD,DEFAULT,LABEL,BUTTON,TOGGLE,SLIDER,PROGRESSBAR,CHECKBOX,COMBOBOX,DROPDOWNBOX,TEXTBOX,VALUEBOX,SPINNER,LISTVIEW,COLORPICKER,SCROLLBAR,STATUSBAR,BORDER_COLOR_NORMAL,BASE_COLOR_NORMAL,TEXT_COLOR_NORMAL,BORDER_COLOR_FOCUSED,BASE_COLOR_FOCUSED,TEXT_COLOR_FOCUSED,BORDER_COLOR_PRESSED,BASE_COLOR_PRESSED,TEXT_COLOR_PRESSED,BORDER_COLOR_DISABLED,BASE_COLOR_DISABLED,TEXT_COLOR_DISABLED,BORDER_WIDTH,TEXT_PADDING,TEXT_ALIGNMENT,TEXT_SIZE,TEXT_SPACING,LINE_COLOR,BACKGROUND_COLOR,TEXT_LINE_SPACING,TEXT_ALIGNMENT_VERTICAL,TEXT_WRAP_MODE,GROUP_PADDING,SLIDER_WIDTH,SLIDER_PADDING,PROGRESS_PADDING,ARROWS_SIZE,ARROWS_VISIBLE,SCROLL_SLIDER_PADDING,SCROLL_SLIDER_SIZE,SCROLL_PADDING,SCROLL_SPEED,CHECK_PADDING,COMBO_BUTTON_WIDTH,COMBO_BUTTON_SPACING,ARROW_PADDING,DROPDOWN_ITEMS_SPACING,TEXT_READONLY,SPIN_BUTTON_WIDTH,SPIN_BUTTON_SPACING,LIST_ITEMS_HEIGHT,LIST_ITEMS_SPACING,SCROLLBAR_WIDTH,SCROLLBAR_SIDE,COLOR_SELECTOR_SIZE,HUEBAR_WIDTH,HUEBAR_PADDING,HUEBAR_SELECTOR_HEIGHT,HUEBAR_SELECTOR_OVERFLOW,ICON_NONE,ICON_FOLDER_FILE_OPEN,ICON_FILE_SAVE_CLASSIC,ICON_FOLDER_OPEN,ICON_FOLDER_SAVE,ICON_FILE_OPEN,ICON_FILE_SAVE,ICON_FILE_EXPORT,ICON_FILE_ADD,ICON_FILE_DELETE,ICON_FILETYPE_TEXT,ICON_FILETYPE_AUDIO,ICON_FILETYPE_IMAGE,ICON_FILETYPE_PLAY,ICON_FILETYPE_VIDEO,ICON_FILETYPE_INFO,ICON_FILE_COPY,ICON_FILE_CUT,ICON_FILE_PASTE,ICON_CURSOR_HAND,ICON_CURSOR_POINTER,ICON_CURSOR_CLASSIC,ICON_PENCIL,ICON_PENCIL_BIG,ICON_BRUSH_CLASSIC,ICON_BRUSH_PAINTER,ICON_WATER_DROP,ICON_COLOR_PICKER,ICON_RUBBER,ICON_COLOR_BUCKET,ICON_TEXT_T,ICON_TEXT_A,ICON_SCALE,ICON_RESIZE,ICON_FILTER_POINT,ICON_FILTER_BILINEAR,ICON_CROP,ICON_CROP_ALPHA,ICON_SQUARE_TOGGLE,ICON_SYMMETRY,ICON_SYMMETRY_HORIZONTAL,ICON_SYMMETRY_VERTICAL,ICON_LENS,ICON_LENS_BIG,ICON_EYE_ON,ICON_EYE_OFF,ICON_FILTER_TOP,ICON_FILTER,ICON_TARGET_POINT,ICON_TARGET_SMALL,ICON_TARGET_BIG,ICON_TARGET_MOVE,ICON_CURSOR_MOVE,ICON_CURSOR_SCALE,ICON_CURSOR_SCALE_RIGHT,ICON_CURSOR_SCALE_LEFT,ICON_UNDO,ICON_REDO,ICON_REREDO,ICON_MUTATE,ICON_ROTATE,ICON_REPEAT,ICON_SHUFFLE,ICON_EMPTYBOX,ICON_TARGET,ICON_TARGET_SMALL_FILL,ICON_TARGET_BIG_FILL,ICON_TARGET_MOVE_FILL,ICON_CURSOR_MOVE_FILL,ICON_CURSOR_SCALE_FILL,ICON_CURSOR_SCALE_RIGHT_FILL,ICON_CURSOR_SCALE_LEFT_FILL,ICON_UNDO_FILL,ICON_REDO_FILL,ICON_REREDO_FILL,ICON_MUTATE_FILL,ICON_ROTATE_FILL,ICON_REPEAT_FILL,ICON_SHUFFLE_FILL,ICON_EMPTYBOX_SMALL,ICON_BOX,ICON_BOX_TOP,ICON_BOX_TOP_RIGHT,ICON_BOX_RIGHT,ICON_BOX_BOTTOM_RIGHT,ICON_BOX_BOTTOM,ICON_BOX_BOTTOM_LEFT,ICON_BOX_LEFT,ICON_BOX_TOP_LEFT,ICON_BOX_CENTER,ICON_BOX_CIRCLE_MASK,ICON_POT,ICON_ALPHA_MULTIPLY,ICON_ALPHA_CLEAR,ICON_DITHERING,ICON_MIPMAPS,ICON_BOX_GRID,ICON_GRID,ICON_BOX_CORNERS_SMALL,ICON_BOX_CORNERS_BIG,ICON_FOUR_BOXES,ICON_GRID_FILL,ICON_BOX_MULTISIZE,ICON_ZOOM_SMALL,ICON_ZOOM_MEDIUM,ICON_ZOOM_BIG,ICON_ZOOM_ALL,ICON_ZOOM_CENTER,ICON_BOX_DOTS_SMALL,ICON_BOX_DOTS_BIG,ICON_BOX_CONCENTRIC,ICON_BOX_GRID_BIG,ICON_OK_TICK,ICON_CROSS,ICON_ARROW_LEFT,ICON_ARROW_RIGHT,ICON_ARROW_DOWN,ICON_ARROW_UP,ICON_ARROW_LEFT_FILL,ICON_ARROW_RIGHT_FILL,ICON_ARROW_DOWN_FILL,ICON_ARROW_UP_FILL,ICON_AUDIO,ICON_FX,ICON_WAVE,ICON_WAVE_SINUS,ICON_WAVE_SQUARE,ICON_WAVE_TRIANGULAR,ICON_CROSS_SMALL,ICON_PLAYER_PREVIOUS,ICON_PLAYER_PLAY_BACK,ICON_PLAYER_PLAY,ICON_PLAYER_PAUSE,ICON_PLAYER_STOP,ICON_PLAYER_NEXT,ICON_PLAYER_RECORD,ICON_MAGNET,ICON_LOCK_CLOSE,ICON_LOCK_OPEN,ICON_CLOCK,ICON_TOOLS,ICON_GEAR,ICON_GEAR_BIG,ICON_BIN,ICON_HAND_POINTER,ICON_LASER,ICON_COIN,ICON_EXPLOSION,ICON_1UP,ICON_PLAYER,ICON_PLAYER_JUMP,ICON_KEY,ICON_DEMON,ICON_TEXT_POPUP,ICON_GEAR_EX,ICON_CRACK,ICON_CRACK_POINTS,ICON_STAR,ICON_DOOR,ICON_EXIT,ICON_MODE_2D,ICON_MODE_3D,ICON_CUBE,ICON_CUBE_FACE_TOP,ICON_CUBE_FACE_LEFT,ICON_CUBE_FACE_FRONT,ICON_CUBE_FACE_BOTTOM,ICON_CUBE_FACE_RIGHT,ICON_CUBE_FACE_BACK,ICON_CAMERA,ICON_SPECIAL,ICON_LINK_NET,ICON_LINK_BOXES,ICON_LINK_MULTI,ICON_LINK,ICON_LINK_BROKE,ICON_TEXT_NOTES,ICON_NOTEBOOK,ICON_SUITCASE,ICON_SUITCASE_ZIP,ICON_MAILBOX,ICON_MONITOR,ICON_PRINTER,ICON_PHOTO_CAMERA,ICON_PHOTO_CAMERA_FLASH,ICON_HOUSE,ICON_HEART,ICON_CORNER,ICON_VERTICAL_BARS,ICON_VERTICAL_BARS_FILL,ICON_LIFE_BARS,ICON_INFO,ICON_CROSSLINE,ICON_HELP,ICON_FILETYPE_ALPHA,ICON_FILETYPE_HOME,ICON_LAYERS_VISIBLE,ICON_LAYERS,ICON_WINDOW,ICON_HIDPI,ICON_FILETYPE_BINARY,ICON_HEX,ICON_SHIELD,ICON_FILE_NEW,ICON_FOLDER_ADD,ICON_ALARM,ICON_CPU,ICON_ROM,ICON_STEP_OVER,ICON_STEP_INTO,ICON_STEP_OUT,ICON_RESTART,ICON_BREAKPOINT_ON,ICON_BREAKPOINT_OFF,ICON_BURGER_MENU,ICON_CASE_SENSITIVE,ICON_REG_EXP,ICON_FOLDER,ICON_FILE,ICON_SAND_TIMER,ICON_220,ICON_221,ICON_222,ICON_223,ICON_224,ICON_225,ICON_226,ICON_227,ICON_228,ICON_229,ICON_230,ICON_231,ICON_232,ICON_233,ICON_234,ICON_235,ICON_236,ICON_237,ICON_238,ICON_239,ICON_240,ICON_241,ICON_242,ICON_243,ICON_244,ICON_245,ICON_246,ICON_247,ICON_248,ICON_249,ICON_250,ICON_251,ICON_252,ICON_253,ICON_254,ICON_255,LIGHTGRAY,GRAY,DARKGRAY,YELLOW,GOLD,ORANGE,PINK,RED,MAROON,GREEN,LIME,DARKGREEN,SKYBLUE,BLUE,DARKBLUE,PURPLE,VIOLET,DARKPURPLE,BEIGE,BROWN,DARKBROWN,WHITE,BLACK,BLANK,MAGENTA,RAYWHITE,InitWindow,CloseWindow,WindowShouldClose,IsWindowReady,IsWindowFullscreen,IsWindowHidden,IsWindowMinimized,IsWindowMaximized,IsWindowFocused,IsWindowResized,IsWindowState,SetWindowState,ClearWindowState,ToggleFullscreen,ToggleBorderlessWindowed,MaximizeWindow,MinimizeWindow,RestoreWindow,SetWindowIcon,SetWindowIcons,SetWindowTitle,SetWindowPosition,SetWindowMonitor,SetWindowMinSize,SetWindowMaxSize,SetWindowSize,SetWindowOpacity,SetWindowFocused,GetWindowHandle,GetScreenWidth,GetScreenHeight,GetRenderWidth,GetRenderHeight,GetMonitorCount,GetCurrentMonitor,GetMonitorPosition,GetMonitorWidth,GetMonitorHeight,GetMonitorPhysicalWidth,GetMonitorPhysicalHeight,GetMonitorRefreshRate,GetWindowPosition,GetWindowScaleDPI,GetMonitorName,SetClipboardText,GetClipboardText,EnableEventWaiting,DisableEventWaiting,ShowCursor,HideCursor,IsCursorHidden,EnableCursor,DisableCursor,IsCursorOnScreen,ClearBackground,BeginDrawing,EndDrawing,BeginMode2D,EndMode2D,BeginMode3D,EndMode3D,BeginTextureMode,EndTextureMode,BeginShaderMode,EndShaderMode,BeginBlendMode,EndBlendMode,BeginScissorMode,EndScissorMode,BeginVrStereoMode,EndVrStereoMode,LoadVrStereoConfig,UnloadVrStereoConfig,LoadShader,LoadShaderFromMemory,IsShaderValid,GetShaderLocation,GetShaderLocationAttrib,SetShaderValue,SetShaderValueV,SetShaderValueMatrix,SetShaderValueTexture,UnloadShader,GetScreenToWorldRay,GetScreenToWorldRayEx,GetWorldToScreen,GetWorldToScreenEx,GetWorldToScreen2D,GetScreenToWorld2D,GetCameraMatrix,GetCameraMatrix2D,SetTargetFPS,GetFrameTime,GetTime,GetFPS,SwapScreenBuffer,PollInputEvents,WaitTime,SetRandomSeed,GetRandomValue,LoadRandomSequence,UnloadRandomSequence,TakeScreenshot,SetConfigFlags,OpenURL,TraceLog,SetTraceLogLevel,MemAlloc,MemRealloc,MemFree,SetTraceLogCallback,SetLoadFileDataCallback,SetSaveFileDataCallback,SetLoadFileTextCallback,SetSaveFileTextCallback,LoadFileData,UnloadFileData,SaveFileData,ExportDataAsCode,LoadFileText,UnloadFileText,SaveFileText,FileExists,DirectoryExists,IsFileExtension,GetFileLength,GetFileExtension,GetFileName,GetFileNameWithoutExt,GetDirectoryPath,GetPrevDirectoryPath,GetWorkingDirectory,GetApplicationDirectory,MakeDirectory,ChangeDirectory,IsPathFile,IsFileNameValid,LoadDirectoryFiles,LoadDirectoryFilesEx,UnloadDirectoryFiles,IsFileDropped,LoadDroppedFiles,UnloadDroppedFiles,GetFileModTime,CompressData,DecompressData,EncodeDataBase64,DecodeDataBase64,ComputeCRC32,ComputeMD5,ComputeSHA1,LoadAutomationEventList,UnloadAutomationEventList,ExportAutomationEventList,SetAutomationEventList,SetAutomationEventBaseFrame,StartAutomationEventRecording,StopAutomationEventRecording,PlayAutomationEvent,IsKeyPressed,IsKeyPressedRepeat,IsKeyDown,IsKeyReleased,IsKeyUp,GetKeyPressed,GetCharPressed,SetExitKey,IsGamepadAvailable,GetGamepadName,IsGamepadButtonPressed,IsGamepadButtonDown,IsGamepadButtonReleased,IsGamepadButtonUp,GetGamepadButtonPressed,GetGamepadAxisCount,GetGamepadAxisMovement,SetGamepadMappings,SetGamepadVibration,IsMouseButtonPressed,IsMouseButtonDown,IsMouseButtonReleased,IsMouseButtonUp,GetMouseX,GetMouseY,GetMousePosition,GetMouseDelta,SetMousePosition,SetMouseOffset,SetMouseScale,GetMouseWheelMove,GetMouseWheelMoveV,SetMouseCursor,GetTouchX,GetTouchY,GetTouchPosition,GetTouchPointId,GetTouchPointCount,SetGesturesEnabled,IsGestureDetected,GetGestureDetected,GetGestureHoldDuration,GetGestureDragVector,GetGestureDragAngle,GetGesturePinchVector,GetGesturePinchAngle,UpdateCamera,UpdateCameraPro,SetShapesTexture,GetShapesTexture,GetShapesTextureRectangle,DrawPixel,DrawPixelV,DrawLine,DrawLineV,DrawLineEx,DrawLineStrip,DrawLineBezier,DrawCircle,DrawCircleSector,DrawCircleSectorLines,DrawCircleGradient,DrawCircleV,DrawCircleLines,DrawCircleLinesV,DrawEllipse,DrawEllipseLines,DrawRing,DrawRingLines,DrawRectangle,DrawRectangleV,DrawRectangleRec,DrawRectanglePro,DrawRectangleGradientV,DrawRectangleGradientH,DrawRectangleGradientEx,DrawRectangleLines,DrawRectangleLinesEx,DrawRectangleRounded,DrawRectangleRoundedLines,DrawRectangleRoundedLinesEx,DrawTriangle,DrawTriangleLines,DrawTriangleFan,DrawTriangleStrip,DrawPoly,DrawPolyLines,DrawPolyLinesEx,DrawSplineLinear,DrawSplineBasis,DrawSplineCatmullRom,DrawSplineBezierQuadratic,DrawSplineBezierCubic,DrawSplineSegmentLinear,DrawSplineSegmentBasis,DrawSplineSegmentCatmullRom,DrawSplineSegmentBezierQuadratic,DrawSplineSegmentBezierCubic,GetSplinePointLinear,GetSplinePointBasis,GetSplinePointCatmullRom,GetSplinePointBezierQuad,GetSplinePointBezierCubic,CheckCollisionRecs,CheckCollisionCircles,CheckCollisionCircleRec,CheckCollisionCircleLine,CheckCollisionPointRec,CheckCollisionPointCircle,CheckCollisionPointTriangle,CheckCollisionPointLine,CheckCollisionPointPoly,CheckCollisionLines,GetCollisionRec,LoadImage,LoadImageRaw,LoadImageAnim,LoadImageAnimFromMemory,LoadImageFromMemory,LoadImageFromTexture,LoadImageFromScreen,IsImageValid,UnloadImage,ExportImage,ExportImageToMemory,ExportImageAsCode,GenImageColor,GenImageGradientLinear,GenImageGradientRadial,GenImageGradientSquare,GenImageChecked,GenImageWhiteNoise,GenImagePerlinNoise,GenImageCellular,GenImageText,ImageCopy,ImageFromImage,ImageFromChannel,ImageText,ImageTextEx,ImageFormat,ImageToPOT,ImageCrop,ImageAlphaCrop,ImageAlphaClear,ImageAlphaMask,ImageAlphaPremultiply,ImageBlurGaussian,ImageKernelConvolution,ImageResize,ImageResizeNN,ImageResizeCanvas,ImageMipmaps,ImageDither,ImageFlipVertical,ImageFlipHorizontal,ImageRotate,ImageRotateCW,ImageRotateCCW,ImageColorTint,ImageColorInvert,ImageColorGrayscale,ImageColorContrast,ImageColorBrightness,ImageColorReplace,LoadImageColors,LoadImagePalette,UnloadImageColors,UnloadImagePalette,GetImageAlphaBorder,GetImageColor,ImageClearBackground,ImageDrawPixel,ImageDrawPixelV,ImageDrawLine,ImageDrawLineV,ImageDrawLineEx,ImageDrawCircle,ImageDrawCircleV,ImageDrawCircleLines,ImageDrawCircleLinesV,ImageDrawRectangle,ImageDrawRectangleV,ImageDrawRectangleRec,ImageDrawRectangleLines,ImageDrawTriangle,ImageDrawTriangleEx,ImageDrawTriangleLines,ImageDrawTriangleFan,ImageDrawTriangleStrip,ImageDraw,ImageDrawText,ImageDrawTextEx,LoadTexture,LoadTextureFromImage,LoadTextureCubemap,LoadRenderTexture,IsTextureValid,UnloadTexture,IsRenderTextureValid,UnloadRenderTexture,UpdateTexture,UpdateTextureRec,GenTextureMipmaps,SetTextureFilter,SetTextureWrap,DrawTexture,DrawTextureV,DrawTextureEx,DrawTextureRec,DrawTexturePro,DrawTextureNPatch,ColorIsEqual,Fade,ColorToInt,ColorNormalize,ColorFromNormalized,ColorToHSV,ColorFromHSV,ColorTint,ColorBrightness,ColorContrast,ColorAlpha,ColorAlphaBlend,ColorLerp,GetColor,GetPixelColor,SetPixelColor,GetPixelDataSize,GetFontDefault,LoadFont,LoadFontEx,LoadFontFromImage,LoadFontFromMemory,IsFontValid,LoadFontData,GenImageFontAtlas,UnloadFontData,UnloadFont,ExportFontAsCode,DrawFPS,DrawText,DrawTextEx,DrawTextPro,DrawTextCodepoint,DrawTextCodepoints,SetTextLineSpacing,MeasureText,MeasureTextEx,GetGlyphIndex,GetGlyphInfo,GetGlyphAtlasRec,LoadUTF8,UnloadUTF8,LoadCodepoints,UnloadCodepoints,GetCodepointCount,GetCodepoint,GetCodepointNext,GetCodepointPrevious,CodepointToUTF8,TextCopy,TextIsEqual,TextLength,TextFormat,TextSubtext,TextReplace,TextInsert,TextJoin,TextSplit,TextAppend,TextFindIndex,TextToUpper,TextToLower,TextToPascal,TextToSnake,TextToCamel,TextToInteger,TextToFloat,DrawLine3D,DrawPoint3D,DrawCircle3D,DrawTriangle3D,DrawTriangleStrip3D,DrawCube,DrawCubeV,DrawCubeWires,DrawCubeWiresV,DrawSphere,DrawSphereEx,DrawSphereWires,DrawCylinder,DrawCylinderEx,DrawCylinderWires,DrawCylinderWiresEx,DrawCapsule,DrawCapsuleWires,DrawPlane,DrawRay,DrawGrid,LoadModel,LoadModelFromMesh,IsModelValid,UnloadModel,GetModelBoundingBox,DrawModel,DrawModelEx,DrawModelWires,DrawModelWiresEx,DrawModelPoints,DrawModelPointsEx,DrawBoundingBox,DrawBillboard,DrawBillboardRec,DrawBillboardPro,UploadMesh,UpdateMeshBuffer,UnloadMesh,DrawMesh,DrawMeshInstanced,GetMeshBoundingBox,GenMeshTangents,ExportMesh,ExportMeshAsCode,GenMeshPoly,GenMeshPlane,GenMeshCube,GenMeshSphere,GenMeshHemiSphere,GenMeshCylinder,GenMeshCone,GenMeshTorus,GenMeshKnot,GenMeshHeightmap,GenMeshCubicmap,LoadMaterials,LoadMaterialDefault,IsMaterialValid,UnloadMaterial,SetMaterialTexture,SetModelMeshMaterial,LoadModelAnimations,UpdateModelAnimation,UpdateModelAnimationBones,UnloadModelAnimation,UnloadModelAnimations,IsModelAnimationValid,CheckCollisionSpheres,CheckCollisionBoxes,CheckCollisionBoxSphere,GetRayCollisionSphere,GetRayCollisionBox,GetRayCollisionMesh,GetRayCollisionTriangle,GetRayCollisionQuad,InitAudioDevice,CloseAudioDevice,IsAudioDeviceReady,SetMasterVolume,GetMasterVolume,LoadWave,LoadWaveFromMemory,IsWaveValid,LoadSound,LoadSoundFromWave,LoadSoundAlias,IsSoundValid,UpdateSound,UnloadWave,UnloadSound,UnloadSoundAlias,ExportWave,ExportWaveAsCode,PlaySound,StopSound,PauseSound,ResumeSound,IsSoundPlaying,SetSoundVolume,SetSoundPitch,SetSoundPan,WaveCopy,WaveCrop,WaveFormat,LoadWaveSamples,UnloadWaveSamples,LoadMusicStream,LoadMusicStreamFromMemory,IsMusicValid,UnloadMusicStream,PlayMusicStream,IsMusicStreamPlaying,UpdateMusicStream,StopMusicStream,PauseMusicStream,ResumeMusicStream,SeekMusicStream,SetMusicVolume,SetMusicPitch,SetMusicPan,GetMusicTimeLength,GetMusicTimePlayed,LoadAudioStream,IsAudioStreamValid,UnloadAudioStream,UpdateAudioStream,IsAudioStreamProcessed,PlayAudioStream,PauseAudioStream,ResumeAudioStream,IsAudioStreamPlaying,StopAudioStream,SetAudioStreamVolume,SetAudioStreamPitch,SetAudioStreamPan,SetAudioStreamBufferSizeDefault,SetAudioStreamCallback,AttachAudioStreamProcessor,DetachAudioStreamProcessor,AttachAudioMixedProcessor,DetachAudioMixedProcessor,GuiEnable,GuiDisable,GuiLock,GuiUnlock,GuiIsLocked,GuiSetAlpha,GuiSetState,GuiGetState,GuiSetFont,GuiGetFont,GuiSetStyle,GuiGetStyle,GuiLoadStyle,GuiLoadStyleDefault,GuiEnableTooltip,GuiDisableTooltip,GuiSetTooltip,GuiIconText,GuiSetIconScale,GuiGetIcons,GuiLoadIcons,GuiDrawIcon,GuiWindowBox,GuiGroupBox,GuiLine,GuiPanel,GuiTabBar,GuiScrollPanel,GuiLabel,GuiButton,GuiLabelButton,GuiToggle,GuiToggleGroup,GuiToggleSlider,GuiCheckBox,GuiComboBox,GuiDropdownBox,GuiSpinner,GuiValueBox,GuiTextBox,GuiSlider,GuiSliderBar,GuiProgressBar,GuiStatusBar,GuiDummyRec,GuiGrid,GuiListView,GuiListViewEx,GuiMessageBox,GuiTextInputBox,GuiColorPicker,GuiColorPanel,GuiColorBarAlpha,GuiColorBarHue,GuiColorPickerHSV,GuiColorPanelHSV,EaseLinearNone,EaseLinearIn,EaseLinearOut,EaseLinearInOut,EaseSineIn,EaseSineOut,EaseSineInOut,EaseCircIn,EaseCircOut,EaseCircInOut,EaseCubicIn,EaseCubicOut,EaseCubicInOut,EaseQuadIn,EaseQuadOut,EaseQuadInOut,EaseExpoIn,EaseExpoOut,EaseExpoInOut,EaseBackIn,EaseBackOut,EaseBackInOut,EaseBounceOut,EaseBounceIn,EaseBounceInOut,EaseElasticIn,EaseElasticOut,EaseElasticInOut,GetCameraForward,GetCameraUp,GetCameraRight,CameraMoveForward,CameraMoveUp,CameraMoveRight,CameraMoveToTarget,CameraYaw,CameraPitch,CameraRoll,GetCameraViewMatrix,GetCameraProjectionMatrix,DrawTextBoxed,DrawTextBoxedSelectable,UniformFloat,UniformVector2,UniformVector3,UniformVector4,UniformColor,UniformInt,UniformTexture
 
     runGame(canvas, async raylib => {
       free = raylib.free
@@ -5795,6 +6176,8 @@ export function raylib_run_string(canvas, userCode) {
   VrDeviceInfo = raylib.VrDeviceInfo
   VrStereoConfig = raylib.VrStereoConfig
   FilePathList = raylib.FilePathList
+  AutomationEvent = raylib.AutomationEvent
+  AutomationEventList = raylib.AutomationEventList
   Texture2D = raylib.Texture2D
   GuiStyleProp = raylib.GuiStyleProp
   GuiTextStyle = raylib.GuiTextStyle
@@ -6015,6 +6398,9 @@ export function raylib_run_string(canvas, userCode) {
   SHADER_LOC_MAP_IRRADIANCE = raylib.SHADER_LOC_MAP_IRRADIANCE
   SHADER_LOC_MAP_PREFILTER = raylib.SHADER_LOC_MAP_PREFILTER
   SHADER_LOC_MAP_BRDF = raylib.SHADER_LOC_MAP_BRDF
+  SHADER_LOC_VERTEX_BONEIDS = raylib.SHADER_LOC_VERTEX_BONEIDS
+  SHADER_LOC_VERTEX_BONEWEIGHTS = raylib.SHADER_LOC_VERTEX_BONEWEIGHTS
+  SHADER_LOC_BONE_MATRICES = raylib.SHADER_LOC_BONE_MATRICES
   SHADER_UNIFORM_FLOAT = raylib.SHADER_UNIFORM_FLOAT
   SHADER_UNIFORM_VEC2 = raylib.SHADER_UNIFORM_VEC2
   SHADER_UNIFORM_VEC3 = raylib.SHADER_UNIFORM_VEC3
@@ -6067,7 +6453,6 @@ export function raylib_run_string(canvas, userCode) {
   CUBEMAP_LAYOUT_LINE_HORIZONTAL = raylib.CUBEMAP_LAYOUT_LINE_HORIZONTAL
   CUBEMAP_LAYOUT_CROSS_THREE_BY_FOUR = raylib.CUBEMAP_LAYOUT_CROSS_THREE_BY_FOUR
   CUBEMAP_LAYOUT_CROSS_FOUR_BY_THREE = raylib.CUBEMAP_LAYOUT_CROSS_FOUR_BY_THREE
-  CUBEMAP_LAYOUT_PANORAMA = raylib.CUBEMAP_LAYOUT_PANORAMA
   FONT_DEFAULT = raylib.FONT_DEFAULT
   FONT_BITMAP = raylib.FONT_BITMAP
   FONT_SDF = raylib.FONT_SDF
@@ -6465,13 +6850,29 @@ export function raylib_run_string(canvas, userCode) {
   WindowShouldClose = raylib.WindowShouldClose
   IsWindowReady = raylib.IsWindowReady
   IsWindowFullscreen = raylib.IsWindowFullscreen
+  IsWindowHidden = raylib.IsWindowHidden
+  IsWindowMinimized = raylib.IsWindowMinimized
+  IsWindowMaximized = raylib.IsWindowMaximized
+  IsWindowFocused = raylib.IsWindowFocused
   IsWindowResized = raylib.IsWindowResized
   IsWindowState = raylib.IsWindowState
+  SetWindowState = raylib.SetWindowState
   ClearWindowState = raylib.ClearWindowState
+  ToggleFullscreen = raylib.ToggleFullscreen
+  ToggleBorderlessWindowed = raylib.ToggleBorderlessWindowed
+  MaximizeWindow = raylib.MaximizeWindow
+  MinimizeWindow = raylib.MinimizeWindow
+  RestoreWindow = raylib.RestoreWindow
+  SetWindowIcon = raylib.SetWindowIcon
+  SetWindowIcons = raylib.SetWindowIcons
+  SetWindowTitle = raylib.SetWindowTitle
+  SetWindowPosition = raylib.SetWindowPosition
   SetWindowMonitor = raylib.SetWindowMonitor
   SetWindowMinSize = raylib.SetWindowMinSize
   SetWindowMaxSize = raylib.SetWindowMaxSize
   SetWindowSize = raylib.SetWindowSize
+  SetWindowOpacity = raylib.SetWindowOpacity
+  SetWindowFocused = raylib.SetWindowFocused
   GetWindowHandle = raylib.GetWindowHandle
   GetScreenWidth = raylib.GetScreenWidth
   GetScreenHeight = raylib.GetScreenHeight
@@ -6492,9 +6893,6 @@ export function raylib_run_string(canvas, userCode) {
   GetClipboardText = raylib.GetClipboardText
   EnableEventWaiting = raylib.EnableEventWaiting
   DisableEventWaiting = raylib.DisableEventWaiting
-  SwapScreenBuffer = raylib.SwapScreenBuffer
-  PollInputEvents = raylib.PollInputEvents
-  WaitTime = raylib.WaitTime
   ShowCursor = raylib.ShowCursor
   HideCursor = raylib.HideCursor
   IsCursorHidden = raylib.IsCursorHidden
@@ -6522,7 +6920,7 @@ export function raylib_run_string(canvas, userCode) {
   UnloadVrStereoConfig = raylib.UnloadVrStereoConfig
   LoadShader = raylib.LoadShader
   LoadShaderFromMemory = raylib.LoadShaderFromMemory
-  IsShaderReady = raylib.IsShaderReady
+  IsShaderValid = raylib.IsShaderValid
   GetShaderLocation = raylib.GetShaderLocation
   GetShaderLocationAttrib = raylib.GetShaderLocationAttrib
   SetShaderValue = raylib.SetShaderValue
@@ -6530,27 +6928,33 @@ export function raylib_run_string(canvas, userCode) {
   SetShaderValueMatrix = raylib.SetShaderValueMatrix
   SetShaderValueTexture = raylib.SetShaderValueTexture
   UnloadShader = raylib.UnloadShader
-  GetMouseRay = raylib.GetMouseRay
-  GetCameraMatrix = raylib.GetCameraMatrix
-  GetCameraMatrix2D = raylib.GetCameraMatrix2D
+  GetScreenToWorldRay = raylib.GetScreenToWorldRay
+  GetScreenToWorldRayEx = raylib.GetScreenToWorldRayEx
   GetWorldToScreen = raylib.GetWorldToScreen
-  GetScreenToWorld2D = raylib.GetScreenToWorld2D
   GetWorldToScreenEx = raylib.GetWorldToScreenEx
   GetWorldToScreen2D = raylib.GetWorldToScreen2D
+  GetScreenToWorld2D = raylib.GetScreenToWorld2D
+  GetCameraMatrix = raylib.GetCameraMatrix
+  GetCameraMatrix2D = raylib.GetCameraMatrix2D
   SetTargetFPS = raylib.SetTargetFPS
-  GetFPS = raylib.GetFPS
   GetFrameTime = raylib.GetFrameTime
   GetTime = raylib.GetTime
-  GetRandomValue = raylib.GetRandomValue
+  GetFPS = raylib.GetFPS
+  SwapScreenBuffer = raylib.SwapScreenBuffer
+  PollInputEvents = raylib.PollInputEvents
+  WaitTime = raylib.WaitTime
   SetRandomSeed = raylib.SetRandomSeed
+  GetRandomValue = raylib.GetRandomValue
+  LoadRandomSequence = raylib.LoadRandomSequence
+  UnloadRandomSequence = raylib.UnloadRandomSequence
   TakeScreenshot = raylib.TakeScreenshot
   SetConfigFlags = raylib.SetConfigFlags
+  OpenURL = raylib.OpenURL
   TraceLog = raylib.TraceLog
   SetTraceLogLevel = raylib.SetTraceLogLevel
   MemAlloc = raylib.MemAlloc
   MemRealloc = raylib.MemRealloc
   MemFree = raylib.MemFree
-  OpenURL = raylib.OpenURL
   SetTraceLogCallback = raylib.SetTraceLogCallback
   SetLoadFileDataCallback = raylib.SetLoadFileDataCallback
   SetSaveFileDataCallback = raylib.SetSaveFileDataCallback
@@ -6574,8 +6978,10 @@ export function raylib_run_string(canvas, userCode) {
   GetPrevDirectoryPath = raylib.GetPrevDirectoryPath
   GetWorkingDirectory = raylib.GetWorkingDirectory
   GetApplicationDirectory = raylib.GetApplicationDirectory
+  MakeDirectory = raylib.MakeDirectory
   ChangeDirectory = raylib.ChangeDirectory
   IsPathFile = raylib.IsPathFile
+  IsFileNameValid = raylib.IsFileNameValid
   LoadDirectoryFiles = raylib.LoadDirectoryFiles
   LoadDirectoryFilesEx = raylib.LoadDirectoryFilesEx
   UnloadDirectoryFiles = raylib.UnloadDirectoryFiles
@@ -6587,14 +6993,25 @@ export function raylib_run_string(canvas, userCode) {
   DecompressData = raylib.DecompressData
   EncodeDataBase64 = raylib.EncodeDataBase64
   DecodeDataBase64 = raylib.DecodeDataBase64
+  ComputeCRC32 = raylib.ComputeCRC32
+  ComputeMD5 = raylib.ComputeMD5
+  ComputeSHA1 = raylib.ComputeSHA1
+  LoadAutomationEventList = raylib.LoadAutomationEventList
+  UnloadAutomationEventList = raylib.UnloadAutomationEventList
+  ExportAutomationEventList = raylib.ExportAutomationEventList
+  SetAutomationEventList = raylib.SetAutomationEventList
+  SetAutomationEventBaseFrame = raylib.SetAutomationEventBaseFrame
+  StartAutomationEventRecording = raylib.StartAutomationEventRecording
+  StopAutomationEventRecording = raylib.StopAutomationEventRecording
+  PlayAutomationEvent = raylib.PlayAutomationEvent
   IsKeyPressed = raylib.IsKeyPressed
   IsKeyPressedRepeat = raylib.IsKeyPressedRepeat
   IsKeyDown = raylib.IsKeyDown
   IsKeyReleased = raylib.IsKeyReleased
   IsKeyUp = raylib.IsKeyUp
-  SetExitKey = raylib.SetExitKey
   GetKeyPressed = raylib.GetKeyPressed
   GetCharPressed = raylib.GetCharPressed
+  SetExitKey = raylib.SetExitKey
   IsGamepadAvailable = raylib.IsGamepadAvailable
   GetGamepadName = raylib.GetGamepadName
   IsGamepadButtonPressed = raylib.IsGamepadButtonPressed
@@ -6605,6 +7022,7 @@ export function raylib_run_string(canvas, userCode) {
   GetGamepadAxisCount = raylib.GetGamepadAxisCount
   GetGamepadAxisMovement = raylib.GetGamepadAxisMovement
   SetGamepadMappings = raylib.SetGamepadMappings
+  SetGamepadVibration = raylib.SetGamepadVibration
   IsMouseButtonPressed = raylib.IsMouseButtonPressed
   IsMouseButtonDown = raylib.IsMouseButtonDown
   IsMouseButtonReleased = raylib.IsMouseButtonReleased
@@ -6635,23 +7053,22 @@ export function raylib_run_string(canvas, userCode) {
   UpdateCamera = raylib.UpdateCamera
   UpdateCameraPro = raylib.UpdateCameraPro
   SetShapesTexture = raylib.SetShapesTexture
+  GetShapesTexture = raylib.GetShapesTexture
+  GetShapesTextureRectangle = raylib.GetShapesTextureRectangle
   DrawPixel = raylib.DrawPixel
   DrawPixelV = raylib.DrawPixelV
   DrawLine = raylib.DrawLine
   DrawLineV = raylib.DrawLineV
   DrawLineEx = raylib.DrawLineEx
-  DrawLineBezier = raylib.DrawLineBezier
-  DrawLineBezierQuad = raylib.DrawLineBezierQuad
-  DrawLineBezierCubic = raylib.DrawLineBezierCubic
-  DrawLineBSpline = raylib.DrawLineBSpline
-  DrawLineCatmullRom = raylib.DrawLineCatmullRom
   DrawLineStrip = raylib.DrawLineStrip
+  DrawLineBezier = raylib.DrawLineBezier
   DrawCircle = raylib.DrawCircle
   DrawCircleSector = raylib.DrawCircleSector
   DrawCircleSectorLines = raylib.DrawCircleSectorLines
   DrawCircleGradient = raylib.DrawCircleGradient
   DrawCircleV = raylib.DrawCircleV
   DrawCircleLines = raylib.DrawCircleLines
+  DrawCircleLinesV = raylib.DrawCircleLinesV
   DrawEllipse = raylib.DrawEllipse
   DrawEllipseLines = raylib.DrawEllipseLines
   DrawRing = raylib.DrawRing
@@ -6667,6 +7084,7 @@ export function raylib_run_string(canvas, userCode) {
   DrawRectangleLinesEx = raylib.DrawRectangleLinesEx
   DrawRectangleRounded = raylib.DrawRectangleRounded
   DrawRectangleRoundedLines = raylib.DrawRectangleRoundedLines
+  DrawRectangleRoundedLinesEx = raylib.DrawRectangleRoundedLinesEx
   DrawTriangle = raylib.DrawTriangle
   DrawTriangleLines = raylib.DrawTriangleLines
   DrawTriangleFan = raylib.DrawTriangleFan
@@ -6674,24 +7092,40 @@ export function raylib_run_string(canvas, userCode) {
   DrawPoly = raylib.DrawPoly
   DrawPolyLines = raylib.DrawPolyLines
   DrawPolyLinesEx = raylib.DrawPolyLinesEx
+  DrawSplineLinear = raylib.DrawSplineLinear
+  DrawSplineBasis = raylib.DrawSplineBasis
+  DrawSplineCatmullRom = raylib.DrawSplineCatmullRom
+  DrawSplineBezierQuadratic = raylib.DrawSplineBezierQuadratic
+  DrawSplineBezierCubic = raylib.DrawSplineBezierCubic
+  DrawSplineSegmentLinear = raylib.DrawSplineSegmentLinear
+  DrawSplineSegmentBasis = raylib.DrawSplineSegmentBasis
+  DrawSplineSegmentCatmullRom = raylib.DrawSplineSegmentCatmullRom
+  DrawSplineSegmentBezierQuadratic = raylib.DrawSplineSegmentBezierQuadratic
+  DrawSplineSegmentBezierCubic = raylib.DrawSplineSegmentBezierCubic
+  GetSplinePointLinear = raylib.GetSplinePointLinear
+  GetSplinePointBasis = raylib.GetSplinePointBasis
+  GetSplinePointCatmullRom = raylib.GetSplinePointCatmullRom
+  GetSplinePointBezierQuad = raylib.GetSplinePointBezierQuad
+  GetSplinePointBezierCubic = raylib.GetSplinePointBezierCubic
   CheckCollisionRecs = raylib.CheckCollisionRecs
   CheckCollisionCircles = raylib.CheckCollisionCircles
   CheckCollisionCircleRec = raylib.CheckCollisionCircleRec
+  CheckCollisionCircleLine = raylib.CheckCollisionCircleLine
   CheckCollisionPointRec = raylib.CheckCollisionPointRec
   CheckCollisionPointCircle = raylib.CheckCollisionPointCircle
   CheckCollisionPointTriangle = raylib.CheckCollisionPointTriangle
+  CheckCollisionPointLine = raylib.CheckCollisionPointLine
   CheckCollisionPointPoly = raylib.CheckCollisionPointPoly
   CheckCollisionLines = raylib.CheckCollisionLines
-  CheckCollisionPointLine = raylib.CheckCollisionPointLine
   GetCollisionRec = raylib.GetCollisionRec
   LoadImage = raylib.LoadImage
   LoadImageRaw = raylib.LoadImageRaw
-  LoadImageSvg = raylib.LoadImageSvg
   LoadImageAnim = raylib.LoadImageAnim
+  LoadImageAnimFromMemory = raylib.LoadImageAnimFromMemory
   LoadImageFromMemory = raylib.LoadImageFromMemory
   LoadImageFromTexture = raylib.LoadImageFromTexture
   LoadImageFromScreen = raylib.LoadImageFromScreen
-  IsImageReady = raylib.IsImageReady
+  IsImageValid = raylib.IsImageValid
   UnloadImage = raylib.UnloadImage
   ExportImage = raylib.ExportImage
   ExportImageToMemory = raylib.ExportImageToMemory
@@ -6707,6 +7141,7 @@ export function raylib_run_string(canvas, userCode) {
   GenImageText = raylib.GenImageText
   ImageCopy = raylib.ImageCopy
   ImageFromImage = raylib.ImageFromImage
+  ImageFromChannel = raylib.ImageFromChannel
   ImageText = raylib.ImageText
   ImageTextEx = raylib.ImageTextEx
   ImageFormat = raylib.ImageFormat
@@ -6717,6 +7152,7 @@ export function raylib_run_string(canvas, userCode) {
   ImageAlphaMask = raylib.ImageAlphaMask
   ImageAlphaPremultiply = raylib.ImageAlphaPremultiply
   ImageBlurGaussian = raylib.ImageBlurGaussian
+  ImageKernelConvolution = raylib.ImageKernelConvolution
   ImageResize = raylib.ImageResize
   ImageResizeNN = raylib.ImageResizeNN
   ImageResizeCanvas = raylib.ImageResizeCanvas
@@ -6744,6 +7180,7 @@ export function raylib_run_string(canvas, userCode) {
   ImageDrawPixelV = raylib.ImageDrawPixelV
   ImageDrawLine = raylib.ImageDrawLine
   ImageDrawLineV = raylib.ImageDrawLineV
+  ImageDrawLineEx = raylib.ImageDrawLineEx
   ImageDrawCircle = raylib.ImageDrawCircle
   ImageDrawCircleV = raylib.ImageDrawCircleV
   ImageDrawCircleLines = raylib.ImageDrawCircleLines
@@ -6752,6 +7189,11 @@ export function raylib_run_string(canvas, userCode) {
   ImageDrawRectangleV = raylib.ImageDrawRectangleV
   ImageDrawRectangleRec = raylib.ImageDrawRectangleRec
   ImageDrawRectangleLines = raylib.ImageDrawRectangleLines
+  ImageDrawTriangle = raylib.ImageDrawTriangle
+  ImageDrawTriangleEx = raylib.ImageDrawTriangleEx
+  ImageDrawTriangleLines = raylib.ImageDrawTriangleLines
+  ImageDrawTriangleFan = raylib.ImageDrawTriangleFan
+  ImageDrawTriangleStrip = raylib.ImageDrawTriangleStrip
   ImageDraw = raylib.ImageDraw
   ImageDrawText = raylib.ImageDrawText
   ImageDrawTextEx = raylib.ImageDrawTextEx
@@ -6759,9 +7201,9 @@ export function raylib_run_string(canvas, userCode) {
   LoadTextureFromImage = raylib.LoadTextureFromImage
   LoadTextureCubemap = raylib.LoadTextureCubemap
   LoadRenderTexture = raylib.LoadRenderTexture
-  IsTextureReady = raylib.IsTextureReady
+  IsTextureValid = raylib.IsTextureValid
   UnloadTexture = raylib.UnloadTexture
-  IsRenderTextureReady = raylib.IsRenderTextureReady
+  IsRenderTextureValid = raylib.IsRenderTextureValid
   UnloadRenderTexture = raylib.UnloadRenderTexture
   UpdateTexture = raylib.UpdateTexture
   UpdateTextureRec = raylib.UpdateTextureRec
@@ -6774,6 +7216,7 @@ export function raylib_run_string(canvas, userCode) {
   DrawTextureRec = raylib.DrawTextureRec
   DrawTexturePro = raylib.DrawTexturePro
   DrawTextureNPatch = raylib.DrawTextureNPatch
+  ColorIsEqual = raylib.ColorIsEqual
   Fade = raylib.Fade
   ColorToInt = raylib.ColorToInt
   ColorNormalize = raylib.ColorNormalize
@@ -6785,6 +7228,7 @@ export function raylib_run_string(canvas, userCode) {
   ColorContrast = raylib.ColorContrast
   ColorAlpha = raylib.ColorAlpha
   ColorAlphaBlend = raylib.ColorAlphaBlend
+  ColorLerp = raylib.ColorLerp
   GetColor = raylib.GetColor
   GetPixelColor = raylib.GetPixelColor
   SetPixelColor = raylib.SetPixelColor
@@ -6794,7 +7238,7 @@ export function raylib_run_string(canvas, userCode) {
   LoadFontEx = raylib.LoadFontEx
   LoadFontFromImage = raylib.LoadFontFromImage
   LoadFontFromMemory = raylib.LoadFontFromMemory
-  IsFontReady = raylib.IsFontReady
+  IsFontValid = raylib.IsFontValid
   LoadFontData = raylib.LoadFontData
   GenImageFontAtlas = raylib.GenImageFontAtlas
   UnloadFontData = raylib.UnloadFontData
@@ -6835,7 +7279,10 @@ export function raylib_run_string(canvas, userCode) {
   TextToUpper = raylib.TextToUpper
   TextToLower = raylib.TextToLower
   TextToPascal = raylib.TextToPascal
+  TextToSnake = raylib.TextToSnake
+  TextToCamel = raylib.TextToCamel
   TextToInteger = raylib.TextToInteger
+  TextToFloat = raylib.TextToFloat
   DrawLine3D = raylib.DrawLine3D
   DrawPoint3D = raylib.DrawPoint3D
   DrawCircle3D = raylib.DrawCircle3D
@@ -6859,13 +7306,15 @@ export function raylib_run_string(canvas, userCode) {
   DrawGrid = raylib.DrawGrid
   LoadModel = raylib.LoadModel
   LoadModelFromMesh = raylib.LoadModelFromMesh
-  IsModelReady = raylib.IsModelReady
+  IsModelValid = raylib.IsModelValid
   UnloadModel = raylib.UnloadModel
   GetModelBoundingBox = raylib.GetModelBoundingBox
   DrawModel = raylib.DrawModel
   DrawModelEx = raylib.DrawModelEx
   DrawModelWires = raylib.DrawModelWires
   DrawModelWiresEx = raylib.DrawModelWiresEx
+  DrawModelPoints = raylib.DrawModelPoints
+  DrawModelPointsEx = raylib.DrawModelPointsEx
   DrawBoundingBox = raylib.DrawBoundingBox
   DrawBillboard = raylib.DrawBillboard
   DrawBillboardRec = raylib.DrawBillboardRec
@@ -6875,9 +7324,10 @@ export function raylib_run_string(canvas, userCode) {
   UnloadMesh = raylib.UnloadMesh
   DrawMesh = raylib.DrawMesh
   DrawMeshInstanced = raylib.DrawMeshInstanced
-  ExportMesh = raylib.ExportMesh
   GetMeshBoundingBox = raylib.GetMeshBoundingBox
   GenMeshTangents = raylib.GenMeshTangents
+  ExportMesh = raylib.ExportMesh
+  ExportMeshAsCode = raylib.ExportMeshAsCode
   GenMeshPoly = raylib.GenMeshPoly
   GenMeshPlane = raylib.GenMeshPlane
   GenMeshCube = raylib.GenMeshCube
@@ -6891,12 +7341,13 @@ export function raylib_run_string(canvas, userCode) {
   GenMeshCubicmap = raylib.GenMeshCubicmap
   LoadMaterials = raylib.LoadMaterials
   LoadMaterialDefault = raylib.LoadMaterialDefault
-  IsMaterialReady = raylib.IsMaterialReady
+  IsMaterialValid = raylib.IsMaterialValid
   UnloadMaterial = raylib.UnloadMaterial
   SetMaterialTexture = raylib.SetMaterialTexture
   SetModelMeshMaterial = raylib.SetModelMeshMaterial
   LoadModelAnimations = raylib.LoadModelAnimations
   UpdateModelAnimation = raylib.UpdateModelAnimation
+  UpdateModelAnimationBones = raylib.UpdateModelAnimationBones
   UnloadModelAnimation = raylib.UnloadModelAnimation
   UnloadModelAnimations = raylib.UnloadModelAnimations
   IsModelAnimationValid = raylib.IsModelAnimationValid
@@ -6912,13 +7363,14 @@ export function raylib_run_string(canvas, userCode) {
   CloseAudioDevice = raylib.CloseAudioDevice
   IsAudioDeviceReady = raylib.IsAudioDeviceReady
   SetMasterVolume = raylib.SetMasterVolume
+  GetMasterVolume = raylib.GetMasterVolume
   LoadWave = raylib.LoadWave
   LoadWaveFromMemory = raylib.LoadWaveFromMemory
-  IsWaveReady = raylib.IsWaveReady
+  IsWaveValid = raylib.IsWaveValid
   LoadSound = raylib.LoadSound
   LoadSoundFromWave = raylib.LoadSoundFromWave
   LoadSoundAlias = raylib.LoadSoundAlias
-  IsSoundReady = raylib.IsSoundReady
+  IsSoundValid = raylib.IsSoundValid
   UpdateSound = raylib.UpdateSound
   UnloadWave = raylib.UnloadWave
   UnloadSound = raylib.UnloadSound
@@ -6940,7 +7392,7 @@ export function raylib_run_string(canvas, userCode) {
   UnloadWaveSamples = raylib.UnloadWaveSamples
   LoadMusicStream = raylib.LoadMusicStream
   LoadMusicStreamFromMemory = raylib.LoadMusicStreamFromMemory
-  IsMusicReady = raylib.IsMusicReady
+  IsMusicValid = raylib.IsMusicValid
   UnloadMusicStream = raylib.UnloadMusicStream
   PlayMusicStream = raylib.PlayMusicStream
   IsMusicStreamPlaying = raylib.IsMusicStreamPlaying
@@ -6955,7 +7407,7 @@ export function raylib_run_string(canvas, userCode) {
   GetMusicTimeLength = raylib.GetMusicTimeLength
   GetMusicTimePlayed = raylib.GetMusicTimePlayed
   LoadAudioStream = raylib.LoadAudioStream
-  IsAudioStreamReady = raylib.IsAudioStreamReady
+  IsAudioStreamValid = raylib.IsAudioStreamValid
   UnloadAudioStream = raylib.UnloadAudioStream
   UpdateAudioStream = raylib.UpdateAudioStream
   IsAudioStreamProcessed = raylib.IsAudioStreamProcessed

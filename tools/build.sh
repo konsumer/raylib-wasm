@@ -7,7 +7,7 @@ mkdir -p build tools/api/ vendor
 # rm -rf vendor/raylib
 if [ ! -d "vendor/raylib" ];then
 	cd vendor
-	git clone --branch  4.6-dev  --depth 1 https://github.com/raysan5/raylib.git
+	git clone --branch  5.5  --depth 1 https://github.com/raysan5/raylib.git
 	cd ..
 fi
 

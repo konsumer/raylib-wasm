@@ -1,4 +1,4 @@
-This is the start of some ideas about making raylib games in JS for the web. It includes raylib 4.6.0 & raygui 4.0. You can see some examples [here](https://konsumer.js.org/raylib-wasm).
+This is the start of some ideas about making raylib games in JS for the web. It includes raylib 5.5 & raygui 4.0. You can see some examples [here](https://konsumer.js.org/raylib-wasm).
 
 ### usage
 
