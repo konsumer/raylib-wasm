@@ -15,7 +15,5 @@
     "web"
   ],
   "author": "David Konsumer <konsumer@jetboystudio.com>",
-  "license": "MIT",
-  "devDependencies": {
-  }
+  "license": "MIT"
 }
