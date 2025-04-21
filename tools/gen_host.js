@@ -206,8 +206,6 @@ let code = `
 import Module from './raylib_emscripten.js'
 import RaylibComponent from './raylib_wc.js'
 
-const wasmBinary = new Uint8Array([${(await readFile('src/raylib.wasm')).join(',')}])
-
 document.addEventListener('DOMContentLoaded', () => {
   window.customElements.define('raylib-game', RaylibComponent)
 })
@@ -217,6 +215,7 @@ const importLocation = document?.location?.toString()
 // run this function before calling anything
 export async function raylib_run(canvas, userInit, userUpdate) {
   const raylib = {}
+  const wasmBinary = new Uint8Array(await fetch(import.meta.url.replace('raylib.js', 'raylib.wasm')).then(r => r.arrayBuffer()))
   const mod = await Module({canvas, wasmBinary})
   raylib.mod = mod
 `
@@ -578,10 +577,10 @@ export function raylib_run_string(canvas, userCode) {
   f(raylib_run, canvas)
 }
 
-export { RaylibComponent, Module, wasmBinary }
+export { RaylibComponent, Module }
 export default raylib_run
 
 `
 
 // regular web JS
-await writeFile('src/raylib.js', code)
+await writeFile('docs/raylib/raylib.js', code)

@@ -14,9 +14,9 @@ const data = {
 for (const a of [
   'raylib',
   'raygui',
-  'raymath',
+  // 'raymath',
   'reasings',
-  'rlgl',
+  // 'rlgl',
   'rcamera',
   // 'rmem',
   // 'rres'

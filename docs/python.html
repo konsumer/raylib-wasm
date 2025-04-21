@@ -1,0 +1,23 @@
+<html>
+  <head>
+    <title>Python Raylib</title>
+  </head>
+  <body>
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.27.5/full/pyodide.js"></script>
+    <script src="./raylib/raylib-python.js" type="module"></script>
+
+<!-- indentation matters in python, so makke sure this is not indented -->
+<raylib-python>
+def init():
+  InitWindow(800, 450)
+
+def update():
+  BeginDrawing()
+  ClearBackground(RAYWHITE)
+  DrawText("Congrats! You created your first python window!", 150, 200, 20, LIGHTGRAY)
+  DrawFPS(10, 10)
+  EndDrawing()
+</raylib-python>
+
+  </body> 
+</html>

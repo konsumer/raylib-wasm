@@ -1,8 +1,8 @@
 /* global MutationObserver HTMLElement */
 
-import { raylib_run_string } from './raylib.js'
+import { raylib_run } from './raylib.js'
 
-export default class RaylibComponent extends HTMLElement {
+export default class RaylibPythonComponent extends HTMLElement {
   constructor () {
     super()
     // hide things while setting up
@@ -64,14 +64,30 @@ canvas {
   }
 
   async start (src) {
-    console.log('wc')
     let userCode = this.textContent
     if (src) {
       userCode = await fetch(src).then(r => r.text())
     }
-    raylib_run_string(this.canvas, userCode)
+
+    const pyodide = await window.loadPyodide()
+
+    const userInit = raylib => {
+      for (const r of Object.keys(raylib)) {
+        pyodide.globals.set(r, raylib[r])
+      }
+      pyodide.runPython(`${userCode}\ninit()`)
+    }
+    const userUpdate = () => {
+      pyodide.runPython(`update()`)
+    }
+
+    raylib_run(this.canvas, userInit, userUpdate)
 
     // game is loaded so show myself
     this.style.display = 'block'
   }
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+  window.customElements.define('raylib-python', RaylibPythonComponent)
+})

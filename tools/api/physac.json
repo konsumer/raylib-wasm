@@ -37,9 +37,15 @@
       "description": ""
     },
     {
+      "name": "PHYSAC_FIXED_TIME",
+      "type": "FLOAT_MATH",
+      "value": "1.0f/60.0f",
+      "description": ""
+    },
+    {
       "name": "PHYSAC_COLLISION_ITERATIONS",
       "type": "INT",
-      "value": 100,
+      "value": 20,
       "description": ""
     },
     {

@@ -74,7 +74,7 @@ if [ ! -d "vendor/raylib/build" ];then
 	cd ../..
 fi
 
-emcc src/raylib.c vendor/raylib/build/raylib/libraylib.a -o build/raylib.js -I vendor/reasings/src -I vendor/raygui/src -I vendor/raylib/examples/others -I vendor/raylib/src --no-entry -DPLATFORM_WEB -Os \
+emcc raylib.c vendor/raylib/build/raylib/libraylib.a -o build/raylib.js -I vendor/reasings/src -I vendor/raygui/src -I vendor/raylib/examples/others -I vendor/raylib/src --no-entry -DPLATFORM_WEB -Os \
 	-sEXPORT_KEEPALIVE=1 \
 	-sEXPORT_ES6=1 \
 	-sALLOW_MEMORY_GROWTH=1 \
@@ -83,6 +83,6 @@ emcc src/raylib.c vendor/raylib/build/raylib/libraylib.a -o build/raylib.js -I v
 	-sENVIRONMENT=web \
 	$(node ./tools/get_exports.js)
 
-cp build/raylib.js src/raylib_emscripten.js
-cp build/raylib.wasm src/raylib.wasm
+cp build/raylib.js docs/raylib/raylib_emscripten.js
+cp build/raylib.wasm docs/raylib/raylib.wasm
 

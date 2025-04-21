@@ -4,12 +4,11 @@
   "version": "0.0.2",
   "description": "Make raylib games in JS for the web",
   "scripts": {
-    "start": "npx -y vite",
-    "build:wasm": "docker run -it --rm -v $(pwd):/src -v /tmp/emscripten-cache:/emsdk/upstream/emscripten/cache/ -u $(id -u):$(id -g) emscripten/emsdk ./tools/build.sh",
+    "start": "npx -y live-server docs",
+    "prestart": "npm run build",
+    "build:wasm": "./tools/build.sh",
     "build:interface": "node tools/gen_host.js",
-    "build:demo": "vite build && rm dist/raylib.wasm",
-    "build:cdn": "esbuild ./src/raylib.js --format=esm --bundle --outfile=dist/raylib.js",
-    "build": "npm run build:interface && npm run build:demo && npm run build:cdn"
+    "build": "npx -y npm-run-all -p build:wasm build:interface"
   },
   "keywords": [
     "raylib",
@@ -18,8 +17,5 @@
   "author": "David Konsumer <konsumer@jetboystudio.com>",
   "license": "MIT",
   "devDependencies": {
-    "esbuild": "^0.21.5",
-    "vite": "^5.2.13",
-    "vite-plugin-arraybuffer": "^0.0.7"
   }
 }

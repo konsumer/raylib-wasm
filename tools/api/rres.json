@@ -433,7 +433,7 @@
       "returnType": "unsigned int",
       "params": [
         {
-          "type": "const unsigned char *",
+          "type": "unsigned char *",
           "name": "data"
         },
         {
