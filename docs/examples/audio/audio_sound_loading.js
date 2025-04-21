@@ -4,8 +4,10 @@ let fxOgg
 const InitGame = async () => {
   InitWindow(800, 450)
   InitAudioDevice()
-  fxWav = LoadSound('resources/sound.wav')
-  fxOgg = LoadSound('resources/target.ogg')
+  fxWav = await LoadSound('examples/audio/resources/sound.wav')
+  fxOgg = await LoadSound('examples/audio/resources/target.ogg')
+  // say hi
+  PlaySound(fxWav)
 }
 
 const UpdateGame = (ts) => {
@@ -18,7 +20,7 @@ const UpdateGame = (ts) => {
     PlaySound(fxWav)
     console.log('space')
   }
-  if (IsKeyPressed(KEY_ENTER)) {
+  if (IsKeyDown(KEY_ENTER)) {
     PlaySound(fxOgg)
     console.log('enter')
   }
