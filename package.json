@@ -2,7 +2,7 @@
   "name": "raylib-wasm",
   "type": "module",
   "main": "docs/raylib/raylib.js",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Make raylib games in JS for the web",
   "scripts": {
     "start": "npx -y live-server docs",
