@@ -1,6 +1,7 @@
 {
   "name": "raylib-wasm",
   "type": "module",
+  "main": "docs/raylib/raylib.js",
   "version": "0.0.2",
   "description": "Make raylib games in JS for the web",
   "scripts": {
