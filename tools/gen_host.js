@@ -213,9 +213,11 @@ document.addEventListener('DOMContentLoaded', () => {
 const importLocation = document?.location?.toString()
 
 // run this function before calling anything
-export async function raylib_run(canvas, userInit, userUpdate) {
+export async function raylib_run(canvas, userInit, userUpdate, wasmBinary) {
+  if (!wasmmBinary) {
+    wasmBinary = new Uint8Array(await fetch(import.meta.url.replace('raylib.js', 'raylib.wasm')).then(r => r.arrayBuffer()))
+  }
   const raylib = {}
-  const wasmBinary = new Uint8Array(await fetch(import.meta.url.replace('raylib.js', 'raylib.wasm')).then(r => r.arrayBuffer()))
   const mod = await Module({canvas, wasmBinary})
   raylib.mod = mod
 `
